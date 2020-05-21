@@ -52,7 +52,8 @@ module cmp8(a, b, i, j, k);
    or or1(line3[12], line1[14], line3[13]);
 
    
-   //and8(line2, i);
+   and8 and8(line2, line3[14]);
    nor(line3[13], line3[14], j);
+   assign i = line3[14];
    assign k = line3[13];
 endmodule; // cmp8
