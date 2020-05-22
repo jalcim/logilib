@@ -1,8 +1,8 @@
-module test;
+module test_add;
    reg a, b, cin, sub;
    wire s, cout;
 
-   add test_additionneur(a, b, cin, sub, s, cout);
+   add test_add(a, b, cin, sub, s, cout);
 
    initial
      begin
@@ -89,7 +89,7 @@ module test;
      end // initial begin
    initial
      begin
-	$dumpfile("full_add.vcd");
+	$dumpfile("signal_add.vcd");
 	$dumpvars;
      end
 
