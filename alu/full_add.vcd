@@ -1,5 +1,5 @@
 $date
-	Fri May 22 17:29:15 2020
+	Fri May 22 19:27:11 2020
 $end
 $version
 	Icarus Verilog
@@ -7,292 +7,286 @@ $end
 $timescale
 	1s
 $end
-$scope module add8 $end
-$var wire 8 ! a [7:0] $end
-$var wire 8 " b [7:0] $end
-$var wire 1 # cin $end
-$var wire 1 $ sub $end
-$var wire 8 % s [7:0] $end
-$var wire 7 & ret [6:0] $end
-$var wire 1 ' cout $end
-$scope module add0 $end
-$var wire 1 ( a $end
-$var wire 1 ) b $end
-$var wire 1 # cin $end
-$var wire 1 * cout $end
-$var wire 1 + s $end
-$var wire 1 $ sub $end
-$var wire 4 , line [3:0] $end
-$upscope $end
-$scope module add1 $end
-$var wire 1 - a $end
-$var wire 1 . b $end
-$var wire 1 / cin $end
-$var wire 1 0 cout $end
-$var wire 1 1 s $end
-$var wire 1 $ sub $end
-$var wire 4 2 line [3:0] $end
-$upscope $end
-$scope module add2 $end
-$var wire 1 3 a $end
-$var wire 1 4 b $end
-$var wire 1 5 cin $end
-$var wire 1 6 cout $end
-$var wire 1 7 s $end
-$var wire 1 $ sub $end
-$var wire 4 8 line [3:0] $end
-$upscope $end
-$scope module add3 $end
-$var wire 1 9 a $end
-$var wire 1 : b $end
-$var wire 1 ; cin $end
-$var wire 1 < cout $end
-$var wire 1 = s $end
-$var wire 1 $ sub $end
-$var wire 4 > line [3:0] $end
-$upscope $end
-$scope module add4 $end
-$var wire 1 ? a $end
-$var wire 1 @ b $end
-$var wire 1 A cin $end
-$var wire 1 B cout $end
-$var wire 1 C s $end
-$var wire 1 $ sub $end
-$var wire 4 D line [3:0] $end
-$upscope $end
-$scope module add5 $end
-$var wire 1 E a $end
-$var wire 1 F b $end
-$var wire 1 G cin $end
-$var wire 1 H cout $end
-$var wire 1 I s $end
-$var wire 1 $ sub $end
-$var wire 4 J line [3:0] $end
-$upscope $end
-$scope module add6 $end
-$var wire 1 K a $end
-$var wire 1 L b $end
-$var wire 1 M cin $end
-$var wire 1 N cout $end
-$var wire 1 O s $end
-$var wire 1 $ sub $end
-$var wire 4 P line [3:0] $end
-$upscope $end
-$scope module add7 $end
-$var wire 1 Q a $end
-$var wire 1 R b $end
-$var wire 1 S cin $end
-$var wire 1 ' cout $end
-$var wire 1 T s $end
-$var wire 1 $ sub $end
-$var wire 4 U line [3:0] $end
-$upscope $end
-$upscope $end
-$scope module gate_and $end
-$var wire 1 V e1 $end
-$var wire 1 W e2 $end
-$var wire 1 X s $end
-$upscope $end
 $scope module gate_nand $end
-$var wire 1 Y e1 $end
-$var wire 1 Z e2 $end
-$var wire 1 [ s $end
+$var wire 1 ! e1 $end
+$var wire 1 " e2 $end
+$var wire 1 # s $end
 $upscope $end
 $scope module gate_nor $end
-$var wire 1 \ e1 $end
-$var wire 1 ] e2 $end
-$var wire 1 ^ s $end
+$var wire 1 $ e1 $end
+$var wire 1 % e2 $end
+$var wire 1 & s $end
 $upscope $end
 $scope module gate_not $end
-$var wire 1 _ e1 $end
-$var wire 1 ` s $end
-$upscope $end
-$scope module gate_or $end
-$var wire 1 a e1 $end
-$var wire 1 b e2 $end
-$var wire 1 c s $end
-$upscope $end
-$scope module gate_xor $end
-$var wire 1 d e1 $end
-$var wire 1 e e2 $end
-$var wire 1 f s $end
+$var wire 1 ' e1 $end
+$var wire 1 ( s $end
 $upscope $end
 $scope module test $end
-$var wire 1 g s $end
-$var wire 1 h cout $end
-$var reg 1 i a $end
-$var reg 1 j b $end
-$var reg 1 k cin $end
-$var reg 1 l sub $end
+$var wire 1 ) s $end
+$var wire 1 * cout $end
+$var reg 1 + a $end
+$var reg 1 , b $end
+$var reg 1 - cin $end
+$var reg 1 . sub $end
 $scope module test_additionneur $end
-$var wire 1 i a $end
-$var wire 1 j b $end
-$var wire 1 k cin $end
-$var wire 1 h cout $end
-$var wire 1 g s $end
-$var wire 1 l sub $end
-$var wire 4 m line [3:0] $end
+$var wire 1 + a $end
+$var wire 1 , b $end
+$var wire 1 - cin $end
+$var wire 1 . sub $end
+$var wire 1 ) s $end
+$var wire 4 / line [3:0] $end
+$var wire 1 * cout $end
+$scope module and1 $end
+$var wire 1 + e1 $end
+$var wire 1 0 e2 $end
+$var wire 1 1 s $end
+$upscope $end
+$scope module and2 $end
+$var wire 1 - e1 $end
+$var wire 1 2 e2 $end
+$var wire 1 3 s $end
+$upscope $end
+$scope module or3 $end
+$var wire 1 4 e1 $end
+$var wire 1 5 e2 $end
+$var wire 1 * s $end
+$upscope $end
+$scope module xor0 $end
+$var wire 1 , e1 $end
+$var wire 1 . e2 $end
+$var wire 1 6 s $end
+$upscope $end
+$scope module xor1 $end
+$var wire 1 + e1 $end
+$var wire 1 7 e2 $end
+$var wire 1 8 s $end
+$upscope $end
+$scope module xor2 $end
+$var wire 1 - e1 $end
+$var wire 1 9 e2 $end
+$var wire 1 ) s $end
+$upscope $end
 $upscope $end
 $upscope $end
 $enddefinitions $end
 #0
 $dumpvars
-b0 m
-0l
-0k
-0j
-0i
-0h
-0g
-xf
-ze
-zd
-xc
-zb
-za
-z`
-z_
-x^
-z]
-z\
-x[
-zZ
-zY
-xX
-zW
-zV
-bx U
-xT
-xS
-zR
-zQ
-bx P
-xO
-xN
-xM
-zL
-zK
-bx J
-xI
-xH
-xG
-zF
-zE
-bx D
-xC
-xB
-xA
-z@
-z?
-bx >
-x=
-x<
-x;
-z:
-z9
-bx 8
-x7
-x6
-x5
-z4
-z3
-bx 2
-x1
-x0
-x/
-z.
-z-
-bx ,
-x+
-x*
-z)
+09
+08
+07
+06
+05
+04
+03
+02
+01
+00
+b0 /
+0.
+0-
+0,
+0+
+0*
+0)
 z(
-x'
-bx &
-bx %
+z'
+x&
+z%
 z$
-z#
-bz "
-bz !
+x#
+z"
+z!
 $end
 #5
-1g
-b10 m
-1i
+1*
+14
+13
+1)
+12
+19
+b1010 /
+18
+1+
 #10
-1g
-b11 m
-1j
-0i
+1*
+14
+13
+1)
+10
+17
+12
+19
+16
+b1011 /
+18
+1,
+0+
 #15
-0g
-1h
-b101 m
-1i
+04
+03
+0)
+15
+02
+09
+11
+b101 /
+08
+1+
 #20
-0h
-1g
-b0 m
-1k
-0j
-0i
+1*
+14
+00
+07
+05
+02
+09
+13
+1)
+06
+01
+b1000 /
+08
+1-
+0,
+0+
 #25
-1h
-0g
-b1010 m
-1i
+0*
+04
+03
+0)
+12
+19
+b10 /
+18
+1+
 #30
-1h
-0g
-b1011 m
-1j
-0i
+0*
+04
+03
+0)
+10
+17
+12
+19
+16
+b11 /
+18
+1,
+0+
 #35
-1g
-b101 m
-1i
+14
+1*
+13
+1)
+15
+02
+09
+11
+b1101 /
+08
+1+
 #40
-0h
-1g
-b11 m
-1l
-0k
-0j
-0i
+1*
+14
+05
+12
+19
+13
+1)
+01
+b1011 /
+18
+1.
+0-
+0,
+0+
 #45
-0g
-1h
-b101 m
-1i
+04
+03
+0)
+15
+02
+09
+11
+b101 /
+08
+1+
 #50
-0g
-0h
-b0 m
-1j
-0i
+04
+0*
+03
+0)
+00
+07
+05
+02
+09
+06
+01
+b0 /
+08
+1,
+0+
 #55
-1g
-b10 m
-1i
+1*
+14
+13
+1)
+12
+19
+b1010 /
+18
+1+
 #60
-1h
-0g
-b1011 m
-1k
-0j
-0i
+0*
+04
+10
+17
+12
+19
+03
+0)
+16
+b11 /
+18
+1-
+0,
+0+
 #65
-1g
-b101 m
-1i
+14
+1*
+13
+1)
+15
+02
+09
+11
+b1101 /
+08
+1+
 #70
-1g
-0h
-b0 m
-1j
-0i
+1*
+14
+13
+1)
+00
+07
+05
+02
+09
+06
+01
+b1000 /
+08
+1,
+0+
 #75
-1h
-0g
-b1010 m
-1i
+0*
+04
+03
+0)
+12
+19
+b10 /
+18
+1+

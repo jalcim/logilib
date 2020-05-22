@@ -2,7 +2,7 @@ module test;
    reg a, b, cin, sub;
    wire s, cout;
 
-   full_add test_additionneur(a, b, cin, sub, s, cout);
+   add test_additionneur(a, b, cin, sub, s, cout);
 
    initial
      begin
@@ -95,7 +95,7 @@ module test;
 
    initial
      begin
-	$display("\t\ttime,\ta,\tb, \tsub, \tcin,\ts,\ttcout");
-	$monitor("%d \t%b \t%b \t%b \t%b \t%b \t%b", $time, a, b, sub, cin, s, cout);
+	$display("\t\ttime,\ta,\tb, \tcin, \tsub,\ts,\tcout");
+	$monitor("%d \t%b \t%b \t%b \t%b \t%b \t%b", $time, a, b, cin, sub, s, cout);
      end
 endmodule // test
