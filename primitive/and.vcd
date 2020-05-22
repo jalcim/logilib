@@ -1,0 +1,72 @@
+$date
+	Fri May 22 17:28:19 2020
+$end
+$version
+	Icarus Verilog
+$end
+$timescale
+	1s
+$end
+$scope module gate_nand $end
+$var wire 1 ! e1 $end
+$var wire 1 " e2 $end
+$var wire 1 # s $end
+$upscope $end
+$scope module gate_nor $end
+$var wire 1 $ e1 $end
+$var wire 1 % e2 $end
+$var wire 1 & s $end
+$upscope $end
+$scope module gate_not $end
+$var wire 1 ' e1 $end
+$var wire 1 ( s $end
+$upscope $end
+$scope module gate_or $end
+$var wire 1 ) e1 $end
+$var wire 1 * e2 $end
+$var wire 1 + s $end
+$upscope $end
+$scope module gate_xor $end
+$var wire 1 , e1 $end
+$var wire 1 - e2 $end
+$var wire 1 . s $end
+$upscope $end
+$scope module test_and $end
+$var wire 1 / s $end
+$var reg 1 0 a $end
+$var reg 1 1 b $end
+$scope module and1 $end
+$var wire 1 0 e1 $end
+$var wire 1 1 e2 $end
+$var wire 1 / s $end
+$upscope $end
+$upscope $end
+$enddefinitions $end
+#0
+$dumpvars
+01
+00
+0/
+x.
+z-
+z,
+x+
+z*
+z)
+z(
+z'
+x&
+z%
+z$
+x#
+z"
+z!
+$end
+#5
+10
+#10
+11
+00
+#15
+1/
+10

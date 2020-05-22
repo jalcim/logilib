@@ -1,42 +1,42 @@
-module not (e1, s);
+module gate_not (e1, s);
    input e1;
    output s;
 
    assign s = ~e1;
-endmodule; // not
+endmodule // not
 
-module and (e1, e2, s);
+module gate_and (e1, e2, s);
    input e1;
    input e2;
    output s;
 
    assign s = e1 & e2;
-endmodule; // and
+endmodule // and
 
-module or (e1, e2, s);
+module gate_or (e1, e2, s);
    input e1, e2;
    output s;
 
    assign s = e1 | e2;
-endmodule; // or
+endmodule // or
 
-module xor (e1, e2, s);
+module gate_xor (e1, e2, s);
    input e1, e2;
    output s;
  
    assign s = e1 ^ e2;
-endmodule; // xor
+endmodule // xor
 
-module nand (e1, e2, s);
+module gate_nand (e1, e2, s);
    input e1, e2;
    output s;
 
    assign s = e1 ~& e2;
-endmodule; // nand
+endmodule // nand
   
-module nor (e1, e2, s);
+module gate_nor (e1, e2, s);
    input e1, e2;
    output s;
 
    assign s = e1 ~| e2;
-endmodule; // nor
+endmodule // nor

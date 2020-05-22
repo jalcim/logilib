@@ -1,11 +1,11 @@
 module and4(a,b,c,d, s);
-   input [3:0] bus;
-   output      s;
+   input a,b,c,d;
+   output s;
    assign s =  a & b & c & d;
 endmodule; // and4
 
 module and5(a,b,c,d,e, s);
-   input [4:0] bus;
+   input a,b,c,d,e;
    output      s;
    assign s = a & b & c & d & e;
 endmodule; // and5

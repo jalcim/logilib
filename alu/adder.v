@@ -3,13 +3,20 @@ module full_add (a, b, cin, sub, s, cout);
    output s, cout;
    wire [3:0] line;
 
-   xor xor0 (b, sub, line[0]);
-   xor xor1 (a, line[0], line[1]);
-   and and2 (a, line[0], line[2]);
-   xor xor3 (cin, line[1], s);
-   xor and4 (cin, line[1], line[3]);
-   or or5 (line[3], line[2], cout);
-endmodule; // full_add
+   assign line[0] = b ^ sub;
+   assign line[1] = a ^ line[0];
+   assign line[2] = a & line[0];
+   assign s = cin ^ line[1];
+   assign line[3] =  cin & line[1];
+   assign cout = line[3] | line[2];
+   
+//   gate_xor xor0 (b, sub, line[0]);
+//   gate_xor xor1 (a, line[0], line[1]);
+//   gate_and and1 (a, line[0], line[2]);
+//   gate_xor xor2 (cin, line[1], s);
+//   gate_xor and2 (cin, line[1], line[3]);
+//   gate_or or3 (line[3], line[2], cout);
+endmodule // full_add
 
 module add8 (a, b, cin, sub, s, cout);
    input [7:0] a, b;
@@ -28,4 +35,4 @@ module add8 (a, b, cin, sub, s, cout);
    full_add add5 (a[5], b[5], ret[4], sub, s[5], ret[5]);
    full_add add6 (a[6], b[6], ret[5], sub, s[6], ret[6]);
    full_add add7 (a[7], b[7], ret[6], sub, s[7], cout);
-endmodule; // add8
+endmodule // add8

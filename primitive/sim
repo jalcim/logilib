@@ -1,0 +1,179 @@
+#! /usr/bin/vvp
+:ivl_version "10.2 (stable)";
+:ivl_delay_selection "TYPICAL";
+:vpi_time_precision + 0;
+:vpi_module "system";
+:vpi_module "vhdl_sys";
+:vpi_module "v2005_math";
+:vpi_module "va_math";
+S_0x7ffff7930700 .scope module, "gate_nand" "gate_nand" 2 30;
+ .timescale 0 0;
+    .port_info 0 /INPUT 1 "e1"
+    .port_info 1 /INPUT 1 "e2"
+    .port_info 2 /OUTPUT 1 "s"
+o0x7ff369c30018 .functor BUFZ 1, C4<z>; HiZ drive
+o0x7ff369c30048 .functor BUFZ 1, C4<z>; HiZ drive
+L_0x7ffff78efcc0 .functor NAND 1, o0x7ff369c30018, o0x7ff369c30048, C4<1>, C4<1>;
+v0x7ffff792d630_0 .net "e1", 0 0, o0x7ff369c30018;  0 drivers
+v0x7ffff795a760_0 .net "e2", 0 0, o0x7ff369c30048;  0 drivers
+v0x7ffff795a820_0 .net "s", 0 0, L_0x7ffff78efcc0;  1 drivers
+S_0x7ffff79308d0 .scope module, "gate_nor" "gate_nor" 2 37;
+ .timescale 0 0;
+    .port_info 0 /INPUT 1 "e1"
+    .port_info 1 /INPUT 1 "e2"
+    .port_info 2 /OUTPUT 1 "s"
+o0x7ff369c30138 .functor BUFZ 1, C4<z>; HiZ drive
+o0x7ff369c30168 .functor BUFZ 1, C4<z>; HiZ drive
+L_0x7ffff795c4a0 .functor NOR 1, o0x7ff369c30138, o0x7ff369c30168, C4<0>, C4<0>;
+v0x7ffff795a940_0 .net "e1", 0 0, o0x7ff369c30138;  0 drivers
+v0x7ffff795aa00_0 .net "e2", 0 0, o0x7ff369c30168;  0 drivers
+v0x7ffff795aac0_0 .net "s", 0 0, L_0x7ffff795c4a0;  1 drivers
+S_0x7ffff7931450 .scope module, "gate_not" "gate_not" 2 1;
+ .timescale 0 0;
+    .port_info 0 /INPUT 1 "e1"
+    .port_info 1 /OUTPUT 1 "s"
+o0x7ff369c30258 .functor BUFZ 1, C4<z>; HiZ drive
+L_0x7ffff795c5a0 .functor NOT 1, o0x7ff369c30258, C4<0>, C4<0>, C4<0>;
+v0x7ffff795abe0_0 .net "e1", 0 0, o0x7ff369c30258;  0 drivers
+v0x7ffff795aca0_0 .net "s", 0 0, L_0x7ffff795c5a0;  1 drivers
+S_0x7ffff79315d0 .scope module, "test_and" "test_and" 3 35;
+ .timescale 0 0;
+v0x7ffff795b2c0_0 .var "a", 0 0;
+v0x7ffff795b360_0 .var "b", 0 0;
+v0x7ffff795b430_0 .net "s", 0 0, L_0x7ffff795c670;  1 drivers
+S_0x7ffff795adc0 .scope module, "and1" "gate_and" 3 39, 2 8 0, S_0x7ffff79315d0;
+ .timescale 0 0;
+    .port_info 0 /INPUT 1 "e1"
+    .port_info 1 /INPUT 1 "e2"
+    .port_info 2 /OUTPUT 1 "s"
+L_0x7ffff795c670 .functor AND 1, v0x7ffff795b2c0_0, v0x7ffff795b360_0, C4<1>, C4<1>;
+v0x7ffff795b000_0 .net "e1", 0 0, v0x7ffff795b2c0_0;  1 drivers
+v0x7ffff795b0e0_0 .net "e2", 0 0, v0x7ffff795b360_0;  1 drivers
+v0x7ffff795b1a0_0 .net "s", 0 0, L_0x7ffff795c670;  alias, 1 drivers
+S_0x7ffff792d2e0 .scope module, "test_or" "test_or" 3 69;
+ .timescale 0 0;
+v0x7ffff795ba00_0 .var "a", 0 0;
+v0x7ffff795bad0_0 .var "b", 0 0;
+v0x7ffff795bba0_0 .net "s", 0 0, L_0x7ffff795c7d0;  1 drivers
+S_0x7ffff795b530 .scope module, "or1" "gate_or" 3 73, 2 16 0, S_0x7ffff792d2e0;
+ .timescale 0 0;
+    .port_info 0 /INPUT 1 "e1"
+    .port_info 1 /INPUT 1 "e2"
+    .port_info 2 /OUTPUT 1 "s"
+L_0x7ffff795c7d0 .functor OR 1, v0x7ffff795ba00_0, v0x7ffff795bad0_0, C4<0>, C4<0>;
+v0x7ffff795b750_0 .net "e1", 0 0, v0x7ffff795ba00_0;  1 drivers
+v0x7ffff795b7f0_0 .net "e2", 0 0, v0x7ffff795bad0_0;  1 drivers
+v0x7ffff795b8b0_0 .net "s", 0 0, L_0x7ffff795c7d0;  alias, 1 drivers
+S_0x7ffff792d4b0 .scope module, "test_xor" "test_xor" 3 1;
+ .timescale 0 0;
+v0x7ffff795c170_0 .var "a", 0 0;
+v0x7ffff795c240_0 .var "b", 0 0;
+v0x7ffff795c310_0 .net "s", 0 0, L_0x7ffff795c930;  1 drivers
+S_0x7ffff795bca0 .scope module, "xor1" "gate_xor" 3 5, 2 23 0, S_0x7ffff792d4b0;
+ .timescale 0 0;
+    .port_info 0 /INPUT 1 "e1"
+    .port_info 1 /INPUT 1 "e2"
+    .port_info 2 /OUTPUT 1 "s"
+L_0x7ffff795c930 .functor XOR 1, v0x7ffff795c170_0, v0x7ffff795c240_0, C4<0>, C4<0>;
+v0x7ffff795bec0_0 .net "e1", 0 0, v0x7ffff795c170_0;  1 drivers
+v0x7ffff795bf60_0 .net "e2", 0 0, v0x7ffff795c240_0;  1 drivers
+v0x7ffff795c020_0 .net "s", 0 0, L_0x7ffff795c930;  alias, 1 drivers
+    .scope S_0x7ffff79315d0;
+T_0 ;
+    %pushi/vec4 0, 0, 1;
+    %store/vec4 v0x7ffff795b2c0_0, 0, 1;
+    %pushi/vec4 0, 0, 1;
+    %store/vec4 v0x7ffff795b360_0, 0, 1;
+    %delay 5, 0;
+    %pushi/vec4 1, 0, 1;
+    %store/vec4 v0x7ffff795b2c0_0, 0, 1;
+    %pushi/vec4 0, 0, 1;
+    %store/vec4 v0x7ffff795b360_0, 0, 1;
+    %delay 5, 0;
+    %pushi/vec4 0, 0, 1;
+    %store/vec4 v0x7ffff795b2c0_0, 0, 1;
+    %pushi/vec4 1, 0, 1;
+    %store/vec4 v0x7ffff795b360_0, 0, 1;
+    %delay 5, 0;
+    %pushi/vec4 1, 0, 1;
+    %store/vec4 v0x7ffff795b2c0_0, 0, 1;
+    %pushi/vec4 1, 0, 1;
+    %store/vec4 v0x7ffff795b360_0, 0, 1;
+    %end;
+    .thread T_0;
+    .scope S_0x7ffff79315d0;
+T_1 ;
+    %vpi_call 3 64 "$display", "\011time,\011b,\011b, \011s" {0 0 0};
+    %vpi_call 3 65 "$monitor", "%d \011%b \011%b \011%b", $time, v0x7ffff795b2c0_0, v0x7ffff795b360_0, v0x7ffff795b430_0 {0 0 0};
+    %end;
+    .thread T_1;
+    .scope S_0x7ffff792d2e0;
+T_2 ;
+    %pushi/vec4 0, 0, 1;
+    %store/vec4 v0x7ffff795ba00_0, 0, 1;
+    %pushi/vec4 0, 0, 1;
+    %store/vec4 v0x7ffff795bad0_0, 0, 1;
+    %delay 5, 0;
+    %pushi/vec4 1, 0, 1;
+    %store/vec4 v0x7ffff795ba00_0, 0, 1;
+    %pushi/vec4 0, 0, 1;
+    %store/vec4 v0x7ffff795bad0_0, 0, 1;
+    %delay 5, 0;
+    %pushi/vec4 0, 0, 1;
+    %store/vec4 v0x7ffff795ba00_0, 0, 1;
+    %pushi/vec4 1, 0, 1;
+    %store/vec4 v0x7ffff795bad0_0, 0, 1;
+    %delay 5, 0;
+    %pushi/vec4 1, 0, 1;
+    %store/vec4 v0x7ffff795ba00_0, 0, 1;
+    %pushi/vec4 1, 0, 1;
+    %store/vec4 v0x7ffff795bad0_0, 0, 1;
+    %end;
+    .thread T_2;
+    .scope S_0x7ffff792d2e0;
+T_3 ;
+    %vpi_call 3 98 "$display", "\011time,\011a,\011b, \011s" {0 0 0};
+    %vpi_call 3 99 "$monitor", "%d \011%b \011%b \011%b", $time, v0x7ffff795ba00_0, v0x7ffff795bad0_0, v0x7ffff795bba0_0 {0 0 0};
+    %end;
+    .thread T_3;
+    .scope S_0x7ffff792d4b0;
+T_4 ;
+    %pushi/vec4 0, 0, 1;
+    %store/vec4 v0x7ffff795c170_0, 0, 1;
+    %pushi/vec4 0, 0, 1;
+    %store/vec4 v0x7ffff795c240_0, 0, 1;
+    %delay 5, 0;
+    %pushi/vec4 1, 0, 1;
+    %store/vec4 v0x7ffff795c170_0, 0, 1;
+    %pushi/vec4 0, 0, 1;
+    %store/vec4 v0x7ffff795c240_0, 0, 1;
+    %delay 5, 0;
+    %pushi/vec4 0, 0, 1;
+    %store/vec4 v0x7ffff795c170_0, 0, 1;
+    %pushi/vec4 1, 0, 1;
+    %store/vec4 v0x7ffff795c240_0, 0, 1;
+    %delay 5, 0;
+    %pushi/vec4 1, 0, 1;
+    %store/vec4 v0x7ffff795c170_0, 0, 1;
+    %pushi/vec4 1, 0, 1;
+    %store/vec4 v0x7ffff795c240_0, 0, 1;
+    %end;
+    .thread T_4;
+    .scope S_0x7ffff792d4b0;
+T_5 ;
+    %vpi_call 3 24 "$dumpfile", "xor.vcd" {0 0 0};
+    %vpi_call 3 25 "$dumpvars" {0 0 0};
+    %end;
+    .thread T_5;
+    .scope S_0x7ffff792d4b0;
+T_6 ;
+    %vpi_call 3 30 "$display", "\011time,\011a,\011b, \011s" {0 0 0};
+    %vpi_call 3 31 "$monitor", "%d \011%b \011%b \011%b", $time, v0x7ffff795c170_0, v0x7ffff795c240_0, v0x7ffff795c310_0 {0 0 0};
+    %end;
+    .thread T_6;
+# The file index is used to find the file name in the following table.
+:file_names 4;
+    "N/A";
+    "<interactive>";
+    "gate.v";
+    "testbench.v";
