@@ -3,14 +3,6 @@ module add (a, b, cin, sub, s, cout);
    output s, cout;
    wire [3:0] line;
 
-   /*
-   assign line[0] = b ^ sub;
-   assign line[1] = a ^ line[0];
-   assign line[2] = a & line[0];
-   assign s = cin ^ line[1];
-   assign line[3] =  cin & line[1];
-   assign cout = line[3] | line[2];
-   //*/
    gate_xor xor0 (b, sub, line[0]);
    gate_xor xor1 (a, line[0], line[1]);
    gate_xor xor2 (cin, line[1], s);
