@@ -32,7 +32,7 @@ module test_basculeD;
      end // initial begin
    initial
      begin
-	$dumpfile("signal_basculeD.vcd");
+	$dumpfile("signal/signal_basculeD.vcd");
 	$dumpvars;
      end
    initial
