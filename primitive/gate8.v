@@ -1,4 +1,4 @@
-module not8 (e1, s);
+module gate_not8 (e1, s);
    input [7:0] e1;
    output [7:0] s;
 
@@ -10,9 +10,9 @@ module not8 (e1, s);
    assign s[5] = ~e1[5];
    assign s[6] = ~e1[6];
    assign s[7] = ~e1[7];
-endmodule; // not
+endmodule // not
 
-module and8 (e1, e2, s);
+module gate_and8 (e1, e2, s);
    input [7:0] e1,e2;
    output [7:0] s;
 
@@ -24,9 +24,9 @@ module and8 (e1, e2, s);
    assign s[5] = e1[5] & e2[5];
    assign s[6] = e1[6] & e2[6];
    assign s[7] = e1[7] & e2[7];
-endmodule; // and
+endmodule // and
 
-module or8 (e1, e2, s);
+module gate_or8 (e1, e2, s);
    input [7:0] e1, e2;
    output [7:0] s;
 
@@ -38,9 +38,9 @@ module or8 (e1, e2, s);
    assign s[5] = e1[5] | e2[5];
    assign s[6] = e1[6] | e2[6];
    assign s[7] = e1[7] | e2[7];
-endmodule; // or
+endmodule // or
 
-module xor8 (e1, e2, s);
+module gate_xor8 (e1, e2, s);
    input [7:0] e1, e2;
    output [7:0] s;
  
@@ -52,9 +52,9 @@ module xor8 (e1, e2, s);
    assign s[5] = e1[5] ^ e2[5];
    assign s[6] = e1[6] ^ e2[6];
    assign s[7] = e1[7] ^ e2[7];
-endmodule; // xor
+endmodule // xor
 
-module nand8 (e1, e2, s);
+module gate_nand8 (e1, e2, s);
    input [7:0] e1, e2;
    output [7:0] s;
 
@@ -66,9 +66,9 @@ module nand8 (e1, e2, s);
    assign s[5] = e1[5] ~& e2[5];
    assign s[6] = e1[6] ~& e2[6];
    assign s[7] = e1[7] ~& e2[7];
-endmodule; // nand
+endmodule // nand
   
-module nor8 (e1, e2, s);
+module gate_nor8 (e1, e2, s);
    input [7:0] e1, e2;
    output [7:0] s;
 
@@ -80,4 +80,4 @@ module nor8 (e1, e2, s);
    assign s[5] = e1[5] ~| e2[5];
    assign s[6] = e1[6] ~| e2[6];
    assign s[7] = e1[7] ~| e2[7];
-endmodule; // nor
+endmodule // nor

@@ -1,8 +1,9 @@
-module test_or;
-   reg a, b;
-   wire s;
+module test_cmp;
 
-   gate_or or1(a, b, s);
+   reg a, b;
+   wire c, d;
+
+   cmp test_cmp(a, b, c, d);
 
    initial
      begin
@@ -18,16 +19,16 @@ module test_or;
 	a = 1;
 	b = 1;
      end // initial begin
-
    initial
      begin
-	$dumpfile("or.vcd");
+	$dumpfile("signal_cmp.vcd");
 	$dumpvars;
      end
-
    initial
      begin
-	$display("\ttime,\ta,\tb, \ts");
-	$monitor("%d \t%b \t%b \t%b", $time, a, b, s);
+	$display("\ttime, \ta, \tb, \tc, \td");
+	$monitor("%d \t%b \t%b \t%b \t%b", $time, a, b, c, d);
      end
-endmodule // test_primitive
+endmodule // test_cmp
+
+	

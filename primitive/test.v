@@ -1,8 +1,8 @@
-module test_or;
+module test_and;
    reg a, b;
    wire s;
 
-   gate_or or1(a, b, s);
+   gate_and and1(a, b, s);
 
    initial
      begin
@@ -21,13 +21,13 @@ module test_or;
 
    initial
      begin
-	$dumpfile("or.vcd");
+	$dumpfile("and.vcd");
 	$dumpvars;
      end
 
    initial
      begin
-	$display("\ttime,\ta,\tb, \ts");
+	$display("\ttime,\tb,\tb, \ts");
 	$monitor("%d \t%b \t%b \t%b", $time, a, b, s);
      end
 endmodule // test_primitive
