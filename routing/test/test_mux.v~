@@ -1,0 +1,45 @@
+module testmux;
+   reg [1:0] s0;
+   reg 	     a, b, c, d;
+
+   wire      z;
+
+   multiplexeur_1bitx4 mux1(s0, a, b, c, d, z);
+
+   initial
+     begin
+	s0 = 0;
+	a = 1;
+	b = 1;
+	c = 1;
+	d = 1;
+	#5;
+	s0 = 1;
+	a = 1;
+	b = 1;
+	c = 1;
+	d = 1;
+	#5;
+	s0 = 2;
+	a = 1;
+	b = 1;
+	c = 1;
+	d = 1;
+	#5;
+	s0 = 3;
+	a = 1;
+	b = 1;
+	c = 1;
+	d = 1;
+	#5;
+   initial
+     begin
+	$dumpfile("signal/signal_mux.vcd");
+	$dumpvars;
+     end
+   initial
+     begin
+	$display("\t\ttime,\ts0, \ta,\tb, \tc, \td,\tz");
+	$monitor("%d \t%d \t%b \t%b \t%b \t%b \t%b", $time, s0, a, b, c, d, z);
+     end
+endmodule // testmux

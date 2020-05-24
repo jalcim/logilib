@@ -1,4 +1,25 @@
-module multiplexeur(s0, a,b,c,d,e,f,g,h,i,j,k,l,m,n,o,p, z);
+module multiplexeur_1bitx4(s0, a, b, c, d, s);
+   input [1:0] s0;
+   input       a, b, c, d;
+   output      s;
+
+   wire [3:0]  line;
+   wire [3:0]  line2; 
+
+   gate_not not1(s0[0], line[0]);
+   gate_not not2(s0[1], line[1]);
+   buf buf1(line[2], s0[0]);
+   buf buf2(line[3], s0[1]);
+
+   gate_and3 and1(line[1], line[0], a, line2[0]);
+   gate_and3 and2(line[1], line[2], b, line2[1]);
+   gate_and3 and3(line[3], line[0], c, line2[2]);
+   gate_and3 and4(line[3], line[2], d, line2[3]);
+
+   gate_or4 or1(line2[0], line2[1], line2[2], line2[3], s);
+endmodule // multiplexeur_1bitx4
+/*
+module multiplexeur_1bitx16(s0, a,b,c,d,e,f,g,h,i,j,k,l,m,n,o,p, z);
    input [3:0] s0;
    input       a,b,c,d,e,f,g,h,i,j,k,l,m,n,o,p;
    output      z;
@@ -6,10 +27,10 @@ module multiplexeur(s0, a,b,c,d,e,f,g,h,i,j,k,l,m,n,o,p, z);
    wire [7:0]  line1;
    wire [15:0] line2;
 
-   assign line1[0] = s0[0];
-   assign line1[1] = s0[1];
-   assign line1[2] = s0[2];
-   assign line1[3] = s0[3];
+   buf buf1(line1[0], s0[0]);
+   buf buf2(line1[1], s0[1]);
+   buf buf3(line1[2], s0[2]);
+   buf buf4(line1[3], s0[3]);
 
    not(s0[0], line1[4]);
    not(s0[1], line1[5]);
@@ -36,7 +57,7 @@ module multiplexeur(s0, a,b,c,d,e,f,g,h,i,j,k,l,m,n,o,p, z);
    or16 or1(line2, z);
 endmodule; // multiplexeur
 
-module multiplexeur8(s0, a,b,c,d,e,f,g,h,i,j,k,l,m,n,o,p, z);
+module multiplexeur_8bitx16(s0, a,b,c,d,e,f,g,h,i,j,k,l,m,n,o,p, z);
    input [3:0] s0;
    input [7:0] a,b,c,d,e,f,g,h,i,j,k,l,m,n,o,p;
    output[7:0] z;
@@ -127,3 +148,4 @@ module multiplexeur8(s0, a,b,c,d,e,f,g,h,i,j,k,l,m,n,o,p, z);
 
    or16 or1(line2, z);
 endmodule; // multiplexeur
+*/

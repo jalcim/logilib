@@ -1,10 +1,16 @@
-module and4(a,b,c,d, s);
+module gate_and3(a,b,c, s);
+   input a,b,c;
+   output s;
+   assign s =  a & b & c;
+endmodule // and4
+
+module gate_and4(a,b,c,d, s);
    input a,b,c,d;
    output s;
    assign s =  a & b & c & d;
 endmodule // and4
 
-module and5(a,b,c,d,e, s);
+module gate_and5(a,b,c,d,e, s);
    input a,b,c,d,e;
    output      s;
    assign s = a & b & c & d & e;
@@ -17,7 +23,13 @@ module multigate_and8(bus, s);
 	      & bus[4] & bus[5] & bus[6] & bus[7];
 endmodule // and8
 
-module or16(bus, s);
+module gate_or4(a, b, c, d, s);
+   input a, b, c, d;
+   output s;
+   assign s = a | b | c | d;
+endmodule // gate_or4
+
+module multigate_or16(bus, s);
    input [15:0] bus;
    output 	s; 	
    assign s = bus[0] | bus[1] | bus[2] | bus[3]
