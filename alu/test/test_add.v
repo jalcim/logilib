@@ -46,7 +46,6 @@ module test_add;
 	cin = 1;
 	sub = 0;
 	#5;
-
 	a = 0;
 	b = 0;
 	cin = 0;

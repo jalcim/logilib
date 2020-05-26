@@ -4,14 +4,12 @@ module bit_cpt3(activate, clk, reset, cpt);
 
    wire [7:0] 	line;
    wire [2:0] 	ignore;
-   wire 	reset_line;
 
-   gate_and and0(clk, reset, reset_line);
    gate_or or1(line[4], line[7], line[0]);
    gate_and and1(activate, line[0], line[1]);
-   Dflip_flop flip1(line[1], clk, reset_line, line[2], ignore[0]);
-   Dflip_flop flip2(line[2], clk, reset_line, line[3], ignore[1]);
-   Dflip_flop flip3(line[3], clk, reset_line, line[4], ignore[2]);
+   Dflip_flop flip1(line[1], clk, reset, line[2], ignore[0]);
+   Dflip_flop flip2(line[2], clk, reset, line[3], ignore[1]);
+   Dflip_flop flip3(line[3], clk, reset, line[4], ignore[2]);
    gate_nor nor1(line[2], line[3], line[5]);
    gate_not not1(line[4], line[6]);
    gate_and and2(line[5], line[6], line[7]);

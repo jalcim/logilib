@@ -19,6 +19,22 @@ module basculeD (a, clk, reset, s1, s2);
    buf buf2(s2, line[4]);
 endmodule // basculeD
 
+module basculeD_8bit(a, clk, reset, s1, s2);
+   input [7:0]  a;
+   input        clk, reset;
+   output [7:0] s1, s2;
+
+   basculeD Dlatch0(a[0], clk, reset, s1[0], s2[0]);
+   basculeD Dlatch1(a[1], clk, reset, s1[1], s2[1]);
+   basculeD Dlatch2(a[2], clk, reset, s1[2], s2[2]);
+   basculeD Dlatch3(a[3], clk, reset, s1[3], s2[3]);
+   basculeD Dlatch4(a[4], clk, reset, s1[4], s2[4]);
+   basculeD Dlatch5(a[5], clk, reset, s1[5], s2[5]);
+   basculeD Dlatch6(a[6], clk, reset, s1[6], s2[6]);
+   basculeD Dlatch7(a[7], clk, reset, s1[7], s2[7]);
+   
+endmodule // basculeD_8bit
+
 module Dflip_flop(a, clk, reset, s1, s2);
    input a, clk, reset;
    output s1, s2;
