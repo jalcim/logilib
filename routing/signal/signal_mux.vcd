@@ -1,5 +1,5 @@
 $date
-	Sun May 24 04:56:26 2020
+	Wed May 27 03:40:50 2020
 $end
 $version
 	Icarus Verilog
@@ -32,131 +32,217 @@ $var wire 1 / e1 $end
 $var wire 1 0 e2 $end
 $var wire 1 1 s $end
 $upscope $end
-$scope module gate_nor $end
-$var wire 1 2 e1 $end
-$var wire 1 3 e2 $end
-$var wire 1 4 s $end
+$scope module gate_nand8 $end
+$var wire 8 2 e1 [7:0] $end
+$var wire 8 3 e2 [7:0] $end
+$var wire 8 4 s [7:0] $end
+$upscope $end
+$scope module gate_nor8 $end
+$var wire 8 5 e1 [7:0] $end
+$var wire 8 6 e2 [7:0] $end
+$var wire 8 7 s [7:0] $end
+$upscope $end
+$scope module gate_not8 $end
+$var wire 8 8 e1 [7:0] $end
+$var wire 8 9 s [7:0] $end
 $upscope $end
 $scope module gate_or $end
-$var wire 1 5 e1 $end
-$var wire 1 6 e2 $end
-$var wire 1 7 s $end
-$upscope $end
-$scope module gate_xor $end
-$var wire 1 8 e1 $end
-$var wire 1 9 e2 $end
-$var wire 1 : s $end
-$upscope $end
-$scope module multigate_and8 $end
-$var wire 8 ; bus [7:0] $end
+$var wire 1 : e1 $end
+$var wire 1 ; e2 $end
 $var wire 1 < s $end
 $upscope $end
-$scope module multigate_or16 $end
-$var wire 16 = bus [15:0] $end
-$var wire 1 > s $end
+$scope module gate_xor $end
+$var wire 1 = e1 $end
+$var wire 1 > e2 $end
+$var wire 1 ? s $end
 $upscope $end
-$scope module testmux $end
-$var wire 1 ? s $end
-$var reg 1 @ a $end
-$var reg 1 A b $end
-$var reg 1 B c $end
-$var reg 1 C d $end
-$var reg 2 D s0 [1:0] $end
-$scope module mux1 $end
-$var wire 1 @ a $end
-$var wire 1 A b $end
-$var wire 1 B c $end
-$var wire 1 C d $end
-$var wire 2 E s0 [1:0] $end
-$var wire 1 ? s $end
-$var wire 4 F line2 [3:0] $end
-$var wire 4 G line [3:0] $end
+$scope module gate_xor8 $end
+$var wire 8 @ e1 [7:0] $end
+$var wire 8 A e2 [7:0] $end
+$var wire 8 B s [7:0] $end
+$upscope $end
+$scope module multigate_and8 $end
+$var wire 8 C bus [7:0] $end
+$var wire 1 D s $end
+$upscope $end
+$scope module multigate_or16 $end
+$var wire 16 E bus [15:0] $end
+$var wire 1 F s $end
+$upscope $end
+$scope module multiplexeur_1bitx4 $end
+$var wire 1 G a $end
+$var wire 1 H b $end
+$var wire 1 I c $end
+$var wire 1 J d $end
+$var wire 2 K s0 [1:0] $end
+$var wire 1 L s $end
+$var wire 4 M line2 [3:0] $end
+$var wire 4 N line [3:0] $end
 $scope module and1 $end
-$var wire 1 H a $end
-$var wire 1 I b $end
-$var wire 1 @ c $end
-$var wire 1 J s $end
+$var wire 1 O a $end
+$var wire 1 P b $end
+$var wire 1 G c $end
+$var wire 1 Q s $end
 $upscope $end
 $scope module and2 $end
-$var wire 1 K a $end
-$var wire 1 L b $end
-$var wire 1 A c $end
-$var wire 1 M s $end
+$var wire 1 R a $end
+$var wire 1 S b $end
+$var wire 1 H c $end
+$var wire 1 T s $end
 $upscope $end
 $scope module and3 $end
-$var wire 1 N a $end
-$var wire 1 O b $end
-$var wire 1 B c $end
-$var wire 1 P s $end
-$upscope $end
-$scope module and4 $end
-$var wire 1 Q a $end
-$var wire 1 R b $end
-$var wire 1 C c $end
-$var wire 1 S s $end
-$upscope $end
-$scope module not1 $end
-$var wire 1 T e1 $end
-$var wire 1 U s $end
-$upscope $end
-$scope module not2 $end
-$var wire 1 V e1 $end
+$var wire 1 U a $end
+$var wire 1 V b $end
+$var wire 1 I c $end
 $var wire 1 W s $end
 $upscope $end
-$scope module or1 $end
+$scope module and4 $end
 $var wire 1 X a $end
 $var wire 1 Y b $end
-$var wire 1 Z c $end
-$var wire 1 [ d $end
-$var wire 1 ? s $end
+$var wire 1 J c $end
+$var wire 1 Z s $end
+$upscope $end
+$scope module not1 $end
+$var wire 1 [ e1 $end
+$var wire 1 \ s $end
+$upscope $end
+$scope module not2 $end
+$var wire 1 ] e1 $end
+$var wire 1 ^ s $end
+$upscope $end
+$scope module or1 $end
+$var wire 1 _ a $end
+$var wire 1 ` b $end
+$var wire 1 a c $end
+$var wire 1 b d $end
+$var wire 1 L s $end
+$upscope $end
+$upscope $end
+$scope module test_mux_8bitx2 $end
+$var wire 8 c s [7:0] $end
+$var reg 8 d a [7:0] $end
+$var reg 8 e b [7:0] $end
+$var reg 1 f s0 $end
+$scope module mux1 $end
+$var wire 8 g a [7:0] $end
+$var wire 8 h b [7:0] $end
+$var wire 1 i masse $end
+$var wire 1 f s0 $end
+$var wire 8 j s [7:0] $end
+$var wire 8 k line6 [7:0] $end
+$var wire 8 l line5 [7:0] $end
+$var wire 8 m line4 [7:0] $end
+$var wire 8 n line3 [7:0] $end
+$var wire 2 o line2 [1:0] $end
+$var wire 1 p line1 $end
+$scope module and0 $end
+$var wire 8 q e1 [7:0] $end
+$var wire 8 r e2 [7:0] $end
+$var wire 8 s s [7:0] $end
+$upscope $end
+$scope module and1 $end
+$var wire 8 t e1 [7:0] $end
+$var wire 8 u e2 [7:0] $end
+$var wire 8 v s [7:0] $end
+$upscope $end
+$scope module nor0 $end
+$var wire 1 i e1 $end
+$var wire 1 f e2 $end
+$var wire 1 w s $end
+$upscope $end
+$scope module nor1 $end
+$var wire 1 i e1 $end
+$var wire 1 x s $end
+$var wire 1 p e2 $end
+$upscope $end
+$scope module not0 $end
+$var wire 1 f e1 $end
+$var wire 1 p s $end
+$upscope $end
+$scope module or0 $end
+$var wire 8 y e1 [7:0] $end
+$var wire 8 z e2 [7:0] $end
+$var wire 8 { s [7:0] $end
 $upscope $end
 $upscope $end
 $upscope $end
 $enddefinitions $end
 #0
 $dumpvars
-0[
-0Z
-0Y
-1X
-1W
-0V
-1U
-0T
-0S
-0R
-0Q
-0P
-1O
-0N
-0M
-0L
-1K
-1J
-1I
-1H
-b11 G
-b1 F
-b0 E
-b0 D
-1C
-1B
-1A
-1@
-1?
-x>
-bz =
+b10111 {
+b0 z
+b10111 y
+0x
+1w
+b0 v
+b101010 u
+b0 t
+b10111 s
+b10111 r
+b11111111 q
+1p
+b1 o
+b11111111 n
+b0 m
+b10111 l
+b0 k
+b10111 j
+0i
+b101010 h
+b10111 g
+0f
+b101010 e
+b10111 d
+b10111 c
+xb
+xa
+x`
+x_
+z^
+z]
+z\
+z[
+xZ
+zY
+zX
+xW
+zV
+zU
+xT
+zS
+zR
+xQ
+zP
+zO
+bz N
+bx M
+xL
+bz K
+zJ
+zI
+zH
+zG
+xF
+bz E
+xD
+bz C
+bx B
+bz A
+bz @
+x?
+z>
+z=
 x<
-bz ;
-x:
-z9
-z8
-x7
-z6
-z5
-x4
-z3
-z2
+z;
+z:
+bz 9
+bz 8
+bx 7
+bz 6
+bz 5
+bx 4
+bz 3
+bz 2
 x1
 z0
 z/
@@ -176,54 +262,22 @@ z"
 z!
 $end
 #5
-0X
-1Y
-0J
-b10 F
-1M
-0I
-0O
-1L
-1R
-0U
-b110 G
-1T
-b1 D
-b1 E
+b101010 c
+b101010 j
+b101010 {
+b101010 k
+b101010 v
+b101010 z
+b0 l
+b0 s
+b0 y
+b11111111 m
+b11111111 t
+b0 n
+b0 q
+1x
+b10 o
+0w
+0p
+1f
 #10
-0Y
-1Z
-0M
-b100 F
-1P
-1I
-1O
-0H
-0K
-0L
-0R
-1N
-1Q
-1U
-0W
-b1001 G
-0T
-1V
-b10 D
-b10 E
-#15
-0Z
-1[
-0P
-b1000 F
-1S
-0I
-0O
-1L
-1R
-0U
-b1100 G
-1T
-b11 D
-b11 E
-#20

@@ -18,6 +18,37 @@ module multiplexeur_1bitx4(s0, a, b, c, d, s);
 
    gate_or4 or1(line2[0], line2[1], line2[2], line2[3], s);
 endmodule // multiplexeur_1bitx4
+
+module multiplexeur_8bitx2(s0, a,b, s);
+   input s0;
+   input [7:0] a,b;
+   output[7:0] s;
+
+   wire        line1;
+   wire [1:0]  line2;
+   wire [7:0]  line3, line4, line5, line6;
+   wire        masse;
+
+   assign masse = 0;
+
+   gate_not not0(s0, line1);
+   gate_nor nor0(masse, s0, line2[0]);
+   gate_nor nor1(masse, line1, line2[1]);
+   
+   buf buf0(line3[0], line2[0]);   buf buf1(line3[1], line2[0]);
+   buf buf2(line3[2], line2[0]);   buf buf3(line3[3], line2[0]);
+   buf buf4(line3[4], line2[0]);   buf buf5(line3[5], line2[0]);
+   buf buf6(line3[6], line2[0]);   buf buf7(line3[7], line2[0]);
+
+   buf buf10(line4[0], line2[1]);  buf buf11(line4[1], line2[1]);
+   buf buf12(line4[2], line2[1]);  buf buf13(line4[3], line2[1]);
+   buf buf14(line4[4], line2[1]);  buf buf15(line4[5], line2[1]);
+   buf buf16(line4[6], line2[1]);  buf buf17(line4[7], line2[1]);
+
+   gate_and8 and0(line3, a, line5);
+   gate_and8 and1(line4, b , line6);
+   gate_or8 or0(line5, line6, s);
+endmodule // multiplexeur
 /*
 module multiplexeur_1bitx16(s0, a,b,c,d,e,f,g,h,i,j,k,l,m,n,o,p, z);
    input [3:0] s0;
