@@ -1,10 +1,9 @@
 module demultiplexeur_1x8(s0, in, a,b,c,d,e,f,g,h);
-   input [3:0] s0;
+   input [2:0] s0;
    input       in;
    output       a,b,c,d,e,f,g,h,i,j,k,l,m,n,o,p;
 
    wire [5:0]  line1;
-   wire [15:0] line2;
 
    buf buf1(line1[0], s0[0]);
    buf buf2(line1[1], s0[1]);
@@ -23,5 +22,4 @@ module demultiplexeur_1x8(s0, in, a,b,c,d,e,f,g,h);
    gate_and4 and7(line1[0], line1[1], line1[5], in, g);
    gate_and4 and8(line1[0], line1[1], line1[2], in, h);
 
-   gate_or8 or1(line2, out);
 endmodule // demultiplexeur_1x8

@@ -20,7 +20,7 @@ module multiplexeur_1bitx4(s0, a, b, c, d, s);
 endmodule // multiplexeur_1bitx4
 
 module multiplexeur_1x8(s0, a,b,c,d,e,f,g,h, out);
-   input [3:0] s0;
+   input [2:0] s0;
    input       a,b,c,d,e,f,g,h,i,j,k,l,m,n,o,p;
    output      out;
 
