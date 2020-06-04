@@ -29,6 +29,13 @@ module gate_or4(a, b, c, d, s);
    assign s = a | b | c | d;
 endmodule // gate_or4
 
+module multigate_or8(bus, s);
+   input [7:0] bus;
+   output 	s; 	
+   assign s = bus[0] | bus[1] | bus[2] | bus[3]
+	      | bus[4] | bus[5] | bus[6] | bus[7];
+endmodule // or16
+
 module multigate_or16(bus, s);
    input [15:0] bus;
    output 	s; 	

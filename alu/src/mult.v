@@ -28,7 +28,7 @@ module mult_8(activate, clk, reset, in1, in2, in3, mult8, mult16);
 
    output [7:0] mult8, mult16;
 
-   wire [3:0] 	cpt_line;
+   wire [7:0] 	cpt_line;
    wire [2:0] 	cpt_line1;
    wire 	cpt_line2; 	
 
@@ -53,7 +53,7 @@ module mult_8(activate, clk, reset, in1, in2, in3, mult8, mult16);
    gate_and and0(unclock, sig_reset, and_reset);
    gate_or or0(and_reset, reset, int_reset);
 
-   bit_cpt3 cpt(activate, line_endop, int_reset, cpt_line);
+   cpt_bin8 cpt(activate, line_endop, int_reset, cpt_line);
    buf buf0(cpt_line1[0], cpt_line[0]);
    buf buf1(cpt_line1[1], cpt_line[1]);
    buf buf2(cpt_line1[2], cpt_line[2]);

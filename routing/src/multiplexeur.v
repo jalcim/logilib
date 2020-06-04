@@ -25,7 +25,7 @@ module multiplexeur_1x8(s0, a,b,c,d,e,f,g,h, out);
    output      out;
 
    wire [5:0]  line1;
-   wire [15:0] line2;
+   wire [7:0] line2;
 
    buf buf1(line1[0], s0[0]);
    buf buf2(line1[1], s0[1]);
@@ -44,7 +44,7 @@ module multiplexeur_1x8(s0, a,b,c,d,e,f,g,h, out);
    gate_and4 and7(line1[0], line1[1], line1[5], g, line2[6]);
    gate_and4 and8(line1[0], line1[1], line1[2], h, line2[7]);
 
-   gate_or8 or1(line2, out);
+   multigate_or8 or1(line2, out);
 endmodule // multiplexeur
 
 module multiplexeur_8bitx2(s0, a,b, s);
