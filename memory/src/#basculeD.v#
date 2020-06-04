@@ -58,3 +58,4 @@ module Dflip_flop3(in, clk, reset, out1, out2);
    Dflip_flop Dff1(in[1], clk, reset, out1[1], out2[1]);
    Dflip_flop Dff2(in[2], clk, reset, out1[2], out2[2]);
 endmodule // flip_flopD
+

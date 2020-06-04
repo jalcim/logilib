@@ -3,9 +3,9 @@ module test_divmod2;
    reg [7:0] a;
    wire      mod2;
    wire [7:0] div2;
-   
+   wire       endop;
 
-   divmod2 test_divmod2(activate, clk, reset, a, div2, mod2);
+   divmod2 test_divmod2(activate, clk, reset, a, div2, mod2, endop);
 
    initial
      begin
@@ -63,7 +63,7 @@ module test_divmod2;
 
    initial
      begin
-	$display("\t\ttime,\tactivate,\tclk, \treset, \ta, \tdiv2, \t\tmod2");
-	$monitor("%d \t%b \t\t%b \t%b \t%d \t%d \t%b", $time, activate, clk, reset, a, div2, mod2);
+	$display("\t\ttime,\tactivate,\tclk, \treset, \ta, \tdiv2, \tmod2, \tendop");
+	$monitor("%d \t%b \t\t%b \t%b \t%d \t%d \t%b \t%b", $time, activate, clk, reset, a, div2, mod2, endop);
      end
 endmodule // test_divmod2

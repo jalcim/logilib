@@ -37,3 +37,14 @@ module multigate_or16(bus, s);
 	      | bus[8] | bus[9] | bus[10] | bus[11]
 	      |  bus[12] | bus[13] | bus[14] | bus[15];
 endmodule // or16
+
+module multigate_nand3(in1, in2, in3, out);
+   input in1, in2, in3;
+   output out;
+   wire [1:0] line;
+
+   gate_nand nand0(in1, in2, line[0]);
+   gate_nand nand1(in2, in3, line[1]);   
+   gate_or or0(line[0], line[1], out);
+endmodule // multigate_nand3
+   

@@ -1,9 +1,10 @@
-module divmod2(activate, clk, reset, a, div2, mod2);
+module divmod2(activate, clk, reset, a, div2, mod2, endop);
    input activate, clk, reset;
    input [7:0] a;
    output      mod2;
    output [7:0] div2;
-
+   output endop;
+   
    wire [2:0] 	cpt;
    wire [1:0] 	cpt_line1;
    wire 	cpt_line2;
@@ -15,9 +16,9 @@ module divmod2(activate, clk, reset, a, div2, mod2);
    wire [7:0] 	ignore;
    
    bit_cpt3 compteur(activate, clk, reset, cpt);
-   buf (cpt_line1[0], cpt[0]);
-   buf (cpt_line1[1], cpt[1]);
-   buf (cpt_line2, cpt[2]);
+   buf buf0(cpt_line1[0], cpt[0]);
+   buf buf1(cpt_line1[1], cpt[1]);
+   buf buf2(cpt_line2, cpt[2]);
 
    assign masse = 0;
    multiplexeur_1bitx4 mux0(cpt_line1, d_line[0], a[7], masse, masse, mux_line1[0]);
@@ -49,7 +50,7 @@ module divmod2(activate, clk, reset, a, div2, mod2);
    gate_and and7(cpt_line2, d_line[7], mux_line2[0]);
    gate_and and8(cpt_line2, d_line[8], mux_line3);
 
-   basculeD_8bit D_latch0(mux_line2, clk, reset, div2, ignore);
-   basculeD Dlatch1(mux_line3, clk, reset, mod2, z);
-   
+   basculeD_8bit D_latch0(mux_line2, cpt_line2, reset, div2, ignore);
+   basculeD Dlatch1(mux_line3, cpt_line2, reset, mod2, z);
+   buf buf3(endop, cpt_line2);
 endmodule // divmod2
