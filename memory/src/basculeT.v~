@@ -1,4 +1,0 @@
-module basculeT (in, clk, reset, out1, out2)
-  input in, clk, reset;
-   output out1, out2;
-   
