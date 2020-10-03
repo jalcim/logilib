@@ -7,68 +7,29 @@ module test_bit_cpt3;
 
    initial
      begin
-	activate = 0;
 	clk = 1;
 	reset = 1;
-	#5;
 	activate = 0;
+	#5;
 	clk = 0;
 	reset = 0;
-	#5;
 	activate = 1;
-	clk = 0;
-	reset = 0;
 	#5;
-	activate = 1;
-	clk = 1;
-	reset = 0;
-	#5;
-	activate = 0;
-	clk = 0;
-	reset = 0;
-	#5;
-	activate = 0;
-	clk = 1;
-	reset = 0;
-	#5;
-	activate = 0;
-	clk = 0;
-	reset = 0;
-	#5;
-	activate = 1;
-	clk = 1;
-	reset = 0;
-	#5;
-	activate = 1;
-	clk = 0;
-	reset = 0;
-	reset = 0;
-	#5;
-	activate = 1;
-	clk = 1;
-	reset = 0;
-	#5;
-	activate = 1;
-	clk = 0;
-	reset = 0;
-	#5;
-	activate = 1;
-	clk = 1;
-	reset = 1;
-	#5;
-	activate = 1;
-	clk = 0;
-	reset = 0;
-	#5;
-	activate = 0;
-	clk = 1;
-	reset = 0;
-	#5;
-	activate = 0;
-	clk = 0;
-	reset = 0;
+     end
+
+   always
+     begin
+	clk = ~clk;
 	#5;
      end // initial begin
+
+   always @(posedge clk)
+     begin
+	if (cpt >= 4)
+	  begin
+	     $stop;
+	  end
+     end
    initial
      begin
 	$dumpfile("signal/signal_bit_cpt3.vcd");
