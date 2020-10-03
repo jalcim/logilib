@@ -16,6 +16,13 @@ module test_mult_8;
 	b = 0;
 	c = 0;
 	#5;
+	activate = 0;
+	clk = 0;
+	reset = 1;
+	a = 0;
+	b = 0;
+	c = 0;
+	#5;
 	//11
 	activate = 1;
 	clk = 1;
@@ -24,7 +31,7 @@ module test_mult_8;
 	b = 2;
 	c = 5;
 	#5;
-	activate = 0;
+	activate = 1;//repauto
 	clk = 0;
 	reset = 0;
 	a = 0;
@@ -32,14 +39,14 @@ module test_mult_8;
 	c = 0;
 	#5;
 	//12
-	activate = 0;
+	activate = 1;//repauto
 	clk = 1;
 	reset = 0;
 	a = 0;
 	b = 0;
 	c = 0;
 	#5;
-	activate = 0;
+	activate = 1;//repauto
 	clk = 0;
 	reset = 0;
 	a = 0;
@@ -47,14 +54,14 @@ module test_mult_8;
 	c = 0;
 	#5;
 	//13
-	activate = 0;
+	activate = 1;//repauto
 	clk = 1;
 	reset = 0;
 	a = 0;
 	b = 0;
 	c = 0;
 	#5;
-	activate = 0;
+	activate = 1;//repauto
 	clk = 0;
 	reset = 0;
 	a = 0;
@@ -69,7 +76,7 @@ module test_mult_8;
 	b = 2;
 	c = 5;
 	#5;
-	activate = 0;
+	activate = 1;//repauto
 	clk = 0;
 	reset = 0;
 	a = 0;
@@ -77,14 +84,14 @@ module test_mult_8;
 	c = 0;
 	#5;
 	//22
-	activate = 0;
+	activate = 1;//repauto
 	clk = 1;
 	reset = 0;
 	a = 0;
 	b = 0;
 	c = 0;
 	#5;
-	activate = 0;
+	activate = 1;//repauto
 	clk = 0;
 	reset = 0;
 	a = 0;
@@ -92,14 +99,14 @@ module test_mult_8;
 	c = 0;
 	#5;
 	//23
-	activate = 0;
+	activate = 1;//repauto
 	clk = 1;
 	reset = 0;
 	a = 0;
 	b = 0;
 	c = 0;
 	#5;
-	activate = 0;
+	activate = 1;//repauto
 	clk = 0;
 	reset = 0;
 	a = 0;
@@ -114,7 +121,7 @@ module test_mult_8;
 	b = 2;
 	c = 5;
 	#5;
-	activate = 0;
+	activate = 1;//repauto
 	clk = 0;
 	reset = 0;
 	a = 0;
@@ -122,14 +129,14 @@ module test_mult_8;
 	c = 0;
 	#5;
 	//32
-	activate = 0;
+	activate = 1;//repauto
 	clk = 1;
 	reset = 0;
 	a = 0;
 	b = 0;
 	c = 0;
 	#5;
-	activate = 0;
+	activate = 1;//repauto
 	clk = 0;
 	reset = 0;
 	a = 0;
@@ -137,14 +144,14 @@ module test_mult_8;
 	c = 0;
 	#5;
 	//33
-	activate = 0;
+	activate = 1;//repauto
 	clk = 1;
 	reset = 0;
 	a = 0;
 	b = 0;
 	c = 0;
 	#5;
-	activate = 0;
+	activate = 1;//repauto
 	clk = 0;
 	reset = 0;
 	a = 0;
@@ -159,7 +166,7 @@ module test_mult_8;
 	b = 2;
 	c = 5;
 	#5;
-	activate = 0;
+	activate = 1;//repauto
 	clk = 0;
 	reset = 0;
 	a = 0;
@@ -167,14 +174,14 @@ module test_mult_8;
 	c = 0;
 	#5;
 	//42
-	activate = 0;
+	activate = 1;//repauto
 	clk = 1;
 	reset = 0;
 	a = 0;
 	b = 0;
 	c = 0;
 	#5;
-	activate = 0;
+	activate = 1;//repauto
 	clk = 0;
 	reset = 0;
 	a = 0;
@@ -182,14 +189,14 @@ module test_mult_8;
 	c = 0;
 	#5;
 	//43
-	activate = 0;
+	activate = 1;//repauto
 	clk = 1;
 	reset = 0;
 	a = 0;
 	b = 0;
 	c = 0;
 	#5;
-	activate = 0;
+	activate = 1;//repauto
 	clk = 0;
 	reset = 0;
 	a = 0;
@@ -204,7 +211,7 @@ module test_mult_8;
 	b = 2;
 	c = 5;
 	#5;
-	activate = 0;
+	activate = 1;//repauto
 	clk = 0;
 	reset = 0;
 	a = 0;
@@ -212,14 +219,14 @@ module test_mult_8;
 	c = 0;
 	#5;
 	//52
-	activate = 0;
+	activate = 1;//repauto
 	clk = 1;
 	reset = 0;
 	a = 0;
 	b = 0;
 	c = 0;
 	#5;
-	activate = 0;
+	activate = 1;//repauto
 	clk = 0;
 	reset = 0;
 	a = 0;
@@ -227,14 +234,14 @@ module test_mult_8;
 	c = 0;
 	#5;
 	//53
-	activate = 0;
+	activate = 1;//repauto
 	clk = 1;
 	reset = 0;
 	a = 0;
 	b = 0;
 	c = 0;
 	#5;
-	activate = 0;
+	activate = 1;//repauto
 	clk = 0;
 	reset = 0;
 	a = 0;
@@ -249,7 +256,7 @@ module test_mult_8;
 	b = 2;
 	c = 5;
 	#5;
-	activate = 0;
+	activate = 1;//repauto
 	clk = 0;
 	reset = 0;
 	a = 0;
@@ -257,14 +264,14 @@ module test_mult_8;
 	c = 0;
 	#5;
 	//62
-	activate = 0;
+	activate = 1;//repauto
 	clk = 1;
 	reset = 0;
 	a = 0;
 	b = 0;
 	c = 0;
 	#5;
-	activate = 0;
+	activate = 1;//repauto
 	clk = 0;
 	reset = 0;
 	a = 0;
@@ -272,14 +279,14 @@ module test_mult_8;
 	c = 0;
 	#5;
 	//63
-	activate = 0;
+	activate = 1;//repauto
 	clk = 1;
 	reset = 0;
 	a = 0;
 	b = 0;
 	c = 0;
 	#5;
-	activate = 0;
+	activate = 1;//repauto
 	clk = 0;
 	reset = 0;
 	a = 0;
@@ -294,7 +301,7 @@ module test_mult_8;
 	b = 2;
 	c = 5;
 	#5;
-	activate = 0;
+	activate = 1;//repauto
 	clk = 0;
 	reset = 0;
 	a = 0;
@@ -302,14 +309,14 @@ module test_mult_8;
 	c = 0;
 	#5;
 	//72
-	activate = 0;
+	activate = 1;//repauto
 	clk = 1;
 	reset = 0;
 	a = 0;
 	b = 0;
 	c = 0;
 	#5;
-	activate = 0;
+	activate = 1;//repauto
 	clk = 0;
 	reset = 0;
 	a = 0;
@@ -317,14 +324,14 @@ module test_mult_8;
 	c = 0;
 	#5;
 	//73
-	activate = 0;
+	activate = 1;//repauto
 	clk = 1;
 	reset = 0;
 	a = 0;
 	b = 0;
 	c = 0;
 	#5;
-	activate = 0;
+	activate = 1;//repauto
 	clk = 0;
 	reset = 0;
 	a = 0;
@@ -339,7 +346,7 @@ module test_mult_8;
 	b = 2;
 	c = 5;
 	#5;
-	activate = 0;
+	activate = 1;//repauto
 	clk = 0;
 	reset = 0;
 	a = 0;
@@ -347,14 +354,14 @@ module test_mult_8;
 	c = 0;
 	#5;
 	//82
-	activate = 0;
+	activate = 1;//repauto
 	clk = 1;
 	reset = 0;
 	a = 0;
 	b = 0;
 	c = 0;
 	#5;
-	activate = 0;
+	activate = 1;//repauto
 	clk = 0;
 	reset = 0;
 	a = 0;
@@ -362,14 +369,14 @@ module test_mult_8;
 	c = 0;
 	#5;
 	//83
-	activate = 0;
+	activate = 1;//repauto
 	clk = 1;
 	reset = 0;
 	a = 0;
 	b = 0;
 	c = 0;
 	#5;
-	activate = 0;
+	activate = 1;//repauto
 	clk = 0;
 	reset = 0;
 	a = 0;
@@ -377,25 +384,24 @@ module test_mult_8;
 	c = 0;
 	#5;
 	//res
-	activate = 0;
+	activate = 1;//repauto
 	clk = 1;
 	reset = 0;
 	a = 0;
 	b = 0;
 	c = 0;
 	#5;
-	activate = 0;
+	activate = 1;//repauto
 	clk = 0;
 	reset = 0;
 	a = 0;
 	b = 0;
 	c = 0;
-	#5;
 
      end // initial begin
    initial
      begin
-	$dumpfile("signal/signal_mult.vcd");
+	$dumpfile("signal/signal_mult8.vcd");
 	$dumpvars;
      end
 

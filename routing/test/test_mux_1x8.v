@@ -1,10 +1,10 @@
 module test_mux_1x8;
-   reg [1:0] s0;
+   reg [2:0] s0;
    reg 	     a, b, c, d;
 
    wire      s;
 
-   multiplexeur_1x8 mux1(s0, a, b, c, d, s);
+   multiplexeur_1x8 mux1(s0, a,b,c,d,e,f,g,h, s);
 
    initial
      begin
