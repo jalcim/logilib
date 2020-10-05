@@ -1,7 +1,7 @@
 module demultiplexeur_1x8(s0, in, a,b,c,d,e,f,g,h);
    input [2:0] s0;
    input       in;
-   output       a,b,c,d,e,f,g,h,i,j,k,l,m,n,o,p;
+   output       a,b,c,d,e,f,g,h;
 
    wire [5:0]  line1;
 

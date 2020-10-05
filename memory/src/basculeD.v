@@ -46,7 +46,7 @@ module Dflip_flop(a, clk, reset, s1, s2);
    basculeD basc2(line[0], line[1], reset, line[2], line[3]);
 
    buf buf1(s1, line[2]);
-   buf buf1(s2, line[3]);   
+   buf buf2(s2, line[3]);   
 endmodule // flip_flopD
 
 module Dflip_flop3(in, clk, reset, out1, out2);

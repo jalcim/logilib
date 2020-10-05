@@ -1,4 +1,4 @@
-module test_bit_cpt3;
+module _test_bit_cpt3;
 
    reg activate, clk, reset;
    wire [2:0] cpt;
@@ -19,17 +19,18 @@ module test_bit_cpt3;
 
    always
      begin
+	#20
 	clk = ~clk;
-	#5;
-     end // initial begin
+     end
 
    always @(posedge clk)
      begin
 	if (cpt >= 4)
 	  begin
-	     $stop;
+	     $finish;
 	  end
      end
+
    initial
      begin
 	$dumpfile("signal/signal_bit_cpt3.vcd");

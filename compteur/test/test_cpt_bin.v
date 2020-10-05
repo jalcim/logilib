@@ -7,66 +7,33 @@ module _test_cpt_bin;
 
    initial
      begin
-	activate = 0;
+	clk = 1;
 	reset = 1;
-	clk = 1;
+	activate = 0;
 	#5;
-	activate = 1;
-	reset = 0;
-	clk = 1;
-	#5;
-	activate = 1;
-	reset = 0;
 	clk = 0;
-	#5;
-	activate = 1;
 	reset = 0;
-	clk = 1;
-	#5;
 	activate = 1;
-	reset = 0;
-	clk = 0;
 	#5;
-	activate = 1;
-	reset = 0;
-	clk = 1;
-	#5;
-	activate = 1;
-	reset = 0;
-	clk = 0;
-	#5;
-	activate = 1;
-	reset = 0;
-	clk = 1;
-	#5;
-	activate = 1;
-	reset = 0;
-	clk = 0;
-	#5;
-	activate = 1;
-	reset = 0;
-	clk = 1;
-	#5;
-	activate = 1;
-	reset = 0;
-	clk = 0;
-	#5;
-	activate = 1;
-	reset = 0;
-	clk = 1;
-	#5;
-	activate = 1;
-	reset = 0;
-	clk = 0;
-	#5;
-	activate = 1;
-	reset = 0;
-	clk = 1;
-	#5;
-	activate = 1;
-	reset = 0;
-	clk = 0;
-     end // initial begin
+     end
+
+   always
+     begin
+	#20;
+	$display("ALWAYS");
+	clk = ~clk;
+	$display("ALWAYS END");
+     end
+
+   always @(posedge clk)
+     begin
+	if (cpt >= 255)
+	  begin
+	     $display("FINISH");
+	     $finish;
+	  end
+     end
+   
    initial
      begin
 	$dumpfile("signal/signal_cpt_bin.vcd");

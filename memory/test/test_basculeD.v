@@ -1,4 +1,4 @@
-module test_basculeD;
+module _test_basculeD;
    reg a, clk, reset;
    wire s1, s2;
 
