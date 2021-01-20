@@ -34,6 +34,7 @@ compil_memory()
     iverilog $PRIM_SRC/*.v $MEM_SRC/basculeD.v $MEM_TEST/test_basculeD.v -o $MEM_BUILD/basculeD
     iverilog $PRIM_SRC/*.v $MEM_SRC/basculeD.v $MEM_TEST/test_Dflipflop.v -o $MEM_BUILD/Dflipflop
     iverilog $PRIM_SRC/*.v $MEM_SRC/*.v $MEM_TEST/test_JKlatchUP.v -o $MEM_BUILD/JKlatchUP
+    iverilog $PRIM_SRC/*.v $MEM_SRC/regdec.v $MEM_TEST/test_regdec.v -o $MEM_BUILD/regdec
 }
 
 compil_compteur()
