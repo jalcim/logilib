@@ -5,11 +5,11 @@ module JKlatchUP (j, k, clk, reset, out1, out2);
    wire [7:0] line;
    wire       unclock;
    wire [1:0] line_reset;
-   
+
    gate_or or_reset0(reset, line[5], line_reset[0]);
    gate_or or_reset1(reset, line[7], line_reset[1]);
-   gate_not not0(clk, unclock);
 
+   gate_not not0(clk, unclock);
    multigate_nand3 nand0(j, line_reset[1], unclock, line[0]);
    gate_nor nor0(line[0], line_reset[0], line[1]);
    gate_nand nand1(line[1], clk, line[2]);
@@ -22,12 +22,6 @@ module JKlatchUP (j, k, clk, reset, out1, out2);
    gate_nand nand5(line[6], line[3], line[7]);
    buf buf1(out2, line[7]);
 
-   initial
-     begin
-//	$display("\tline[2], \tline[3], \tline_reset");
-//	$monitor("\t%b, \t%b, \t%b", line[2], line, line_reset[1]);
-     end
-   
 endmodule // JKlatchUP
 
 module JKlatchDown(j, k, clk, reset, out1, out2);

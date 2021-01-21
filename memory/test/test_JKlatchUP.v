@@ -9,37 +9,34 @@ module _test_JKlatchUP;
 
    initial
      begin
-	reset = 0;
+	reset = 1;
 	j = 1;
 	k = 1;
 	clk = 0;
 	i = 0;
+	$dumpfile("signal/signal_JKlatchUP.vcd");
+	$dumpvars;
+	$display("\t\ttime, \tj, \tk, \tclk, \treset, \ts1, \ts2");
+	$monitor("%d \t%b \t%b \t%b \t%b \t%b \t%b", $time, j, k, clk, reset, s1, s2);
      end
 
    always
      begin
-	#5;
-//	reset = 0;
+	if (reset && clk == 1)
+	  begin
+	     reset = 0;
+	  end
+	if (i >= 10 && !clk)
+	  begin
+	     $finish;
+	  end 
 	clk = ~clk;
+	#5;
      end
 
    always @(posedge clk)
      begin
-	if (i == 10)
-	  begin
-	     $finish;
-	  end 
 	i++;
      end
    
-   initial
-     begin
-	$dumpfile("signal/signal_JKlatchUP.vcd");
-	$dumpvars;
-     end
-   initial
-     begin
-	$display("\t\ttime, \tj, \tk, \tclk, \treset, \ts1, \ts2");
-	$monitor("%d \t%b \t%b \t%b \t%b \t%b \t%b", $time, j, k, clk, reset, s1, s2);
-     end
 endmodule // test_JKlatchUP
