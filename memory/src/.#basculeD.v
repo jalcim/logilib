@@ -1,1 +1,0 @@
-ghost@DESKTOP-DBOAL67.13
