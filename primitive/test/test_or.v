@@ -2,32 +2,68 @@ module test_or;
    reg a, b;
    wire s;
 
-   gate_or or1(a, b, s);
+   gate_or or0(a, b, s);
 
+   integer outfile_test;
    initial
      begin
-	a = 0;
-	b = 0;
-	#5;
-	a = 1;
-	b = 0;
-	#5;
-	a = 0;
-	b = 1;
-	#5;
-	a = 1;
-	b = 1;
-     end // initial begin
-
-   initial
-     begin
-	$dumpfile("or.vcd");
+	outfile_test = $fopen("build/primitive/log/outfile_test_or");
+	$dumpfile("build/primitive/signal/or.vcd");
 	$dumpvars;
-     end
+	$display("or");
+	$display("\t\ttime,\ta,\tb, \ts");
+	$monitor("%d\t%b\t%b\t%b", $time, a, b, s);
 
-   initial
-     begin
-	$display("\ttime,\ta,\tb, \ts");
-	$monitor("%d \t%b \t%b \t%b", $time, a, b, s);
+	a = 0;
+	b = 0;
+	#5;
+	if (!s)
+	  begin
+	     $fdisplay(outfile_test, "ok");
+	  end
+	else
+	  begin
+	     $fdisplay(outfile_test, "fail");
+	  end
+	#5;
+	
+	a = 1;
+	b = 0;
+	#5;
+	if (s)
+	  begin
+	     $fdisplay(outfile_test, "ok");
+	  end
+	else
+	  begin
+	     $fdisplay(outfile_test, "fail");
+	  end
+	#5;
+	
+	a = 0;
+	b = 1;
+	#5;
+	if (s)
+	  begin
+	     $fdisplay(outfile_test, "ok");
+	  end
+	else
+	  begin
+	     $fdisplay(outfile_test, "fail");
+	  end
+	#5;
+
+	a = 1;
+	b = 1;
+	#5;
+	if (s)
+	  begin
+	     $fdisplay(outfile_test, "ok");
+	  end
+	else
+	  begin
+	     $fdisplay(outfile_test, "fail");
+	  end
+	#5;
      end
-endmodule // test_primitive
+endmodule // test_or

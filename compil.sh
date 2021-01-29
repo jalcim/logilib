@@ -11,9 +11,23 @@ compil_primitive()
     PRIM_TEST="primitive/test"
     PRIM_BUILD="build/primitive"
 
+    iverilog $PRIM_TEST/test_not.v $PRIM_SRC/gate.v -o $PRIM_BUILD/not
+    iverilog $PRIM_TEST/test_buf.v $PRIM_SRC/gate.v -o $PRIM_BUILD/buf
     iverilog $PRIM_TEST/test_and.v $PRIM_SRC/gate.v -o $PRIM_BUILD/and
+    iverilog $PRIM_TEST/test_nand.v $PRIM_SRC/gate.v -o $PRIM_BUILD/nand
     iverilog $PRIM_TEST/test_or.v $PRIM_SRC/gate.v -o $PRIM_BUILD/or
+    iverilog $PRIM_TEST/test_nor.v $PRIM_SRC/gate.v -o $PRIM_BUILD/nor
     iverilog $PRIM_TEST/test_xor.v $PRIM_SRC/gate.v -o $PRIM_BUILD/xor
+    iverilog $PRIM_TEST/test_xnor.v $PRIM_SRC/gate.v -o $PRIM_BUILD/xnor
+
+    $PRIM_BUILD/not
+    $PRIM_BUILD/buf
+    $PRIM_BUILD/and
+    $PRIM_BUILD/nand
+    $PRIM_BUILD/or
+    $PRIM_BUILD/nor
+    $PRIM_BUILD/xor
+    $PRIM_BUILD/xnor
 }
 
 compil_routing()
@@ -33,7 +47,7 @@ compil_memory()
 
     iverilog $PRIM_SRC/*.v $MEM_SRC/basculeD.v $MEM_TEST/test_basculeD.v -o $MEM_BUILD/basculeD
     iverilog $PRIM_SRC/*.v $MEM_SRC/basculeD.v $MEM_TEST/test_Dflipflop.v -o $MEM_BUILD/Dflipflop
-    iverilog $PRIM_SRC/*.v $MEM_SRC/*.v $MEM_TEST/test_JKlatchUP.v -o $MEM_BUILD/JKlatchUP
+    iverilog $PRIM_SRC/*.v $MEM_SRC/JKlatch.v $MEM_TEST/test_JKlatchUP.v -o $MEM_BUILD/JKlatchUP
     iverilog $PRIM_SRC/*.v $MEM_SRC/regdec.v $MEM_TEST/test_regdec.v -o $MEM_BUILD/regdec
 }
 
@@ -67,7 +81,12 @@ compil_alu()
 
 compil()
 {
-    mkdir -p build/primitive build/routing build/memory build/compteur build/alu
+    mkdir -p build/primitive/log build/primitive/signal
+    mkdir -p build/routing/log   build/routing/signal
+    mkdir -p build/memory/log    build/memory/signal
+    mkdir -p build/compteur/log  build/compteur/signal
+    mkdir -p build/alu/log       build/alu/signal
+    
     compil_primitive
     compil_routing
     compil_memory

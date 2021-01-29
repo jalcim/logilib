@@ -1,23 +1,23 @@
-module test_xor;
+module test_xnor;
    reg a, b;
    wire s;
 
-   gate_xor xor0(a, b, s);
+   gate_xnor xnor0(a, b, s);
 
    integer outfile_test;
    initial
      begin
-	outfile_test = $fopen("build/primitive/log/outfile_test_xor");
-	$dumpfile("build/primitive/signal/signal_test_xor.vcd");
+	outfile_test = $fopen("build/primitive/log/outfile_test_xnor");
+	$dumpfile("build/primitive/signal/signal_test_xnor.vcd");
 	$dumpvars;
-	$display("xor");
-	$display("\t\ttime,\ta,\tb,\ts");
+	$display("xnor");
+	$display("\t\ttime,\ta,\tb, \ts");
 	$monitor("%d\t%b\t%b\t%b", $time, a, b, s);
 
 	a = 0;
 	b = 0;
 	#5;
-	if (!s)
+	if (s)
 	  begin
 	     $fdisplay(outfile_test, "ok");
 	  end
@@ -30,7 +30,7 @@ module test_xor;
 	a = 1;
 	b = 0;
 	#5;
-	if (s)
+	if (!s)
 	  begin
 	     $fdisplay(outfile_test, "ok");
 	  end
@@ -43,7 +43,7 @@ module test_xor;
 	a = 0;
 	b = 1;
 	#5;
-	if (s)
+	if (!s)
 	  begin
 	     $fdisplay(outfile_test, "ok");
 	  end
@@ -56,7 +56,7 @@ module test_xor;
 	a = 1;
 	b = 1;
 	#5;
-	if (!s)
+	if (s)
 	  begin
 	     $fdisplay(outfile_test, "ok");
 	  end
@@ -67,4 +67,4 @@ module test_xor;
 	#5;
 
      end
-endmodule // test_xor
+endmodule // test_xnor

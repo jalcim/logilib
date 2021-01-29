@@ -1,0 +1,22 @@
+module test_not;
+   reg a;
+   wire s;
+
+   gate_not not0(a, s);
+
+   initial
+     begin
+	$dumpfile("and.vcd");
+	$dumpvars;
+//	$display("\ttime,\tb,\tb, \ts");
+	$monitor("%b\t%b", a, s);
+
+	a = 0;
+	#5;
+	a = 1;
+	#5
+	a = 0;
+	#5;
+	a = 1;
+   end
+endmodule // test_not

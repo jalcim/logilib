@@ -1,0 +1,26 @@
+module test_nor;
+   reg a, b;
+   wire s;
+
+   gate_nor nor0(a, b, s);
+
+   initial
+     begin
+	$dumpfile("or.vcd");
+	$dumpvars;
+//	$display("\ttime,\ta,\tb, \ts");
+	$monitor("%b\t%b\t%b", a, b, s);
+
+	a = 0;
+	b = 0;
+	#5;
+	a = 1;
+	b = 0;
+	#5;
+	a = 0;
+	b = 1;
+	#5;
+	a = 1;
+	b = 1;
+     end
+endmodule // test_nor
