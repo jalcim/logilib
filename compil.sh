@@ -6,10 +6,11 @@ MEM_SRC="memory/src"
 COMPT_SRC="compteur/src"
 ALU_SRC="alu/src"
 
+PRIM_BUILD="build/primitive"
+
 compil_primitive()
 {
     PRIM_TEST="primitive/test"
-    PRIM_BUILD="build/primitive"
 
     iverilog $PRIM_TEST/test_not.v $PRIM_SRC/gate.v -o $PRIM_BUILD/not
     iverilog $PRIM_TEST/test_buf.v $PRIM_SRC/gate.v -o $PRIM_BUILD/buf
@@ -19,7 +20,10 @@ compil_primitive()
     iverilog $PRIM_TEST/test_nor.v $PRIM_SRC/gate.v -o $PRIM_BUILD/nor
     iverilog $PRIM_TEST/test_xor.v $PRIM_SRC/gate.v -o $PRIM_BUILD/xor
     iverilog $PRIM_TEST/test_xnor.v $PRIM_SRC/gate.v -o $PRIM_BUILD/xnor
+}
 
+test_primitive()
+{
     $PRIM_BUILD/not
     $PRIM_BUILD/buf
     $PRIM_BUILD/and
@@ -79,15 +83,22 @@ compil_alu()
 	     $ROUT_SRC/demultiplexeur.v $ALU_SRC/mult.v $ALU_SRC/add.v $ALU_TEST/test_mult8.v -o $ALU_BUILD/mult8
 }
 
-compil()
+make_dir()
 {
     mkdir -p build/primitive/log build/primitive/signal
     mkdir -p build/routing/log   build/routing/signal
     mkdir -p build/memory/log    build/memory/signal
     mkdir -p build/compteur/log  build/compteur/signal
     mkdir -p build/alu/log       build/alu/signal
+}
+
+compil()
+{
+    make_dir
     
     compil_primitive
+    test_primitive
+
     compil_routing
     compil_memory
     compil_compteur
