@@ -46,6 +46,19 @@ compil_routing()
     iverilog $PRIM_SRC/*.v $ROUT_SRC/multiplexeur.v $ROUT_TEST/test_mux_1x8.v -o $ROUT_BUILD/mux_1x8
     iverilog $PRIM_SRC/*.v $ROUT_SRC/multiplexeur.v $ROUT_TEST/test_mux_8bitx2.v -o $ROUT_BUILD/mux_8bitx2
     iverilog $PRIM_SRC/*.v $ROUT_SRC/multiplexeur.v $ROUT_TEST/test_mux.v -o $ROUT_BUILD/mux
+
+    iverilog $PRIM_SRC/*.v $ROUT_SRC/recurse_mux.v $ROUT_TEST/test_recurse_mux.v -o $ROUT_BUILD/recurse_mux
+    iverilog $PRIM_SRC/*.v $ROUT_SRC/recurse_mux.v $ROUT_TEST/test_recurse_mux8.v -o $ROUT_BUILD/recurse_mux
+}
+
+test_routing()
+{
+    $ROUT_BUILD/mux > debug/mux
+    $ROUT_BUILD/mux > debug/mux_1x8
+    $ROUT_BUILD/mux > debug/mux_8bitx2
+
+    $ROUT_BUILD/recurse_mux > debug/recurse_mux
+    $ROUT_BUILD/recurse_mux8 > debug/recurse_mux8
 }
 
 compil_memory()
