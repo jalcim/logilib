@@ -20,18 +20,22 @@ compil_primitive()
     iverilog $PRIM_TEST/test_nor.v $PRIM_SRC/gate.v -o $PRIM_BUILD/nor
     iverilog $PRIM_TEST/test_xor.v $PRIM_SRC/gate.v -o $PRIM_BUILD/xor
     iverilog $PRIM_TEST/test_xnor.v $PRIM_SRC/gate.v -o $PRIM_BUILD/xnor
+
+    iverilog $PRIM_TEST/test_and8.v $PRIM_SRC/gate8.v $PRIM_SRC/gate.v -o $PRIM_BUILD/and8
 }
 
 test_primitive()
 {
-    $PRIM_BUILD/not
-    $PRIM_BUILD/buf
-    $PRIM_BUILD/and
-    $PRIM_BUILD/nand
-    $PRIM_BUILD/or
-    $PRIM_BUILD/nor
-    $PRIM_BUILD/xor
-    $PRIM_BUILD/xnor
+    $PRIM_BUILD/not > debug/not
+    $PRIM_BUILD/buf > debug/buf
+    $PRIM_BUILD/and > debug/and
+    $PRIM_BUILD/nand > debug/nand
+    $PRIM_BUILD/or > debug/or
+    $PRIM_BUILD/nor > debug/nor
+    $PRIM_BUILD/xor > debug/xor
+    $PRIM_BUILD/xnor > debug/xnor
+
+    $PRIM_BUILD/and8 > debug/and8
 }
 
 compil_routing()
@@ -90,12 +94,13 @@ make_dir()
     mkdir -p build/memory/log    build/memory/signal
     mkdir -p build/compteur/log  build/compteur/signal
     mkdir -p build/alu/log       build/alu/signal
+    mkdir debug
 }
 
 compil()
 {
     make_dir
-    
+
     compil_primitive
     test_primitive
 

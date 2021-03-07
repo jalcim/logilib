@@ -2,7 +2,7 @@ module gate_buf (e1, s);
    input e1;
    output s;
 
-   buf (s, e1);
+   buf buf0(s, e1);
 endmodule // gate_buf
 
 module gate_not (e1, s);

@@ -8,6 +8,12 @@ module test_mux_1x8;
 
    initial
      begin
+	$dumpfile("signal/signal_mux.vcd");
+	$dumpvars;
+	$display("\t\ttime,\ts0, \ta,\tb, \tc, \td,\ts");
+	$monitor("%d \t%d \t%b \t%b \t%b \t%b \t%b", $time, s0, a, b, c, d, s);
+
+	#5;
 	s0 = 0;
 	a = 1;
 	b = 1;
@@ -32,15 +38,5 @@ module test_mux_1x8;
 	c = 1;
 	d = 1;
 	#5;
-     end
-   initial
-     begin
-	$dumpfile("signal/signal_mux.vcd");
-	$dumpvars;
-     end
-   initial
-     begin
-	$display("\t\ttime,\ts0, \ta,\tb, \tc, \td,\ts");
-	$monitor("%d \t%d \t%b \t%b \t%b \t%b \t%b", $time, s0, a, b, c, d, s);
      end
 endmodule // testmux
