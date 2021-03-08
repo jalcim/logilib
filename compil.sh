@@ -7,6 +7,10 @@ COMPT_SRC="compteur/src"
 ALU_SRC="alu/src"
 
 PRIM_BUILD="build/primitive"
+ROUT_BUILD="build/routing"
+MEM_BUILD="build/memory"
+COMPT_BUILD="build/compteur"
+ALU_BUILD="build/alu"
 
 compil_primitive()
 {
@@ -26,22 +30,21 @@ compil_primitive()
 
 test_primitive()
 {
-    $PRIM_BUILD/not > debug/not
-    $PRIM_BUILD/buf > debug/buf
-    $PRIM_BUILD/and > debug/and
-    $PRIM_BUILD/nand > debug/nand
-    $PRIM_BUILD/or > debug/or
-    $PRIM_BUILD/nor > debug/nor
-    $PRIM_BUILD/xor > debug/xor
-    $PRIM_BUILD/xnor > debug/xnor
+    $PRIM_BUILD/not  > build/primitive/debug/not
+    $PRIM_BUILD/buf  > build/primitive/debug/buf
+    $PRIM_BUILD/and  > build/primitive/debug/and
+    $PRIM_BUILD/nand > build/primitive/debug/nand
+    $PRIM_BUILD/or   > build/primitive/debug/or
+    $PRIM_BUILD/nor  > build/primitive/debug/nor
+    $PRIM_BUILD/xor  > build/primitive/debug/xor
+    $PRIM_BUILD/xnor > build/primitive/debug/xnor
 
-    $PRIM_BUILD/and8 > debug/and8
+    $PRIM_BUILD/and8 > build/primitive/debug/and8
 }
 
 compil_routing()
 {
     ROUT_TEST="routing/test"
-    ROUT_BUILD="build/routing"
 
     iverilog $PRIM_SRC/*.v $ROUT_SRC/multiplexeur.v $ROUT_TEST/test_mux_1x8.v -o $ROUT_BUILD/mux_1x8
     iverilog $PRIM_SRC/*.v $ROUT_SRC/multiplexeur.v $ROUT_TEST/test_mux_8bitx2.v -o $ROUT_BUILD/mux_8bitx2
@@ -53,18 +56,17 @@ compil_routing()
 
 test_routing()
 {
-    $ROUT_BUILD/mux > debug/mux
-    $ROUT_BUILD/mux > debug/mux_1x8
-    $ROUT_BUILD/mux > debug/mux_8bitx2
+    $ROUT_BUILD/mux > build/routing/debug/mux
+    $ROUT_BUILD/mux > build/routing/debug/mux_1x8
+    $ROUT_BUILD/mux > build/routing/debug/mux_8bitx2
 
-    $ROUT_BUILD/recurse_mux > debug/recurse_mux
-    $ROUT_BUILD/recurse_mux8 > debug/recurse_mux8
+    $ROUT_BUILD/recurse_mux > build/routing/debug/recurse_mux
+    $ROUT_BUILD/recurse_mux8 > build/routing/debug/recurse_mux8
 }
 
 compil_memory()
 {
     MEM_TEST="memory/test"
-    MEM_BUILD="build/memory"
 
     iverilog $PRIM_SRC/*.v $MEM_SRC/basculeD.v $MEM_TEST/test_basculeD.v -o $MEM_BUILD/basculeD
     iverilog $PRIM_SRC/*.v $MEM_SRC/basculeD.v $MEM_TEST/test_Dflipflop.v -o $MEM_BUILD/Dflipflop
@@ -75,16 +77,20 @@ compil_memory()
 compil_compteur()
 {
     COMPT_TEST="compteur/test"
-    COMPT_BUILD="build/compteur"
 
    iverilog $PRIM_SRC/*.v $MEM_SRC/basculeD.v $COMPT_SRC/bit_cpt3.v $COMPT_TEST/test_bit_cpt3.v -o $COMPT_BUILD/bit_cpt3
    iverilog $PRIM_SRC/*.v $MEM_SRC/JKlatch.v $COMPT_SRC/cpt_bin.v $COMPT_TEST/test_cpt_bin.v -o $COMPT_BUILD/cpt_bin
 }
 
+test_compteur()
+{
+    $COMPT_BUILD/cpt_bin  > build/compteur/debug/cpt_bin
+    $COMPT_BUILD/bit_cpt3 > build/compteur/debug/bit_cpt3
+}
+
 compil_alu()
 {
     ALU_TEST="alu/test"
-    ALU_BUILD="build/alu"
     
     iverilog $PRIM_SRC/*.v $ALU_SRC/add.v $ALU_TEST/test_add.v -o $ALU_BUILD/add
     iverilog $PRIM_SRC/*.v $ALU_SRC/add.v $ALU_TEST/test_add8.v -o $ALU_BUILD/add8
@@ -100,14 +106,24 @@ compil_alu()
 	     $ROUT_SRC/demultiplexeur.v $ALU_SRC/mult.v $ALU_SRC/add.v $ALU_TEST/test_mult8.v -o $ALU_BUILD/mult8
 }
 
+test_alu()
+{
+    $ALU_BUILD/add     > build/alu/debug/add
+    $ALU_BUILD/add8    > build/alu/debug/add8
+    $ALU_BUILD/cmp     > build/alu/debug/cmp
+    $ALU_BUILD/cmp8    > build/alu/debug/cmp8
+    $ALU_BUILD/divmod2 > build/alu/debug/divmod2
+    $ALU_BUILD/mult    > build/alu/debug/mult
+    $ALU_BUILD/mult8   > build/alu/debug/mult8
+}
+
 make_dir()
 {
-    mkdir -p build/primitive/log build/primitive/signal
-    mkdir -p build/routing/log   build/routing/signal
-    mkdir -p build/memory/log    build/memory/signal
-    mkdir -p build/compteur/log  build/compteur/signal
-    mkdir -p build/alu/log       build/alu/signal
-    mkdir debug
+    mkdir -p build/primitive/log build/primitive/signal build/primitive/debug
+    mkdir -p build/routing/log   build/routing/signal   build/routing/debug
+    mkdir -p build/memory/log    build/memory/signal    build/memory/debug
+    mkdir -p build/compteur/log  build/compteur/signal  build/compteur/debug
+    mkdir -p build/alu/log       build/alu/signal       build/alu/debug
 }
 
 compil()
@@ -115,14 +131,15 @@ compil()
     make_dir
 
     compil_primitive
-    test_primitive
-
     compil_routing
-    test_routing
-
     compil_memory
     compil_compteur
     compil_alu
+    
+    test_primitive
+    test_routing
+    test_compteur
+    test_alu
 }
 
 compil
