@@ -9,6 +9,11 @@ module test_mult_8;
 
    initial
      begin
+	$dumpfile("build/alu/signal/signal_mult8.vcd");
+	$dumpvars;
+	$display("\t\ttime, \tactivate, \tclk, \treset, \ta,\tb, \tc, \tdiv8,\tdiv16");
+	$monitor("%d \t\t%b \t%b \t%b \t%d \t%d \t%d \t%d \t%d", $time, activate, clk, reset, a, b, c, div8, div16);
+
 	activate = 0;
 	clk = 0;
 	reset = 1;
@@ -397,18 +402,6 @@ module test_mult_8;
 	a = 0;
 	b = 0;
 	c = 0;
-
-     end // initial begin
-   initial
-     begin
-	$dumpfile("signal/signal_mult8.vcd");
-	$dumpvars;
-     end
-
-   initial
-     begin
-	$display("\t\ttime, \tactivate, \tclk, \treset, \ta,\tb, \tc, \tdiv8,\tdiv16");
-	$monitor("%d \t\t%b \t%b \t%b \t%d \t%d \t%d \t%d \t%d", $time, activate, clk, reset, a, b, c, div8, div16);
      end
 endmodule // test_mult
 

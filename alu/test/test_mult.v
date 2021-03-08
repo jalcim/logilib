@@ -10,6 +10,11 @@ module test_mult;
 
    initial
      begin
+	$dumpfile("build/alu/signal/signal_mult.vcd");
+	$dumpvars;
+	$display("\t\ttime, \tactivate, \tclk, \treset, \ta,\tb, \tc, \tdiv,\tmod, \tendop");
+	$monitor("%d \t\t%b \t%b \t%b \t%b \t%d \t%d \t%d \t%b \t%b", $time, activate, clk, reset, a, b, c, div, mod, endop);
+
 	activate = 0;
 	clk = 0;
 	reset = 1;
@@ -65,17 +70,6 @@ module test_mult;
 	a = 0;
 	b = 0;
 	c = 0;
-     end // initial begin
-   initial
-     begin
-	$dumpfile("signal/signal_mult.vcd");
-	$dumpvars;
-     end
-
-   initial
-     begin
-	$display("\t\ttime, \tactivate, \tclk, \treset, \ta,\tb, \tc, \tdiv,\tmod, \tendop");
-	$monitor("%d \t\t%b \t%b \t%b \t%b \t%d \t%d \t%d \t%b \t%b", $time, activate, clk, reset, a, b, c, div, mod, endop);
      end
 endmodule // test_mult
 
