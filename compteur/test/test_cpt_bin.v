@@ -8,6 +8,11 @@ module _test_cpt_bin;
 
    initial
      begin
+	$dumpfile("build/compteur/signal/signal_cpt_bin.vcd");
+	$dumpvars;
+	$display("\t\ttime, \tactivate, \tclk, \treset, \tcpt");
+	$monitor("%d \t%b \t\t%b \t%b \t%d", $time, activate, clk, reset, cpt);
+	
 	activate = 0;
 	clk = 1;
 	reset = 1;
@@ -39,15 +44,5 @@ module _test_cpt_bin;
 	     $finish;
 	  end
      end
-   
-   initial
-     begin
-	$dumpfile("signal/signal_cpt_bin.vcd");
-	$dumpvars;
-//     end
-//   initial
-//     begin
-	$display("\t\ttime, \tactivate, \tclk, \treset, \tcpt");
-	$monitor("%d \t%b \t\t%b \t%b \t%d", $time, activate, clk, reset, cpt);
-     end
+
 endmodule // test_cpt_bin

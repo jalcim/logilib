@@ -7,6 +7,11 @@ module _test_bit_cpt3;
 
    initial
      begin
+	$dumpfile("build/compteur/signal/signal_bit_cpt3.vcd");
+	$dumpvars;
+	$display("\t\ttime, \tactivate, \tclk, \treset, \tcpt");
+	$monitor("%d \t%b \t\t%b \t%b \t%d", $time, activate, clk, reset, cpt);
+	
 	clk = 1;
 	reset = 1;
 	activate = 0;
@@ -31,14 +36,4 @@ module _test_bit_cpt3;
 	  end
      end
 
-   initial
-     begin
-	$dumpfile("signal/signal_bit_cpt3.vcd");
-	$dumpvars;
-//     end
-//   initial
-//     begin
-	$display("\t\ttime, \tactivate, \tclk, \treset, \tcpt");
-	$monitor("%d \t%b \t\t%b \t%b \t%d", $time, activate, clk, reset, cpt);
-     end
 endmodule // test_bit_cpt3
