@@ -8,7 +8,7 @@ module test_or;
    initial
      begin
 	outfile_test = $fopen("build/primitive/log/outfile_test_or");
-	$dumpfile("build/primitive/signal/or.vcd");
+	$dumpfile("build/primitive/signal/signal_test_or.vcd");
 	$dumpvars;
 	$display("or");
 	$display("\t\ttime,\ta,\tb, \ts");

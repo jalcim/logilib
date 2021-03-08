@@ -6,7 +6,7 @@ module test_and8;
 
    initial
      begin
-	$dumpfile("signal/signal_and8.vcd");
+	$dumpfile("build/primitive/signal/signal_and8.vcd");
 	$dumpvars;
 	$display("\t\ttime,\te1,\te2,\ts");
 	$monitor("%d,\t%d,\t%d,\t%d", $time, e1, e2, s);
