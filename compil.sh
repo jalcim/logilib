@@ -4,13 +4,13 @@ PRIM_SRC="primitive/src"
 ROUT_SRC="routing/src"
 MEM_SRC="memory/src"
 COMPT_SRC="compteur/src"
-ALU_SRC="alu/src"
+ALU_ARITHM_SRC="alu/arithm/src"
 
 PRIM_BUILD="build/primitive"
 ROUT_BUILD="build/routing"
 MEM_BUILD="build/memory"
 COMPT_BUILD="build/compteur"
-ALU_BUILD="build/alu"
+ALU_ARITHM_BUILD="build/alu/arithm"
 
 compil_primitive()
 {
@@ -90,31 +90,31 @@ test_compteur()
 
 compil_alu()
 {
-    ALU_TEST="alu/test"
-    
-    iverilog $PRIM_SRC/*.v $ALU_SRC/add.v $ALU_TEST/test_add.v -o $ALU_BUILD/add
-    iverilog $PRIM_SRC/*.v $ALU_SRC/add.v $ALU_TEST/test_add8.v -o $ALU_BUILD/add8
-    iverilog $PRIM_SRC/*.v $ALU_SRC/cmp.v $ALU_TEST/test_cmp.v -o $ALU_BUILD/cmp
-    iverilog $PRIM_SRC/*.v $ALU_SRC/cmp.v $ALU_TEST/test_cmp8.v -o $ALU_BUILD/cmp8
-    iverilog $PRIM_SRC/*.v $ROUT_SRC/multiplexeur.v $MEM_SRC/*.v $ALU_SRC/divmod2.v \
-	     $ALU_SRC/add.v $COMPT_SRC/bit_cpt3.v $ALU_TEST/test_divmod2.v -o $ALU_BUILD/divmod2
+    ALU_ARITHM_TEST="alu/arithm/test"
 
-    iverilog $PRIM_SRC/*.v $ROUT_SRC/multiplexeur.v $MEM_SRC/*.v $ALU_SRC/divmod2.v $COMPT_SRC/*.v \
-	     $ROUT_SRC/demultiplexeur.v $ALU_SRC/mult.v $ALU_SRC/add.v $ALU_TEST/test_mult.v -o $ALU_BUILD/mult
+    iverilog $PRIM_SRC/*.v $ALU_ARITHM_SRC/add.v $ALU_ARITHM_TEST/test_add.v -o $ALU_ARITHM_BUILD/add
+    iverilog $PRIM_SRC/*.v $ALU_ARITHM_SRC/add.v $ALU_ARITHM_TEST/test_add8.v -o $ALU_ARITHM_BUILD/add8
+    iverilog $PRIM_SRC/*.v $ALU_ARITHM_SRC/cmp.v $ALU_ARITHM_TEST/test_cmp.v -o $ALU_ARITHM_BUILD/cmp
+    iverilog $PRIM_SRC/*.v $ALU_ARITHM_SRC/cmp.v $ALU_ARITHM_TEST/test_cmp8.v -o $ALU_ARITHM_BUILD/cmp8
+    iverilog $PRIM_SRC/*.v $ROUT_SRC/multiplexeur.v $MEM_SRC/*.v $ALU_ARITHM_SRC/divmod2.v \
+	     $ALU_ARITHM_SRC/add.v $COMPT_SRC/bit_cpt3.v $ALU_ARITHM_TEST/test_divmod2.v -o $ALU_ARITHM_BUILD/divmod2
 
-    iverilog $PRIM_SRC/*.v $ROUT_SRC/multiplexeur.v $MEM_SRC/*.v $ALU_SRC/divmod2.v $COMPT_SRC/*.v \
-	     $ROUT_SRC/demultiplexeur.v $ALU_SRC/mult.v $ALU_SRC/add.v $ALU_TEST/test_mult8.v -o $ALU_BUILD/mult8
+    iverilog $PRIM_SRC/*.v $ROUT_SRC/multiplexeur.v $MEM_SRC/*.v $ALU_ARITHM_SRC/divmod2.v $COMPT_SRC/*.v \
+	     $ROUT_SRC/demultiplexeur.v $ALU_ARITHM_SRC/mult.v $ALU_ARITHM_SRC/add.v $ALU_ARITHM_TEST/test_mult.v -o $ALU_ARITHM_BUILD/mult
+
+    iverilog $PRIM_SRC/*.v $ROUT_SRC/multiplexeur.v $MEM_SRC/*.v $ALU_ARITHM_SRC/divmod2.v $COMPT_SRC/*.v \
+	     $ROUT_SRC/demultiplexeur.v $ALU_ARITHM_SRC/mult.v $ALU_ARITHM_SRC/add.v $ALU_ARITHM_TEST/test_mult8.v -o $ALU_ARITHM_BUILD/mult8
 }
 
 test_alu()
 {
-    $ALU_BUILD/add     > build/alu/debug/add
-    $ALU_BUILD/add8    > build/alu/debug/add8
-    $ALU_BUILD/cmp     > build/alu/debug/cmp
-    $ALU_BUILD/cmp8    > build/alu/debug/cmp8
-    $ALU_BUILD/divmod2 > build/alu/debug/divmod2
-    $ALU_BUILD/mult    > build/alu/debug/mult
-    $ALU_BUILD/mult8   > build/alu/debug/mult8
+    $ALU_ARITHM_BUILD/add     > $ALU_ARITHM_BUILD/debug/add
+    $ALU_ARITHM_BUILD/add8    > $ALU_ARITHM_BUILD/debug/add8
+    $ALU_ARITHM_BUILD/cmp     > $ALU_ARITHM_BUILD/debug/cmp
+    $ALU_ARITHM_BUILD/cmp8    > $ALU_ARITHM_BUILD/debug/cmp8
+    $ALU_ARITHM_BUILD/divmod2 > $ALU_ARITHM_BUILD/debug/divmod2
+    $ALU_ARITHM_BUILD/mult    > $ALU_ARITHM_BUILD/debug/mult
+    $ALU_ARITHM_BUILD/mult8   > $ALU_ARITHM_BUILD/debug/mult8
 }
 
 make_dir()
@@ -123,7 +123,9 @@ make_dir()
     mkdir -p build/routing/log   build/routing/signal   build/routing/debug
     mkdir -p build/memory/log    build/memory/signal    build/memory/debug
     mkdir -p build/compteur/log  build/compteur/signal  build/compteur/debug
-    mkdir -p build/alu/log       build/alu/signal       build/alu/debug
+    
+    mkdir -p build/alu/arithm/log       build/alu/arithm/signal       build/alu/arithm/debug
+    mkdir -p build/alu/main/log       build/alu/main/signal       build/alu/main/debug
 }
 
 compil()
