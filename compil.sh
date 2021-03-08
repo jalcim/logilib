@@ -3,14 +3,23 @@
 PRIM_SRC="primitive/src"
 ROUT_SRC="routing/src"
 MEM_SRC="memory/src"
-COMPT_SRC="compteur/src"
+CPT_SRC="compteur/src"
 ALU_ARITHM_SRC="alu/arithm/src"
+ALU_MAIN_SRC="alu/main/src"
 
 PRIM_BUILD="build/primitive"
 ROUT_BUILD="build/routing"
 MEM_BUILD="build/memory"
-COMPT_BUILD="build/compteur"
+CPT_BUILD="build/compteur"
 ALU_ARITHM_BUILD="build/alu/arithm"
+ALU_MAIN_BUILD="build/alu/main"
+
+PRIM_DEBUG="build/primitive/debug"
+ROUT_DEBUG="build/routing/debug"
+MEM_DEBUG="build/memory/debug"
+CPT_DEBUG="build/compteur/debug"
+ALU_ARITHM_DEBUG="build/alu/arithm/debug"
+ALU_MAIN_DEBUG="build/alu/main/debug"
 
 compil_primitive()
 {
@@ -30,16 +39,16 @@ compil_primitive()
 
 test_primitive()
 {
-    $PRIM_BUILD/not  > build/primitive/debug/not
-    $PRIM_BUILD/buf  > build/primitive/debug/buf
-    $PRIM_BUILD/and  > build/primitive/debug/and
-    $PRIM_BUILD/nand > build/primitive/debug/nand
-    $PRIM_BUILD/or   > build/primitive/debug/or
-    $PRIM_BUILD/nor  > build/primitive/debug/nor
-    $PRIM_BUILD/xor  > build/primitive/debug/xor
-    $PRIM_BUILD/xnor > build/primitive/debug/xnor
+    $PRIM_BUILD/not  > $PRIM_DEBUG/not
+    $PRIM_BUILD/buf  > $PRIM_DEBUG/buf
+    $PRIM_BUILD/and  > $PRIM_DEBUG/and
+    $PRIM_BUILD/nand > $PRIM_DEBUG/nand
+    $PRIM_BUILD/or   > $PRIM_DEBUG/or
+    $PRIM_BUILD/nor  > $PRIM_DEBUG/nor
+    $PRIM_BUILD/xor  > $PRIM_DEBUG/xor
+    $PRIM_BUILD/xnor > $PRIM_DEBUG/xnor
 
-    $PRIM_BUILD/and8 > build/primitive/debug/and8
+    $PRIM_BUILD/and8 > $PRIM_DEBUG/and8
 }
 
 compil_routing()
@@ -56,39 +65,39 @@ compil_routing()
 
 test_routing()
 {
-    $ROUT_BUILD/mux > build/routing/debug/mux
-    $ROUT_BUILD/mux > build/routing/debug/mux_1x8
-    $ROUT_BUILD/mux > build/routing/debug/mux_8bitx2
+    $ROUT_BUILD/mux > $ROUT_DEBUG/mux
+    $ROUT_BUILD/mux > $ROUT_DEBUG/mux_1x8
+    $ROUT_BUILD/mux > $ROUT_DEBUG/mux_8bitx2
 
-    $ROUT_BUILD/recurse_mux > build/routing/debug/recurse_mux
-    $ROUT_BUILD/recurse_mux8 > build/routing/debug/recurse_mux8
+    $ROUT_BUILD/recurse_mux  > $ROUT_DEBUG/recurse_mux
+    $ROUT_BUILD/recurse_mux8 > $ROUT_DEBUG/recurse_mux8
 }
 
 compil_memory()
 {
     MEM_TEST="memory/test"
 
-    iverilog $PRIM_SRC/*.v $MEM_SRC/basculeD.v $MEM_TEST/test_basculeD.v -o $MEM_BUILD/basculeD
+    iverilog $PRIM_SRC/*.v $MEM_SRC/basculeD.v $MEM_TEST/test_basculeD.v  -o $MEM_BUILD/basculeD
     iverilog $PRIM_SRC/*.v $MEM_SRC/basculeD.v $MEM_TEST/test_Dflipflop.v -o $MEM_BUILD/Dflipflop
-    iverilog $PRIM_SRC/*.v $MEM_SRC/JKlatch.v $MEM_TEST/test_JKlatchUP.v -o $MEM_BUILD/JKlatchUP
-    iverilog $PRIM_SRC/*.v $MEM_SRC/regdec.v $MEM_TEST/test_regdec.v -o $MEM_BUILD/regdec
+    iverilog $PRIM_SRC/*.v $MEM_SRC/JKlatch.v  $MEM_TEST/test_JKlatchUP.v -o $MEM_BUILD/JKlatchUP
+    iverilog $PRIM_SRC/*.v $MEM_SRC/regdec.v   $MEM_TEST/test_regdec.v    -o $MEM_BUILD/regdec
 }
 
 compil_compteur()
 {
-    COMPT_TEST="compteur/test"
+    CPT_TEST="compteur/test"
 
-   iverilog $PRIM_SRC/*.v $MEM_SRC/basculeD.v $COMPT_SRC/bit_cpt3.v $COMPT_TEST/test_bit_cpt3.v -o $COMPT_BUILD/bit_cpt3
-   iverilog $PRIM_SRC/*.v $MEM_SRC/JKlatch.v $COMPT_SRC/cpt_bin.v $COMPT_TEST/test_cpt_bin.v -o $COMPT_BUILD/cpt_bin
+   iverilog $PRIM_SRC/*.v $MEM_SRC/basculeD.v $CPT_SRC/bit_cpt3.v $CPT_TEST/test_bit_cpt3.v -o $CPT_BUILD/bit_cpt3
+   iverilog $PRIM_SRC/*.v $MEM_SRC/JKlatch.v  $CPT_SRC/cpt_bin.v  $CPT_TEST/test_cpt_bin.v -o  $CPT_BUILD/cpt_bin
 }
 
 test_compteur()
 {
-    $COMPT_BUILD/cpt_bin  > build/compteur/debug/cpt_bin
-    $COMPT_BUILD/bit_cpt3 > build/compteur/debug/bit_cpt3
+    $CPT_BUILD/cpt_bin  > $CPT_DEBUG/cpt_bin
+    $CPT_BUILD/bit_cpt3 > $CPT_DEBUG/bit_cpt3
 }
 
-compil_alu()
+compil_alu_arithm()
 {
     ALU_ARITHM_TEST="alu/arithm/test"
 
@@ -97,16 +106,16 @@ compil_alu()
     iverilog $PRIM_SRC/*.v $ALU_ARITHM_SRC/cmp.v $ALU_ARITHM_TEST/test_cmp.v -o $ALU_ARITHM_BUILD/cmp
     iverilog $PRIM_SRC/*.v $ALU_ARITHM_SRC/cmp.v $ALU_ARITHM_TEST/test_cmp8.v -o $ALU_ARITHM_BUILD/cmp8
     iverilog $PRIM_SRC/*.v $ROUT_SRC/multiplexeur.v $MEM_SRC/*.v $ALU_ARITHM_SRC/divmod2.v \
-	     $ALU_ARITHM_SRC/add.v $COMPT_SRC/bit_cpt3.v $ALU_ARITHM_TEST/test_divmod2.v -o $ALU_ARITHM_BUILD/divmod2
+	     $ALU_ARITHM_SRC/add.v $CPT_SRC/bit_cpt3.v $ALU_ARITHM_TEST/test_divmod2.v -o $ALU_ARITHM_BUILD/divmod2
 
-    iverilog $PRIM_SRC/*.v $ROUT_SRC/multiplexeur.v $MEM_SRC/*.v $ALU_ARITHM_SRC/divmod2.v $COMPT_SRC/*.v \
+    iverilog $PRIM_SRC/*.v $ROUT_SRC/multiplexeur.v $MEM_SRC/*.v $ALU_ARITHM_SRC/divmod2.v $CPT_SRC/*.v \
 	     $ROUT_SRC/demultiplexeur.v $ALU_ARITHM_SRC/mult.v $ALU_ARITHM_SRC/add.v $ALU_ARITHM_TEST/test_mult.v -o $ALU_ARITHM_BUILD/mult
 
-    iverilog $PRIM_SRC/*.v $ROUT_SRC/multiplexeur.v $MEM_SRC/*.v $ALU_ARITHM_SRC/divmod2.v $COMPT_SRC/*.v \
+    iverilog $PRIM_SRC/*.v $ROUT_SRC/multiplexeur.v $MEM_SRC/*.v $ALU_ARITHM_SRC/divmod2.v $CPT_SRC/*.v \
 	     $ROUT_SRC/demultiplexeur.v $ALU_ARITHM_SRC/mult.v $ALU_ARITHM_SRC/add.v $ALU_ARITHM_TEST/test_mult8.v -o $ALU_ARITHM_BUILD/mult8
 }
 
-test_alu()
+test_alu_arithm()
 {
     $ALU_ARITHM_BUILD/add     > $ALU_ARITHM_BUILD/debug/add
     $ALU_ARITHM_BUILD/add8    > $ALU_ARITHM_BUILD/debug/add8
@@ -119,13 +128,13 @@ test_alu()
 
 make_dir()
 {
-    mkdir -p build/primitive/log build/primitive/signal build/primitive/debug
-    mkdir -p build/routing/log   build/routing/signal   build/routing/debug
-    mkdir -p build/memory/log    build/memory/signal    build/memory/debug
-    mkdir -p build/compteur/log  build/compteur/signal  build/compteur/debug
+    mkdir -p $PRIM_BUILD/log  $PRIM_BUILD/signal $PRIM_DEBUG $PRIM_BUILD/bin
+    mkdir -p $ROUT_BUILD/log  $ROUT_BUILD/signal $ROUT_DEBUG $ROUT_BUILD/bin
+    mkdir -p $MEM_BUILD/log   $MEM_BUILD/signal  $MEM_DEBUG  $MEM_BUILD/bin
+    mkdir -p $CPT_BUILD/log   $CPT_BUILD/signal  $CPT_DEBUG  $CPT_BUILD/bin
     
-    mkdir -p build/alu/arithm/log       build/alu/arithm/signal       build/alu/arithm/debug
-    mkdir -p build/alu/main/log       build/alu/main/signal       build/alu/main/debug
+    mkdir -p $ALU_ARITHM_BUILD/log $ALU_ARITHM_BUILD/signal $ALU_ARITHM_BUILD/debug $ALU_ARITHM_BUILD/bin
+    mkdir -p $ALU_MAIN_BUILD/log   $ALU_MAIN_BUILD/signal   $ALU_MAIN_BUILD/debug $ALU_MAIN_BUILD/bin
 }
 
 compil()
@@ -136,12 +145,12 @@ compil()
     compil_routing
     compil_memory
     compil_compteur
-    compil_alu
+    compil_alu_arithm
     
     test_primitive
     test_routing
     test_compteur
-    test_alu
+    test_alu_arithm
 }
 
 compil
