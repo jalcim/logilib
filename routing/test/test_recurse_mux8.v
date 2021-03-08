@@ -19,7 +19,8 @@ module test_recurse_mux;
 	$monitor("%d\t%d\t%d", $time, out[7:0], ctrl[1:0]);
 
 	cpt = -1;
-	xin = 0;
+
+ 	xin = 0;
 	while (++cpt <= (2**S) * T - 1)
 	  begin
 	     in[cpt] = xin;
