@@ -13,7 +13,7 @@ module test_recurse_mux;
 
    initial
      begin
-	$dumpfile("signal/signal_recurse_mux8.vcd");
+	$dumpfile("build/routing/signal/signal_recurse_mux8.vcd");
 	$dumpvars;
 	$display("\t\ttime,\tz,\ts");
 	$monitor("%d\t%d\t%d", $time, z[7:0], s[1:0]);

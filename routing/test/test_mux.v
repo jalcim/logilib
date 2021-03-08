@@ -8,6 +8,11 @@ module testmux;
 
    initial
      begin
+	$dumpfile("build/routing/signal/signal_mux.vcd");
+	$dumpvars;
+	$display("\t\ttime,\ts0, \ta,\tb, \tc, \td,\ts");
+	$monitor("%d \t%d \t%b \t%b \t%b \t%b \t%b", $time, s0, a, b, c, d, s);
+
 	s0 = 0;
 	a = 1;
 	b = 1;
@@ -32,15 +37,5 @@ module testmux;
 	c = 1;
 	d = 1;
 	#5;
-     end
-   initial
-     begin
-	$dumpfile("signal/signal_mux.vcd");
-	$dumpvars;
-     end
-   initial
-     begin
-	$display("\t\ttime,\ts0, \ta,\tb, \tc, \td,\ts");
-	$monitor("%d \t%d \t%b \t%b \t%b \t%b \t%b", $time, s0, a, b, c, d, s);
      end
 endmodule // testmux

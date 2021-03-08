@@ -8,7 +8,7 @@ module test_mux_1x8;
 
    initial
      begin
-	$dumpfile("signal/signal_mux.vcd");
+	$dumpfile("build/routing/signal/signal_mux.vcd");
 	$dumpvars;
 	$display("\t\ttime,\ts0, \ta,\tb, \tc, \td,\ts");
 	$monitor("%d \t%d \t%b \t%b \t%b \t%b \t%b", $time, s0, a, b, c, d, s);
