@@ -10,8 +10,8 @@ module recurse_demux(ctrl, in, out);
 
    if (S == 1)
      begin
-	assign out[2 * T - 1 : T] =  ctrl ? in : 0;//1:1
 	assign out[T - 1 : 0]     = ~ctrl ? in : 0;//0:0
+	assign out[2 * T - 1 : T] =  ctrl ? in : 0;//1:1
      end
    else
      begin
