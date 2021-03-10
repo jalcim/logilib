@@ -6,7 +6,7 @@ module test_recurse_demux;
    reg [T - 1 : 0] in;
    reg [1 : 0] ctrl;
 
-   recurse_demux #(.S(S), .T(T))mux0(ctrl, in, out);
+   recurse_demux #(.S(S), .T(T))demux0(ctrl, in, out);
 
    initial
      begin
