@@ -27,6 +27,5 @@ module recurse_demux(ctrl, in, out);
 
 	assign out[(2 ** (S - 1)) * T - 1:0]            = ~ctrl[S-1] ? out1 : 0;//3:0
 	assign out[(2 ** S) * T - 1:(2 ** (S - 1)) * T] =  ctrl[S-1] ? out2 : 0;//7:4
-
      end
 endmodule

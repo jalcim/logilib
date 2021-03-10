@@ -1,4 +1,4 @@
-module test_recurse_mux;
+module test_recurse_mux8;
    parameter S = 2;
    parameter T = 8;
 
