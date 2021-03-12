@@ -20,9 +20,9 @@ module mult(activate, clk, reset, a, b, c, div, mod, endop);
    divmod2 divmod2_0(activate, clk, reset, line2, div, mod, endop);
 endmodule
 
-module mult_8(activate, clk, reset, in1, in2, in3, mult8, mult16);
+module mult_8(activate, clk, reset, in1, in2, mult8, mult16);
    input activate, clk, reset;
-   input [7:0] in1, in2, in3;
+   input [7:0] in1, in2;
    input [7:0] line1, line2, line3, line4, line5, line6, line7, line8;
    input [7:0] masse;
 
@@ -52,7 +52,6 @@ module mult_8(activate, clk, reset, in1, in2, in3, mult8, mult16);
    
 
    assign power = 1;
-
 
    basculeD_8bit Dlatch8_0(line_div, line_endop, int_reset, line_ret, ignore);
    mult mult(activate, clk, int_reset, mux_line1, in2, line_ret, line_div, line_mod, line_endop);

@@ -1,0 +1,8 @@
+module test_alu;
+   reg clk;
+   reg [3:0] op;
+   reg [7:0] in1, in2;
+   wire [7:0] out;
+
+   alu alu0(clk, op, in1, in2, out);
+endmodule // test_alu

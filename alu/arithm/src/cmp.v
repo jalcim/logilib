@@ -53,6 +53,7 @@ module cmp8(a, b, i, j, k);
 
    multigate_and8 and81(line2, line3[14]);
    gate_nor nor9(line3[13], line3[14], j);
+
    assign i = line3[14];
    assign k = line3[13];
 endmodule // cmp8

@@ -5,28 +5,28 @@ ROUT_SRC="routing/src"
 MEM_SRC="memory/src"
 CPT_SRC="compteur/src"
 ALU_ARITHM_SRC="alu/arithm/src"
-ALU_MAIN_SRC="alu/main/src"
+ALU_MAIN_SRC="alu/alu/src"
 
 PRIM_BUILD="build/primitive"
 ROUT_BUILD="build/routing"
 MEM_BUILD="build/memory"
 CPT_BUILD="build/compteur"
 ALU_ARITHM_BUILD="build/alu/arithm"
-ALU_MAIN_BUILD="build/alu/main"
+ALU_MAIN_BUILD="build/alu/alu"
 
 PRIM_DEBUG="build/primitive/debug"
 ROUT_DEBUG="build/routing/debug"
 MEM_DEBUG="build/memory/debug"
 CPT_DEBUG="build/compteur/debug"
 ALU_ARITHM_DEBUG="build/alu/arithm/debug"
-ALU_MAIN_DEBUG="build/alu/main/debug"
+ALU_MAIN_DEBUG="build/alu/alu/debug"
 
 PRIM_BIN="build/primitive/bin"
 ROUT_BIN="build/routing/bin"
 MEM_BIN="build/memory/bin"
 CPT_BIN="build/compteur/bin"
 ALU_ARITHM_BIN="build/alu/arithm/bin"
-ALU_MAIN_BIN="build/alu/main/bin"
+ALU_MAIN_BIN="build/alu/alu/bin"
 
 
 compil_primitive()
@@ -143,6 +143,21 @@ test_alu_arithm()
     $ALU_ARITHM_BIN/mult8   > $ALU_ARITHM_DEBUG/mult8
 }
 
+compil_alu_main()
+{
+    ALU_MAIN_TEST="alu/alu/test/"
+
+    echo $ALU_ARITHM_SRC
+    iverilog $PRIM_SRC/*.v $ROUT_SRC/*.v $MEM_SRC/*.v \
+	     $ALU_ARITHM_SRC/*.v $CPT_SRC/*.v \
+	     $ALU_MAIN_SRC/alu.v $ALU_MAIN_TEST/test_alu.v -o $ALU_MAIN_BIN/alu
+}
+
+test_alu_main()
+{
+    $ALU_MAIN_BIN/alu > $ALU_MAIN_DEBUG/alu
+}
+
 make_dir()
 {
     mkdir -p $PRIM_BUILD/log  $PRIM_BUILD/signal $PRIM_DEBUG $PRIM_BIN
@@ -163,11 +178,13 @@ compil()
     compil_memory
     compil_compteur
     compil_alu_arithm
+    compil_alu_main
     
     test_primitive
     test_routing
     test_compteur
     test_alu_arithm
+    test_alu_main
 }
 
 compil
