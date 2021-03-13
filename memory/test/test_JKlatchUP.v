@@ -14,7 +14,7 @@ module _test_JKlatchUP;
 	k = 1;
 	clk = 0;
 	i = 0;
-	$dumpfile("signal/signal_JKlatchUP.vcd");
+	$dumpfile("build/memory/signal/signal_JKlatchUP.vcd");
 	$dumpvars;
 	$display("\t\ttime, \tj, \tk, \tclk, \treset, \ts1, \ts2");
 	$monitor("%d \t%b \t%b \t%b \t%b \t%b \t%b", $time, j, k, clk, reset, s1, s2);

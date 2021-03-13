@@ -93,6 +93,16 @@ compil_memory()
     iverilog $PRIM_SRC/*.v $MEM_SRC/basculeD.v $MEM_TEST/test_Dflipflop.v -o $MEM_BIN/Dflipflop
     iverilog $PRIM_SRC/*.v $MEM_SRC/JKlatch.v  $MEM_TEST/test_JKlatchUP.v -o $MEM_BIN/JKlatchUP
     iverilog $PRIM_SRC/*.v $MEM_SRC/regdec.v   $MEM_TEST/test_regdec.v    -o $MEM_BIN/regdec
+    iverilog $PRIM_SRC/*.v $MEM_SRC/basculeD.v   $MEM_TEST/test_multi_Dlatch.v    -o $MEM_BIN/multi_Dlatch
+}
+
+test_memory()
+{
+    $MEM_BIN/basculeD     > $MEM_DEBUG/basculeD
+    $MEM_BIN/Dflipflop    > $MEM_DEBUG/Dflipflop
+    $MEM_BIN/JKlatchUP    > $MEM_DEBUG/JKlatchUP
+    $MEM_BIN/regdec       > $MEM_DEBUG/regdec
+    $MEM_BIN/multi_Dlatch > $MEM_DEBUG/multi_Dlatch
 }
 
 compil_compteur()
@@ -181,6 +191,7 @@ compil()
     
     test_primitive
     test_routing
+    test_memory
     test_compteur
     test_alu_arithm
     test_alu_main

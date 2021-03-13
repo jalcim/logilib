@@ -9,7 +9,7 @@ module test_regdec;
    
    initial
      begin
-	$dumpfile("or.vcd");
+	$dumpfile("build/memory/signal/signal_or.vcd");
 	$dumpvars;
         $display("\t\ttime,\ta,\tb, \ts");
 	$monitor("%d \t%d \t%b \t%d", $time, a, rl, s);

@@ -8,7 +8,7 @@ module test_basculeD;
    reg 	   state;
    initial
      begin
-	output_file = $fopen("build/memory/log/outfile_test_basculeD");
+	output_file = $fopen("build/memory/signal/signal_basculeD");
 	$dumpfile("build/memory/signal/signal_test_basculeD.vcd");
 	$dumpvars;
 	$display("basculeD");

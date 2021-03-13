@@ -6,6 +6,11 @@ module test_Dflipflop;
 
    initial
      begin
+	$dumpfile("build/memory/signal/signal_Dflipflop.vcd");
+	$dumpvars;
+	$display("\t\ttime, \ta, \tclk, \ts1, \ts2");
+	$monitor("%d \t%b \t%b \t%b \t%b", $time, a, clk, s1, s2);
+
 	a = 0;
 	clk = 0;
 	reset = 1;
@@ -47,14 +52,5 @@ module test_Dflipflop;
 	reset = 1;
 	#5;
      end // initial begin
-   initial
-     begin
-	$dumpfile("signal/signal_Dflipflop.vcd");
-	$dumpvars;
-     end
-   initial
-     begin
-	$display("\t\ttime, \ta, \tclk, \ts1, \ts2");
-	$monitor("%d \t%b \t%b \t%b \t%b", $time, a, clk, s1, s2);
-     end
+
 endmodule // test_Dflipflop
