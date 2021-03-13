@@ -147,7 +147,6 @@ compil_alu_main()
 {
     ALU_MAIN_TEST="alu/alu/test/"
 
-    echo $ALU_ARITHM_SRC
     iverilog $PRIM_SRC/*.v $ROUT_SRC/*.v $MEM_SRC/*.v \
 	     $ALU_ARITHM_SRC/*.v $CPT_SRC/*.v \
 	     $ALU_MAIN_SRC/alu.v $ALU_MAIN_TEST/test_alu.v -o $ALU_MAIN_BIN/alu

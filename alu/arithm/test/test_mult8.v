@@ -12,7 +12,7 @@ module test_mult_8;
 	$dumpfile("build/alu/arithm/signal/signal_mult8.vcd");
 	$dumpvars;
 	$display("\t\ttime, \tactivate, \tclk, \treset, \ta,\tb, \tdiv8,\tdiv16");
-	$monitor("%d \t\t%b \t%b \t%b \t%d \t%d \t%d \t%d \t%d", $time, activate, clk, reset, a, b, div8, div16);
+	$monitor("%d \t\t%b \t%b \t%b \t%d \t%d \t%d \t%d", $time, activate, clk, reset, a, b, div8, div16);
 
 	activate = 0;
 	clk = 0;
