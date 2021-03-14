@@ -94,6 +94,7 @@ compil_memory()
     iverilog $PRIM_SRC/*.v $MEM_SRC/JKlatch.v  $MEM_TEST/test_JKlatchUP.v -o $MEM_BIN/JKlatchUP
     iverilog $PRIM_SRC/*.v $MEM_SRC/regdec.v   $MEM_TEST/test_regdec.v    -o $MEM_BIN/regdec
     iverilog $PRIM_SRC/*.v $MEM_SRC/basculeD.v   $MEM_TEST/test_multi_Dlatch.v    -o $MEM_BIN/multi_Dlatch
+    iverilog $PRIM_SRC/*.v $MEM_SRC/basculeD.v   $MEM_TEST/test_multi_Dlatch256.v    -o $MEM_BIN/multi_Dlatch256
 }
 
 test_memory()
@@ -103,6 +104,7 @@ test_memory()
     $MEM_BIN/JKlatchUP    > $MEM_DEBUG/JKlatchUP
     $MEM_BIN/regdec       > $MEM_DEBUG/regdec
     $MEM_BIN/multi_Dlatch > $MEM_DEBUG/multi_Dlatch
+    $MEM_BIN/multi_Dlatch > $MEM_DEBUG/multi_Dlatch256
 }
 
 compil_compteur()

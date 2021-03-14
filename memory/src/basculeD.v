@@ -22,24 +22,26 @@ endmodule // basculeD
 module multi_Dlatch(in, clk, reset, out1, out2);
    parameter S = 2;
 
-   input [2**S -1 : 0] in;
-   input 	       clk, reset;
+   input [2**S -1 : 0] in, clk;
+   input 	       reset;
    output [2**S -1 : 0] out1, out2;
 
    if (S == 1)
      begin
-	basculeD Dlatch0(in[0], clk, reset, out1[0], out2[0]);
-	basculeD Dlatch1(in[1], clk, reset, out1[1], out2[1]);
+	basculeD Dlatch0(in[0], clk[0], reset, out1[0], out2[0]);
+	basculeD Dlatch1(in[1], clk[1], reset, out1[1], out2[1]);
      end
    else
      begin
 	multi_Dlatch #(.S(S-1)) multi_Dlatch0(.in(in[(2 ** (S - 1))- 1:0]),
-					      .clk(clk), .reset(reset),
+					      .clk(clk[(2 ** (S - 1))- 1:0]),
+					      .reset(reset),
 					      .out1(out1[(2 ** (S - 1))- 1:0]),
 					      .out2(out2[(2 ** (S - 1))- 1:0]));
 
 	multi_Dlatch #(.S(S-1)) multi_Dlatch1(.in(in[(2 ** (S))- 1:(2 ** (S - 1))]),
-					      .clk(clk), .reset(reset),
+					      .clk(clk[(2 ** (S))- 1:(2 ** (S - 1))]),
+					      .reset(reset),
 					      .out1(out1[(2 ** S) - 1:(2 ** (S - 1))]),
 					      .out2(out2[(2 ** S) - 1:(2 ** (S - 1))]));
      end
