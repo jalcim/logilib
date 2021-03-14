@@ -1,3 +1,5 @@
+//deprecated module
+
 module demultiplexeur_1x8(s0, in, a,b,c,d,e,f,g,h);
    input [2:0] s0;
    input       in;

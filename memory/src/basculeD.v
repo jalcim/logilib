@@ -48,6 +48,7 @@ module multi_Dlatch(in, clk, reset, out1, out2);
 
 endmodule // multi_Dlatch
 
+//deprecated module
 module basculeD_8bit(a, clk, reset, s1, s2);
    input [7:0]  a;
    input        clk, reset;

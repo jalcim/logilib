@@ -1,3 +1,5 @@
+//all these module are deprecated
+
 module multiplexeur_1bitx4(s0, a, b, c, d, s);
    input [1:0] s0;
    input       a, b, c, d;
