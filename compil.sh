@@ -43,6 +43,15 @@ compil_primitive()
     iverilog $PRIM_TEST/test_xnor.v $PRIM_SRC/gate.v -o $PRIM_BIN/xnor
 
     iverilog $PRIM_TEST/test_and8.v $PRIM_SRC/gate8.v $PRIM_SRC/gate.v -o $PRIM_BIN/and8
+
+    iverilog $PRIM_SRC/recursive_gate.v $PRIM_TEST/test_recursive_buf.v  $PRIM_SRC/gate.v -o $PRIM_BIN/recursive_buf
+    iverilog $PRIM_SRC/recursive_gate.v $PRIM_TEST/test_recursive_not.v  $PRIM_SRC/gate.v -o $PRIM_BIN/recursive_not
+    iverilog $PRIM_SRC/recursive_gate.v $PRIM_TEST/test_recursive_and.v  $PRIM_SRC/gate.v -o $PRIM_BIN/recursive_and
+    iverilog $PRIM_SRC/recursive_gate.v $PRIM_TEST/test_recursive_or.v   $PRIM_SRC/gate.v -o $PRIM_BIN/recursive_or
+    iverilog $PRIM_SRC/recursive_gate.v $PRIM_TEST/test_recursive_xor.v  $PRIM_SRC/gate.v -o $PRIM_BIN/recursive_xor
+    iverilog $PRIM_SRC/recursive_gate.v $PRIM_TEST/test_recursive_xnor.v $PRIM_SRC/gate.v -o $PRIM_BIN/recursive_xnor
+    iverilog $PRIM_SRC/recursive_gate.v $PRIM_TEST/test_recursive_nand.v $PRIM_SRC/gate.v -o $PRIM_BIN/recursive_nand
+    iverilog $PRIM_SRC/recursive_gate.v $PRIM_TEST/test_recursive_nor.v  $PRIM_SRC/gate.v -o $PRIM_BIN/recursive_nor
 }
 
 test_primitive()
@@ -57,6 +66,15 @@ test_primitive()
     $PRIM_BIN/xnor > $PRIM_DEBUG/xnor
 
     $PRIM_BIN/and8 > $PRIM_DEBUG/and8
+
+    $PRIM_BIN/recursive_not  > $PRIM_DEBUG/recursive_not
+    $PRIM_BIN/recursive_buf  > $PRIM_DEBUG/recursive_buf
+    $PRIM_BIN/recursive_and  > $PRIM_DEBUG/recursive_and
+    $PRIM_BIN/recursive_nand > $PRIM_DEBUG/recursive_nand
+    $PRIM_BIN/recursive_or   > $PRIM_DEBUG/recursive_or
+    $PRIM_BIN/recursive_nor  > $PRIM_DEBUG/recursive_nor
+    $PRIM_BIN/recursive_xor  > $PRIM_DEBUG/recursive_xor
+    $PRIM_BIN/recursive_xnor > $PRIM_DEBUG/recursive_xnor
 }
 
 compil_routing()
@@ -93,8 +111,8 @@ compil_memory()
     iverilog $PRIM_SRC/*.v $MEM_SRC/basculeD.v $MEM_TEST/test_Dflipflop.v -o $MEM_BIN/Dflipflop
     iverilog $PRIM_SRC/*.v $MEM_SRC/JKlatch.v  $MEM_TEST/test_JKlatchUP.v -o $MEM_BIN/JKlatchUP
     iverilog $PRIM_SRC/*.v $MEM_SRC/regdec.v   $MEM_TEST/test_regdec.v    -o $MEM_BIN/regdec
-    iverilog $PRIM_SRC/*.v $MEM_SRC/basculeD.v   $MEM_TEST/test_multi_Dlatch.v    -o $MEM_BIN/multi_Dlatch
-    iverilog $PRIM_SRC/*.v $MEM_SRC/basculeD.v   $MEM_TEST/test_multi_Dlatch256.v    -o $MEM_BIN/multi_Dlatch256
+    iverilog $PRIM_SRC/*.v $MEM_SRC/basculeD.v   $MEM_TEST/test_recursive_Dlatch.v    -o $MEM_BIN/recursive_Dlatch
+    iverilog $PRIM_SRC/*.v $MEM_SRC/basculeD.v   $MEM_TEST/test_recursive_Dlatch256.v    -o $MEM_BIN/recursive_Dlatch256
 }
 
 test_memory()
@@ -103,8 +121,8 @@ test_memory()
     $MEM_BIN/Dflipflop    > $MEM_DEBUG/Dflipflop
     $MEM_BIN/JKlatchUP    > $MEM_DEBUG/JKlatchUP
     $MEM_BIN/regdec       > $MEM_DEBUG/regdec
-    $MEM_BIN/multi_Dlatch > $MEM_DEBUG/multi_Dlatch
-    $MEM_BIN/multi_Dlatch > $MEM_DEBUG/multi_Dlatch256
+    $MEM_BIN/recursive_Dlatch > $MEM_DEBUG/recursive_Dlatch
+    $MEM_BIN/recursive_Dlatch256 > $MEM_DEBUG/recursive_Dlatch256
 }
 
 compil_compteur()

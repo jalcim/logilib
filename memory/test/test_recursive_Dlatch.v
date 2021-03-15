@@ -1,11 +1,11 @@
-module test_multi_Dlatch;
+module test_recursive_Dlatch;
    parameter S = 3;
 
    reg [7:0] in, clk;
    reg 	     reset;
    wire [7:0] out1, out2;
 
-   multi_Dlatch #(.S(S)) multi_Dlatch0(in, clk, reset, out1, out2);
+   recursive_Dlatch #(.S(S)) recursive_Dlatch0(in, clk, reset, out1, out2);
 
    initial
      begin

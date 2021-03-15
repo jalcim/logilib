@@ -19,8 +19,8 @@ module basculeD (a, clk, reset, s1, s2);
    buf buf2(s2, line[4]);
 endmodule // basculeD
 
-module multi_Dlatch(in, clk, reset, out1, out2);
-   parameter S = 2;
+module recursive_Dlatch(in, clk, reset, out1, out2);
+   parameter S = 1;
 
    input [2**S -1 : 0] in, clk;
    input 	       reset;
@@ -33,13 +33,13 @@ module multi_Dlatch(in, clk, reset, out1, out2);
      end
    else
      begin
-	multi_Dlatch #(.S(S-1)) multi_Dlatch0(.in(in[(2 ** (S - 1))- 1:0]),
+	recursive_Dlatch #(.S(S-1)) recursive_Dlatch0(.in(in[(2 ** (S - 1))- 1:0]),
 					      .clk(clk[(2 ** (S - 1))- 1:0]),
 					      .reset(reset),
 					      .out1(out1[(2 ** (S - 1))- 1:0]),
 					      .out2(out2[(2 ** (S - 1))- 1:0]));
 
-	multi_Dlatch #(.S(S-1)) multi_Dlatch1(.in(in[(2 ** (S))- 1:(2 ** (S - 1))]),
+	recursive_Dlatch #(.S(S-1)) recursive_Dlatch1(.in(in[(2 ** (S))- 1:(2 ** (S - 1))]),
 					      .clk(clk[(2 ** (S))- 1:(2 ** (S - 1))]),
 					      .reset(reset),
 					      .out1(out1[(2 ** S) - 1:(2 ** (S - 1))]),
