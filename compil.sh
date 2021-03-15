@@ -81,14 +81,17 @@ compil_routing()
 {
     ROUT_TEST="routing/test"
 
-    iverilog $PRIM_SRC/*.v $ROUT_SRC/multiplexeur.v $ROUT_TEST/test_mux_1x8.v -o $ROUT_BIN/mux_1x8
-    iverilog $PRIM_SRC/*.v $ROUT_SRC/multiplexeur.v $ROUT_TEST/test_mux_8bitx2.v -o $ROUT_BIN/mux_8bitx2
-    iverilog $PRIM_SRC/*.v $ROUT_SRC/multiplexeur.v $ROUT_TEST/test_mux.v -o $ROUT_BIN/mux
+    iverilog $PRIM_SRC/*.v $ROUT_SRC/multiplexeur.v $ROUT_TEST/test_mux_1x8.v         -o $ROUT_BIN/mux_1x8
+    iverilog $PRIM_SRC/*.v $ROUT_SRC/multiplexeur.v $ROUT_TEST/test_mux_8bitx2.v      -o $ROUT_BIN/mux_8bitx2
+    iverilog $PRIM_SRC/*.v $ROUT_SRC/multiplexeur.v $ROUT_TEST/test_mux.v             -o $ROUT_BIN/mux
 
-    iverilog $PRIM_SRC/*.v $ROUT_SRC/recurse_mux.v $ROUT_TEST/test_recurse_mux.v -o $ROUT_BIN/recurse_mux
-    iverilog $PRIM_SRC/*.v $ROUT_SRC/recurse_mux.v $ROUT_TEST/test_recurse_mux8.v -o $ROUT_BIN/recurse_mux8
-    iverilog $PRIM_SRC/*.v $ROUT_SRC/recurse_demux.v $ROUT_TEST/test_recurse_demux.v -o $ROUT_BIN/recurse_demux
+    iverilog $PRIM_SRC/*.v $ROUT_SRC/recurse_mux.v $ROUT_TEST/test_recurse_mux.v      -o $ROUT_BIN/recurse_mux
+    iverilog $PRIM_SRC/*.v $ROUT_SRC/recurse_mux.v $ROUT_TEST/test_recurse_mux8.v     -o $ROUT_BIN/recurse_mux8
+    iverilog $PRIM_SRC/*.v $ROUT_SRC/recurse_demux.v $ROUT_TEST/test_recurse_demux.v  -o $ROUT_BIN/recurse_demux
     iverilog $PRIM_SRC/*.v $ROUT_SRC/recurse_demux.v $ROUT_TEST/test_recurse_demux8.v -o $ROUT_BIN/recurse_demux8
+
+    iverilog $PRIM_SRC/gate.v $PRIM_SRC/recursive_gate.v $ROUT_SRC/replicator.v \
+	     $ROUT_TEST/test_replicator.v                                             -o $ROUT_BIN/replicator
 }
 
 test_routing()
@@ -97,10 +100,12 @@ test_routing()
     $ROUT_BIN/mux > $ROUT_DEBUG/mux_1x8
     $ROUT_BIN/mux > $ROUT_DEBUG/mux_8bitx2
 
-    $ROUT_BIN/recurse_mux   > $ROUT_DEBUG/recurse_mux
-    $ROUT_BIN/recurse_mux8  > $ROUT_DEBUG/recurse_mux8
-    $ROUT_BIN/recurse_demux > $ROUT_DEBUG/recurse_demux
+    $ROUT_BIN/recurse_mux    > $ROUT_DEBUG/recurse_mux
+    $ROUT_BIN/recurse_mux8   > $ROUT_DEBUG/recurse_mux8
+    $ROUT_BIN/recurse_demux  > $ROUT_DEBUG/recurse_demux
     $ROUT_BIN/recurse_demux8 > $ROUT_DEBUG/recurse_demux8
+
+    $ROUT_BIN/replicator > $ROUT_DEBUG/replicator
 }
 
 compil_memory()
