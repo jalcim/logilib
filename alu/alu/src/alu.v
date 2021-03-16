@@ -52,8 +52,10 @@ module alu(clk, op, data_in1, data_in2, data_out);
 //la multiplication fera desormais partie d'une autre unite specialiser
 /*4  *///   mult_8   mult8(activate_wire[4], clk, reset_wire[4], data_in1_wire[39:32], data_in2_wire[39:32], out[39:32], ignore);
 /*5  */   cmp8    cmp8(data_in1_wire[47:40], data_in2_wire[47:40], out[42], out[41], out[40]);//modification pour sortie sur bus 8bit
-          gate_buf buf_cmp3(masse, out[43]);gate_buf buf_cmp4(masse, out[44]);
-          gate_buf buf_cmp5(masse, out[45]);gate_buf buf_cmp6(masse, out[46]);
+          gate_buf buf_cmp3(masse, out[43]);
+          gate_buf buf_cmp4(masse, out[44]);
+          gate_buf buf_cmp5(masse, out[45]);
+          gate_buf buf_cmp6(masse, out[46]);
           gate_buf buf_cmp7(masse, out[47]);
 
 //*6  */   gate_buf8    buf8 (data_in1_wire[55 :48 ],                         out[55 :48 ]);

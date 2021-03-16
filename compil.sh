@@ -92,6 +92,8 @@ compil_routing()
 
     iverilog $PRIM_SRC/gate.v $PRIM_SRC/recursive_gate.v $ROUT_SRC/replicator.v \
 	     $ROUT_TEST/test_replicator.v                                             -o $ROUT_BIN/replicator
+    iverilog $PRIM_SRC/gate.v $PRIM_SRC/recursive_gate.v $ROUT_SRC/replicator.v \
+	     $ROUT_TEST/test_fragmented_replicator.v                                  -o $ROUT_BIN/fragmented_replicator
 }
 
 test_routing()

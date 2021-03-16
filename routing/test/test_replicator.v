@@ -5,7 +5,7 @@ module test_replicator;
    reg [2**WIRE-1:0] in;
    wire [(2**WAY)*(2**WIRE) -1:0] out;
 
-   replicator #(.WIRE(WIRE), .WAY(WAY)) replicator(in, out);
+   replicator #(.WIRE(WIRE), .WAY(WAY)) replicator(in[7:0], out);
 
    initial
      begin
