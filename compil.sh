@@ -108,6 +108,7 @@ test_routing()
     $ROUT_BIN/recurse_demux8 > $ROUT_DEBUG/recurse_demux8
 
     $ROUT_BIN/replicator > $ROUT_DEBUG/replicator
+    $ROUT_BIN/fragmented_replicator > $ROUT_DEBUG/fragmented_replicator
 }
 
 compil_memory()

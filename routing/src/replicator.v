@@ -47,7 +47,7 @@ module fragmented_replicator(in, out);
 
 	
 	fragmented_replicator #(.WIRE(WIRE), .WAY(WAY), .BUS(BUS-1))fragmented_replicator1(in[2**(BUS+WIRE) -1:2**((BUS-1)+WIRE)],//(8*8-1):(4*8)= 63:32
-											   out[(2**BUS)     * (2**WAY) * (2**WIRE) -1://(8*4*8-1):
-											       (2**(BUS-1)) * (2**WAY) * (2**WIRE)]);//(4*4*8)      = 255:128
+											   out[2**(BUS+WAY+WIRE) -1://(8*4*8-1):
+											       2**((BUS-1)+WAY+WIRE)]);//(4*4*8)      = 255:128
      end
 endmodule // fragmented_replicator
