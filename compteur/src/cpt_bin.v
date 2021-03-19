@@ -1,7 +1,7 @@
 module cpt_bin8(activate, clk, reset, out);
   input activate, clk, reset;
    output [7:0] out;
-   reg  power = 1;
+   supply1 	power;
 
    wire   [7:0] line;
    

@@ -1,7 +1,7 @@
 module _test_JKlatchUP;
    reg j, k, clk, reset;
    wire s1, s2;
-   reg 	power = 1;
+   supply1 	power;
 
    integer i;
 

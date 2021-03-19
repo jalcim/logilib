@@ -37,7 +37,7 @@ module mult_8(activate, clk, reset, in1, in2, mult8, mult16);
    wire 	sig_reset;
    wire 	and_reset;
    wire 	int_reset;
-   wire 	power;
+   supply1 	power;
    
    wire [7:0] 	line_ret;
    wire 	line_mod;
@@ -50,9 +50,6 @@ module mult_8(activate, clk, reset, in1, in2, mult8, mult16);
    wire [7:0] 	ignore, ignore3, ignore4;
    wire [2:0] 	ignore2;
    
-
-   assign power = 1;
-
    basculeD_8bit Dlatch8_0(line_div, line_endop, int_reset, line_ret, ignore);
    mult mult(activate, clk, int_reset, mux_line1, in2, line_ret, line_div, line_mod, line_endop);
    gate_not not0(clk, unclock);

@@ -17,9 +17,8 @@ module alu(clk, op, data_in1, data_in2, data_out);
    wire [T1-1:0] 	      data_in1_add, data_in2_add, data_in_regdec, data_in_divmod2;
 
    wire [7:0] 		      ignore;  
-   wire 		      power, masse;
-   assign power = 1;
-   assign masse = 0;
+   supply1 		      power;
+   supply0 		      masse;
 
 // demultiplexeur sur "data_in1" selon entrer de control "op";
    recurse_demux #(.S(S), .T(T1))demux8_0(op, data_in1, data_in1_wire);
