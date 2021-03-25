@@ -7,8 +7,8 @@ module mult(activate, clk, reset, a, b, c, div, mod, endop);
 
    wire [7:0] 	line0, line1, line2;
    wire 	diffused_clk;
-   wire [7:0] 	masse8, ignore;
-   wire 	masse;
+   supply0 [7:0] masse8, ignore;
+   supply0 	 masse;
    
    assign masse = 0;
    assign masse8 = 0;

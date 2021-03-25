@@ -57,9 +57,7 @@ module multiplexeur_8bitx2(s0, a,b, s);
    wire        line1;
    wire [1:0]  line2;
    wire [7:0]  line3, line4, line5, line6;
-   wire        masse;
-
-   assign masse = 0;
+   supply0     masse;
 
    gate_not not0(s0, line1);
    gate_nor nor0(masse, s0, line2[0]);
