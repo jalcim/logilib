@@ -96,12 +96,14 @@ compil_routing()
     iverilog $PRIM_SRC/gate.v $PRIM_SRC/multigate.v $PRIM_SRC/gate8.v \
 	     $PRIM_SRC/recursive_gate.v $ROUT_SRC/recurse_demux.v \
 	     $ROUT_TEST/test_recurse_demux.v                                          -o $ROUT_BIN/recurse_demux
+
     iverilog $PRIM_SRC/gate.v $PRIM_SRC/multigate.v $PRIM_SRC/gate8.v \
 	     $PRIM_SRC/recursive_gate.v $ROUT_SRC/recurse_demux.v \
 	     $ROUT_TEST/test_recurse_demux8.v                                         -o $ROUT_BIN/recurse_demux8
 
     iverilog $PRIM_SRC/gate.v $PRIM_SRC/recursive_gate.v $ROUT_SRC/replicator.v \
 	     $ROUT_TEST/test_replicator.v                                             -o $ROUT_BIN/replicator
+
     iverilog $PRIM_SRC/gate.v $PRIM_SRC/recursive_gate.v $ROUT_SRC/replicator.v \
 	     $ROUT_TEST/test_fragmented_replicator.v                                  -o $ROUT_BIN/fragmented_replicator
 }
@@ -127,18 +129,29 @@ compil_memory()
 
     iverilog $PRIM_SRC/gate.v $PRIM_SRC/multigate.v $PRIM_SRC/gate8.v \
 	     $PRIM_SRC/recursive_gate.v $MEM_SRC/basculeD.v $MEM_TEST/test_basculeD.v  -o $MEM_BIN/basculeD
+
     iverilog $PRIM_SRC/gate.v $PRIM_SRC/multigate.v $PRIM_SRC/gate8.v \
 	     $PRIM_SRC/recursive_gate.v $MEM_SRC/basculeD.v $MEM_TEST/test_Dflipflop.v -o $MEM_BIN/Dflipflop
+
     iverilog $PRIM_SRC/gate.v $PRIM_SRC/multigate.v $PRIM_SRC/gate8.v \
 	     $PRIM_SRC/recursive_gate.v $MEM_SRC/JKlatch.v  $MEM_TEST/test_JKlatchUP.v -o $MEM_BIN/JKlatchUP
+
     iverilog $PRIM_SRC/gate.v $PRIM_SRC/multigate.v $PRIM_SRC/gate8.v \
 	     $PRIM_SRC/recursive_gate.v $MEM_SRC/regdec.v   $MEM_TEST/test_regdec.v    -o $MEM_BIN/regdec
+
     iverilog $PRIM_SRC/gate.v $PRIM_SRC/multigate.v $PRIM_SRC/gate8.v \
 	     $PRIM_SRC/recursive_gate.v $MEM_SRC/basculeD.v \
 	     $MEM_TEST/test_recursive_Dlatch.v                                         -o $MEM_BIN/recursive_Dlatch
+
     iverilog $PRIM_SRC/gate.v $PRIM_SRC/multigate.v $PRIM_SRC/gate8.v \
 	     $PRIM_SRC/recursive_gate.v $MEM_SRC/basculeD.v \
 	     $MEM_TEST/test_recursive_Dlatch256.v                                      -o $MEM_BIN/recursive_Dlatch256
+
+    iverilog $PRIM_SRC/gate.v $PRIM_SRC/multigate.v $PRIM_SRC/gate8.v \
+	     $PRIM_SRC/recursive_gate.v $MEM_SRC/basculeD.v \
+	     $MEM_SRC/memory.v \
+	     $ROUT_SRC/replicator.v $ROUT_SRC/recurse_demux.v \
+	     $ROUT_SRC/recurse_mux.v                                                   -o $MEM_BIN/memory
 }
 
 test_memory()

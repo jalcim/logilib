@@ -3,8 +3,12 @@ module recursive_buf(in, out);
 
    input [2**S -1 : 0] in;
    output [2**S -1 : 0] out;
-   
-   if (S == 1)
+
+   if (S == 0)
+     begin
+	gate_buf buf2(in[0], out[0]);
+     end
+   else if (S == 1)
      begin
 	gate_buf buf0(in[0], out[0]);
 	gate_buf buf1(in[1], out[1]);
