@@ -1,6 +1,6 @@
 module test_recurse_mux;
    parameter S = 2;
-   parameter T = 1;
+   parameter T = 0;
 
    wire [T - 1 : 0] out;
    reg [2 ** S - 1 : 0] in;
