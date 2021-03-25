@@ -1,9 +1,9 @@
 module recurse_mux(ctrl, in, out);
 
    parameter S = 3;//2^S
-   parameter T = 0;
+   parameter T = 8;
 
-   input [2**(S+T) - 1:0] in;  //7:0
+   input [(2**S) * T - 1:0] in;  //7:0
    input [S - 1:0] 	      ctrl;//2:0
 
    output [T-1:0] 	      out;//0:0

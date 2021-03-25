@@ -4,10 +4,10 @@ module memory(write, read, clk, activate, addrin,
    parameter DEMUX_WIRE = 1;
 
    parameter MUX_WAY = 4;
-   parameter MUX_WIRE = 3;
+   parameter MUX_WIRE = 8;
 
    parameter MINIMUX_WAY = 1;
-   parameter MINIMUX_WIRE = 3;
+   parameter MINIMUX_WIRE = 8;
 
    parameter DLATCH_ADDR = 2;
 

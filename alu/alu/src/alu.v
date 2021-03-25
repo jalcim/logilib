@@ -1,7 +1,7 @@
 module alu(clk, op, data_in1, data_in2, data_out);
    parameter S = 4;
-   parameter T1 = 3;
-   parameter T2 = 0;
+   parameter T1 = 8;
+   parameter T2 = 1;
 
    input        clk;
    input [3:0]  op;
