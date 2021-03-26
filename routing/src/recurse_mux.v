@@ -1,6 +1,6 @@
 module recurse_mux(ctrl, in, out);
 
-   parameter S = 3;//2^S
+   parameter S = 1;//2^S
    parameter T = 8;
 
    input [(2**S) * T - 1:0] in;  //7:0

@@ -4,7 +4,7 @@ module cpt_bin8(activate, clk, reset, out);
    supply1 	power;
 
    wire   [7:0] line;
-   
+   wire 	ignore;
    
    gate_and and0(activate, clk, line[0]);
    JKlatchUP JK0(power, power, line[0], reset, out[0], line[1]);
@@ -14,6 +14,6 @@ module cpt_bin8(activate, clk, reset, out);
    JKlatchUP JK4(power, power, line[4], reset, out[4], line[5]);
    JKlatchUP JK5(power, power, line[5], reset, out[5], line[6]);
    JKlatchUP JK6(power, power, line[6], reset, out[6], line[7]);
-   JKlatchUP JK7(power, power, line[7], reset, out[7], z);
+   JKlatchUP JK7(power, power, line[7], reset, out[7], ignore);
 
 endmodule // cpt_bin8

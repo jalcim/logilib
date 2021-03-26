@@ -16,9 +16,10 @@ module alu(clk, op, data_in1, data_in2, data_out);
    wire [(2**S) -1:0] reset_wire;
    wire [T1-1:0] 	      data_in1_add, data_in2_add, data_in_regdec, data_in_divmod2;
 
-   wire [7:0] 		      ignore;  
+   wire [7:0] 		      ignore;
    supply1 		      power;
    supply0 		      masse;
+   wire [1:0] 		      ignore0;
 
 // demultiplexeur sur "data_in1" selon entrer de control "op";
    recurse_demux #(.S(S), .T(T1))demux8_0(op, data_in1, data_in1_wire);
@@ -43,7 +44,7 @@ module alu(clk, op, data_in1, data_in2, data_out);
 		  data_in2_wire[127:120],
 		  data_in_regdec);
 ////////////////////////////////////////////////////////////////////////////////////////////////////////
-/*0  */   add8     add8(data_in1_add, data_in2_add, z, activate_wire[1], out[7:0], z);
+/*0  */   add8     add8(data_in1_add, data_in2_add, ignore0[0], activate_wire[1], out[7:0], ignore0[1]);
 /*1  */   gate_buf8 buf0(out[7:0], out[15:8]);
 
 //la division et modulo feront desormais partie d'une autre unite specialiser

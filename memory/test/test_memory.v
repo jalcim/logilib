@@ -6,7 +6,7 @@ module test_memory;
    wire [7:0] dataout;
    wire       error;
 
-   memory memory(write, read, clk, activate, addrin,
+   memory memory(write, read, clk, reset, activate, addrin,
 		 addrout, datain, dataout, error);
    
 endmodule // test_memory

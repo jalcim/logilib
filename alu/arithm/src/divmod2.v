@@ -14,6 +14,8 @@ module divmod2(activate, clk, reset, a, div2, mod2, endop);
    wire 	mux_line3;
    wire 	masse;
    wire [7:0] 	ignore;
+   wire [8:0]	ignore1;
+   wire 	ignore0;	
    
    bit_cpt3 compteur(activate, clk, reset, cpt);
    buf buf0(cpt_line1[0], cpt[0]);
@@ -32,15 +34,15 @@ module divmod2(activate, clk, reset, a, div2, mod2, endop);
    multiplexeur_1bitx4 mux7(cpt_line1, d_line[7], a[0], d_line[6], masse, mux_line1[7]);
    multiplexeur_1bitx4 mux8(cpt_line1, d_line[8], masse, d_line[7], masse, mux_line1[8]);
 
-   Dflip_flop flipflopD0(mux_line1[0], clk, reset, d_line[0], z);
-   Dflip_flop flipflopD1(mux_line1[1], clk, reset, d_line[1], z);
-   Dflip_flop flipflopD2(mux_line1[2], clk, reset, d_line[2], z);
-   Dflip_flop flipflopD3(mux_line1[3], clk, reset, d_line[3], z);
-   Dflip_flop flipflopD4(mux_line1[4], clk, reset, d_line[4], z);
-   Dflip_flop flipflopD5(mux_line1[5], clk, reset, d_line[5], z);
-   Dflip_flop flipflopD6(mux_line1[6], clk, reset, d_line[6], z);
-   Dflip_flop flipflopD7(mux_line1[7], clk, reset, d_line[7], z);
-   Dflip_flop flipflopD8(mux_line1[8], clk, reset, d_line[8], z);
+   Dflip_flop flipflopD0(mux_line1[0], clk, reset, d_line[0], ignore1[0]);
+   Dflip_flop flipflopD1(mux_line1[1], clk, reset, d_line[1], ignore1[1]);
+   Dflip_flop flipflopD2(mux_line1[2], clk, reset, d_line[2], ignore1[2]);
+   Dflip_flop flipflopD3(mux_line1[3], clk, reset, d_line[3], ignore1[3]);
+   Dflip_flop flipflopD4(mux_line1[4], clk, reset, d_line[4], ignore1[4]);
+   Dflip_flop flipflopD5(mux_line1[5], clk, reset, d_line[5], ignore1[5]);
+   Dflip_flop flipflopD6(mux_line1[6], clk, reset, d_line[6], ignore1[6]);
+   Dflip_flop flipflopD7(mux_line1[7], clk, reset, d_line[7], ignore1[7]);
+   Dflip_flop flipflopD8(mux_line1[8], clk, reset, d_line[8], ignore1[8]);
    
    gate_and and0(cpt_line2, d_line[0], mux_line2[7]);
    gate_and and1(cpt_line2, d_line[1], mux_line2[6]);
@@ -53,6 +55,6 @@ module divmod2(activate, clk, reset, a, div2, mod2, endop);
    gate_and and8(cpt_line2, d_line[8], mux_line3);
 
    basculeD_8bit D_latch0(mux_line2, cpt_line2, reset, div2, ignore);
-   basculeD Dlatch1(mux_line3, cpt_line2, reset, mod2, z);
+   basculeD Dlatch1(mux_line3, cpt_line2, reset, mod2, ignore0);
    buf buf3(endop, cpt_line2);
 endmodule // divmod2

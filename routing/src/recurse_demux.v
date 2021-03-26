@@ -1,6 +1,6 @@
 module recurse_demux(ctrl, in, out);
 
-   parameter S = 3;//2^S
+   parameter S = 1;//2^S
    parameter T = 1;
 
    input [T-1:0] in;//0:0

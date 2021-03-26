@@ -1,4 +1,4 @@
-module memory(write, read, clk, activate, addrin,
+module memory(write, read, clk, reset, activate, addrin,
 	     addrout, datain, dataout, error);
    parameter DEMUX_WAY = 4;
    parameter DEMUX_WIRE = 1;
@@ -22,7 +22,7 @@ module memory(write, read, clk, activate, addrin,
    parameter WAY_ACTIVE_DLATCH = 3;
    parameter BUS_ACTIVE_DLATCH = 4;
    
-   input write, read, clk, activate;
+   input write, read, clk, reset, activate;
    input [3:0] addrin, addrout;
    input [7:0] datain;
 
@@ -41,9 +41,10 @@ module memory(write, read, clk, activate, addrin,
    wire [3:0] 		      ignore_4, ignore_4_1;
    wire [7:0] 		      ignore_8, ignore_8_1;
 
-   wire 	error_line, error_line0, error_line1;
-   supply0 [7:0] null_line;
+   wire 	error_line, error_line0, error_line1, error_read;
+   wire [7:0] null_line;
 
+   assign null_line = 0;
    assign error_line = 0;
 
    gate_not not_clk0(clk, unclk_repeater[0]);
@@ -93,7 +94,7 @@ module memory(write, read, clk, activate, addrin,
 
    gate_not not_error_read(error_line, error_line0);
    gate_and and_error_read0(read, error_line0, error_line1);
-   gate_and and_error_read1(activate, error_line2 , error_read);
+   gate_and and_error_read1(activate, error_line1 , error_read);
 
    recurse_mux #(.S(MINIMUX_WAY), .T(MINIMUX_WIRE)) minimux0(error_read, {null_line[7:0], out_mux[7:0]}, verif_read[7:0]);
    recurse_mux #(.S(MINIMUX_WAY), .T(MINIMUX_WIRE)) minimux1(clk, {null_line[7:0], verif_read[7:0]}, read_bus[7:0]);

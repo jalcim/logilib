@@ -1,6 +1,6 @@
 module replicator(in, out);
    parameter WIRE = 3;
-   parameter WAY = 2;
+   parameter WAY = 1;
 
    input  [2**WIRE-1:0] in;              //7:0
    output [(2**WAY)*(2**WIRE) -1:0] out;//31:0
