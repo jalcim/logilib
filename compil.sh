@@ -250,22 +250,26 @@ test_alu_main()
     $ALU_MAIN_BIN/alu > $ALU_MAIN_DEBUG/alu
 }
 
-generate_primitive_netlist()
+generate_netlist()
 {
-    yosys -o $PRIM_BUILD/netlist/gate.blif -S $PRIM_SRC/gate.v > $PRIM_DEBUG/yosys_primitive_netlist_out
+    #    yosys -o $PRIM_BUILD/netlist/gate.blif -S $PRIM_SRC/gate.v > $PRIM_DEBUG/yosys_primitive_netlist_out
+    yosys -o build/netlist/logilib.blif -S `find . -name *.v | grep src` > $PRIM_DEBUG/yosys_netlist_out
 }
 
-generate_primitive_shematic()
+generate_schematic()
 {
-    echo "read_verilog "$PRIM_SRC"/gate.v" > generate_primitive_shematic.ys
-    echo "hierarchy -check" >> generate_primitive_shematic.ys
-    echo "proc; fsm;" >> generate_primitive_shematic.ys
-    echo "show -format dot" >> generate_primitive_shematic.ys
-#    echo "techmap;" >> generate_primitive_netlist_and_shematic.ys
-#    echo "write_verilog gate.v;" >> generate_primitive_netlist_and_shematic.ys
+#    echo "read_verilog "$PRIM_SRC"/gate.v" > generate_schematic.ys
+#    echo "read_verilog "$PRIM_SRC"/gate8.v" > generate_schematic.ys
+#    echo "read_verilog "$PRIM_SRC"/recursive_gate.v" >> generate_schematic.ys
+    echo "read_verilog "`find . -name *.v | grep src` >  generate_schematic.ys
+    echo "hierarchy -check" >> generate_schematic.ys
+    echo "proc; fsm;" >> generate_schematic.ys
+    echo "show -format dot" >> generate_schematic.ys
+#    echo "techmap;" >> generate_primitive_netlist_and_schematic.ys
+#    echo "write_verilog gate.v;" >> generate_primitive_netlist_and_schematic.ys
     
-    yosys -s generate_primitive_shematic.ys -l $PRIM_DEBUG/yosys_primitive_out -q
-    dot -Tps ~/.yosys_show.dot -o $PRIM_BUILD/shematic/gate_primitive_shematic.ps
+    yosys -s generate_schematic.ys -l $PRIM_DEBUG/yosys_schematic_out -q
+    dot -Tps ~/.yosys_show.dot -o build/schematic/schematic.ps
     #    yosys -s yosys_script_file
     #    {
     #      read_verilog primitive/src/gate.v
@@ -278,7 +282,8 @@ generate_primitive_shematic()
 
 make_dir()
 {
-    mkdir -p $PRIM_BUILD/log  $PRIM_BUILD/signal $PRIM_DEBUG $PRIM_BIN $PRIM_BUILD/netlist $PRIM_BUILD/shematic
+    mkdir -p build/netlist build/schematic
+    mkdir -p $PRIM_BUILD/log  $PRIM_BUILD/signal $PRIM_DEBUG $PRIM_BIN 
     mkdir -p $ROUT_BUILD/log  $ROUT_BUILD/signal $ROUT_DEBUG $ROUT_BIN
     mkdir -p $MEM_BUILD/log   $MEM_BUILD/signal  $MEM_DEBUG  $MEM_BIN
     mkdir -p $CPT_BUILD/log   $CPT_BUILD/signal  $CPT_DEBUG  $CPT_BIN
@@ -305,9 +310,9 @@ compil()
     test_alu_arithm
     test_alu_main
 
-    generate_primitive_netlist
+    generate_netlist
 
-    generate_primitive_shematic
+    generate_schematic
 }
 
 compil
