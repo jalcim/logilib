@@ -1,79 +1,27 @@
-Bibliotheque de circuit logique gate level
+La logilib est une bibliotheque de circuit logique structurel.
 
-Liste des circuits   etat des tests
+L'objectif n'est pas le design sur FPGA, cette librairie vise le design sur ASIC.
 
-and   	  	     
-or		     
-xor		     
-nand		     
-nor		     
-nxor		     
-not		     
+En d'autres mots ICI PAS DE RTL !!!
+Tout est schematiser a partir des primitives de portes logique fournit par le verilog,
+Et nous avons meme pousser le vice a refaire les portes logiques avec les primitives CMOS fournit par le verilog.
 
-and8  	  	     
-or8		     
-xor8		     
-nand8		     
-nor8		     
-nxor8		     
-not8		     
+Le but etant de creer tous les circuits necessaire a un processeur de maniere totalement explicite,
+Ceci en gardant une vision purement electronique et schematique.
 
-cptbin		   : test_ok (3bit a upgrade sur 8bit)
+Cependant comme certain composants sont souvent recurant avec de petite variantes, ou meme sont present des centaines/millier de fois,
+nous ne nous privons donc pas de la puissances des parameters de verilog, ni de son approche recursive permettant la generation des circuits.
 
-cpt		   : test_ok
+La premiere version de cette librairie etais entierement schematique, et etais tester sur simulateur logique,
+Cependant cette approche a limiter la taille des circuits a 8bit (je ne me voyais pas cabler 52536 bascule...).
 
-add		   : test_ok
+La 2 eme version (celle en verilog) apporte donc ce dynamisme qui a terme permettra d'avoir nos circuits en 8/16/32/64/128 bit,
+Ceci en modifiant simplement les parameters, voir a terme en modifiant simpement un fichier de configuration.
+Cette version est integralement developper pour le simulateur iverilog et la synthese via yosys fais ses premiers pas.
 
-add8		   : test_ok
-
-divmod2		   : test_ok
-
-mult8opti	   : sous_fonction_a_extraire_des_mult8
-
-mult8		   : test_non_fonctionnel
-
-mult8combi	   : non_implementer
-
-multboucle	   : test_non_fonctionnel
-
-divider		   : fonction_non_fonctionnel
+Chaque module est accompagner de 2 schema,
+un schema logique 8 bit sur lequel son idee repose,
+et un schema "finite state machine" qui est sa representation reel (generer par yosys).
 
 
-cmp		   : test_ok
 
-cmp8		   : test_ok
-
-basculeD	   : test_ok
-
-basculeD8	     
-dflipflop	   : test_ok
-
-regdec		   : test_ok
-
-JKlatchUP	   : test_ok
-
-JKlatchDOWN	     
-
-b1		   
-mem		   
-mempath		   
-ctrlpath	   
-mem6		   
-ctrlpath2	   
-mem8		   
-blockreg	   
-
-mux4		   
-multimux	   
-mux		   
-
-alu		   
-alucombi	   
-datapath	   
-
-interrupteur_8bit  
-multiplexeur	   
-demultiplexeur	   
-multiplexeur8	   
-demultiplexeur8	   
-multiplexeur_8bitx 

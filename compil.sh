@@ -149,7 +149,7 @@ compil_memory()
 
     iverilog $PRIM_SRC/gate.v $PRIM_SRC/multigate.v $PRIM_SRC/gate8.v \
 	     $PRIM_SRC/recursive_gate.v $MEM_SRC/basculeD.v \
-	     $MEM_SRC/memory.v \
+	     $MEM_SRC/memory.v $MEM_TEST/test_memory.v\
 	     $ROUT_SRC/replicator.v $ROUT_SRC/recurse_demux.v \
 	     $ROUT_SRC/recurse_mux.v                                                   -o $MEM_BIN/memory
 }

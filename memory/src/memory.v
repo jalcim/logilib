@@ -46,7 +46,8 @@ module memory(write, read, clk, reset, activate, addrin,
 
    assign null_line = 0;
    assign error_line = 0;
-
+   assign error = 0;
+   
    gate_not not_clk0(clk, unclk_repeater[0]);
    gate_not not_clk1(clk, unclk_repeater[1]);
    gate_not not_clk2(clk, unclk_repeater[2]);
@@ -96,8 +97,8 @@ module memory(write, read, clk, reset, activate, addrin,
    gate_and and_error_read0(read, error_line0, error_line1);
    gate_and and_error_read1(activate, error_line1 , error_read);
 
-   recurse_mux #(.S(MINIMUX_WAY), .T(MINIMUX_WIRE)) minimux0(error_read, {null_line[7:0], out_mux[7:0]}, verif_read[7:0]);
-   recurse_mux #(.S(MINIMUX_WAY), .T(MINIMUX_WIRE)) minimux1(clk, {null_line[7:0], verif_read[7:0]}, read_bus[7:0]);
+   recurse_mux #(.S(MINIMUX_WAY), .T(MINIMUX_WIRE)) minimux0(error_read, {out_mux[7:0], null_line[7:0]}, verif_read[7:0]);
+   recurse_mux #(.S(MINIMUX_WAY), .T(MINIMUX_WIRE)) minimux1(clk, {verif_read[7:0], null_line[7:0]}, read_bus[7:0]);
    recursive_Dlatch #(.S(DLATCH_DATA)) Dlatch_dataout(read_bus[7:0], clk_repeater[7:0], reset, dataout[7:0], ignore_8_1);
 
 endmodule
