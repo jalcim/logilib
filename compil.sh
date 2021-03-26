@@ -152,16 +152,23 @@ compil_memory()
 	     $MEM_SRC/memory.v $MEM_TEST/test_memory.v\
 	     $ROUT_SRC/replicator.v $ROUT_SRC/recurse_demux.v \
 	     $ROUT_SRC/recurse_mux.v                                                   -o $MEM_BIN/memory
+
+    iverilog $PRIM_SRC/gate.v $PRIM_SRC/multigate.v $PRIM_SRC/gate8.v \
+	     $PRIM_SRC/recursive_gate.v $MEM_SRC/basculeD.v \
+	     $ROUT_SRC/replicator.v $ROUT_SRC/recurse_demux.v \
+	     $ROUT_SRC/recurse_mux.v $MEM_SRC/blockreg.v $MEM_TEST/test_blockreg.v     -o $MEM_BIN/blockreg
 }
 
 test_memory()
 {
-    $MEM_BIN/basculeD     > $MEM_DEBUG/basculeD
-    $MEM_BIN/Dflipflop    > $MEM_DEBUG/Dflipflop
-    $MEM_BIN/JKlatchUP    > $MEM_DEBUG/JKlatchUP
-    $MEM_BIN/regdec       > $MEM_DEBUG/regdec
-    $MEM_BIN/recursive_Dlatch > $MEM_DEBUG/recursive_Dlatch
+    $MEM_BIN/basculeD            > $MEM_DEBUG/basculeD
+    $MEM_BIN/Dflipflop           > $MEM_DEBUG/Dflipflop
+    $MEM_BIN/JKlatchUP           > $MEM_DEBUG/JKlatchUP
+    $MEM_BIN/regdec              > $MEM_DEBUG/regdec
+    $MEM_BIN/recursive_Dlatch    > $MEM_DEBUG/recursive_Dlatch
     $MEM_BIN/recursive_Dlatch256 > $MEM_DEBUG/recursive_Dlatch256
+    $MEM_BIN/memory              > $MEM_DEBUG/memory
+    
 }
 
 compil_compteur()
@@ -253,31 +260,20 @@ test_alu_main()
 generate_netlist()
 {
     #    yosys -o $PRIM_BUILD/netlist/gate.blif -S $PRIM_SRC/gate.v > $PRIM_DEBUG/yosys_primitive_netlist_out
-    yosys -o build/netlist/logilib.blif -S `find . -name *.v | grep src` > $PRIM_DEBUG/yosys_netlist_out
+    yosys -o build/netlist/logilib.blif -S `find . -name *.v | grep src` > build/netlist/yosys_netlist_out
 }
 
 generate_schematic()
 {
-#    echo "read_verilog "$PRIM_SRC"/gate.v" > generate_schematic.ys
-#    echo "read_verilog "$PRIM_SRC"/gate8.v" > generate_schematic.ys
-#    echo "read_verilog "$PRIM_SRC"/recursive_gate.v" >> generate_schematic.ys
-    echo "read_verilog "`find . -name *.v | grep src` >  generate_schematic.ys
-    echo "hierarchy -check" >> generate_schematic.ys
-    echo "proc; fsm;" >> generate_schematic.ys
-    echo "show -format dot" >> generate_schematic.ys
+    echo "read_verilog "`find . -name *.v | grep src` >  build/generate_schematic.ys
+    echo "hierarchy -check" >> build/generate_schematic.ys
+    echo "proc; fsm;" >> build/generate_schematic.ys
+    echo "show -format dot" >> build/generate_schematic.ys
 #    echo "techmap;" >> generate_primitive_netlist_and_schematic.ys
 #    echo "write_verilog gate.v;" >> generate_primitive_netlist_and_schematic.ys
     
-    yosys -s generate_schematic.ys -l $PRIM_DEBUG/yosys_schematic_out -q
+    yosys -s build/generate_schematic.ys -l build/yosys_schematic_out -q
     dot -Tps ~/.yosys_show.dot -o build/schematic/schematic.ps
-    #    yosys -s yosys_script_file
-    #    {
-    #      read_verilog primitive/src/gate.v
-    #      hierarchy -check
-    #      proc; opt; fsm; opt; memory; opt
-    #      show -format dot
-    #    }
-    #    dot -Tps ~/.yosys_show.dot -o outfile.ps
 }
 
 make_dir()
