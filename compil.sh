@@ -257,6 +257,20 @@ test_alu_main()
     $ALU_MAIN_BIN/alu > $ALU_MAIN_DEBUG/alu
 }
 
+compil_datapath()
+{
+    DATAPATH_TEST="datapath/test/test_datapath.v"
+    DATAPATH_SRC="datapath/src/datapath.v"
+    DATAPATH_BIN="build/datapath/bin"
+
+    iverilog `find . -name *.v | grep src` datapath/test/test_datapath.v -o $DATAPATH_BIN/datapath
+}
+
+test_datapath()
+{
+    $DATAPATH_BIN/datapath > build/datapath/debug/datapath
+}
+
 generate_netlist()
 {
     #    yosys -o $PRIM_BUILD/netlist/gate.blif -S $PRIM_SRC/gate.v > $PRIM_DEBUG/yosys_primitive_netlist_out
@@ -286,6 +300,8 @@ make_dir()
     
     mkdir -p $ALU_ARITHM_BUILD/log $ALU_ARITHM_BUILD/signal $ALU_ARITHM_DEBUG $ALU_ARITHM_BIN
     mkdir -p $ALU_MAIN_BUILD/log   $ALU_MAIN_BUILD/signal   $ALU_MAIN_DEBUG   $ALU_MAIN_BIN
+
+    mkdir -p build/datapath/bin build/datapath/signal build/datapath/debug build/datapath/log
 }
 
 compil()
@@ -298,13 +314,15 @@ compil()
     compil_compteur
     compil_alu_arithm
     compil_alu_main
-    
+    compil_datapath
+
     test_primitive
     test_routing
     test_memory
     test_compteur
     test_alu_arithm
     test_alu_main
+    test_datapath
 
     generate_netlist
 

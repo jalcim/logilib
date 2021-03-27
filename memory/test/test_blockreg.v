@@ -10,7 +10,7 @@ module test_blockreg;
 
    initial
      begin
-	$dumpfile("build/memory/signal/signal_Dflipflop.vcd");
+	$dumpfile("build/memory/signal/signal_blockreg.vcd");
 	$dumpvars;
 	$display("\t\ttime, \tclk, \treset, \tcharge, \taddr_reg, \toutA, \toutB, \tdatain, \tdataoutA, \tdataoutB, \terror);");
 	$monitor("%d \t%b \t%b \t%b \t\t%d \t\t%d \t%d \t%d \t\t%d \t\t%d \t\t%d",
