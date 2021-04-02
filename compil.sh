@@ -157,17 +157,25 @@ compil_memory()
 	     $PRIM_SRC/recursive_gate.v $MEM_SRC/basculeD.v \
 	     $ROUT_SRC/replicator.v $ROUT_SRC/recurse_demux.v \
 	     $ROUT_SRC/recurse_mux.v $MEM_SRC/blockreg.v $MEM_TEST/test_blockreg.v     -o $MEM_BIN/blockreg
+
+    iverilog $MEM_SRC/sequential_regdec.v $MEM_SRC/basculeD.v $ROUT_SRC/recurse_mux.v \
+	     $PRIM_SRC/gate.v $MEM_TEST/test_sequential_regdec_left.v                  -o $MEM_BIN/sequential_regdec_left
+
+    iverilog $MEM_SRC/sequential_regdec.v $MEM_SRC/basculeD.v $ROUT_SRC/recurse_mux.v \
+	     $PRIM_SRC/gate.v $MEM_TEST/test_sequential_regdec_right.v                  -o $MEM_BIN/sequential_regdec_right
 }
 
 test_memory()
 {
-    $MEM_BIN/basculeD            > $MEM_DEBUG/basculeD
-    $MEM_BIN/Dflipflop           > $MEM_DEBUG/Dflipflop
-    $MEM_BIN/JKlatchUP           > $MEM_DEBUG/JKlatchUP
-    $MEM_BIN/regdec              > $MEM_DEBUG/regdec
-    $MEM_BIN/recursive_Dlatch    > $MEM_DEBUG/recursive_Dlatch
-    $MEM_BIN/recursive_Dlatch256 > $MEM_DEBUG/recursive_Dlatch256
-    $MEM_BIN/memory              > $MEM_DEBUG/memory
+    $MEM_BIN/basculeD                > $MEM_DEBUG/basculeD
+    $MEM_BIN/Dflipflop               > $MEM_DEBUG/Dflipflop
+    $MEM_BIN/JKlatchUP               > $MEM_DEBUG/JKlatchUP
+    $MEM_BIN/regdec                  > $MEM_DEBUG/regdec
+    $MEM_BIN/recursive_Dlatch        > $MEM_DEBUG/recursive_Dlatch
+    $MEM_BIN/recursive_Dlatch256     > $MEM_DEBUG/recursive_Dlatch256
+    $MEM_BIN/memory                  > $MEM_DEBUG/memory
+    $MEM_BIN/sequential_regdec_left  > $MEM_DEBUG/sequential_regdec_left
+    $MEM_BIN/sequential_regdec_right > $MEM_DEBUG/sequential_regdec_right
     
 }
 
