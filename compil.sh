@@ -322,7 +322,7 @@ compil()
     compil_compteur
     compil_alu_arithm
     compil_alu_main
-    compil_datapath
+#    compil_datapath
 
     test_primitive
     test_routing
@@ -330,11 +330,11 @@ compil()
     test_compteur
     test_alu_arithm
     test_alu_main
-    test_datapath
+#    test_datapath
 
-    generate_netlist
+#    generate_netlist
 
-    generate_schematic
+#    generate_schematic
 }
 
 compil
