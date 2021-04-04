@@ -1,6 +1,6 @@
 cmake_minimum_required(VERSION 3.20)
 project(cmake_cosim)
 find_package(verilator HINTS $ENV{VERILATOR_ROOT})
-add_executable(Vmain main.cpp primitive/primitive.cpp)
+add_executable(Vmain main.cpp primitive/gate/gate.cpp)
 add_subdirectory(primitive)
 target_link_libraries(Vmain PRIVATE Vgate_buf Vgate_not Vgate_and Vgate_nand Vgate_nor Vgate_or Vgate_xnor Vgate_xor)

@@ -3,7 +3,7 @@
 #include <sys/stat.h>
 #include <fcntl.h>
 
-#include "primitive/primitive.h"
+#include "primitive/gate/gate.h"
 
 VerilatedContext *contextp;
 
