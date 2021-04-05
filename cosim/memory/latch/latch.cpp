@@ -12,6 +12,10 @@ int latch_test()
 {
   int a, clk, reset;
 
+  //initialization of latch to avoid undefined state
+  latch->g_Dlatch->reset = 1;
+  latch->g_Dlatch->eval();
+  
   a = 0;
   while(a <= 1)
     {
@@ -60,7 +64,8 @@ int test_Dlatch(int a, int clk, int reset)
   latch->g_Dlatch->reset = reset;
   latch->g_Dlatch->eval();
   
-  test_latch = 1;
+  test_latch = ((latch->g_Dlatch->a && latch->g_Dlatch->clk)
+		&& (!reset)) == latch->g_Dlatch->s1;
   
   dprintf(latch->fd_Dlatch,
 	  "a=%d, clk=%d, reset=%d, s1=%d, s2=%d | test_Dlatch=%s\n",
