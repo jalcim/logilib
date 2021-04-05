@@ -16,6 +16,7 @@ set(PRIM_PARALLEL_GATE_LIB
 cmake_minimum_required(VERSION 3.20)
 project(cmake_cosim)
 find_package(verilator HINTS $ENV{VERILATOR_ROOT})
+set(CMAKE_BUILD_TYPE Debug)
 add_executable(Vmain ${SRC})
 add_subdirectory(primitive)
 target_link_libraries(Vmain PRIVATE

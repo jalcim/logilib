@@ -14,6 +14,7 @@ int main(int argc, char **argv, char **env)
 {
   init(argc, argv);
   test_primitive();
+  delete(contextp);
 }
 
 void init(int argc, char **argv)
@@ -26,8 +27,6 @@ void init(int argc, char **argv)
   mkdir("../build/cosim/primitive/", 0777);
   mkdir("../build/cosim/primitive/gate", 0777);
   mkdir("../build/cosim/primitive/parallel_gate", 0777);
-
-  delete(contextp);
 }
 
 int test_gate();
@@ -78,3 +77,4 @@ int test_parallele_gate()
   close(fd_parallel_gate);
   return (test);
 }
+

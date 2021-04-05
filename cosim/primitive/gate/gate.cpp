@@ -16,8 +16,9 @@ int gate_test()
   e1 = -1;
   while (++e1 <= 1)
     {
-      test_gate_buf(e1);
-      test_gate_not(e1);
+      if (test_gate_buf(e1)
+	  || test_gate_not(e1))
+	return (-1);
       e2 = -1;
       while(++e2 <= 1)
 	{
@@ -81,7 +82,6 @@ void gate_destruct()
   delete gate->g_nor;
   delete gate->g_xor;
   delete gate->g_xnor;
-
   free(gate);
 }
 
@@ -92,6 +92,7 @@ int test_gate_buf(int e1)
   gate->g_buf->e1 = e1;
   gate->g_buf->eval();
   test_gate = (gate->g_buf->e1 == gate->g_buf->s);
+
   dprintf(gate->fd_buf, "e1=%d, s=%d | test_gate_buf=%s\n",
 	  gate->g_buf->e1, gate->g_buf->s,
 	  test_gate ? "OK" : "FAIL");

@@ -20,20 +20,23 @@ int parallel_gate_test()
   unsigned int in1, in2;
 
   cpt1 = -1;
+  in1 = 0;
   while (++cpt1 < 0x100)//1 0000 0000
     {
-      test_parallel_gate_buf(in1);
-      test_parallel_gate_not(in1);
+      if (test_parallel_gate_buf(in1)
+	  || test_parallel_gate_not(in1))
+	return (-1);
       cpt2 = -1;
       while (++cpt2 < 0x100)
 	{
 	  in2 = cpt2;
-	  test_parallel_gate_and(in1, in2);
-	  test_parallel_gate_nand(in1, in2);
-	  test_parallel_gate_or(in1, in2);
-	  test_parallel_gate_nor(in1, in2);	
-	  test_parallel_gate_xor(in1, in2);
-	  test_parallel_gate_xnor(in1, in2);
+	  if (test_parallel_gate_and(in1, in2)
+	      || test_parallel_gate_nand(in1, in2)
+	      || test_parallel_gate_or(in1, in2)
+	      || test_parallel_gate_nor(in1, in2)	
+	      || test_parallel_gate_xor(in1, in2)
+	      || test_parallel_gate_xnor(in1, in2))
+	    return (-1);
 	}
       in1 = cpt1;
     }
@@ -43,7 +46,6 @@ int parallel_gate_test()
 void parallel_gate_init()
 {
   parallel_gate = (t_parallel_gate *)malloc(sizeof(t_parallel_gate));
-
   parallel_gate->g_parallel_gate_buf =
     new Vparallel_gate_buf {contextp};
 
@@ -52,7 +54,7 @@ void parallel_gate_init()
 
   parallel_gate->g_parallel_gate_and =
     new Vparallel_gate_and {contextp};
-
+  
   parallel_gate->g_parallel_gate_nand =
     new Vparallel_gate_nand{contextp};
 
@@ -113,7 +115,6 @@ void parallel_gate_destruct()
   close(parallel_gate->fd_parallel_gate_xor);
   close(parallel_gate->fd_parallel_gate_xnor);
 
-  free(parallel_gate);
   delete(parallel_gate->g_parallel_gate_buf);
   delete(parallel_gate->g_parallel_gate_not);
   delete(parallel_gate->g_parallel_gate_and);
@@ -122,6 +123,7 @@ void parallel_gate_destruct()
   delete(parallel_gate->g_parallel_gate_nor);
   delete(parallel_gate->g_parallel_gate_xor);
   delete(parallel_gate->g_parallel_gate_xnor);
+  free(parallel_gate);
 }
 
 int test_parallel_gate_buf(int in1)
