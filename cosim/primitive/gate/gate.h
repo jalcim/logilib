@@ -1,5 +1,5 @@
-#ifndef __PRIMITIVE__
-#define __PRIMITIVE__
+#ifndef __GATE__
+#define __GATE__
 
 #include "Vgate_buf.h"
 #include "Vgate_not.h"
@@ -10,8 +10,8 @@
 #include "Vgate_xor.h"
 #include "Vgate_xnor.h"
 
-typedef struct s_primitive t_primitive;
-struct s_primitive
+typedef struct s_gate t_gate;
+struct s_gate
 {
   Vgate_buf  *g_buf;
   Vgate_not  *g_not;
@@ -25,17 +25,13 @@ struct s_primitive
   int fd_buf, fd_not, fd_and, fd_nand, fd_or, fd_nor, fd_xor, fd_xnor;
 };
 
-int m_buf(int e1);
-int m_not(int e1);
-int m_and(int e1, int e2);
-int m_nand(int e1, int e2);
-int m_or(int e1, int e2);
-int m_nor(int e1, int e2);
-int m_xor(int e1, int e2);
-int m_xnor(int e1, int e2);
-
-void primitive_init();
-int primitive_test();
-void primitive_destruct();
+int test_gate_buf(int e1);
+int test_gate_not(int e1);
+int test_gate_and(int e1, int e2);
+int test_gate_nand(int e1, int e2);
+int test_gate_or(int e1, int e2);
+int test_gate_nor(int e1, int e2);
+int test_gate_xor(int e1, int e2);
+int test_gate_xnor(int e1, int e2);
 
 #endif

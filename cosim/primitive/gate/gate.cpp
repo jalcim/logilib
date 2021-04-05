@@ -7,198 +7,190 @@
 
 extern VerilatedContext *contextp;
 
-static t_primitive *primitive;
+static t_gate *gate;
 
-int primitive_test()
+int gate_test()
 {
   int e1, e2;
 
   e1 = -1;
   while (++e1 <= 1)
     {
-      m_buf(e1);
-      m_not(e1);
+      test_gate_buf(e1);
+      test_gate_not(e1);
       e2 = -1;
       while(++e2 <= 1)
-	{if (m_and(e1, e2)
-	     || m_nand(e1, e2)
-	     || m_or(e1, e2)
-	     || m_nor(e1, e2)
-	     || m_xor(e1, e2)
-	     || m_xnor(e1, e2))
+	{
+	  if (test_gate_and(e1, e2)
+	      || test_gate_nand(e1, e2)
+	      || test_gate_or(e1, e2)
+	      || test_gate_nor(e1, e2)
+	      || test_gate_xor(e1, e2)
+	      || test_gate_xnor(e1, e2))
 	    return (-1);
 	}
     }
 }
 
-void primitive_init()
+void gate_init()
 {
-  primitive = (t_primitive *) malloc(sizeof(t_primitive));
-  primitive->g_buf  = new Vgate_buf {contextp};
-  primitive->g_not  = new Vgate_not {contextp};
-  primitive->g_and  = new Vgate_and {contextp};
-  primitive->g_nand = new Vgate_nand{contextp};
-  primitive->g_or   = new Vgate_or  {contextp};
-  primitive->g_nor  = new Vgate_nor {contextp};
-  primitive->g_xor  = new Vgate_xor {contextp};
-  primitive->g_xnor = new Vgate_xnor{contextp};
+  gate = (t_gate *) malloc(sizeof(t_gate));
+  gate->g_buf  = new Vgate_buf {contextp};
+  gate->g_not  = new Vgate_not {contextp};
+  gate->g_and  = new Vgate_and {contextp};
+  gate->g_nand = new Vgate_nand{contextp};
+  gate->g_or   = new Vgate_or  {contextp};
+  gate->g_nor  = new Vgate_nor {contextp};
+  gate->g_xor  = new Vgate_xor {contextp};
+  gate->g_xnor = new Vgate_xnor{contextp};
 
-  primitive->fd_buf  = open("../build/cosim/primitive/gate/buf_check" , O_CREAT|O_RDWR, S_IRUSR|S_IWUSR);
-  primitive->fd_not  = open("../build/cosim/primitive/gate/not_check" , O_CREAT|O_RDWR, S_IRUSR|S_IWUSR);
-  primitive->fd_and  = open("../build/cosim/primitive/gate/and_check" , O_CREAT|O_RDWR, S_IRUSR|S_IWUSR);
-  primitive->fd_nand = open("../build/cosim/primitive/gate/nand_check", O_CREAT|O_RDWR, S_IRUSR|S_IWUSR);
-  primitive->fd_or   = open("../build/cosim/primitive/gate/or_check"  , O_CREAT|O_RDWR, S_IRUSR|S_IWUSR);
-  primitive->fd_nor  = open("../build/cosim/primitive/gate/nor_check" , O_CREAT|O_RDWR, S_IRUSR|S_IWUSR);
-  primitive->fd_xor  = open("../build/cosim/primitive/gate/xor_check" , O_CREAT|O_RDWR, S_IRUSR|S_IWUSR);
-  primitive->fd_xnor = open("../build/cosim/primitive/gate/xnor_check", O_CREAT|O_RDWR, S_IRUSR|S_IWUSR);
+  gate->fd_buf  = open("../build/cosim/primitive/gate/buf_check",
+		       O_CREAT|O_RDWR, S_IRUSR|S_IWUSR);
+  gate->fd_not  = open("../build/cosim/primitive/gate/not_check",
+		       O_CREAT|O_RDWR, S_IRUSR|S_IWUSR);
+  gate->fd_and  = open("../build/cosim/primitive/gate/and_check",
+		       O_CREAT|O_RDWR, S_IRUSR|S_IWUSR);
+  gate->fd_nand = open("../build/cosim/primitive/gate/nand_check",
+		       O_CREAT|O_RDWR, S_IRUSR|S_IWUSR);
+  gate->fd_or   = open("../build/cosim/primitive/gate/or_check",
+		       O_CREAT|O_RDWR, S_IRUSR|S_IWUSR);
+  gate->fd_nor  = open("../build/cosim/primitive/gate/nor_check",
+		       O_CREAT|O_RDWR, S_IRUSR|S_IWUSR);
+  gate->fd_xor  = open("../build/cosim/primitive/gate/xor_check",
+		       O_CREAT|O_RDWR, S_IRUSR|S_IWUSR);
+  gate->fd_xnor = open("../build/cosim/primitive/gate/xnor_check",
+		       O_CREAT|O_RDWR, S_IRUSR|S_IWUSR);
 }
 
-void primitive_destruct()
+void gate_destruct()
 {
-  close(primitive->fd_buf);
-  close(primitive->fd_not);
-  close(primitive->fd_and);
-  close(primitive->fd_nand);
-  close(primitive->fd_or);
-  close(primitive->fd_nor);
-  close(primitive->fd_xor);
-  close(primitive->fd_xnor);
+  close(gate->fd_buf);
+  close(gate->fd_not);
+  close(gate->fd_and);
+  close(gate->fd_nand);
+  close(gate->fd_or);
+  close(gate->fd_nor);
+  close(gate->fd_xor);
+  close(gate->fd_xnor);
 
-  delete primitive->g_buf; 
-  delete primitive->g_not;
-  delete primitive->g_and;
-  delete primitive->g_nand;
-  delete primitive->g_or;
-  delete primitive->g_nor;
-  delete primitive->g_xor;
-  delete primitive->g_xnor;
+  delete gate->g_buf; 
+  delete gate->g_not;
+  delete gate->g_and;
+  delete gate->g_nand;
+  delete gate->g_or;
+  delete gate->g_nor;
+  delete gate->g_xor;
+  delete gate->g_xnor;
 
-  free(primitive);
-  delete contextp;
+  free(gate);
 }
 
-int m_buf(int e1)
+int test_gate_buf(int e1)
 {
-  int test;
+  int test_gate;
 
-  primitive->g_buf->e1 = e1;
-  primitive->g_buf->eval();
-  test = (primitive->g_buf->e1 == primitive->g_buf->s);
-  dprintf(primitive->fd_buf, "e1=%d, s=%d | test=%d\n",
-	  primitive->g_buf->e1, primitive->g_buf->s, test);
-#ifdef DEBUG_PRIMITIVE
-  printf("test gate_buf : %s\n", test ? "OK" : "FAIL");
-#endif
-  return (!test);
+  gate->g_buf->e1 = e1;
+  gate->g_buf->eval();
+  test_gate = (gate->g_buf->e1 == gate->g_buf->s);
+  dprintf(gate->fd_buf, "e1=%d, s=%d | test_gate_buf=%s\n",
+	  gate->g_buf->e1, gate->g_buf->s,
+	  test_gate ? "OK" : "FAIL");
+  return (!test_gate);
 }
 
-int m_not(int e1)
+int test_gate_not(int e1)
 {
-  int test;
+  int test_gate;
 
-  primitive->g_not->e1 = e1;
-  primitive->g_not->eval();
-  test = (primitive->g_not->e1 != primitive->g_not->s);
-  dprintf(primitive->fd_not, "e1=%d, s=%d | test=%d\n",
-	  primitive->g_not->e1, primitive->g_not->s, test);
-#ifdef DEBUG_PRIMITIVE
-  printf("test gate_not : %s\n", test ? "OK" : "FAIL");	  
-#endif
-  return (!test);
+  gate->g_not->e1 = e1;
+  gate->g_not->eval();
+  test_gate = (gate->g_not->e1 != gate->g_not->s);
+  dprintf(gate->fd_not, "e1=%d, s=%d | test_gate_not=%s\n",
+	  gate->g_not->e1, gate->g_not->s,
+	  test_gate ? "OK" : "FAIL");
+  return (!test_gate);
 }
 
-int m_and(int e1, int e2)
+int test_gate_and(int e1, int e2)
 {
-  int test;
+  int test_gate;
 
-  primitive->g_and->e1 = e1;
-  primitive->g_and->e2 = e2;
-  primitive->g_and->eval();
-  test = (primitive->g_and->e1 & primitive->g_and->e2) == primitive->g_and->s;
-  dprintf(primitive->fd_and, "e1=%d, e2=%d, s=%d | test=%d\n",
-	  primitive->g_and->e1, primitive->g_and->e2, primitive->g_and->s, test);
-#ifdef DEBUG_PRIMITIVE
-  printf("test gate_and : %s\n", test ? "OK" : "FAIL");
-#endif
-  return (!test);
+  gate->g_and->e1 = e1;
+  gate->g_and->e2 = e2;
+  gate->g_and->eval();
+  test_gate = (gate->g_and->e1 & gate->g_and->e2) == gate->g_and->s;
+  dprintf(gate->fd_and, "e1=%d, e2=%d, s=%d | test_gate_and=%s\n",
+	  gate->g_and->e1, gate->g_and->e2, gate->g_and->s,
+	  test_gate ? "OK" : "FAIL");
+  return (!test_gate);
 }
 
-int m_nand(int e1, int e2)
+int test_gate_nand(int e1, int e2)
 {
-  int test;
+  int test_gate;
   
-  primitive->g_nand->e1 = e1;
-  primitive->g_nand->e2 = e2;
-  primitive->g_nand->eval();
-  test = (primitive->g_nand->e1 & primitive->g_nand->e2) != primitive->g_nand->s;
-  dprintf(primitive->fd_nand, "e1=%d, e2=%d, s=%d | test=%d\n",
-	  primitive->g_nand->e1, primitive->g_nand->e2, primitive->g_nand->s, test);
-#ifdef DEBUG_PRIMITIVE
-  printf("test gate_nand : %s\n", test ? "OK" : "FAIL");
-#endif
-  return (!test);
+  gate->g_nand->e1 = e1;
+  gate->g_nand->e2 = e2;
+  gate->g_nand->eval();
+  test_gate = (gate->g_nand->e1 & gate->g_nand->e2) != gate->g_nand->s;
+  dprintf(gate->fd_nand, "e1=%d, e2=%d, s=%d | test_gate_nand=%s\n",
+	  gate->g_nand->e1, gate->g_nand->e2, gate->g_nand->s,
+	  test_gate ? "OK" : "FAIL");
+  return (!test_gate);
 }
 
-int m_or(int e1, int e2)
+int test_gate_or(int e1, int e2)
 {
-  int test;
+  int test_gate;
 
-  primitive->g_or->e1 = e1;
-  primitive->g_or->e2 = e2;
-  primitive->g_or->eval();
-  test = (primitive->g_or->e1 | primitive->g_or->e2) == primitive->g_or->s ? 1 : 0;
-  dprintf(primitive->fd_or, "e1=%d, e2=%d, s=%d | test=%d\n",
-	  primitive->g_or->e1, primitive->g_or->e2, primitive->g_or->s, test);
-#ifdef DEBUG_PRIMITIVE
-  printf("test gate_or : %s\n", test ? "OK" : "FAIL");
-#endif
-  return (!test);
+  gate->g_or->e1 = e1;
+  gate->g_or->e2 = e2;
+  gate->g_or->eval();
+  test_gate = (gate->g_or->e1 | gate->g_or->e2) == gate->g_or->s ? 1 : 0;
+  dprintf(gate->fd_or, "e1=%d, e2=%d, s=%d | test_gate_or=%s\n",
+	  gate->g_or->e1, gate->g_or->e2, gate->g_or->s,
+	  test_gate ? "OK" : "FAIL");
+  return (!test_gate);
 }
 
-int m_nor(int e1, int e2)
+int test_gate_nor(int e1, int e2)
 {
-  int test;
+  int test_gate;
 
-  primitive->g_nor->e1 = e1;
-  primitive->g_nor->e2 = e2;
-  primitive->g_nor->eval();
-  test = (primitive->g_nor->e1 | primitive->g_nor->e2) != primitive->g_nor->s;
-  dprintf(primitive->fd_nor, "e1=%d, e2=%d, s=%d | test=%d\n",
-	  primitive->g_nor->e1, primitive->g_nor->e2, primitive->g_nor->s, test);
-#ifdef DEBUG_PRIMITIVE
-  printf("test gate_nor : %s\n", test ? "OK" : "FAIL");
-#endif
-  return (!test);
+  gate->g_nor->e1 = e1;
+  gate->g_nor->e2 = e2;
+  gate->g_nor->eval();
+  test_gate = (gate->g_nor->e1 | gate->g_nor->e2) != gate->g_nor->s;
+  dprintf(gate->fd_nor, "e1=%d, e2=%d, s=%d | test_gate_nor=%s\n",
+	  gate->g_nor->e1, gate->g_nor->e2, gate->g_nor->s,
+	  test_gate ? "OK" : "FAIL");
+  return (!test_gate);
 }
 
-int m_xor(int e1, int e2)
+int test_gate_xor(int e1, int e2)
 {
-  int test;
+  int test_gate;
 
-  primitive->g_xor->e1 = e1;
-  primitive->g_xor->e2 = e2;
-  primitive->g_xor->eval();
-  test = (primitive->g_xor->e1 ^ primitive->g_xor->e2) == primitive->g_xor->s;
-  dprintf(primitive->fd_xor, "e1=%d, e2=%d, s=%d | test=%d\n",
-	  primitive->g_xor->e1, primitive->g_xor->e2, primitive->g_xor->s, test);
-#ifdef DEBUG_PRIMITIVE
-  printf("test gate_xor : %s\n", test ? "OK" : "FAIL");
-#endif
-  return (!test);
+  gate->g_xor->e1 = e1;
+  gate->g_xor->e2 = e2;
+  gate->g_xor->eval();
+  test_gate = (gate->g_xor->e1 ^ gate->g_xor->e2) == gate->g_xor->s;
+  dprintf(gate->fd_xor, "e1=%d, e2=%d, s=%d | test_gate_xor=%s\n",
+	  gate->g_xor->e1, gate->g_xor->e2, gate->g_xor->s,
+	  test_gate ? "OK" : "FAIL");
+  return (!test_gate);
 }
 
-int m_xnor(int e1, int e2)
+int test_gate_xnor(int e1, int e2)
 {
-  int test;
+  int test_gate;
 
-  primitive->g_xnor->e1 = e1;
-  primitive->g_xnor->e2 = e2;
-  primitive->g_xnor->eval();
-  test = (primitive->g_xnor->e1 ^ primitive->g_xnor->e2) != primitive->g_xnor->s;
-  dprintf(primitive->fd_xnor, "e1=%d, e2=%d, s=%d | test=%d\n",
-	  primitive->g_xnor->e1, primitive->g_xnor->e2, primitive->g_xnor->s, test);
-#ifdef DEBUG_PRIMITIVE
-  printf("test gate_xnor : %s\n", test ? "OK" : "FAIL");
-#endif
-  return (!test);
+  gate->g_xnor->e1 = e1;
+  gate->g_xnor->e2 = e2;
+  gate->g_xnor->eval();
+  test_gate = (gate->g_xnor->e1 ^ gate->g_xnor->e2) != gate->g_xnor->s;
+  dprintf(gate->fd_xnor, "e1=%d, e2=%d, s=%d | test_gate_xnor=%s\n",
+	  gate->g_xnor->e1, gate->g_xnor->e2, gate->g_xnor->s,
+	  test_gate ? "OK" : "FAIL");
+  return (!test_gate);
 }
