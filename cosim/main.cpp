@@ -9,11 +9,13 @@ VerilatedContext *contextp;
 
 void init(int argc, char **argv);
 void test_primitive();
+void test_memory();
 
 int main(int argc, char **argv, char **env)
 {
   init(argc, argv);
   test_primitive();
+  test_memory();
   delete(contextp);
 }
 
@@ -23,10 +25,30 @@ void init(int argc, char **argv)
   contextp->commandArgs(argc, argv);
   
   mkdir("../build", 0777);
-  mkdir("../build/cosim/", 0777);
-  mkdir("../build/cosim/primitive/", 0777);
+  mkdir("../build/cosim", 0777);
+
+  mkdir("../build/cosim/primitive", 0777);
   mkdir("../build/cosim/primitive/gate", 0777);
   mkdir("../build/cosim/primitive/parallel_gate", 0777);
+
+  mkdir("../build/cosim/memory", 0777);
+  mkdir("../build/cosim/memory/latch", 0777);
+}
+
+int test_latch();
+void test_memory()
+{
+  test_latch();
+}
+
+int test_latch()
+{
+  int test = 0;
+
+  latch_init();
+  test = latch_test();
+  latch_destruct();
+  return (test);
 }
 
 int test_gate();

@@ -123,6 +123,7 @@ void parallel_gate_destruct()
   delete(parallel_gate->g_parallel_gate_nor);
   delete(parallel_gate->g_parallel_gate_xor);
   delete(parallel_gate->g_parallel_gate_xnor);
+
   free(parallel_gate);
 }
 
@@ -165,11 +166,12 @@ int test_parallel_gate_and(int in1, int in2)
 
   parallel_gate->g_parallel_gate_and->in1 = in1;
   parallel_gate->g_parallel_gate_and->in2 = in2;
-  
   parallel_gate->g_parallel_gate_and->eval();
+
   test_gate = (parallel_gate->g_parallel_gate_and->in1
 	       & parallel_gate->g_parallel_gate_and->in2)
     == parallel_gate->g_parallel_gate_and->out;
+
   dprintf(parallel_gate->fd_parallel_gate_and,
 	  "in1=%d, in2=%d, s=%d | test_parallel_gate_and=%s\n",
 	  parallel_gate->g_parallel_gate_and->in1,

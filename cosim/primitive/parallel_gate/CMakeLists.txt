@@ -1,4 +1,4 @@
-set(PRIM_SRC_PARALLEL_GATE "../../../primitive/parallel_gate/src")
+set(PRIM_SRC_PARALLEL_GATE ${PWD_LOGILIB}/primitive/parallel_gate/src)
 
 add_library(Vparallel_gate_buf STATIC)
 add_library(Vparallel_gate_not STATIC)
