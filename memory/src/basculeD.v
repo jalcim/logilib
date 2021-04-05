@@ -6,7 +6,7 @@ module basculeD (a, clk, reset, s1, s2);
    gate_xor xor1(a, reset, line[5]);
    gate_and and1(a, line[5], line[6]);
 
-   gate_nand nand1(a, clk, line[0]);
+   gate_nand nand1(line[6], clk, line[0]);
    gate_not not1(line[6], line[1]);
    gate_nand nand2(line[1], clk, line[2]);
 
