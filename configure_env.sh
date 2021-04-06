@@ -1,15 +1,20 @@
 #!/bin/sh
 
 sudo apt-get install -y emacs terminator gcc gdb valgrind tree bison flex qemu iverilog \
-	git python3.7 python3.7-dev graphviz xdot gtkwave python3-venv \
+	git graphviz xdot gtkwave python3-venv python3 \
 	python3-dev cmake make libboost-python-dev libboost-filesystem-dev \
 	libboost-thread-dev libboost-program-options-dev tcl tcl-dev clang clang-format libreadline-dev \
 	libboost-iostreams-dev libqt5opengl5-dev libeigen3-dev libudev-dev libboost-all-dev \
 	libftdi1 libftdi1-dev python3-pip autoconf gperf tk-dev tk8.5-dev apt-file \
 	swig python3-tk libgsl-dev libcurl4-openssl-dev libssl-dev openssl libx11-dev \
 	libcairo2-dev libxaw7-dev libtcl8.6 ccache libgoogle-perftools-dev numactl perl-doc \
-	asciidoctor lcov libpod-latex-perl texlive-fonts-recommended
-	#       csh tcsh shc rc zsh ksh ash
+	asciidoctor lcov libpod-latex-perl texlive-fonts-recommended libglib2.0-dev libfdt-dev \
+	libpixman-1-dev zlib1g-dev git-email libaio-dev libbluetooth-dev libbrlapi-dev libbz2-dev \
+	libcap-dev libcap-ng-dev libgtk-3-dev libibverbs-dev \
+	libncurses5-dev libnuma-dev librbd-dev librdmacm-dev libsasl2-dev libsdl1.2-dev \
+	libseccomp-dev libsnappy-dev libssh2-1-dev libvde-dev libvdeplug-dev \
+	libxen-dev liblzo2-dev xfslibs-dev libjpeg62-turbo-dev
+#       csh tcsh shc rc zsh ksh ash libjpeg8-dev libcurl4-gnutls-dev
 
 cpan install -y Pod::Perldoc
 cpan install -y Parallel::Forker
@@ -17,6 +22,17 @@ cpan install -y Parallel::Forker
 cd ~/
 mkdir .toolchain
 cd .toolchain
+
+mkdir python
+cd python
+wget https://www.python.org/ftp/python/3.9.4/Python-3.9.4.tar.xz
+tar -xf Python-3.9.4.tar.xz
+cd Python-3.9.4
+./configure
+make
+make test
+sudo make install
+cd ../..
 
 git clone https://github.com/Kitware/CMake
 cd CMake
@@ -165,5 +181,21 @@ cd pcb
 git pull
 ./configure
 make -j8
-make install
+sudo make install
 cd ..
+
+git clone https://github.com/ninja-build/ninja
+cd ninja
+cmake -Bbuild-cmake -H.
+cmake --build build-cmake
+cd build-cmake
+sudo ln ninja /usr/bin/ninja
+cd ../..
+
+git clone https://github.com/qemu/qemu
+cd qemu
+mkdir build
+cd build
+../configure
+make -j8
+cd ../..
