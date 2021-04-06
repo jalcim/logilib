@@ -13,7 +13,7 @@ Cependant comme certain composants sont souvent recurant avec de petite variante
 nous ne nous privons donc pas de la puissances des parameters de verilog, ni de son approche recursive permettant la generation des circuits.
 
 La premiere version de cette librairie etais entierement schematique, et etais tester sur simulateur logique,
-Cependant cette approche a limiter la taille des circuits a 8bit (je ne me voyais pas cabler 52536 bascule...).
+Cependant cette approche a limiter la taille des circuits a 8bit (je ne me voyais pas cabler 65536 bascule...).
 
 La 2 eme version (celle en verilog) apporte donc ce dynamisme qui a terme permettra d'avoir nos circuits en 8/16/32/64/128 bit,
 Ceci en modifiant simplement les parameters, voir a terme en modifiant simpement un fichier de configuration.
