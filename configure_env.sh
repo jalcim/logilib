@@ -198,4 +198,5 @@ mkdir build
 cd build
 ../configure
 make -j8
+sudo make install
 cd ../..
