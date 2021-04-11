@@ -52,6 +52,12 @@ module test_add8;
 	b = 12;
 	cin = 0;
 	sub = 1;
+	#5;
+	a = 0;
+	b = 255;
+	cin = 0;
+	sub = 1;
+
      end
 endmodule // test_add8
 

@@ -236,6 +236,9 @@ compil_alu_arithm()
 	     $ALU_ARITHM_SRC/divmod2.v $CPT_SRC/*.v $ROUT_SRC/demultiplexeur.v \
 	     $ALU_ARITHM_SRC/mult.v $ALU_ARITHM_SRC/add.v \
 	     $ALU_ARITHM_TEST/test_mult8.v                                            -o $ALU_ARITHM_BIN/mult8
+
+    iverilog $PRIM_SRC/gate.v $ALU_ARITHM_SRC/add.v $ALU_ARITHM_SRC/multi_add.v \
+	     $ALU_ARITHM_TEST/test_multi_add.v                                        -o $ALU_ARITHM_BIN/multi_add
 }
 
 test_alu_arithm()
@@ -287,7 +290,7 @@ generate_netlist()
 
 generate_schematic()
 {
-    echo "read_verilog "`find . -name *.v | grep src` >  build/generate_schematic.ys
+    echo "read_verilog memory/src/basculeD.v primitive/src/gate.v" >  build/generate_schematic.ys
     echo "hierarchy -check" >> build/generate_schematic.ys
     echo "proc; fsm;" >> build/generate_schematic.ys
     echo "show -format dot" >> build/generate_schematic.ys
@@ -334,7 +337,7 @@ compil()
 
 #    generate_netlist
 
-#    generate_schematic
+    generate_schematic
 }
 
 compil
