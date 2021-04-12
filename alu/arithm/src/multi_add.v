@@ -16,10 +16,10 @@ module multi_add(a, b, cin, sub, s, cout);
      begin
 	wire [1:0] b_line;
 	
-	gate_xor xor0(b[0], sub, b_line[0]);
+	gate_xor xor1(b[0], sub, b_line[0]);
 	add add1(a[0], b_line[0], cin, sub, s[0], line_c);
 
-	gate_xor xor0(b[1], sub, b_line[1]);
+	gate_xor xor2(b[1], sub, b_line[1]);
 	add add2(a[1], b_line[1], line_c, sub, s[1], cout);
      end
    else
