@@ -11,7 +11,7 @@ struct s_arithm
   int fd_add;
 };
 
-int test_add(int a, int b, int cin, int sub);
+int test_add(int a, int b, int cin);
 void arithm_init();
 int arithm_test();
 void arithm_destruct();
