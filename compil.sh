@@ -206,7 +206,7 @@ compil_alu_arithm()
 	     $ALU_ARITHM_TEST/test_add.v                                              -o $ALU_ARITHM_BIN/add
     
     iverilog $PRIM_SRC/gate.v $PRIM_SRC/multigate.v $PRIM_SRC/gate8.v \
-	     $PRIM_SRC/recursive_gate.v $ALU_ARITHM_SRC/add.v \
+	     $PRIM_SRC/recursive_gate.v $ALU_ARITHM_SRC/add.v $ALU_ARITHM_SRC/add8.v \
 	     $ALU_ARITHM_TEST/test_add8.v                                             -o $ALU_ARITHM_BIN/add8
     
     iverilog $PRIM_SRC/gate.v $PRIM_SRC/multigate.v $PRIM_SRC/gate8.v \
@@ -220,21 +220,21 @@ compil_alu_arithm()
     iverilog $PRIM_SRC/gate.v $PRIM_SRC/multigate.v $PRIM_SRC/gate8.v \
 	     $PRIM_SRC/recursive_gate.v $ROUT_SRC/multiplexeur.v \
 	     $MEM_SRC/basculeD.v $MEM_SRC/JKlatch.v  $MEM_SRC/regdec.v \
-	     $ALU_ARITHM_SRC/divmod2.v $ALU_ARITHM_SRC/add.v \
+	     $ALU_ARITHM_SRC/divmod2.v $ALU_ARITHM_SRC/add.v $ALU_ARITHM_SRC/add8.v \
 	     $CPT_SRC/bit_cpt3.v $ALU_ARITHM_TEST/test_divmod2.v                      -o $ALU_ARITHM_BIN/divmod2
 
     iverilog $PRIM_SRC/gate.v $PRIM_SRC/multigate.v $PRIM_SRC/gate8.v \
 	     $PRIM_SRC/recursive_gate.v $ROUT_SRC/multiplexeur.v \
 	     $MEM_SRC/basculeD.v $MEM_SRC/JKlatch.v  $MEM_SRC/regdec.v \
 	     $ALU_ARITHM_SRC/divmod2.v $CPT_SRC/*.v $ROUT_SRC/demultiplexeur.v \
-	     $ALU_ARITHM_SRC/mult.v $ALU_ARITHM_SRC/add.v \
+	     $ALU_ARITHM_SRC/mult.v $ALU_ARITHM_SRC/add.v $ALU_ARITHM_SRC/add8.v \
 	     $ALU_ARITHM_TEST/test_mult.v                                             -o $ALU_ARITHM_BIN/mult
 
     iverilog $PRIM_SRC/gate.v $PRIM_SRC/multigate.v $PRIM_SRC/gate8.v \
 	     $PRIM_SRC/recursive_gate.v $ROUT_SRC/multiplexeur.v \
 	     $MEM_SRC/basculeD.v $MEM_SRC/JKlatch.v  $MEM_SRC/regdec.v \
 	     $ALU_ARITHM_SRC/divmod2.v $CPT_SRC/*.v $ROUT_SRC/demultiplexeur.v \
-	     $ALU_ARITHM_SRC/mult.v $ALU_ARITHM_SRC/add.v \
+	     $ALU_ARITHM_SRC/mult.v $ALU_ARITHM_SRC/add.v $ALU_ARITHM_SRC/add8.v\
 	     $ALU_ARITHM_TEST/test_mult8.v                                            -o $ALU_ARITHM_BIN/mult8
 
     iverilog $PRIM_SRC/gate.v $ALU_ARITHM_SRC/add.v $ALU_ARITHM_SRC/multi_add.v \
