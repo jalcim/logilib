@@ -9,3 +9,7 @@ void parallel_gate_destruct();
 void latch_init();
 int latch_test();
 void latch_destruct();
+
+void arithm_init();
+int arithm_test();
+void arithm_destruct();
