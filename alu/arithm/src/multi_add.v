@@ -24,7 +24,7 @@ module multi_add(a, b, cin, sub, s, cout);
      end
    else
      begin
-	if (!X)
+	if (X == 0)
 	  begin
 	     wire first;
 	     gate_or or0(cin, sub, first);

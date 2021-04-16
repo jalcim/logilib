@@ -21,7 +21,7 @@ set(MEM_LATCH_LIB
   VDlatch)
 
 set(ALU_LIB
-  Vadd)
+  Vadd Vmulti_add)
 #set(CMAKE_CPPFLAGS "${CMAKE_CPPFLAGS} -DVL_DEBUG")
 cmake_minimum_required(VERSION 3.20)
 project(cmake_cosim)
