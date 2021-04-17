@@ -125,17 +125,18 @@ int multi_add_test(unsigned int a, unsigned int b,
   arithm->g_multi_add->sub = sub & 0x1;
   arithm->g_multi_add->eval();
 
-  int tmp1, tmp2;
-  //*
-  tmp1 = sub ? ((((arithm->g_multi_add->a & 0xff) - (arithm->g_multi_add->b & 0xff)) & 0xff)
-		== (arithm->g_multi_add->s & 0xff)) :
-    (tmp1 = ((((arithm->g_multi_add->a & 0xff) + (arithm->g_multi_add->b & 0xff)
-	       + (arithm->g_multi_add->cin & 0xff)) & 0xff) == (arithm->g_multi_add->s & 0xff)))
-    && (tmp2 = (((((arithm->g_multi_add->a & 0xff) + (arithm->g_multi_add->b & 0xff)
-		   + (arithm->g_multi_add->cin & 0xff)) >> 8) & 0xff)
-		== (arithm->g_multi_add->cout & 0xff)));
+  test_arithm = sub ? ((((arithm->g_multi_add->a & 0xff)
+			 - (arithm->g_multi_add->b & 0xff)) & 0xff)
+		       == (arithm->g_multi_add->s & 0xff)) :
+    ((((arithm->g_multi_add->a & 0xff)
+       + (arithm->g_multi_add->b & 0xff)
+       + (arithm->g_multi_add->cin & 0xff)) & 0xff)
+     == (arithm->g_multi_add->s & 0xff))
 
-  test_arithm = tmp1 && tmp2;
+    && (((((arithm->g_multi_add->a & 0xff)
+		   + (arithm->g_multi_add->b & 0xff)
+		   + (arithm->g_multi_add->cin & 0xff)) >> 8) & 0xff)
+		== (arithm->g_multi_add->cout & 0xff));
 
   dprintf(arithm->fd_multi_add,
 	  "a=%u, b=%u, cin=%d, sub=%u, s=%u, cout=%d\n",
