@@ -1,7 +1,7 @@
 module recurse_demux(ctrl, in, out);
 
-   parameter S = 1;//2^S
-   parameter T = 1;
+   parameter S = 1;//2^S//nombre de sortie
+   parameter T = 1;//taille des sorties
 
    input [T-1:0] in;//0:0
    input [S - 1:0] ctrl;//2:0
@@ -10,8 +10,8 @@ module recurse_demux(ctrl, in, out);
 
    if (S == 1)
      begin
-	assign out[T - 1 : 0]     = ~ctrl ? in : 0;//0:0
-	assign out[2 * T - 1 : T] =  ctrl ? in : 0;//1:1
+	assign out[T - 1 : 0]     = ~ctrl ? in : 0;//0:0//t==2 ? 1:0
+	assign out[2 * T - 1 : T] =  ctrl ? in : 0;//1:1//t==2 ? 3:2
      end
    else
      begin
