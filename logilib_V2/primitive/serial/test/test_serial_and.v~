@@ -1,0 +1,7 @@
+module test_serial_and;
+   parameter SIZE = 8;
+   reg [SIZE - 1:0] e1;
+   wire 	    out;
+   
+   serial_and test_and(out, e1);
+endmodule

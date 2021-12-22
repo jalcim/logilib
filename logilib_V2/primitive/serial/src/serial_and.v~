@@ -1,0 +1,28 @@
+module serial_and();
+   parameter SIZE = 8;
+   parameter R = SIZE % 2;
+
+   input [SIZE-1:0] e1, e2;
+   output 	    S;
+
+   wire 	    W1;
+
+   if (SIZE > 2)
+     begin
+	if (SIZE % 2)
+	  begin
+	     and and0(s, e1[SIZE-1], W1);
+	     serial_and #(.SIZE(SIZE-1), .R(0)) recall1(e1[SIZE-2:0], e2[SIZE-2:0], W1);
+	  end
+	else
+	  begin
+	     and and1(S, e1[SIZE-1], e2[SIZE-1]);
+	     serial_and #(.SIZE(SIZE-1), .R(0)) recall2(e1[SIZE-2:0], e2[SIZE-2:0], W1);
+
+	  end
+     end
+   else
+     begin
+	and and2(out, e1, e2);
+     end
+endmodule
