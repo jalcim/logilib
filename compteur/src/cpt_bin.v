@@ -1,5 +1,5 @@
 module cpt_bin8(activate, clk, reset, out);
-  input activate, clk, reset;
+   input activate, clk, reset;
    output [7:0] out;
    supply1 	power;
 
