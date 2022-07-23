@@ -337,7 +337,7 @@ compil()
 
 #    generate_netlist
 
-    generate_schematic
+#    generate_schematic
 }
 
 compil
