@@ -1,5 +1,5 @@
 module multi_nor(out, e1);
-   parameter SIZE = 6;
+   parameter SIZE = 3;
    parameter N1 = (SIZE / 2) + (SIZE % 2);
    parameter N2 = SIZE / 2;
 

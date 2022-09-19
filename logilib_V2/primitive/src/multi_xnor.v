@@ -1,5 +1,5 @@
 module multi_xnor(out, e1);
-   parameter SIZE = 6;
+   parameter SIZE = 5;
    parameter N1 = (SIZE / 2) + (SIZE % 2);
    parameter N2 = SIZE / 2;
 
@@ -7,6 +7,7 @@ module multi_xnor(out, e1);
    output 	    out;
 
    wire 	    W1, W2;
+   wire		    line;
 
    if (SIZE == 1)
      begin
@@ -14,7 +15,7 @@ module multi_xnor(out, e1);
      end
    else if (SIZE == 2)
      begin
-	xnor xnor1(out, e1[0], e1[1]);
+	xor xor1(out, e1[0], e1[1]);
      end
    else if (SIZE > 2)
      begin
@@ -22,5 +23,4 @@ module multi_xnor(out, e1);
 	multi_xnor #(.SIZE(N1)) recall1(W1, e1[SIZE - 1 : SIZE - N1]);
 	multi_xnor #(.SIZE(N2)) recall2(W2, e1[N2 - 1 : 0]);
      end
-
 endmodule

@@ -3,7 +3,6 @@ module _test_cpt_bin;
    reg activate, clk, reset;
    wire [7:0] cpt;
    reg [7:0]  sv;
-//   reg [7:0]  cpt, sv;
 
    cpt_bin #(.SIZE(SIZE)) test_cpt_bin(activate, clk, reset, cpt);
 
@@ -28,7 +27,7 @@ module _test_cpt_bin;
    always
      begin
 	#20;
-	clk = ~clk;
+	clk <= ~clk;
      end
 
    always @(posedge clk)

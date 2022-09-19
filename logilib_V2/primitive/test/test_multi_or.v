@@ -1,4 +1,4 @@
-module _test_multi_and;
+module _test_multi_or;
    parameter SIZE = 3;
 
    reg [SIZE-1:0] e1;
@@ -6,11 +6,11 @@ module _test_multi_and;
    reg	clk;
    integer i;
 
-   multi_and #(.SIZE(SIZE)) test_multi_and(out, e1);
+   multi_or #(.SIZE(SIZE)) test_multi_or(out, e1);
 
    initial
      begin
-	$dumpfile("signal_multi_and.vcd");
+	$dumpfile("signal_multi_or.vcd");
         $dumpvars;
         $display("\t\ttime, \te1, \tout");
         $monitor("%d \t%b\t%b", $time, e1, out);
