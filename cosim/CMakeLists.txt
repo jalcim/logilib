@@ -1,4 +1,5 @@
 set(PWD_LOGILIB ${CMAKE_CURRENT_SOURCE_DIR}/..)
+set (CMAKE_CXX_STANDARD 11)
 
 set(SRC main.cpp
   primitive/gate/gate.cpp
