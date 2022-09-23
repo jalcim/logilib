@@ -4,7 +4,7 @@ module Dlatch (a, clk, reset, s1, s2);
    output s1, s2;
 
    xor xor1(line[5], a, reset);
-   and and1(line[6], a, line[5], line[6]);
+   and and1(line[6], a, line[5]);
 
    nand nand1(line[0], line[6], clk);
    not not1(line[1], line[6]);
