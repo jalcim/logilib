@@ -1,10 +1,9 @@
 module _test_multi_nor;
-   parameter SIZE = 3;
+   parameter SIZE = 4;
 
    reg [SIZE-1:0] e1;
    wire out;
    reg	clk;
-   integer i;
 
    multi_nor #(.SIZE(SIZE)) test_multi_nor(out, e1);
 
@@ -12,24 +11,23 @@ module _test_multi_nor;
      begin
 	$dumpfile("signal_multi_nor.vcd");
         $dumpvars;
-        $display("\t\ttime, \te1, \tout");
-        $monitor("%d \t%b\t%b", $time, e1, out);
+        $display("\t\ttime, \te1, , \tclk \tout");
+        $monitor("%d \t%b\t%b\t%b", $time, e1, clk, out);
 
 	e1 <= 0;
-	#20;
-	e1 <= 1;
-	#20;
-	e1 <= 2;
-	#20;
-	e1 <= 3;
-	#20;
-	e1 <= 4;
-	#20;
-	e1 <= 5;
-	#20;
-	e1 <= 6;
-	#20;
-	e1 <= 7;
-	#20;
+	clk <= 0;
+     end
+
+   always
+     begin
+	#10;
+	clk = ~clk;
+     end
+
+   always @(posedge clk)
+     begin
+	e1 <= e1 + 1;
+	if (e1 >= 4'b1111 )
+	  $finish;
      end
 endmodule
