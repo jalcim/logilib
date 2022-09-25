@@ -32,25 +32,25 @@ compil_primitive()
 {
     PRIM_TEST="primitive/test"
 
-    iverilog $PRIM_TEST/test_not.v $PRIM_SRC/gate.v -o $PRIM_BIN/not
-    iverilog $PRIM_TEST/test_buf.v $PRIM_SRC/gate.v -o $PRIM_BIN/buf
-    iverilog $PRIM_TEST/test_and.v $PRIM_SRC/gate.v -o $PRIM_BIN/and
-    iverilog $PRIM_TEST/test_nand.v $PRIM_SRC/gate.v -o $PRIM_BIN/nand
-    iverilog $PRIM_TEST/test_or.v $PRIM_SRC/gate.v -o $PRIM_BIN/or
-    iverilog $PRIM_TEST/test_nor.v $PRIM_SRC/gate.v -o $PRIM_BIN/nor
-    iverilog $PRIM_TEST/test_xor.v $PRIM_SRC/gate.v -o $PRIM_BIN/xor
-    iverilog $PRIM_TEST/test_xnor.v $PRIM_SRC/gate.v -o $PRIM_BIN/xnor
+    iverilog -o $PRIM_BIN/not $PRIM_TEST/test_not.v $PRIM_SRC/gate.v
+    iverilog -o $PRIM_BIN/buf $PRIM_TEST/test_buf.v $PRIM_SRC/gate.v
+    iverilog -o $PRIM_BIN/and $PRIM_TEST/test_and.v $PRIM_SRC/gate.v
+    iverilog -o $PRIM_BIN/nand $PRIM_TEST/test_nand.v $PRIM_SRC/gate.v
+    iverilog -o $PRIM_BIN/or $PRIM_TEST/test_or.v $PRIM_SRC/gate.v
+    iverilog -o $PRIM_BIN/nor $PRIM_TEST/test_nor.v $PRIM_SRC/gate.v
+    iverilog -o $PRIM_BIN/xor $PRIM_TEST/test_xor.v $PRIM_SRC/gate.v
+    iverilog -o $PRIM_BIN/xnor $PRIM_TEST/test_xnor.v $PRIM_SRC/gate.v
 
-    iverilog $PRIM_TEST/test_and8.v $PRIM_SRC/gate8.v $PRIM_SRC/gate.v -o $PRIM_BIN/and8
+    iverilog -o $PRIM_BIN/and8 $PRIM_TEST/test_and8.v $PRIM_SRC/gate8.v $PRIM_SRC/gate.v
 
-    iverilog $PRIM_SRC/recursive_gate.v $PRIM_TEST/test_recursive_buf.v  $PRIM_SRC/gate.v -o $PRIM_BIN/recursive_buf
-    iverilog $PRIM_SRC/recursive_gate.v $PRIM_TEST/test_recursive_not.v  $PRIM_SRC/gate.v -o $PRIM_BIN/recursive_not
-    iverilog $PRIM_SRC/recursive_gate.v $PRIM_TEST/test_recursive_and.v  $PRIM_SRC/gate.v -o $PRIM_BIN/recursive_and
-    iverilog $PRIM_SRC/recursive_gate.v $PRIM_TEST/test_recursive_or.v   $PRIM_SRC/gate.v -o $PRIM_BIN/recursive_or
-    iverilog $PRIM_SRC/recursive_gate.v $PRIM_TEST/test_recursive_xor.v  $PRIM_SRC/gate.v -o $PRIM_BIN/recursive_xor
-    iverilog $PRIM_SRC/recursive_gate.v $PRIM_TEST/test_recursive_xnor.v $PRIM_SRC/gate.v -o $PRIM_BIN/recursive_xnor
-    iverilog $PRIM_SRC/recursive_gate.v $PRIM_TEST/test_recursive_nand.v $PRIM_SRC/gate.v -o $PRIM_BIN/recursive_nand
-    iverilog $PRIM_SRC/recursive_gate.v $PRIM_TEST/test_recursive_nor.v  $PRIM_SRC/gate.v -o $PRIM_BIN/recursive_nor
+    iverilog -o $PRIM_BIN/recursive_buf $PRIM_SRC/recursive_gate.v $PRIM_TEST/test_recursive_buf.v  $PRIM_SRC/gate.v
+    iverilog -o $PRIM_BIN/recursive_not $PRIM_SRC/recursive_gate.v $PRIM_TEST/test_recursive_not.v  $PRIM_SRC/gate.v
+    iverilog -o $PRIM_BIN/recursive_and $PRIM_SRC/recursive_gate.v $PRIM_TEST/test_recursive_and.v  $PRIM_SRC/gate.v
+    iverilog -o $PRIM_BIN/recursive_or $PRIM_SRC/recursive_gate.v $PRIM_TEST/test_recursive_or.v   $PRIM_SRC/gate.v
+    iverilog -o $PRIM_BIN/recursive_xor $PRIM_SRC/recursive_gate.v $PRIM_TEST/test_recursive_xor.v  $PRIM_SRC/gate.v
+    iverilog -o $PRIM_BIN/recursive_xnor $PRIM_SRC/recursive_gate.v $PRIM_TEST/test_recursive_xnor.v $PRIM_SRC/gate.v
+    iverilog -o $PRIM_BIN/recursive_nand $PRIM_SRC/recursive_gate.v $PRIM_TEST/test_recursive_nand.v $PRIM_SRC/gate.v
+    iverilog -o $PRIM_BIN/recursive_nor $PRIM_SRC/recursive_gate.v $PRIM_TEST/test_recursive_nor.v  $PRIM_SRC/gate.v
     
 }
 
@@ -81,31 +81,44 @@ compil_routing()
 {
     ROUT_TEST="routing/test"
 
-    iverilog $PRIM_SRC/gate.v $PRIM_SRC/multigate.v $PRIM_SRC/gate8.v \
-	     $ROUT_SRC/multiplexeur.v $ROUT_TEST/test_mux_1x8.v                       -o $ROUT_BIN/mux_1x8
-    iverilog $PRIM_SRC/gate.v $PRIM_SRC/multigate.v $PRIM_SRC/gate8.v \
-	     $ROUT_SRC/multiplexeur.v $ROUT_TEST/test_mux_8bitx2.v                    -o $ROUT_BIN/mux_8bitx2
-    iverilog $PRIM_SRC/gate.v $PRIM_SRC/multigate.v $PRIM_SRC/gate8.v \
-	     $ROUT_SRC/multiplexeur.v $ROUT_TEST/test_mux.v                           -o $ROUT_BIN/mux
+    iverilog -o $ROUT_BIN/mux_1x8 \
+	     $PRIM_SRC/gate.v $PRIM_SRC/multigate.v $PRIM_SRC/gate8.v \
+	     $ROUT_SRC/multiplexeur.v $ROUT_TEST/test_mux_1x8.v
 
-    iverilog $PRIM_SRC/gate.v $PRIM_SRC/multigate.v $PRIM_SRC/gate8.v \
-	     $ROUT_SRC/recurse_mux.v $ROUT_TEST/test_recurse_mux.v                    -o $ROUT_BIN/recurse_mux
-    iverilog $PRIM_SRC/gate.v $PRIM_SRC/multigate.v $PRIM_SRC/gate8.v \
+    iverilog -o $ROUT_BIN/mux_8bitx2\
+	     $PRIM_SRC/gate.v $PRIM_SRC/multigate.v $PRIM_SRC/gate8.v \
+	     $ROUT_SRC/multiplexeur.v $ROUT_TEST/test_mux_8bitx2.v
+
+    iverilog -o $ROUT_BIN/mux \
+	     $PRIM_SRC/gate.v $PRIM_SRC/multigate.v $PRIM_SRC/gate8.v \
+	     $ROUT_SRC/multiplexeur.v $ROUT_TEST/test_mux.v
+
+    iverilog -o $ROUT_BIN/recurse_mux \
+	     $PRIM_SRC/gate.v $PRIM_SRC/multigate.v $PRIM_SRC/gate8.v \
+	     $ROUT_SRC/recurse_mux.v $ROUT_TEST/test_recurse_mux.v
+
+    iverilog -o $ROUT_BIN/recurse_mux8 \
+	     $PRIM_SRC/gate.v $PRIM_SRC/multigate.v $PRIM_SRC/gate8.v \
 	     $PRIM_SRC/recursive_gate.v $ROUT_SRC/recurse_mux.v \
-	     $ROUT_TEST/test_recurse_mux8.v                                           -o $ROUT_BIN/recurse_mux8
-    iverilog $PRIM_SRC/gate.v $PRIM_SRC/multigate.v $PRIM_SRC/gate8.v \
+	     $ROUT_TEST/test_recurse_mux8.v
+
+    iverilog -o $ROUT_BIN/recurse_demux \
+	     $PRIM_SRC/gate.v $PRIM_SRC/multigate.v $PRIM_SRC/gate8.v \
 	     $PRIM_SRC/recursive_gate.v $ROUT_SRC/recurse_demux.v \
-	     $ROUT_TEST/test_recurse_demux.v                                          -o $ROUT_BIN/recurse_demux
+	     $ROUT_TEST/test_recurse_demux.v
 
-    iverilog $PRIM_SRC/gate.v $PRIM_SRC/multigate.v $PRIM_SRC/gate8.v \
+    iverilog -o $ROUT_BIN/recurse_demux8 \
+	     $PRIM_SRC/gate.v $PRIM_SRC/multigate.v $PRIM_SRC/gate8.v \
 	     $PRIM_SRC/recursive_gate.v $ROUT_SRC/recurse_demux.v \
-	     $ROUT_TEST/test_recurse_demux8.v                                         -o $ROUT_BIN/recurse_demux8
+	     $ROUT_TEST/test_recurse_demux8.v
 
-    iverilog $PRIM_SRC/gate.v $PRIM_SRC/recursive_gate.v $ROUT_SRC/replicator.v \
-	     $ROUT_TEST/test_replicator.v                                             -o $ROUT_BIN/replicator
+    iverilog -o $ROUT_BIN/replicator \
+	     $PRIM_SRC/gate.v $PRIM_SRC/recursive_gate.v $ROUT_SRC/replicator.v \
+	     $ROUT_TEST/test_replicator.v
 
-    iverilog $PRIM_SRC/gate.v $PRIM_SRC/recursive_gate.v $ROUT_SRC/replicator.v \
-	     $ROUT_TEST/test_fragmented_replicator.v                                  -o $ROUT_BIN/fragmented_replicator
+    iverilog -o $ROUT_BIN/fragmented_replicator \
+	     $PRIM_SRC/gate.v $PRIM_SRC/recursive_gate.v $ROUT_SRC/replicator.v \
+	     $ROUT_TEST/test_fragmented_replicator.v
 }
 
 test_routing()
@@ -127,42 +140,56 @@ compil_memory()
 {
     MEM_TEST="memory/test"
 
-    iverilog $PRIM_SRC/gate.v $PRIM_SRC/multigate.v $PRIM_SRC/gate8.v \
-	     $PRIM_SRC/recursive_gate.v $MEM_SRC/basculeD.v $MEM_TEST/test_basculeD.v  -o $MEM_BIN/basculeD
+    iverilog -o $MEM_BIN/basculeD \
+	     $PRIM_SRC/gate.v $PRIM_SRC/multigate.v $PRIM_SRC/gate8.v \
+	     $PRIM_SRC/recursive_gate.v $MEM_SRC/basculeD.v $MEM_TEST/test_basculeD.v
 
-    iverilog $PRIM_SRC/gate.v $PRIM_SRC/multigate.v $PRIM_SRC/gate8.v \
-	     $PRIM_SRC/recursive_gate.v $MEM_SRC/basculeD.v $MEM_TEST/test_Dflipflop.v -o $MEM_BIN/Dflipflop
+    iverilog -o $MEM_BIN/Dflipflop \
+	     $PRIM_SRC/gate.v $PRIM_SRC/multigate.v $PRIM_SRC/gate8.v \
+	     $PRIM_SRC/recursive_gate.v $MEM_SRC/basculeD.v $MEM_TEST/test_Dflipflop.v
 
-    iverilog $PRIM_SRC/gate.v $PRIM_SRC/multigate.v $PRIM_SRC/gate8.v \
-	     $PRIM_SRC/recursive_gate.v $MEM_SRC/JKlatch.v  $MEM_TEST/test_JKlatchUP.v -o $MEM_BIN/JKlatchUP
+    iverilog -o $MEM_BIN/JKlatchUP \
+	     $PRIM_SRC/gate.v $PRIM_SRC/multigate.v $PRIM_SRC/gate8.v \
+	     $PRIM_SRC/recursive_gate.v $MEM_SRC/JKlatch.v  $MEM_TEST/test_JKlatchUP.v
 
-    iverilog $PRIM_SRC/gate.v $PRIM_SRC/multigate.v $PRIM_SRC/gate8.v \
-	     $PRIM_SRC/recursive_gate.v $MEM_SRC/regdec.v   $MEM_TEST/test_regdec.v    -o $MEM_BIN/regdec
+    iverilog -o $MEM_BIN/regdec \
+	     $PRIM_SRC/gate.v \
+	     $PRIM_SRC/multigate.v \
+	     $PRIM_SRC/gate8.v \
+	     $PRIM_SRC/recursive_gate.v \
+	     $MEM_SRC/regdec.v \
+	     $MEM_TEST/test_regdec.v
 
-    iverilog $PRIM_SRC/gate.v $PRIM_SRC/multigate.v $PRIM_SRC/gate8.v \
+    iverilog -o $MEM_BIN/recursive_Dlatch \
+	     $PRIM_SRC/gate.v $PRIM_SRC/multigate.v $PRIM_SRC/gate8.v \
 	     $PRIM_SRC/recursive_gate.v $MEM_SRC/basculeD.v \
-	     $MEM_TEST/test_recursive_Dlatch.v                                         -o $MEM_BIN/recursive_Dlatch
+	     $MEM_TEST/test_recursive_Dlatch.v
 
-    iverilog $PRIM_SRC/gate.v $PRIM_SRC/multigate.v $PRIM_SRC/gate8.v \
+    iverilog -o $MEM_BIN/recursive_Dlatch256 \
+	     $PRIM_SRC/gate.v $PRIM_SRC/multigate.v $PRIM_SRC/gate8.v \
 	     $PRIM_SRC/recursive_gate.v $MEM_SRC/basculeD.v \
-	     $MEM_TEST/test_recursive_Dlatch256.v                                      -o $MEM_BIN/recursive_Dlatch256
+	     $MEM_TEST/test_recursive_Dlatch256.v
 
-    iverilog $PRIM_SRC/gate.v $PRIM_SRC/multigate.v $PRIM_SRC/gate8.v \
+    iverilog -o $MEM_BIN/memory \
+	     $PRIM_SRC/gate.v $PRIM_SRC/multigate.v $PRIM_SRC/gate8.v \
 	     $PRIM_SRC/recursive_gate.v $MEM_SRC/basculeD.v \
 	     $MEM_SRC/memory.v $MEM_TEST/test_memory.v\
 	     $ROUT_SRC/replicator.v $ROUT_SRC/recurse_demux.v \
-	     $ROUT_SRC/recurse_mux.v                                                   -o $MEM_BIN/memory
+	     $ROUT_SRC/recurse_mux.v
 
-    iverilog $PRIM_SRC/gate.v $PRIM_SRC/multigate.v $PRIM_SRC/gate8.v \
+    iverilog -o $MEM_BIN/blockreg \
+	     $PRIM_SRC/gate.v $PRIM_SRC/multigate.v $PRIM_SRC/gate8.v \
 	     $PRIM_SRC/recursive_gate.v $MEM_SRC/basculeD.v \
 	     $ROUT_SRC/replicator.v $ROUT_SRC/recurse_demux.v \
-	     $ROUT_SRC/recurse_mux.v $MEM_SRC/blockreg.v $MEM_TEST/test_blockreg.v     -o $MEM_BIN/blockreg
+	     $ROUT_SRC/recurse_mux.v $MEM_SRC/blockreg.v $MEM_TEST/test_blockreg.v
 
-    iverilog $MEM_SRC/sequential_regdec.v $MEM_SRC/basculeD.v $ROUT_SRC/recurse_mux.v \
-	     $PRIM_SRC/gate.v $MEM_TEST/test_sequential_regdec_left.v                  -o $MEM_BIN/sequential_regdec_left
+    iverilog -o $MEM_BIN/sequential_regdec_left \
+	     $MEM_SRC/sequential_regdec.v $MEM_SRC/basculeD.v $ROUT_SRC/recurse_mux.v \
+	     $PRIM_SRC/gate.v $MEM_TEST/test_sequential_regdec_left.v
 
-    iverilog $MEM_SRC/sequential_regdec.v $MEM_SRC/basculeD.v $ROUT_SRC/recurse_mux.v \
-	     $PRIM_SRC/gate.v $MEM_TEST/test_sequential_regdec_right.v                  -o $MEM_BIN/sequential_regdec_right
+    iverilog -o $MEM_BIN/sequential_regdec_right \
+	     $MEM_SRC/sequential_regdec.v $MEM_SRC/basculeD.v $ROUT_SRC/recurse_mux.v \
+	     $PRIM_SRC/gate.v $MEM_TEST/test_sequential_regdec_right.v
 }
 
 test_memory()
@@ -183,12 +210,15 @@ compil_compteur()
 {
     CPT_TEST="compteur/test"
 
-    iverilog $PRIM_SRC/gate.v $PRIM_SRC/multigate.v $PRIM_SRC/gate8.v \
+    iverilog -o $CPT_BIN/bit_cpt3 \
+	     $PRIM_SRC/gate.v $PRIM_SRC/multigate.v $PRIM_SRC/gate8.v \
 	     $PRIM_SRC/recursive_gate.v $MEM_SRC/basculeD.v $CPT_SRC/bit_cpt3.v \
-	     $CPT_TEST/test_bit_cpt3.v                                                 -o $CPT_BIN/bit_cpt3
-    iverilog $PRIM_SRC/gate.v $PRIM_SRC/multigate.v $PRIM_SRC/gate8.v \
+	     $CPT_TEST/test_bit_cpt3.v
+
+    iverilog -o $CPT_BIN/cpt_bin \
+	     $PRIM_SRC/gate.v $PRIM_SRC/multigate.v $PRIM_SRC/gate8.v \
 	     $PRIM_SRC/recursive_gate.v \ $MEM_SRC/JKlatch.v  $CPT_SRC/cpt_bin.v \
-	     $CPT_TEST/test_cpt_bin.v                                                  -o $CPT_BIN/cpt_bin
+	     $CPT_TEST/test_cpt_bin.v
 }
 
 test_compteur()
@@ -201,44 +231,52 @@ compil_alu_arithm()
 {
     ALU_ARITHM_TEST="alu/arithm/test"
 
-    iverilog $PRIM_SRC/gate.v $PRIM_SRC/multigate.v $PRIM_SRC/gate8.v \
+    iverilog -o $ALU_ARITHM_BIN/add \
+	     $PRIM_SRC/gate.v $PRIM_SRC/multigate.v $PRIM_SRC/gate8.v \
 	     $PRIM_SRC/recursive_gate.v $ALU_ARITHM_SRC/add.v \
-	     $ALU_ARITHM_TEST/test_add.v                                              -o $ALU_ARITHM_BIN/add
-    
-    iverilog $PRIM_SRC/gate.v $PRIM_SRC/multigate.v $PRIM_SRC/gate8.v \
+	     $ALU_ARITHM_TEST/test_add.v
+
+    iverilog -o $ALU_ARITHM_BIN/add8 \
+	     $PRIM_SRC/gate.v $PRIM_SRC/multigate.v $PRIM_SRC/gate8.v \
 	     $PRIM_SRC/recursive_gate.v $ALU_ARITHM_SRC/add.v $ALU_ARITHM_SRC/add8.v \
-	     $ALU_ARITHM_TEST/test_add8.v                                             -o $ALU_ARITHM_BIN/add8
-    
-    iverilog $PRIM_SRC/gate.v $PRIM_SRC/multigate.v $PRIM_SRC/gate8.v \
+	     $ALU_ARITHM_TEST/test_add8.v
+
+    iverilog -o $ALU_ARITHM_BIN/cmp \
+	     $PRIM_SRC/gate.v $PRIM_SRC/multigate.v $PRIM_SRC/gate8.v \
 	     $PRIM_SRC/recursive_gate.v $ALU_ARITHM_SRC/cmp.v \
-	     $ALU_ARITHM_TEST/test_cmp.v                                              -o $ALU_ARITHM_BIN/cmp
-    
-    iverilog $PRIM_SRC/gate.v $PRIM_SRC/multigate.v $PRIM_SRC/gate8.v \
+	     $ALU_ARITHM_TEST/test_cmp.v
+
+    iverilog -o $ALU_ARITHM_BIN/cmp8 \
+	     $PRIM_SRC/gate.v $PRIM_SRC/multigate.v $PRIM_SRC/gate8.v \
 	     $PRIM_SRC/recursive_gate.v $ALU_ARITHM_SRC/cmp.v \
-	     $ALU_ARITHM_TEST/test_cmp8.v                                             -o $ALU_ARITHM_BIN/cmp8
-    
-    iverilog $PRIM_SRC/gate.v $PRIM_SRC/multigate.v $PRIM_SRC/gate8.v \
+	     $ALU_ARITHM_TEST/test_cmp8.v
+
+    iverilog -o $ALU_ARITHM_BIN/divmod2 \
+	     $PRIM_SRC/gate.v $PRIM_SRC/multigate.v $PRIM_SRC/gate8.v \
 	     $PRIM_SRC/recursive_gate.v $ROUT_SRC/multiplexeur.v \
 	     $MEM_SRC/basculeD.v $MEM_SRC/JKlatch.v  $MEM_SRC/regdec.v \
 	     $ALU_ARITHM_SRC/divmod2.v $ALU_ARITHM_SRC/add.v $ALU_ARITHM_SRC/add8.v \
-	     $CPT_SRC/bit_cpt3.v $ALU_ARITHM_TEST/test_divmod2.v                      -o $ALU_ARITHM_BIN/divmod2
+	     $CPT_SRC/bit_cpt3.v $ALU_ARITHM_TEST/test_divmod2.v
 
-    iverilog $PRIM_SRC/gate.v $PRIM_SRC/multigate.v $PRIM_SRC/gate8.v \
+    iverilog -o $ALU_ARITHM_BIN/mult \
+	     $PRIM_SRC/gate.v $PRIM_SRC/multigate.v $PRIM_SRC/gate8.v \
 	     $PRIM_SRC/recursive_gate.v $ROUT_SRC/multiplexeur.v \
 	     $MEM_SRC/basculeD.v $MEM_SRC/JKlatch.v  $MEM_SRC/regdec.v \
 	     $ALU_ARITHM_SRC/divmod2.v $CPT_SRC/*.v $ROUT_SRC/demultiplexeur.v \
 	     $ALU_ARITHM_SRC/mult.v $ALU_ARITHM_SRC/add.v $ALU_ARITHM_SRC/add8.v \
-	     $ALU_ARITHM_TEST/test_mult.v                                             -o $ALU_ARITHM_BIN/mult
+	     $ALU_ARITHM_TEST/test_mult.v
 
-    iverilog $PRIM_SRC/gate.v $PRIM_SRC/multigate.v $PRIM_SRC/gate8.v \
+    iverilog -o $ALU_ARITHM_BIN/mult8 \
+	     $PRIM_SRC/gate.v $PRIM_SRC/multigate.v $PRIM_SRC/gate8.v \
 	     $PRIM_SRC/recursive_gate.v $ROUT_SRC/multiplexeur.v \
 	     $MEM_SRC/basculeD.v $MEM_SRC/JKlatch.v  $MEM_SRC/regdec.v \
 	     $ALU_ARITHM_SRC/divmod2.v $CPT_SRC/*.v $ROUT_SRC/demultiplexeur.v \
 	     $ALU_ARITHM_SRC/mult.v $ALU_ARITHM_SRC/add.v $ALU_ARITHM_SRC/add8.v\
-	     $ALU_ARITHM_TEST/test_mult8.v                                            -o $ALU_ARITHM_BIN/mult8
+	     $ALU_ARITHM_TEST/test_mult8.v
 
-    iverilog $PRIM_SRC/gate.v $ALU_ARITHM_SRC/add.v $ALU_ARITHM_SRC/multi_add.v \
-	     $ALU_ARITHM_TEST/test_multi_add.v                                        -o $ALU_ARITHM_BIN/multi_add
+    iverilog -o $ALU_ARITHM_BIN/multi_add \
+	     $PRIM_SRC/gate.v $ALU_ARITHM_SRC/add.v $ALU_ARITHM_SRC/multi_add.v \
+	     $ALU_ARITHM_TEST/test_multi_add.v
 }
 
 test_alu_arithm()
@@ -256,11 +294,12 @@ compil_alu_main()
 {
     ALU_MAIN_TEST="alu/alu/test/"
 
-    iverilog $PRIM_SRC/gate.v $PRIM_SRC/multigate.v $PRIM_SRC/gate8.v \
+    iverilog -o $ALU_MAIN_BIN/alu \
+	     $PRIM_SRC/gate.v $PRIM_SRC/multigate.v $PRIM_SRC/gate8.v \
 	     $PRIM_SRC/recursive_gate.v $ROUT_SRC/*.v \
 	     $MEM_SRC/basculeD.v $MEM_SRC/JKlatch.v  $MEM_SRC/regdec.v \
 	     $ALU_ARITHM_SRC/*.v $CPT_SRC/*.v \
-	     $ALU_MAIN_SRC/alu.v $ALU_MAIN_TEST/test_alu.v               -o $ALU_MAIN_BIN/alu
+	     $ALU_MAIN_SRC/alu.v $ALU_MAIN_TEST/test_alu.v
 }
 
 test_alu_main()
