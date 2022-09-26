@@ -4,7 +4,7 @@ module test_gate;
 
    gate_not  inst0(out_not, e1);
    gate_nor  inst1(out_nor, e1, e2);
-   gate_nand inst2(out_nand, e1, e2);
+   gate_nand inst2(out_nand, {e1, e2});
 
    initial
      begin
