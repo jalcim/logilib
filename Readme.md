@@ -18,7 +18,7 @@ Cependant cette approche a limiter la taille des circuits a 8bit (je ne me voyai
 La 2 eme version (celle en verilog) apporte donc ce dynamisme qui a terme permettra d'avoir nos circuits en 8/16/32/64/128 bit,
 Ceci en modifiant simplement les parameters, voir a terme en modifiant simpement un fichier de configuration.
 Cette version est integralement developper pour le simulateur iverilog et le cosimulateur verilator.
-la synthese se fait via yosys et le flow ce conception via Qflow fais ses premiers pas.
+la synthese se fait via yosys et le flow de conception via OpenROAD.
 
 Chaque module est accompagner de 2 schema,
 un schema logique 8 bit sur lequel son idee repose,
