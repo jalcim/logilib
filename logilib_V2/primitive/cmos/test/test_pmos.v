@@ -1,13 +1,13 @@
-module test_parallel_nmos;
+module test_parallel_pmos;
    wire    drain;
-   supply0 source;
+   supply1 source;
    reg 	   gate;
 
-   t_nmos inst(drain, source, gate);
+   t_pmos inst(drain, source, gate);
 
    initial
      begin
-	$dumpfile("signal_test_parallel_nmos.vcd");
+	$dumpfile("signal_test_parallel_pmos.vcd");
         $dumpvars;
         $display("\t\ttime, \tD, \tS, \tG");
         $monitor("%d \t%b\t%b\t%b", $time, drain, source, gate);
