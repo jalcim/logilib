@@ -8,10 +8,7 @@ module test_gate;
 
    initial
      begin
-	$dumpfile("signal_gate.vcd");
-        $dumpvars;
-        $display("\t\ttime, \tnot, \tnor, \tnand, \te1, \te2");
-        $monitor("%d \t%b\t%b\t%b\t%b\t%b", $time, out_not, out_nor, out_nand, e1, e2);
+
 
 	e1 <= 0;
 	e2 <= 0;

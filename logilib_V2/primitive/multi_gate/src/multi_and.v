@@ -9,13 +9,11 @@ module multi_and(out, e1);
    wire 	    W1, W2;
 
    if (SIZE == 1)
-     begin
-	assign out = e1[0];
-     end
+     assign out = e1[0];
+
    else if (SIZE == 2)
-     begin
-	and and1(out, e1[0], e1[1]);
-     end
+     and and1(out, e1[0], e1[1]);
+
    else if (SIZE > 2)
      begin
 	and and0(out, W1, W2);
