@@ -1,5 +1,5 @@
 module serial_pmos(drain, source, gate);
-   parameter SIZE = 1;
+   parameter SIZE = 2;
    output 	    drain;
    input 	    source;
    input [SIZE-1:0] gate;
