@@ -6,8 +6,6 @@ module gate_nand(out, in);
    supply1	    vcc;
    supply0	    gnd;
 
-   wire [SIZE-2:0]  line;
-
    parallel_pmos #(.SIZE(2)) pmos_array({out, out},
 					{SIZE{vcc}},
 					in);
