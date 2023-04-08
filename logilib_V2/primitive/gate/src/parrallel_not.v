@@ -1,4 +1,4 @@
-module parallel_not(out, in);
+module parallel_gate_not(out, in);
    parameter SIZE = 1;
 
    input  [SIZE -1 : 0] in;

@@ -9,7 +9,7 @@ module gate_xnor(out, in);
    wire 	    line;
    wire [SIZE-1:0]  inv;
 
-   parallel_not #(.SIZE(SIZE))parallel_not(inv[SIZE-1:0], in[SIZE-1:0]);
+   parallel_gate_not #(.SIZE(SIZE))parallel_gate_not(inv[SIZE-1:0], in[SIZE-1:0]);
 
    serial_pmos #(.SIZE(2)) pmos_array0(out,
 				      vcc,
