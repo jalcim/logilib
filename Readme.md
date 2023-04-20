@@ -1,28 +1,20 @@
-La logilib est une bibliotheque de circuit logique structurel.
+La logilib est une bibliotheque verilog structurelle recursive.
+yosys est utiliser afin de generer la netlist finale.
 
-L'objectif n'est pas le design sur FPGA, cette librairie vise le design sur ASIC.
+Elle vise a fournir tous les circuits existant, ceci en fournissant une abstraction materiel hautement configurable au travers de module abstrait de haut niveau : exemple 50 nand a 5 entrer en parrallele ou en serie.
 
-En d'autres mots ICI PAS DE RTL !!!
-Tout est schematiser a partir des primitives de portes logique fournit par le verilog,
-Et nous avons meme pousser le vice a refaire les portes logiques avec les primitives CMOS fournit par le verilog.
+Elle implemente tous les type de simulation (icarus, verilator, spice).
 
-Le but etant de creer tous les circuits necessaire a un processeur de maniere totalement explicite,
-Ceci en gardant une vision purement electronique et schematique.
+Elle est constituer de sous partie : 
+- libgate (un simple wrapper de porte logique pour permettre de rester abstrait vis a vis du materiel)
+- libcmos (une implementation des primites logiques et sequeniels : exemple sram nand Dlatch)
+- libanalog (TODO) une librairie en langage SPICE avec des wrapper verilog en blackbox.
 
-Cependant comme certain composants sont souvent recurant avec de petite variantes, ou meme sont present des centaines/millier de fois,
-nous ne nous privons donc pas de la puissances des parameters de verilog, ni de son approche recursive permettant la generation des circuits.
-
-La premiere version de cette librairie etais entierement schematique, et etais tester sur simulateur logique,
-Cependant cette approche a limiter la taille des circuits a 8bit (je ne me voyais pas cabler 65536 bascule...).
-
-La 2 eme version (celle en verilog) apporte donc ce dynamisme qui a terme permettra d'avoir nos circuits en 8/16/32/64/128 bit,
-Ceci en modifiant simplement les parameters, voir a terme en modifiant simpement un fichier de configuration.
-Cette version est integralement developper pour le simulateur iverilog et le cosimulateur verilator.
-la synthese se fait via yosys et le flow de conception via OpenROAD.
+La taille de tous les circuits est arbitrairement configurable (32, 64, 42 bit).
 
 Chaque module est accompagner de 2 schema,
-un schema logique 8 bit sur lequel son idee repose,
-et un schema "finite state machine" qui est sa representation reel (generer par yosys).
+un schema logique 8 bit sur lequel son idee repose (taille et techno configurable).
+et un schema "finite state machine" qui est sa representation reel (generable par yosys).
 
 
 
