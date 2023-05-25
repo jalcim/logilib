@@ -1,3 +1,4 @@
+#!/bin/sh
 mkdir bin
 
 iverilog src/nmos.v test/test_nmos.v -o bin/eval_nmos
