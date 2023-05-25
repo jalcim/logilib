@@ -12,7 +12,7 @@ module test_gate;
 
    initial
      begin
-	$dumpfile("signal_test_parallel_nmos.vcd");
+	$dumpfile("signal_test_gate_cmos.vcd");
         $dumpvars;
         $monitor("time %d\nnot\t%b\nnor\t%b\nnand\t%b\nand\t%b\nor\t%b\nxor\t%b\nxnor\t%b\ne1\t%b\ne2\t%b\n",
 		 $time, out_not, out_nor, out_nand,

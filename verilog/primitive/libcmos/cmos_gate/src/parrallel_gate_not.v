@@ -10,10 +10,10 @@ module parallel_gate_not(out, in);
      end
    else
      begin
-	parallel_not #(.SIZE(SIZE-1))parallel_not0(out[SIZE/2-1 : 0],
+	parallel_gate_not #(.SIZE(SIZE-1))parallel_not0(out[SIZE/2-1 : 0],
 						   in [SIZE/2-1 : 0]);
 
-	parallel_not #(.SIZE(SIZE-1))parallel_not1(out[SIZE-1   : SIZE/2],
+	parallel_gate_not #(.SIZE(SIZE-1))parallel_not1(out[SIZE-1   : SIZE/2],
 						   in [SIZE-1   : SIZE/2]);
 
      end
