@@ -1,12 +1,11 @@
 module test_serial_nmos;
    parameter SIZE = 10;
    wire drain;
-   reg gate;
+   reg [SIZE-1:0] gate;
    supply0 source;
    integer sim_counter;
 
-   serial_nmos #(.SIZE(SIZE)) serial_nmos_inst(drain, source,
-					       {SIZE{gate}});
+   serial_nmos #(.SIZE(SIZE)) serial_nmos_inst(drain, source, gate);
 
    initial
      begin
@@ -16,12 +15,11 @@ module test_serial_nmos;
         $monitor("%d \t%b\t%b\t%b", $time, drain, source, gate);
 
 	sim_counter = 0;
-	while (sim_counter < SIZE)
+	while (sim_counter < 2**SIZE)
 	  begin
-	     gate <= 0;
+	     gate <= sim_counter;
 	     #100;
-	     gate <= 1;
-	     #100;
+	     sim_counter <= sim_counter + 1;
 	  end
      end
 endmodule

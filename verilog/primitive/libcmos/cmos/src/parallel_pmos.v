@@ -6,5 +6,7 @@ module parallel_pmos(drain, source, gate);
    if (SIZE > 0)
      t_pmos inst(drain[0], source[0], gate[0]);
    if (SIZE > 1)
-     parallel_pmos recall(drain[SIZE-1:1], source[SIZE-1:1], gate[SIZE-1:1]);
+     parallel_pmos #(.SIZE(SIZE-1)) recall(drain[SIZE-1:1],
+					 source[SIZE-1:1],
+					 gate[SIZE-1:1]);
 endmodule
