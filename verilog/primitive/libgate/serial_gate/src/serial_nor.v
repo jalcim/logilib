@@ -22,5 +22,4 @@ module serial_nor(out, e1);
 	serial_nor #(.SIZE(N1)) recall1(W1, e1[SIZE - 1 : SIZE - N1]);
 	serial_nor #(.SIZE(N2)) recall2(W2, e1[N2 - 1 : 0]);
      end
-
 endmodule
