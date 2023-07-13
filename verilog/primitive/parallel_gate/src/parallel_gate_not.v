@@ -1,23 +1,11 @@
-module parallel_not(in, out);
+module parallel_not(A, out);
    parameter S = 3;
 
-   input [2**S -1 : 0] in;
-   output [2**S -1 : 0] out;
+   input  [S-1 : 0] A;
+   output [S-1 : 0] out;
 
-   if (S == 0)
-     begin
-	not not2(in[0], out[0]);
-     end
-   else if (S == 1)
-     begin
-	not not0(in[0], out[0]);
-	not not1(in[1], out[1]);
-     end
-   else
-     begin
-	parallel_not #(.S(S-1))parallel_not0(in[2**(S-1) -1: 0],
-					       out[2**(S-1) -1: 0]);
-	parallel_not #(.S(S-1))parallel_not1(in[2**S - 1:2**(S-1)],
-					       out[2**S - 1:2**(S-1)]);
-     end
+   not not2(out[0], A[0]);
+   if (S < 1)
+     parallel_not #(.S(S-1))parallel_not0(  A[S-1 : 1],
+					  out[S-1 : 1]);
 endmodule // parallel_not

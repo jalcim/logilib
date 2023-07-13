@@ -1,25 +1,12 @@
-module parallel_xnor(in1, in2, out);
+module parallel_xnor(A, B, out);
    parameter S = 3;
 
-   input [2**S -1 : 0] in1, in2;
-   output [2**S -1 : 0] out;
+   input  [S-1 : 0] A, B;
+   output [S-1 : 0] out;
 
-   if (S == 0)
-     begin
-	xnor xnor2(in1[0], in2[0], out[0]);
-     end
-   else if (S == 1)
-     begin
-	xnor xnor0(in1[0], in2[0], out[0]);
-	xnor xnor1(in1[1], in2[1], out[1]);
-     end
-   else
-     begin
-	parallel_xnor #(.S(S-1))parallel_xnor0(in1[2**(S-1) -1: 0],
-					       in2[2**(S-1) -1: 0],
-					       out[2**(S-1) -1: 0]);
-	parallel_xnor #(.S(S-1))parallel_xnor1(in1[2**S - 1:2**(S-1)],
-					       in2[2**S - 1:2**(S-1)],
-					       out[2**S - 1:2**(S-1)]);
-     end
+   xnor xnor2(out[0], A[0], B[0]);
+   if (S < 1)
+     parallel_xnor #(.S(S-1))parallel_xnor0(  A[S-1 : 1],
+					    B[S-1 : 1],
+					  out[S-1 : 1]);
 endmodule // parallel_xnor

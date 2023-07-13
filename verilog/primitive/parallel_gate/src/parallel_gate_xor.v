@@ -1,25 +1,12 @@
-module parallel_xor(in1, in2, out);
+module parallel_xor(A, B, out);
    parameter S = 3;
 
-   input [2**S -1 : 0] in1, in2;
-   output [2**S -1 : 0] out;
+   input  [S-1 : 0] A, B;
+   output [S-1 : 0] out;
 
-   if (S == 0)
-     begin
-	xor xor2(in1[0], in2[0], out[0]);
-     end
-   else if (S == 1)
-     begin
-	xor xor0(in1[0], in2[0], out[0]);
-	xor xor1(in1[1], in2[1], out[1]);
-     end
-   else
-     begin
-	parallel_xor #(.S(S-1))parallel_xor0(in1[2**(S-1) -1: 0],
-					       in2[2**(S-1) -1: 0],
-					       out[2**(S-1) -1: 0]);
-	parallel_xor #(.S(S-1))parallel_xor1(in1[2**S - 1:2**(S-1)],
-					       in2[2**S - 1:2**(S-1)],
-					       out[2**S - 1:2**(S-1)]);
-     end
+   xor xor2(out[0], A[0], B[0]);
+   if (S < 1)
+     parallel_xor #(.S(S-1))parallel_xor0(  A[S-1 : 1],
+					    B[S-1 : 1],
+					  out[S-1 : 1]);
 endmodule // parallel_xor
