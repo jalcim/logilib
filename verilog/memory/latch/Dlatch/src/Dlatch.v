@@ -1,29 +1,18 @@
-module Dlatch (a, clk, reset, s1, s2);
-   input a, clk, reset;
-   output s1, s2;
+module Dlatch (D, clk, Q, QN);
+   input D, clk;
+   output Q, QN;
 
-   wire   line0;
-   wire   line1;
-   wire   line2;
-   wire   line3;
- /* verilator lint_off UNOPTFLAT */
-   wire   line4;//DIDNOTCONVERGE
-   wire   line5;
-   wire   line6;
-   wire   line7;
+   wire [4:0] line;
 
-   xor xor1(line5, a, reset);
-   and and1(line6, a, line5);
+   not not0(line[0], D);
    
-   nand nand1(line0, line6, clk);
-   not not1(line1, line6);
-   nand nand2(line2, line1, clk);
+   and and0(line[1], line[0], clk);
+   and and1(line[2], D      , clk);
 
-   nand nand3(line3, line0, line7);
-   nand nand4(line4, line2, line3);
+   nor nor0(line[3], line[1], line[4]);
+   nor nor1(line[4], line[2], line[3]);
 
-   or or1(line7, reset, line4);
+   assign Q  = line[3];
+   assign QN = line[4];
 
-   buf buf1(s1, line3);
-   buf buf2(s2, line4);
 endmodule

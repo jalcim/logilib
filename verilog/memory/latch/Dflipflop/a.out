@@ -1,0 +1,179 @@
+#! /usr/bin/vvp
+:ivl_version "11.0 (stable)";
+:ivl_delay_selection "TYPICAL";
+:vpi_time_precision + 0;
+:vpi_module "/usr/lib/x86_64-linux-gnu/ivl/system.vpi";
+:vpi_module "/usr/lib/x86_64-linux-gnu/ivl/vhdl_sys.vpi";
+:vpi_module "/usr/lib/x86_64-linux-gnu/ivl/vhdl_textio.vpi";
+:vpi_module "/usr/lib/x86_64-linux-gnu/ivl/v2005_math.vpi";
+:vpi_module "/usr/lib/x86_64-linux-gnu/ivl/va_math.vpi";
+S_0x56504eb8f0d0 .scope module, "test_Dflipflop" "test_Dflipflop" 2 1;
+ .timescale 0 0;
+v0x56504ebb15c0_0 .var "a", 0 0;
+v0x56504ebb1680_0 .var "clk", 0 0;
+v0x56504ebb1720_0 .var "reset", 0 0;
+v0x56504ebb1820_0 .net "s1", 0 0, L_0x56504ebb36b0;  1 drivers
+v0x56504ebb18f0_0 .net "s2", 0 0, L_0x56504ebb3810;  1 drivers
+v0x56504ebb1990_0 .var "set", 0 0;
+S_0x56504eb8f260 .scope module, "test_Dflipflop" "Dflipflop" 2 5, 3 1 0, S_0x56504eb8f0d0;
+ .timescale 0 0;
+    .port_info 0 /INPUT 1 "preset";
+    .port_info 1 /INPUT 1 "data";
+    .port_info 2 /INPUT 1 "clk";
+    .port_info 3 /INPUT 1 "clear";
+    .port_info 4 /OUTPUT 1 "Q";
+    .port_info 5 /OUTPUT 1 "QN";
+L_0x56504ebb1b60 .functor OR 1, v0x56504ebb1720_0, L_0x56504ebb1a60, C4<0>, C4<0>;
+L_0x56504ebb1d90 .functor OR 1, L_0x56504ebb1b60, L_0x56504ebb1ca0, C4<0>, C4<0>;
+L_0x56504ebb1ea0 .functor NOT 1, L_0x56504ebb1d90, C4<0>, C4<0>, C4<0>;
+L_0x56504ebb2000 .functor OR 1, L_0x56504ebb1f60, v0x56504ebb1680_0, C4<0>, C4<0>;
+L_0x56504ebb2140 .functor OR 1, L_0x56504ebb2000, v0x56504ebb1990_0, C4<0>, C4<0>;
+L_0x56504ebb2250 .functor NOT 1, L_0x56504ebb2140, C4<0>, C4<0>, C4<0>;
+L_0x56504ebb2420 .functor OR 1, L_0x56504ebb2350, v0x56504ebb1680_0, C4<0>, C4<0>;
+L_0x56504ebb2530 .functor OR 1, L_0x56504ebb2420, L_0x56504ebb2490, C4<0>, C4<0>;
+L_0x56504ebb2690 .functor NOT 1, L_0x56504ebb2530, C4<0>, C4<0>, C4<0>;
+L_0x56504ebb2830 .functor OR 1, L_0x56504ebb2750, v0x56504ebb15c0_0, C4<0>, C4<0>;
+L_0x56504ebb29a0 .functor OR 1, L_0x56504ebb2830, v0x56504ebb1990_0, C4<0>, C4<0>;
+L_0x56504ebb2a10 .functor NOT 1, L_0x56504ebb29a0, C4<0>, C4<0>, C4<0>;
+L_0x56504ebb2be0 .functor OR 1, v0x56504ebb1720_0, L_0x56504ebb2b40, C4<0>, C4<0>;
+L_0x56504ebb2d90 .functor OR 1, L_0x56504ebb2be0, L_0x56504ebb2ca0, C4<0>, C4<0>;
+L_0x56504ebb2ad0 .functor NOT 1, L_0x56504ebb2d90, C4<0>, C4<0>, C4<0>;
+L_0x56504ebb3340 .functor OR 1, L_0x56504ebb31a0, L_0x56504ebb32a0, C4<0>, C4<0>;
+L_0x56504ebb3490 .functor OR 1, L_0x56504ebb3340, v0x56504ebb1990_0, C4<0>, C4<0>;
+L_0x56504ebb3550 .functor NOT 1, L_0x56504ebb3490, C4<0>, C4<0>, C4<0>;
+v0x56504eb8f490_0 .net "Q", 0 0, L_0x56504ebb36b0;  alias, 1 drivers
+v0x56504ebaf7b0_0 .net "QN", 0 0, L_0x56504ebb3810;  alias, 1 drivers
+v0x56504ebaf870_0 .net *"_ivl_10", 0 0, L_0x56504ebb1ea0;  1 drivers
+v0x56504ebaf930_0 .net *"_ivl_15", 0 0, L_0x56504ebb1f60;  1 drivers
+v0x56504ebafa10_0 .net *"_ivl_16", 0 0, L_0x56504ebb2000;  1 drivers
+v0x56504ebafb40_0 .net *"_ivl_18", 0 0, L_0x56504ebb2140;  1 drivers
+v0x56504ebafc20_0 .net *"_ivl_20", 0 0, L_0x56504ebb2250;  1 drivers
+v0x56504ebafd00_0 .net *"_ivl_25", 0 0, L_0x56504ebb2350;  1 drivers
+v0x56504ebafde0_0 .net *"_ivl_26", 0 0, L_0x56504ebb2420;  1 drivers
+v0x56504ebafec0_0 .net *"_ivl_29", 0 0, L_0x56504ebb2490;  1 drivers
+v0x56504ebaffa0_0 .net *"_ivl_3", 0 0, L_0x56504ebb1a60;  1 drivers
+v0x56504ebb0080_0 .net *"_ivl_30", 0 0, L_0x56504ebb2530;  1 drivers
+v0x56504ebb0160_0 .net *"_ivl_32", 0 0, L_0x56504ebb2690;  1 drivers
+v0x56504ebb0240_0 .net *"_ivl_37", 0 0, L_0x56504ebb2750;  1 drivers
+v0x56504ebb0320_0 .net *"_ivl_38", 0 0, L_0x56504ebb2830;  1 drivers
+v0x56504ebb0400_0 .net *"_ivl_4", 0 0, L_0x56504ebb1b60;  1 drivers
+v0x56504ebb04e0_0 .net *"_ivl_40", 0 0, L_0x56504ebb29a0;  1 drivers
+v0x56504ebb05c0_0 .net *"_ivl_42", 0 0, L_0x56504ebb2a10;  1 drivers
+v0x56504ebb06a0_0 .net *"_ivl_47", 0 0, L_0x56504ebb2b40;  1 drivers
+v0x56504ebb0780_0 .net *"_ivl_48", 0 0, L_0x56504ebb2be0;  1 drivers
+v0x56504ebb0860_0 .net *"_ivl_51", 0 0, L_0x56504ebb2ca0;  1 drivers
+v0x56504ebb0940_0 .net *"_ivl_52", 0 0, L_0x56504ebb2d90;  1 drivers
+v0x56504ebb0a20_0 .net *"_ivl_54", 0 0, L_0x56504ebb2ad0;  1 drivers
+v0x56504ebb0b00_0 .net *"_ivl_60", 0 0, L_0x56504ebb31a0;  1 drivers
+v0x56504ebb0be0_0 .net *"_ivl_62", 0 0, L_0x56504ebb32a0;  1 drivers
+v0x56504ebb0cc0_0 .net *"_ivl_63", 0 0, L_0x56504ebb3340;  1 drivers
+v0x56504ebb0da0_0 .net *"_ivl_65", 0 0, L_0x56504ebb3490;  1 drivers
+v0x56504ebb0e80_0 .net *"_ivl_67", 0 0, L_0x56504ebb3550;  1 drivers
+v0x56504ebb0f60_0 .net *"_ivl_7", 0 0, L_0x56504ebb1ca0;  1 drivers
+v0x56504ebb1040_0 .net *"_ivl_8", 0 0, L_0x56504ebb1d90;  1 drivers
+v0x56504ebb1120_0 .net "clear", 0 0, v0x56504ebb1720_0;  1 drivers
+v0x56504ebb11e0_0 .net "clk", 0 0, v0x56504ebb1680_0;  1 drivers
+v0x56504ebb12a0_0 .net "data", 0 0, v0x56504ebb15c0_0;  1 drivers
+v0x56504ebb1360_0 .net "line", 5 0, L_0x56504ebb2f70;  1 drivers
+v0x56504ebb1440_0 .net "preset", 0 0, v0x56504ebb1990_0;  1 drivers
+L_0x56504ebb1a60 .part L_0x56504ebb2f70, 3, 1;
+L_0x56504ebb1ca0 .part L_0x56504ebb2f70, 1, 1;
+L_0x56504ebb1f60 .part L_0x56504ebb2f70, 0, 1;
+L_0x56504ebb2350 .part L_0x56504ebb2f70, 1, 1;
+L_0x56504ebb2490 .part L_0x56504ebb2f70, 3, 1;
+L_0x56504ebb2750 .part L_0x56504ebb2f70, 2, 1;
+L_0x56504ebb2b40 .part L_0x56504ebb2f70, 1, 1;
+L_0x56504ebb2ca0 .part L_0x56504ebb2f70, 5, 1;
+LS_0x56504ebb2f70_0_0 .concat8 [ 1 1 1 1], L_0x56504ebb1ea0, L_0x56504ebb2250, L_0x56504ebb2690, L_0x56504ebb2a10;
+LS_0x56504ebb2f70_0_4 .concat8 [ 1 1 0 0], L_0x56504ebb2ad0, L_0x56504ebb3550;
+L_0x56504ebb2f70 .concat8 [ 4 2 0 0], LS_0x56504ebb2f70_0_0, LS_0x56504ebb2f70_0_4;
+L_0x56504ebb31a0 .part L_0x56504ebb2f70, 4, 1;
+L_0x56504ebb32a0 .part L_0x56504ebb2f70, 2, 1;
+L_0x56504ebb36b0 .part L_0x56504ebb2f70, 4, 1;
+L_0x56504ebb3810 .part L_0x56504ebb2f70, 5, 1;
+    .scope S_0x56504eb8f0d0;
+T_0 ;
+    %vpi_call 2 9 "$dumpfile", "signal_Dflipflop.vcd" {0 0 0};
+    %vpi_call 2 10 "$dumpvars" {0 0 0};
+    %vpi_call 2 11 "$display", "\011\011time, \011a, \011set, \011reset, \011clk, \011s1, \011s2" {0 0 0};
+    %vpi_call 2 12 "$monitor", "%d \011%b \011%b \011%b \011%b \011%b \011%b", $time, v0x56504ebb15c0_0, v0x56504ebb1990_0, v0x56504ebb1720_0, v0x56504ebb1680_0, v0x56504ebb1820_0, v0x56504ebb18f0_0 {0 0 0};
+    %pushi/vec4 0, 0, 1;
+    %store/vec4 v0x56504ebb1990_0, 0, 1;
+    %pushi/vec4 0, 0, 1;
+    %store/vec4 v0x56504ebb15c0_0, 0, 1;
+    %pushi/vec4 0, 0, 1;
+    %store/vec4 v0x56504ebb1680_0, 0, 1;
+    %pushi/vec4 1, 0, 1;
+    %store/vec4 v0x56504ebb1720_0, 0, 1;
+    %delay 10, 0;
+    %pushi/vec4 0, 0, 1;
+    %store/vec4 v0x56504ebb15c0_0, 0, 1;
+    %pushi/vec4 0, 0, 1;
+    %store/vec4 v0x56504ebb1680_0, 0, 1;
+    %pushi/vec4 0, 0, 1;
+    %store/vec4 v0x56504ebb1720_0, 0, 1;
+    %delay 10, 0;
+    %pushi/vec4 1, 0, 1;
+    %store/vec4 v0x56504ebb15c0_0, 0, 1;
+    %pushi/vec4 1, 0, 1;
+    %store/vec4 v0x56504ebb1680_0, 0, 1;
+    %pushi/vec4 0, 0, 1;
+    %store/vec4 v0x56504ebb1720_0, 0, 1;
+    %delay 10, 0;
+    %pushi/vec4 1, 0, 1;
+    %store/vec4 v0x56504ebb15c0_0, 0, 1;
+    %pushi/vec4 0, 0, 1;
+    %store/vec4 v0x56504ebb1680_0, 0, 1;
+    %pushi/vec4 0, 0, 1;
+    %store/vec4 v0x56504ebb1720_0, 0, 1;
+    %delay 10, 0;
+    %pushi/vec4 0, 0, 1;
+    %store/vec4 v0x56504ebb15c0_0, 0, 1;
+    %pushi/vec4 1, 0, 1;
+    %store/vec4 v0x56504ebb1680_0, 0, 1;
+    %pushi/vec4 0, 0, 1;
+    %store/vec4 v0x56504ebb1720_0, 0, 1;
+    %delay 10, 0;
+    %pushi/vec4 1, 0, 1;
+    %store/vec4 v0x56504ebb15c0_0, 0, 1;
+    %pushi/vec4 0, 0, 1;
+    %store/vec4 v0x56504ebb1680_0, 0, 1;
+    %pushi/vec4 0, 0, 1;
+    %store/vec4 v0x56504ebb1720_0, 0, 1;
+    %delay 10, 0;
+    %pushi/vec4 1, 0, 1;
+    %store/vec4 v0x56504ebb15c0_0, 0, 1;
+    %pushi/vec4 1, 0, 1;
+    %store/vec4 v0x56504ebb1680_0, 0, 1;
+    %pushi/vec4 0, 0, 1;
+    %store/vec4 v0x56504ebb1720_0, 0, 1;
+    %delay 10, 0;
+    %pushi/vec4 1, 0, 1;
+    %store/vec4 v0x56504ebb15c0_0, 0, 1;
+    %pushi/vec4 0, 0, 1;
+    %store/vec4 v0x56504ebb1680_0, 0, 1;
+    %pushi/vec4 0, 0, 1;
+    %store/vec4 v0x56504ebb1720_0, 0, 1;
+    %delay 10, 0;
+    %pushi/vec4 1, 0, 1;
+    %store/vec4 v0x56504ebb15c0_0, 0, 1;
+    %pushi/vec4 0, 0, 1;
+    %store/vec4 v0x56504ebb1680_0, 0, 1;
+    %pushi/vec4 0, 0, 1;
+    %store/vec4 v0x56504ebb1720_0, 0, 1;
+    %delay 10, 0;
+    %pushi/vec4 0, 0, 1;
+    %store/vec4 v0x56504ebb15c0_0, 0, 1;
+    %pushi/vec4 1, 0, 1;
+    %store/vec4 v0x56504ebb1680_0, 0, 1;
+    %pushi/vec4 1, 0, 1;
+    %store/vec4 v0x56504ebb1720_0, 0, 1;
+    %delay 10, 0;
+    %end;
+    .thread T_0;
+# The file index is used to find the file name in the following table.
+:file_names 4;
+    "N/A";
+    "<interactive>";
+    "test/test_Dflipflop.v";
+    "src/Dflipflop.v";
