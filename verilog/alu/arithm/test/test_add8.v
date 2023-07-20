@@ -1,14 +1,16 @@
 module test_add8;
+   parameter SIZE = 8;
    reg [7:0] a, b;
    reg 	     cin, sub;
    wire [7:0] s;
    wire       cout;
 
-   add8 test_add8(a, b, cin, sub, s, cout);
+//   add8 test_add8(a, b, cin, sub, s, cout);
+   add_sub #(.SIZE(SIZE)) test_addX(a, b, cin, sub, s, cout);
 
    initial
      begin
-	$dumpfile("build/alu/arithm/signal/signal_add8.vcd");
+	$dumpfile("signal_add8.vcd");
 	$dumpvars;
 	$display("\t\ttime,\ta,\tb, \tcin, \tsub,\ts,\tcout");
 	$monitor("%d \t%d \t%d \t%b \t%b \t%d \t%b", $time, a, b, cin, sub, s, cout);

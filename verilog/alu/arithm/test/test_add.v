@@ -2,11 +2,11 @@ module test_add;
    reg a, b, cin, sub;
    wire s, cout;
 
-   add test_add(a, b, cin, sub, s, cout);
+   add test_add(a, b, cin, s, cout);
 
    initial
      begin
-	$dumpfile("build/alu/arithm/signal/signal_add.vcd");
+	$dumpfile("signal_add.vcd");
 	$dumpvars;
 	$display("\t\ttime,\ta,\tb, \tcin, \tsub,\ts,\tcout");
 	$monitor("%d \t%b \t%b \t%b \t%b \t%b \t%b", $time, a, b, cin, sub, s, cout);

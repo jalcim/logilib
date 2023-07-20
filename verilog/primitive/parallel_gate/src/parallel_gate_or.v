@@ -1,12 +1,12 @@
-module parallel_or(A, B, out);
-   parameter S = 3;
+module parallel_or(out, A, B);
+   parameter SIZE = 3;
 
-   input  [S-1 : 0] A, B;
-   output [S-1 : 0] out;
+   input  [SIZE-1 : 0] A, B;
+   output [SIZE-1 : 0] out;
 
    or or2(out[0], A[0], B[0]);
-   if (S < 1)
-     parallel_or #(.S(S-1))parallel_or0(  A[S-1 : 1],
-					  B[S-1 : 1],
-					out[S-1 : 1]);
+   if (SIZE > 1)
+     parallel_or #(.SIZE(SIZE-1))parallel_or0(out[SIZE-1 : 1],
+					A[SIZE-1 : 1],
+					B[SIZE-1 : 1]);
 endmodule // parallel_or

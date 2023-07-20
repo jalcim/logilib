@@ -1,10 +1,11 @@
 Arithm contain :
-  - add & add8
-  - cmp & cmp8
+  - add
+  - cmp
   - divmod2
-  - mult & mult8
+  - mult
 
-Les UAL peuvent être spécialisées ou pas. Les UAL élémentaires calculent sur des nombres entiers, et peuvent effectuer les opérations communes, que l'on peut séparer en quatre groupes :
+Les UAL peuvent être spécialisées ou pas.
+Les UAL élémentaires calculent sur des nombres entiers, et peuvent effectuer les opérations communes, que l'on peut séparer en quatre groupes :
 
 1) Les opérations arithmétiques : addition, soustraction, changement de signe, etc.
 2) les opérations logiques : compléments à un, à deux, et, ou, ou-exclusif, non, non-et, etc.

@@ -7,3 +7,5 @@ iverilog -o bin/serial_or src/serial_or.v test/test_serial_or.v
 iverilog -o bin/serial_nor src/serial_nor.v test/test_serial_nor.v
 iverilog -o bin/serial_xor src/serial_xor.v test/test_serial_xor.v
 iverilog -o bin/serial_xnor src/serial_xnor.v test/test_serial_xnor.v
+iverilog -o bin/serial_buf src/serial_buf.v test/test_serial_buf.v
+iverilog -o bin/serial_not src/serial_not.v test/test_serial_not.v

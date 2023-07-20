@@ -10,7 +10,7 @@ module multi_add(a, b, cin, sub, s, cout);
 
    wire 		 line_c;
 
-   if (S <= 0)
+   if (S < 1)
      add add0(a, b, cin, sub, s, cout);
    else if (S == 1)
      begin

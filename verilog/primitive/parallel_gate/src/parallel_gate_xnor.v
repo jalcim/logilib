@@ -1,12 +1,12 @@
-module parallel_xnor(A, B, out);
-   parameter S = 3;
+module parallel_xnor(out, A, B);
+   parameter SIZE = 3;
 
-   input  [S-1 : 0] A, B;
-   output [S-1 : 0] out;
+   input  [SIZE-1 : 0] A, B;
+   output [SIZE-1 : 0] out;
 
    xnor xnor2(out[0], A[0], B[0]);
-   if (S < 1)
-     parallel_xnor #(.S(S-1))parallel_xnor0(  A[S-1 : 1],
-					    B[S-1 : 1],
-					  out[S-1 : 1]);
+   if (SIZE > 1)
+     parallel_xnor #(.SIZE(SIZE-1))parallel_xnor0(out[SIZE-1 : 1],
+						  A[SIZE-1 : 1],
+						  B[SIZE-1 : 1]);
 endmodule // parallel_xnor
