@@ -16,18 +16,18 @@ module multi_add(a, b, cin, sub, s, cout);
      begin
 	wire [1:0] b_line;
 	
-	gate_xor xor1(b[0], sub, b_line[0]);
-	add add1(a[0], b_line[0], cin, sub, s[0], line_c);
+	xor xor1(b_line[0], b[0], sub);
+	add add1(a[0], b_line[0], cin, s[0], line_c);
 
-	gate_xor xor2(b[1], sub, b_line[1]);
-	add add2(a[1], b_line[1], line_c, sub, s[1], cout);
+	xor xor2(b_line[1], b[1], sub);
+	add add2(a[1], b_line[1], line_c, s[1], cout);
      end
    else
      begin
 	if (X == 0)
 	  begin
 	     wire first;
-	     gate_or or0(cin, sub, first);
+	     or or0(first, cin, sub);
 	     multi_add #(.S(S-1), .X(X+1)) multi_addfirst(a[2**(S-1)-1:0],
 							  b[2**(S-1)-1:0],
 							  first, sub,

@@ -15,7 +15,7 @@ module add_sub(a, b, cin, sub, out, cout);
 
    serial_buf #(.SIZE(SIZE)) replicator(sub_repl, sub);
    parallel_xor #(.SIZE(SIZE)) xor8 (b_line, b, sub_repl);
-   addX         #(.SIZE(SIZE)) add8 (a, b_line, cin, out, cout);
+   addX         #(.SIZE(SIZE)) add8 (a, b_line, line, out, cout);
 endmodule
 
 module addX (a, b, cin, out, cout);
