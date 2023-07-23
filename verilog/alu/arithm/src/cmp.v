@@ -2,8 +2,7 @@ module cmp(a, b, c, d);
    input a, b;
    output c, d;
    wire [1:0]  line;
-   
-   
+
    gate_not not1(a, line[0]);
    gate_not not2(b, line[1]);
 
