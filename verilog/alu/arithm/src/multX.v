@@ -8,6 +8,8 @@ module multX(A, B, C, out);
 
    output [ELEM-1:0] out;
 
+   wire [SIZE-1:0]   div;
+
    if (ELEM > 1)
      begin
 	if (SIZE == ELEM)
