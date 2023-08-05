@@ -6,20 +6,20 @@ module JKlatchUP (j, k, clk, reset, out1, out2);
    wire       unclock;
    wire [1:0] line_reset;
 
-   gate_or or_reset0(reset, line[5], line_reset[0]);
-   gate_or or_reset1(reset, line[7], line_reset[1]);
+   or or_reset0(line_reset[0], reset, line[5]);
+   or or_reset1(line_reset[1], reset, line[7]);
 
-   gate_not not0(clk, unclock);
-   multigate_nand3 nand0(j, line_reset[1], unclock, line[0]);
-   gate_nor nor0(line[0], line_reset[0], line[1]);
-   gate_nand nand1(line[1], clk, line[2]);
-   gate_nand nand2(line[2], line_reset[1], line[3]);
+   not not0(unclock, clk);
+   assign line[0] = ~(j & line_reset[1] & unclock);
+   nor nor0(line[1], line_reset[0], line[0]);
+   nand nand1(line[2], clk, line[1]);
+   nand nand2(line[3], line_reset[1], line[2]);
    buf buf0(out1, line[3]);
 
-   multigate_nand3 nand3(k, line[3], unclock, line[4]);
-   gate_nor nor1(line[4], line[1], line[5]);
-   gate_nand nand4(line[5], clk, line[6]);
-   gate_nand nand5(line[6], line[3], line[7]);
+   assign line[4] = ~(k & line[3] & unclock);
+   nor nor1(line[5], line[1], line[4]);
+   nand nand4(line[6], clk, line[5]);
+   nand nand5(line[7], line[3], line[6]);
    buf buf1(out2, line[7]);
 
 endmodule // JKlatchUP
@@ -32,20 +32,20 @@ module JKlatchDown(j, k, clk, reset, out1, out2);
    wire       unclock;
    wire [1:0] line_reset;
 
-   gate_or or_reset0(reset, line[5], line_reset[0]);
-   gate_or or_reset1(reset, line[7], line_reset[1]);
-   gate_not not0(clk, unclock);
+   or or_reset0(line_reset[0], line[5], reset);
+   or or_reset1(line_reset[1], line[7], reset);
+   not not0(clk, unclock);
 
-   multigate_nand3 nand0(j, line_reset[1], clk, line[0]);
-   gate_nand nand_down0(line[0], line_reset[0], line[1]);
-   gate_nand nand1(line[1], unclock, line[2]);
-   gate_nand nand2(line[2], line_reset[1], line[3]);
+   assign line[0] = ~(j & line_reset[1] & clk);
+   nand nand_down0(line[1], line_reset[0], line[0]);
+   nand nand1(line[2], unclock, line[1]);
+   nand nand2(line[3], line_reset[1], line[2]);
    buf buf0(out1, line[3]);
 
-   multigate_nand3 nand3(k, line[3], clk, line[4]);
-   gate_nand nand_down1(line[4], line[1], line[5]);
-   gate_nand nand4(line[5], unclock, line[6]);
-   gate_nand nand5(line[6], line[4], line[7]);
+   assign line[4] = k & line[3] & clk;
+   nand nand_down1(line[5], line[1], line[4]);
+   nand nand4(line[6], unclock, line[5]);
+   nand nand5(line[7], line[4], line[6]);
    buf buf1(out2, line[7]);
    
    

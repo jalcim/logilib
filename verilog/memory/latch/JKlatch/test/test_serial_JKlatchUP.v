@@ -1,11 +1,12 @@
-module _test_JKlatchUP;
-   reg j, k, clk, reset;
+module _test_serial_JKlatchUP;
+   reg [7:0] j, k;
+   reg clk, reset;
    wire s1, s2;
    supply1 	power;
 
    integer i;
 
-   JKlatchUP test_JKlatchUP(j, k, clk, reset, s1, s2);
+   serial_JKlatchUP #(.SIZE(8)) test_serial_JKlatchUP(j, k, clk, reset, s1, s2);
 
    initial
      begin
@@ -14,7 +15,7 @@ module _test_JKlatchUP;
 	k = 1;
 	clk = 0;
 	i = 0;
-	$dumpfile("signal_JKlatchUP.vcd");
+	$dumpfile("build/memory/signal/signal_JKlatchUP.vcd");
 	$dumpvars;
 	$display("\t\ttime, \tj, \tk, \tclk, \treset, \ts1, \ts2");
 	$monitor("%d \t%b \t%b \t%b \t%b \t%b \t%b", $time, j, k, clk, reset, s1, s2);
