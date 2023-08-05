@@ -1,11 +1,11 @@
-module _test_JKlatchUP;
+module _test_JKlatchUP_rst;
    reg j, k, clk, reset;
    wire s1, s2;
    supply1 	power;
 
    integer i;
 
-   JKlatchUP test_JKlatchUP(j, k, clk, reset, s1, s2);
+   JKlatchUP_rst test_JKlatchUP_rst(j, k, clk, reset, s1, s2);
 
    initial
      begin

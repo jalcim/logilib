@@ -1,4 +1,4 @@
-module JKlatchUP (j, k, clk, reset, out1, out2);
+module JKlatchUP_rst (j, k, clk, reset, out1, out2);
    input j, k, clk, reset;
    output out1, out2;
 
@@ -24,7 +24,7 @@ module JKlatchUP (j, k, clk, reset, out1, out2);
 
 endmodule // JKlatchUP
 
-module JKlatchDown(j, k, clk, reset, out1, out2);
+module JKlatchDown_rst(j, k, clk, reset, out1, out2);
    input j, k, clk, reset;
    output out1, out2;
 
