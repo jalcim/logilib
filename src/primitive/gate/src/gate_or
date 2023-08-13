@@ -1,0 +1,6 @@
+module gate_or(out, in1, in2);
+   input in1, in2;
+   output out;
+
+   or or_inst(out, in1, in2);
+endmodule
