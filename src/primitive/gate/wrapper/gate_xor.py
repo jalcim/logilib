@@ -5,6 +5,7 @@ class Gate_xor(Elaboratable):
         self.out = clk
         self.in1 = cnt
         self.in2 = cnt
+        self.ports = [self.out, self.in1, self.in2]
 
     def elaborate(self, platform):
         m = Module()

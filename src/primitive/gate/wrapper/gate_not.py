@@ -4,6 +4,7 @@ class Gate_not(Elaboratable):
     def __init__(self, out, in1):
         self.out = clk
         self.in1 = cnt
+        self.ports = [self.out, self.in1]
 
     def elaborate(self, platform):
         m = Module()

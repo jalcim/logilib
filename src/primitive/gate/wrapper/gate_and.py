@@ -5,6 +5,10 @@ class Gate_and(Elaboratable):
         self.out = clk
         self.in1 = cnt
         self.in2 = cnt
+        self.ports = [self.out, self.in1, self.in2]
+        self.rtlil_source
+        self.rtlil_file = "gate_and.rtlil"
+        self.name = "gate_and"
 
     def elaborate(self, platform):
         m = Module()
