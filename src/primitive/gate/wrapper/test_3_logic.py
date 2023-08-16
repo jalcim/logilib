@@ -8,6 +8,8 @@ from amaranth.hdl import ir
 from amaranth.hdl.ir import Fragment
 from amaranth.back.rtlil import convert_fragment
 
+from collections import defaultdict, OrderedDict
+
 class Verilog_modules(am.Elaboratable):
     def __init__(self, module_name, param_list, pin_in, pin_out, pin_in_out):
         self.module_name = module_name
@@ -26,7 +28,7 @@ class Verilog_modules(am.Elaboratable):
         m = Module()
         m.submodules.verilog_counter = Instance(
             self.module_name,
-            p_
+            p_[]
             o_out = self.ports_out,
             i_in = self.ports_in,
             io_in_out = self.ports_in_out
@@ -35,19 +37,19 @@ class Verilog_modules(am.Elaboratable):
 
 class Modules_list():
     def __init__(self):
+        self.param = [SIZE, 2, 2, 2, 2, 2, None, None]
         self.out = am.Signal(8)
-        self.in1 = am.Signal(8)
-        self.in2 = am.Signal(6)
+        self.pin_in = [am.Signal(8), am.Signal(6)]
 
         self.modules = [
-            Gate_and (out[0], in1[0], in2[0]),
-            Gate_nand(out[1], in1[1], in2[1]),
-            Gate_or  (out[2], in1[2], in2[2]),
-            Gate_nor (out[3], in1[3], in2[3]),
-            Gate_xor (out[4], in1[4], in2[4]),
-            Gate_xnor(out[5], in1[5], in2[5]),
-            Gate_not (out[6], in1[6]),
-            Gate_buf (out[7], in1[7])
+            Verilog_modules("gate_and"  , self.param[0], self.out[0], [self.pin_in[0][0], self.pin_in[1][0]]),
+            Verilog_modules("gate_nand" , self.param[1], self.out[1], [self.pin_in[0][1], self.pin_in[1][1]]),
+            Verilog_modules("gate_or"   , self.param[2], self.out[2], [self.pin_in[0][2], self.pin_in[1][2]]),
+            Verilog_modules("gate_nor"  , self.param[3], self.out[3], [self.pin_in[0][3], self.pin_in[1][3]]),
+            Verilog_modules("gate_xor"  , self.param[4], self.out[4], [self.pin_in[0][4], self.pin_in[1][4]]),
+            Verilog_modules("gate_xnor" , self.param[5], self.out[5], [self.pin_in[0][5], self.pin_in[1][5]]),
+            Verilog_modules("gate_not"  , self.param[6], self.out[6], self.pin_in[0][6]),
+            Verilog_modules("gate_buf"  , self.param[7], self.out[7], self.pin_in[0][7]),
         ]
 
 def write_rtlil_file(modules_list : Modules_list)
