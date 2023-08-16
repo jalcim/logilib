@@ -1,7 +1,7 @@
-module gate_xnor(out, in);
+module gate_or(out, in);
    parameter SIZE = 2;
    input [1:0] in;
    output out;
 
-   xnor xnor_inst(out, in[0], in[1]);
+   or or_inst(out, in[0], in[1]);
 endmodule
