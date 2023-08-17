@@ -32,7 +32,7 @@ class Verilog_module(am.Elaboratable):
 
     def elaborate(self, platform):
         m = Module()
-        m.submodules.verilog_counter = Instance(
+        m.submodules.verilog = Instance(
             self.name,
             **self.kwargs
         )
@@ -59,8 +59,8 @@ class Regroupement():
                 "gate_and",
                 "1",
                 **{
-                    "p_" + nom_param : value_param,#"p_WIDTH": self.width,
-                    "i_in" : Signal(value_param),
+                    "p_" + nom_param : 2,#"p_WIDTH": self.width,
+                    "i_in" : Signal(2),
                     "o_out" : Signal(1)
                 }
             ),
@@ -68,16 +68,17 @@ class Regroupement():
                 "gate_and",
                 "2",
                 **{
-                    "p_SIZE": value_param,
-                    "i_in"  : Signal(value_param),
+                    "p_SIZE": 3,
+                    "i_in"  : Signal(3),
                     "o_out" : Signal(1)
                 }
             ),
             Verilog_module(
                 "gate_and",
+                "3",
                 **{
-                    "p_" + "SIZE": value_param,
-                    "i_in" : Signal(value_param),
+                    "p_" + "SIZE": 4,
+                    "i_in" : Signal(4),
                     "o_out" : Signal(1)
                 }
             )
@@ -92,7 +93,7 @@ def write_rtlil_file(modules_list : Regroupement):
         fragment = Fragment.get(module, platform).prepare(ports=module.ports)
         rtlil_text, name_map = convert_fragment(
             fragment,
-            module.name,
+            "wrapper_" + module.name,
             emit_src=emit_src,
         )
         ENV_USERNAME = environ.get("USER")
