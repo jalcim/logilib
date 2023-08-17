@@ -3,5 +3,8 @@ module gate_and(out, in);
    input [SIZE-1:0] in;
    output out;
 
-   and and_inst(out, in[0], in[1]);
+   if (SIZE == 2)
+     and and_inst(out, in[0], in[1]);
+   else if (SIZE > 2)
+     serial_and #(.SIZE(SIZE)) serial_and_inst(out, in);
 endmodule
