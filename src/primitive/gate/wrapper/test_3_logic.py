@@ -3,6 +3,7 @@
 from os import environ
 
 import amaranth as am
+from amaranth import Signal, Module, Instance
 from amaranth.back import rtlil
 from amaranth.hdl import ir
 from amaranth.hdl.ir import Fragment
@@ -11,41 +12,47 @@ from amaranth.back.rtlil import convert_fragment
 from collections import defaultdict, OrderedDict
 
 class Verilog_module(am.Elaboratable):
-    def __init__(self, module_name, param, pin_in, pin_out, pin_in_out):
-        self.module_name = module_name
+    def __init__(self, name, **kwargs):
+        self.kwargs = kwargs
 
- #       self.param = param
 
-        self.ports = [self.pin_in, self.pin_out, self.pin_in_out]
+        # module_name, param, pin_in, pin_out, pin_in_out):
+        self.name = name
 
-        self.rtlil_source
-        self.rtlil_file = module_name + ".rtlil"
+        self.params = []
+        for key in kwargs.keys():
+            if key[0:2] in ["p_"]:
+                print("PARAM:", key)
+                self.params.append(kwargs.get(key))
+
+        self.ports = []
+        for key in kwargs.keys():
+            if key[0:2] in ["i_", "o_"] or key[0:3] in ["io_"]:
+                print("PORT:", key)
+                self.ports.append(kwargs.get(key))
+
+        self.rtlil_source = "" # TODO
+        self.rtlil_file = self.name + ".rtlil"
 
     def elaborate(self, platform):
         m = Module()
         m.submodules.verilog_counter = Instance(
-            self.module_name,
-            p_[]
-            o_out = self.ports_out,
-            i_in = self.ports_in,
-            io_in_out = self.ports_in_out
+            self.name,
+            **self.kwargs
         )
         return m
 
-class Modules_list():
+
+class Regroupement():
+
     def __init__(self):
-        nom_variable = "WIDTH"
-        kwargs = {
-            "p_" + nom_variable : 8,#"p_WIDTH": self.width,
-            "i_clk": Signal(1),
-            "o_cnt" : Signal(8)
-    }
 
-#        self.param = [2, 2, 2, 2, 2, 2, None, None]
-        self.out = am.Signal(8)
-        self.pin_in = [am.Signal(8), am.Signal(6)]
-        self.pin_in_out
+        # self.param = [2, 2, 2, 2, 2, 2, None, None]
+        pin_out = Signal(8)
+        pin_in = [Signal(8), Signal(6)]
+        # pin_in_out = [Signal(8), Signal(6)]
 
+        """
         self.modules = [
             Verilog_module("gate_and"  , self.param[0], self.out[0], [self.pin_in[0][0], self.pin_in[1][0]], None),
             Verilog_module("gate_nand" , self.param[1], self.out[1], [self.pin_in[0][1], self.pin_in[1][1]], None),
@@ -56,8 +63,46 @@ class Modules_list():
             Verilog_module("gate_not"  , self.param[6], self.out[6], self.pin_in[0][6], None),
             Verilog_module("gate_buf"  , self.param[7], self.out[7], self.pin_in[0][7], None),
         ]
+        """
 
-def write_rtlil_file(modules_list : Modules_list)
+        nom_variable = "WIDTH"
+        self.modules = [
+
+            Verilog_module(
+                "gate_and",
+                **{
+                    "p_" + nom_variable : 8,#"p_WIDTH": self.width,
+                    "i_clk": Signal(1),
+                    "o_cnt" : Signal(8)
+                }
+            ),
+            Verilog_module(
+                "gate_nand",
+                **{
+                    "p_SIZE": 8,
+                    "i_clk": Signal(1),
+                    "o_cnt" : Signal(8)
+                }
+            ),
+            Verilog_module(
+                "gate_or",
+                **{
+                    "p_WIDTH": 8,
+                    "i_clk": Signal(1),
+                    "o_cnt" : Signal(8),
+                }
+            ),
+            Verilog_module(
+                "gate_nor",
+                **{
+                    "p_POUET": 8,
+                    "i_clk": Signal(1),
+                    "io_in_out" : Signal(8)
+                }
+            )
+        ]
+
+def write_rtlil_file(modules_list : Regroupement):
     platform = None
     emit_src = True
     strip_internal_attrs = False
@@ -74,8 +119,9 @@ def write_rtlil_file(modules_list : Modules_list)
 
         with open(module.rtlil_file, "w") as fd:
             fd.write(module.rtlil_source)
-            print(f"'{outfile_rtlil}' filename written.")
+            print(f"'{module.rtlil_file}' filename written.")
+
 
 if __name__ == "__main__":
-    modules = Modules_list()
-    write_rtlil_file(modules)
+    modules_list = Regroupement()
+    write_rtlil_file(modules_list)
