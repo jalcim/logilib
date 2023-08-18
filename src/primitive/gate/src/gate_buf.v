@@ -1,6 +1,6 @@
-module gate_not(out, in);
+module gate_buf(out, in);
    input in;
    output out;
 
-   not not_inst(out, in);
+   buf buf_inst(out, in);
 endmodule
