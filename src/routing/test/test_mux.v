@@ -1,41 +1,37 @@
-module testmux;
-   reg [1:0] s0;
-   reg 	     a, b, c, d;
+module test_mux;
+   parameter S = 2;
+   parameter T = 1;
 
-   wire      s;
+   wire [T - 1 : 0] out;
+   reg [2 ** S - 1 : 0] in;
+   reg [1 : 0] ctrl;
 
-   multiplexeur_1bitx4 mux1(s0, a, b, c, d, s);
+   mux #(.S(S), .T(T))mux0(ctrl, in, out);
 
    initial
      begin
 	$dumpfile("build/routing/signal/signal_mux.vcd");
 	$dumpvars;
-	$display("\t\ttime,\ts0, \ta,\tb, \tc, \td,\ts");
-	$monitor("%d \t%d \t%b \t%b \t%b \t%b \t%b", $time, s0, a, b, c, d, s);
+	$display("\t\ttime,\tout, \tin[0],\tin[1], \tin[2], \tin[3],\tctrl");
+	$monitor("%d \t%b \t%b \t%b \t%b \t%b \t%d", $time, out, in[0], in[1], in[2], in[3], ctrl);
 
-	s0 = 0;
-	a = 1;
-	b = 1;
-	c = 1;
-	d = 1;
+	
+	in[0] = 1;
+	in[1] = 0;
+	in[2] = 1;
+	in[3] = 0;
+	
+	ctrl[0] = 0;
+	ctrl[1] = 0;
 	#5;
-	s0 = 1;
-	a = 1;
-	b = 1;
-	c = 1;
-	d = 1;
+	ctrl[0] = 1;
+	ctrl[1] = 0;
 	#5;
-	s0 = 2;
-	a = 1;
-	b = 1;
-	c = 1;
-	d = 1;
+	ctrl[0] = 0;
+	ctrl[1] = 1;
 	#5;
-	s0 = 3;
-	a = 1;
-	b = 1;
-	c = 1;
-	d = 1;
+	ctrl[0] = 1;
+	ctrl[1] = 1;
 	#5;
      end
-endmodule // testmux
+endmodule

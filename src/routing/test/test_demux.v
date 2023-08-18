@@ -1,4 +1,4 @@
-module test_recurse_demux;
+module test_demux;
    parameter S = 2;
    parameter T = 1;
 
@@ -6,11 +6,11 @@ module test_recurse_demux;
    reg [T - 1 : 0] in;
    reg [1 : 0] ctrl;
 
-   recurse_demux #(.S(S), .T(T))demux0(ctrl, in, out);
+   demux #(.S(S), .T(T))demux0(ctrl, in, out);
 
    initial
      begin
-	$dumpfile("build/routing/signal/signal_recurse_demux.vcd");
+	$dumpfile("build/routing/signal/signal_demux.vcd");
 	$dumpvars;
 	$display("\t\ttime, \tout[0],\tout[1],\tout[2],\tout[3],\tin,\tctrl");
 	$monitor("%d \t%b \t%b \t%b \t%b \t%b \t%d", $time, out[0], out[1], out[2], out[3], in, ctrl);

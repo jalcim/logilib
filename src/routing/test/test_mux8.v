@@ -1,4 +1,4 @@
-module test_recurse_mux8;
+module test_mux8;
    parameter S = 2;
    parameter T = 8;
 
@@ -9,11 +9,11 @@ module test_recurse_mux8;
    integer     cpt;
    reg 	       xin;
 
-   recurse_mux #(.S(S), .T(T)) mux0(ctrl, in, out);
+   mux #(.S(S), .T(T)) mux0(ctrl, in, out);
 
    initial
      begin
-	$dumpfile("build/routing/signal/signal_recurse_mux8.vcd");
+	$dumpfile("build/routing/signal/signal_mux8.vcd");
 	$dumpvars;
 	$display("\t\ttime,\tout,\ts");
 	$monitor("%d\t%d\t%d", $time, out[7:0], ctrl[1:0]);
