@@ -1,4 +1,4 @@
-module recurse_mux(ctrl, in, out);
+module mux(ctrl, in, out);
 
    parameter S = 1;//2^S
    parameter T = 8;
@@ -16,11 +16,11 @@ module recurse_mux(ctrl, in, out);
      begin
 	wire [T-1:0]out1, out2;//0:0
 
-	recurse_mux #(.S(S - 1), .T(T)) mux1(.ctrl(ctrl[S - 2:0]),                        //1:0
+	mux #(.S(S - 1), .T(T)) mux1(.ctrl(ctrl[S - 2:0]),                        //1:0
 					     .in(in[(2 ** (S - 1)) * T - 1:0]),           //3:0
 					     .out(out1));
 
-	recurse_mux #(.S(S - 1), .T(T)) mux2(.ctrl(ctrl[S - 2:0]),                        //1:0
+	mux #(.S(S - 1), .T(T)) mux2(.ctrl(ctrl[S - 2:0]),                        //1:0
 					     .in(in[(2 ** S) * T - 1:(2 ** (S - 1)) * T]),//7:4
 					     .out(out2));
 

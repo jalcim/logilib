@@ -10,7 +10,7 @@ module test_mux;
 
    initial
      begin
-	$dumpfile("build/routing/signal/signal_mux.vcd");
+	$dumpfile("signal_mux.vcd");
 	$dumpvars;
 	$display("\t\ttime,\tout, \tin[0],\tin[1], \tin[2], \tin[3],\tctrl");
 	$monitor("%d \t%b \t%b \t%b \t%b \t%b \t%d", $time, out, in[0], in[1], in[2], in[3], ctrl);

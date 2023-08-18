@@ -2,30 +2,42 @@ module test_mux8;
    parameter S = 2;
    parameter T = 8;
 
+   localparam NB_IN = 2 ** S;
+   localparam SIZE_IN = NB_IN * T;
+
    wire [T - 1 : 0] out;
-   reg [(2 ** S) * T - 1 : 0] in;
+   reg [SIZE_IN - 1 : 0] in;
    reg [S-1 : 0] ctrl;
 
-   integer     cpt;
+   integer     cpt1;
+   integer     cpt2;
    reg 	       xin;
 
    mux #(.S(S), .T(T)) mux0(ctrl, in, out);
 
    initial
      begin
-	$dumpfile("build/routing/signal/signal_mux8.vcd");
+	$dumpfile("signal_mux8.vcd");
 	$dumpvars;
-	$display("\t\ttime,\tout,\ts");
-	$monitor("%d\t%d\t%d", $time, out[7:0], ctrl[1:0]);
-
-	cpt = -1;
 
  	xin = 0;
-	while (++cpt <= (2**S) * T - 1)
+
+	cpt1 = -1;
+	cpt2 = 0;
+	while (++cpt1 < NB_IN)
 	  begin
-	     in[cpt] = xin;
+	     while (cpt2 < (cpt1+1)*T)
+	       begin
+		  in[cpt2] = xin;
+		  xin = ~xin;
+		  cpt2++;
+	       end
 	     xin = ~xin;
-	  end  
+	     $display("in[%d] = %b", cpt1, in[cpt1 * T +: 8]);//:cpt1 * T]);
+	  end
+
+	$display("\t\ttime, \tout, \t\tctrl");
+	$monitor("%d\t%b\t%b", $time, out[7:0], ctrl[1:0]);
 
 	ctrl[0] = 0;
 	ctrl[1] = 0;
