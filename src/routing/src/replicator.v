@@ -1,4 +1,6 @@
-module replicator(out, in);
+//deprecated
+
+/*module replicator(out, in);
    parameter WIRE = 8;
    parameter WAY = 4;
    parameter SIZE = WAY * WIRE;
@@ -12,7 +14,7 @@ module replicator(out, in);
      replicator #(.WIRE(WIRE), .WAY(WAY-1)) recall(out[SIZE-1:WIRE],
 						   in [SIZE-1:0]);
 endmodule
-
+*/
 /*
 module replicator(in, out);
    parameter WIRE = 3;
@@ -23,9 +25,9 @@ module replicator(in, out);
 
    if (WAY == 1)
      begin
-	recursive_buf #(.S(WIRE))buf_replicator0(in[2**WIRE-1:0],                 //7:0
+	parallel_buf #(.S(2**WIRE))buf_replicator0(in[2**WIRE-1:0],                 //7:0
 						 out[2**(WIRE)-1  :0]);          //(2**3)-1 = 7:0
-	recursive_buf #(.S(WIRE))buf_replicator1(in[2**WIRE-1:0],               //7:0
+	parallel_buf #(.S(2**WIRE))buf_replicator1(in[2**WIRE-1:0],               //7:0
 						 out[2**(WIRE+1)-1:2**(WIRE)]);//(2**4)-1   = 15:8
      end
    else

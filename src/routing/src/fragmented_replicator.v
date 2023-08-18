@@ -1,3 +1,4 @@
+//deprecated
 
 module fragmented_replicator(in, out);
    parameter WIRE = 3;
