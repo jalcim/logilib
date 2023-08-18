@@ -1,24 +1,23 @@
 module test_regdec;
 
    reg [7:0] a;
-   reg 	     rl;
+   reg 	     lr;
    wire [7:0] s;
    
-   regdec regdec_test(a, rl, s);
+   dec_LR #(.SIZE(8)) test_dec_LR(a, lr, s);
 
    
    initial
      begin
-	$dumpfile("build/memory/signal/signal_or.vcd");
+	$dumpfile("signal_or.vcd");
 	$dumpvars;
-        $display("\t\ttime,\ta,\tb, \ts");
-	$monitor("%d \t%d \t%b \t%d", $time, a, rl, s);
+        $display("\t\ttime, \ta, \tlr, \ts");
+	$monitor("%d \t%d \t%b \t%d", $time, a, lr, s);
 
 	a = 16;
-	rl = 1;
+	lr = 0;
 	#5;
-	a = 16;
-	rl = 0;	
+	lr = 1;	
      end
    
    

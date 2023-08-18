@@ -1,47 +1,60 @@
-module regdec(a, rl, s);
-   input [7:0] a;
-   input       rl;
-   output [7:0] s;
+module dec_LR(a, left, s);
+   parameter SIZE = 8;
 
-   wire 	line_not;
-   wire [13:0] 	line;
-   wire [5:0]	line_or;
+   input [SIZE-1:0] a;
+   input       left;
+   output [SIZE-1:0] s;
 
-   gate_not not0(rl, line_not);
+   wire 	right;
+   wire [SIZE-2:0] 	line_right;
+   wire [SIZE-2:0] 	line_left;
+
+   not not0(right, left);
 
 /////////////////////////////////////////////////////////////
-   
-   gate_and and0(a[0], rl, line[0]);
 
-   gate_and and1(a[1], line_not, s[0]);
-   gate_and and2(a[1], rl, line[2]);
+   parallel_and #(.SIZE(SIZE-1)) and_left(line_left,
+					  a[SIZE-1:1],
+					  {SIZE-1{left}});
 
-   gate_and and3(a[2], line_not, line[3]);
-   gate_and and4(a[2], rl, line[4]);
-
-   gate_and and5(a[3], line_not, line[5]);
-   gate_and and6(a[3], rl, line[6]);
-
-   gate_and and7(a[4], line_not, line[7]);
-   gate_and and8(a[4], rl, line[8]);
-
-   gate_and and9(a[5], line_not, line[9]);
-   gate_and and10(a[5], rl, line[10]);
-
-   gate_and and11(a[6], line_not, line[11]);
-   gate_and and12(a[6], rl, s[7]);
-
-   gate_and and13(a[7], line_not, line[13]);
+   parallel_and #(.SIZE(SIZE-1)) and_right(line_right,
+					  a[SIZE-2:0],
+					  {SIZE-1{right}});
 
 //////////////////////////////////////////////////////////////////
 
-   gate_or or0(line[0], line[3], s[1]);
-   gate_or or1(line[2], line[5], s[2]);
-   gate_or or2(line[4], line[7], s[3]);
-   gate_or or3(line[6], line[9], s[4]);
-   gate_or or4(line[8], line[11], s[5]);
-   gate_or or5(line[10], line[13], s[6]);
+   buf out0(s[0], line_left[0]);
 
+   parallel_or #(.SIZE(SIZE-2))out1_SIZE(s[SIZE-2:1],
+					 line_left[SIZE-2:1],
+					 line_right[SIZE-3:0]);
 
+   buf out7(s[SIZE-1], line_right[SIZE-2]);
+endmodule
 
-endmodule // regdec
+/*
+ gate_and and_left0 (line_left[0], a[1], left);
+ gate_and and_left1 (line_left[1], a[2], left);
+ gate_and and_left2 (line_left[2], a[3], left);
+ gate_and and_left3 (line_left[3], a[4], left);
+ gate_and and_left4 (line_left[4], a[5], left);
+ gate_and and_left5 (line_left[5], a[6], left);
+ gate_and and_left6 (line_left[6], a[7], left);
+
+ gate_and and_right (line_right[0], a[0], right);
+ gate_and and_right (line_right[1], a[1], right);
+ gate_and and_right (line_right[2], a[2], right);
+ gate_and and_right (line_right[3], a[3], right);
+ gate_and and_right (line_right[4], a[4], right);
+ gate_and and_right (line_right[5], a[5], right);
+ gate_and and_right (line_right[6], a[6], right);
+*/
+
+/*
+ gate_or  out1(s[1], line_left[1], line_right[0]);
+ gate_or  out2(s[2], line_left[2], line_right[1]);
+ gate_or  out3(s[3], line_left[3], line_right[2]);
+ gate_or  out4(s[4], line_left[4], line_right[3]);
+ gate_or  out5(s[5], line_left[5], line_right[4]);
+ gate_or  out6(s[6], line_left[6], line_right[5]);
+*/
