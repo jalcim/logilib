@@ -1,8 +1,0 @@
-`include "../gate/src/gate_and.v"
-`include "../gate/src/gate_nand.v"
-`include "../gate/src/gate_buf.v"
-`include "../gate/src/gate_not.v"
-`include "../gate/src/gate_or.v"
-`include "../gate/src/gate_nor.v"
-`include "../gate/src/gate_xor.v"
-`include "../gate/src/gate_xnor.v"
