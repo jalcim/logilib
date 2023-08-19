@@ -1,3 +1,6 @@
+`ifndef __GATE_NOR__
+ `define __GATE_NOR__
+
 module gate_nor(out, in);
    parameter SIZE = 2;
    input [1:0] in;
@@ -8,3 +11,5 @@ module gate_nor(out, in);
    else if (SIZE > 2)
      serial_nor #(.SIZE(SIZE)) serial_nor_inst(out, in);
 endmodule
+
+`endif

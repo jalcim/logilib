@@ -1,3 +1,6 @@
+`ifndef __GATE_NAND__
+ `define __GATE_NAND__
+
 module gate_nand(out, in);
    parameter SIZE = 2;
    input [1:0] in;
@@ -8,3 +11,5 @@ module gate_nand(out, in);
    else if (SIZE > 2)
      serial_nand #(.SIZE(SIZE)) serial_nand_inst(out, in);
 endmodule
+
+`endif

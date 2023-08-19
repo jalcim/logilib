@@ -1,3 +1,6 @@
+`ifndef __GATE_XOR__
+ `define __GATE_XOR__
+
 module gate_xor(out, in);
    parameter SIZE = 2;
    input [1:0] in;
@@ -8,3 +11,5 @@ module gate_xor(out, in);
    else if (SIZE > 2)
      serial_xor #(.SIZE(SIZE)) serial_xor_inst(out, in);
 endmodule
+
+`endif

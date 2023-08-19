@@ -1,3 +1,6 @@
+`ifndef __GATE_OR__
+ `define __GATE_OR__
+
 module gate_or(out, in);
    parameter SIZE = 2;
    input [1:0] in;
@@ -8,3 +11,5 @@ module gate_or(out, in);
    else if (SIZE > 2)
      serial_or #(.SIZE(SIZE)) serial_or_inst(out, in);
 endmodule
+
+`endif
