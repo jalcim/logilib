@@ -1,3 +1,6 @@
+`ifndef __SERIAL_BUF__
+ `define __SERIAL_BUF__
+
 module serial_buf(out, in);
    parameter SIZE = 3;
    parameter N1 = (SIZE / 2) + (SIZE % 2); //1+1 = 2
@@ -18,3 +21,5 @@ module serial_buf(out, in);
 	serial_buf #(.SIZE(N2)) recall2(out[SIZE-1:N1], l2);//2:2 = 1bit
      end
 endmodule
+
+`endif

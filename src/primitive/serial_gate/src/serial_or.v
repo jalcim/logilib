@@ -1,3 +1,6 @@
+`ifndef __SERIAL_OR__
+ `define __SERIAL_OR__
+
 module serial_or(out, e1);
    parameter SIZE = 3;
    parameter N1 = (SIZE / 2) + (SIZE % 2);
@@ -23,3 +26,5 @@ module serial_or(out, e1);
 	serial_or #(.SIZE(N2)) recall2(W2, e1[N2 - 1 : 0]);
      end
 endmodule
+
+`endif

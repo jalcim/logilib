@@ -1,3 +1,6 @@
+`ifndef __SERIAL_XNOR__
+ `define __SERIAL_XNOR__
+
 module serial_xnor(out, e1);
    parameter SIZE = 5;
    parameter N1 = (SIZE / 2) + (SIZE % 2);
@@ -24,3 +27,5 @@ module serial_xnor(out, e1);
 	serial_xnor #(.SIZE(N2)) recall2(W2, e1[N2 - 1 : 0]);
      end
 endmodule
+
+`endif

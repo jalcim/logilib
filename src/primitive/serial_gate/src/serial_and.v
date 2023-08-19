@@ -1,3 +1,6 @@
+`ifndef __SERIAL_AND__
+ `define __SERIAL_AND__
+
 module serial_and(out, e1);
    parameter SIZE = 3;
    parameter N1 = (SIZE / 2) + (SIZE % 2);
@@ -20,5 +23,6 @@ module serial_and(out, e1);
 	serial_and #(.SIZE(N1)) recall1(W1, e1[SIZE - 1 : SIZE - N1]);
 	serial_and #(.SIZE(N2)) recall2(W2, e1[N2 - 1 : 0]);
      end
-
 endmodule
+
+`endif

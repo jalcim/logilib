@@ -1,3 +1,6 @@
+`ifndef __SERIAL_XOR__
+ `define __SERIAL_XOR__
+
 module serial_xor(out, e1);
    parameter SIZE = 3;
    parameter N1 = (SIZE / 2) + (SIZE % 2);
@@ -23,3 +26,5 @@ module serial_xor(out, e1);
 	serial_xor #(.SIZE(N2)) recall2(W2, e1[N2 - 1 : 0]);
      end
 endmodule
+
+`endif
