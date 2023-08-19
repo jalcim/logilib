@@ -1,6 +1,8 @@
 `ifndef __GATE_XNOR__
  `define __GATE_XNOR__
 
+ `include "../../serial_gate/src/serial_xnor.v"
+
 module gate_xnor(out, in);
    parameter SIZE = 2;
    input [1:0] in;

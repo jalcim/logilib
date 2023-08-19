@@ -1,6 +1,8 @@
 `ifndef __GATE_NOR__
  `define __GATE_NOR__
 
+ `include "../../serial_gate/src/serial_nor.v"
+
 module gate_nor(out, in);
    parameter SIZE = 2;
    input [1:0] in;

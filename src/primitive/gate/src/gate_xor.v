@@ -1,6 +1,8 @@
 `ifndef __GATE_XOR__
  `define __GATE_XOR__
 
+ `include "../../serial_gate/src/serial_xor.v"
+
 module gate_xor(out, in);
    parameter SIZE = 2;
    input [1:0] in;

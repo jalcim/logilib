@@ -1,6 +1,8 @@
 `ifndef __GATE_NOT__
  `define __GATE_NOT__
 
+ `include "../../serial_gate/src/serial_not.v"
+
 module gate_not(out, in);
    parameter SIZE = 1;
    input in;

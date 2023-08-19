@@ -1,6 +1,8 @@
 `ifndef __GATE_OR__
  `define __GATE_OR__
 
+ `include "../../serial_gate/src/serial_or.v"
+
 module gate_or(out, in);
    parameter SIZE = 2;
    input [1:0] in;

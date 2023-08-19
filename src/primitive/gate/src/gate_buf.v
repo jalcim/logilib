@@ -1,6 +1,8 @@
 `ifndef __GATE_BUF__
  `define __GATE_BUF__
 
+ `include "../../serial_gate/src/serial_buf.v"
+
 module gate_buf(out, in);
    parameter SIZE = 1;
    input in;

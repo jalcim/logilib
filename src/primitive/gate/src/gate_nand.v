@@ -1,6 +1,8 @@
 `ifndef __GATE_NAND__
  `define __GATE_NAND__
 
+ `include "../../serial_gate/src/serial_nand.v"
+
 module gate_nand(out, in);
    parameter SIZE = 2;
    input [1:0] in;

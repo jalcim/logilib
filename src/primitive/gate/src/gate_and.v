@@ -1,6 +1,8 @@
 `ifndef __GATE_AND__
  `define __GATE_AND__
 
+ `include "../../serial_gate/src/serial_and.v"
+
 module gate_and(out, in);
    parameter SIZE = 2;
    input [SIZE-1:0] in;
