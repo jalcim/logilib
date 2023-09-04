@@ -1,4 +1,7 @@
 module Dlatch (D, clk, Q, QN);
+   parameter WAY = 1;
+   parameter WIRE = 1;
+
    input D, clk;
    output Q, QN;
 
