@@ -1,3 +1,5 @@
+`include "Dlatch.v"
+
 module serial_Dlatch(data, clk, Q, QN);
    parameter SIZE = 1;
    input [SIZE -1:0] data;

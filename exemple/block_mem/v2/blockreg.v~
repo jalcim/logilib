@@ -1,0 +1,4 @@
+module blockreg(clk,
+		reset, charge,
+		addr_reg, out_A, out_B,
+		datain, data_out_A, data_out_B
