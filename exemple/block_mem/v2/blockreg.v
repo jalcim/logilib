@@ -1,22 +1,34 @@
 `include "../../../src/routing/src/demux.v"
 `include "../../../src/routing/src/mux.v"
+
+`include "../../../src/memory/latch/Dlatch/src/parallel_Dlatch.v"
 `include "../../../src/memory/latch/Dlatch/src/serial_Dlatch.v"
 
 module blockreg(clk,
 		reset, write,
-		write_addr, read_A, read_B,
-		datain, data_out_A, data_out_B,
-		error);
+		write_ref, read_A, read_B,
+		datain,
+		data_out_A, data_out_B);
+
+   input clk, reset, write;
+   input [4:0] write_reg, read_A, read_B;
+   input [31:0] datain;
+
+   output [31:0] data_out_A, data_out_B;
 
    wire out_write_demux;
 
-   write_demux write_demux(clk, write, write_addr, out_write_demux);
-
-   //32 registre de 32 bit (data, clk, Q, QN);
-
-   read_mux read_A(addr_A, /*Q*/, out_read_A);
-   read_mux read_B(addr_B, /*Q*/, out_read_B);
+   write_demux write_demux(clk, write, write_reg, out_write_demux);
    
+   //32 registres de 32 bits
+   wire [1023:0]D, Q, QN;
+   //a faire //repliquer datain sur l'input D de chaque latch (sans buffer)
+   //   derivator #(.WAY(WAY), .SIZE(SIZE)) replicator(datain, D);
+   parallel_Dlatch #(.WAY(32), .SIZE(32))block_Dlatch({32{datain}}, out_write_demux, Q, QN);
+
+   read_mux read_A(read_A, Q, data_out_A);
+   read_mux read_B(read_B, Q, data_out_B);
+
 endmodule
 
 module write_demux(clk, write, write_addr, out_write_demux);
