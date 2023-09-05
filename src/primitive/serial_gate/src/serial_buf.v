@@ -3,8 +3,8 @@
 
 module serial_buf(out, in);
    parameter SIZE = 3;
-   parameter N1 = (SIZE / 2) + (SIZE % 2); //1+1 = 2
-   parameter N2 = SIZE / 2;                //    = 1
+   localparam N1 = (SIZE / 2) + (SIZE % 2); //1+1 = 2
+   localparam N2 = SIZE / 2;                //    = 1
 
    input  in;
    output [SIZE-1 : 0] out;

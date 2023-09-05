@@ -1,3 +1,29 @@
+module replicator(out, in);
+   parameter WAY = 8;
+   parameter WIRE = 1;
+   
+   localparam SIZE = WAY * WIRE;
+   localparam N1 = (WAY / 2) + (WAY % 2); //1+1 = 2
+   localparam N2 = WAY / 2;               //    = 1
+   localparam NSIZE = N1 * WIRE;
+
+   input [WIRE-1:0] in;
+   output [SIZE-1:0] out;
+
+   wire [WIRE-1:0]   l1, l2;
+
+   if (WAY == 1)
+     assign out = in;
+   else if (WAY > 1)
+     begin
+	parallel_buf #(.SIZE(WIRE)) buf1(l1, in);
+	parallel_buf #(.SIZE(WIRE)) buf1(l2, in);
+	replicator #(.WAY(N1), .WIRE(WIRE)) recall1(out[NSIZE-1:0], l1);   //1:0 = 2bit
+	replicator #(.WAY(N2), .WIRE(WIRE)) recall2(out[SIZE-1:NSIZE], l2);//2:2 = 1bit
+     end
+endmodule
+   
+
 //deprecated
 
 /*module replicator(out, in);
