@@ -1,16 +1,17 @@
 `include "Dlatch.v"
 
 module serial_Dlatch(data, clk, Q, QN);
-   parameter SIZE = 1;
-   input [SIZE -1:0] data;
-   input	     clk;
-   output [SIZE -1:0] Q, QN;
+   parameter WIRE = 1;
 
-   if (SIZE > 0)
+   input [WIRE -1:0] data;
+   input	     clk;
+   output [WIRE -1:0] Q, QN;
+
+   if (WIRE > 0)
      Dlatch latch1(data[0], clk, Q[0], QN[0]);
-   if (SIZE > 1)
-     serial_Dlatch #(.SIZE(SIZE-1)) recall(.data(data[SIZE-1:1]),
+   if (WIRE > 1)
+     serial_Dlatch #(.WIRE(WIRE-1)) recall(.data(data[WIRE-1:1]),
 					   .clk(clk),
-					   .Q(Q[SIZE-1:1]),
-					   .QN(QN[SIZE-1:1]));
+					   .Q(Q[WIRE-1:1]),
+					   .QN(QN[WIRE-1:1]));
 endmodule

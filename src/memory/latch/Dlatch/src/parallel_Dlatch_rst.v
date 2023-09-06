@@ -3,22 +3,22 @@
 
 module parallel_Dlatch_rst(D, clk, rst, Q, QN);
    parameter WAY = 3;
-   parameter SIZE = 8;
+   parameter WIRE = 8;
 
    input rst;
    input [WAY-1:0] clk;
-   input  [(WAY*SIZE)-1 : 0] D;
-   output [(WAY*SIZE)-1 : 0] Q, QN;
+   input  [(WAY*WIRE)-1 : 0] D;
+   output [(WAY*WIRE)-1 : 0] Q, QN;
 
-   if (SIZE == 1)
+   if (WIRE == 1)
      Dlatch_rst Dlatch0(D[0], clk[0], rst, Q[0], QN[0]);
-   else if (SIZE > 1)
-     serial_Dlatch_rst #(.SIZE(SIZE)) Dlatch1(data[SIZE-1:0], clk[0], rst, Q[SIZE-1:0], QN[SIZE-1:0]);
+   else if (WIRE > 1)
+     serial_Dlatch_rst #(.WIRE(WIRE)) Dlatch1(data[WIRE-1:0], clk[0], rst, Q[WIRE-1:0], QN[WIRE-1:0]);
 
    if (WAY > 1)
-     parallel_Dlatch_rst #(.WAY(WAY-1), .SIZE(SIZE)) parallel_Dlatch0(D[WAY*SIZE-1 : SIZE],
+     parallel_Dlatch_rst #(.WAY(WAY-1), .WIRE(WIRE)) parallel_Dlatch0(D[WAY*WIRE-1 : WIRE],
 								  clk[WAY-1:1],
 								  rst,
-								  Q[WAY*SIZE-1 : SIZE],
-								  QN[WAY*SIZE-1 : SIZE]);
+								  Q[WAY*WIRE-1 : WIRE],
+								  QN[WAY*WIRE-1 : WIRE]);
 endmodule

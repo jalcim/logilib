@@ -1,6 +1,7 @@
 module Dlatch_rst(a, clk, reset, s1, s2);
    output s1,  s2;
    input  a, clk, reset;
+
    wire   or_0_out, nand_0_out, nand_1_out, xor_0_out, and_0_out, nand_2_out, not_0_out, nand_3_out;
 
    xor xor0(xor_0_out, a, reset);
