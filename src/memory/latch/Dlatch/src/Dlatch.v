@@ -1,4 +1,4 @@
-module Dlatch (D, clk, Q, QN);
+module Dlatch_qn (D, clk, Q, QN);
    parameter WAY = 1;
    parameter WIRE = 1;
 
