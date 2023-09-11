@@ -4,14 +4,17 @@
  `include "../../serial_gate/src/serial_buf.v"
 
 module gate_buf(out, in);
-   parameter SIZE = 1;
+   parameter WAY = 1;
+   parameter WIRE = 2;
    input in;
-   output [SIZE-1:0] out;
+   output [WIRE-1:0] out;
 
-   if (SIZE == 2)
+   if (WAY == 1 && WIRE == 2)
      buf buf_inst(out, in);
-   else if (SIZE > 2)
-     serial_buf #(.SIZE(SIZE)) serial_buf_inst(out, in);
+   else if (WAY > 1)
+     parallel_buf #(.WAY(WAY), .WIRE(WIRE)) parallel_buf_inst(out, in);
+   else if (WIRE > 2)
+     serial_buf #(.WIRE(WIRE)) serial_buf_inst(out, in);
 endmodule
 
 `endif
