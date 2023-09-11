@@ -1,7 +1,7 @@
 `ifndef __PARALLEL_NOR__
  `define __PARALLEL_NOR__
 
- `include "src/serial_gate/serial_nor.v"
+ `include "src/primitive/serial_gate/serial_nor.v"
 
 module parallel_nor(out, in);
    parameter WAY = 2;

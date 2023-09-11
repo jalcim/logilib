@@ -1,8 +1,8 @@
 `ifndef __GATE_OR__
  `define __GATE_OR__
 
- `include "src/parallel_gate/parallel_or.v"
- `include "src/serial_gate/serial_or.v"
+ `include "src/primitive/parallel_gate/parallel_or.v"
+ `include "src/primitive/serial_gate/serial_or.v"
 
 module gate_or(out, in);
    parameter WAY = 1;

@@ -1,11 +1,11 @@
-`include "../src/gate_and.v"
-`include "../src/gate_buf.v"
-`include "../src/gate_nand.v"
-`include "../src/gate_nor.v"
-`include "../src/gate_not.v"
-`include "../src/gate_or.v"
-`include "../src/gate_xnor.v"
-`include "../src/gate_xor.v"
+`include "src/primitive/gate/gate_and.v"
+`include "src/primitive/gate/gate_buf.v"
+`include "src/primitive/gate/gate_nand.v"
+`include "src/primitive/gate/gate_nor.v"
+`include "src/primitive/gate/gate_not.v"
+`include "src/primitive/gate/gate_or.v"
+`include "src/primitive/gate/gate_xnor.v"
+`include "src/primitive/gate/gate_xor.v"
 
 module test_serial_gate;
    parameter WIRE = 3;

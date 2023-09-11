@@ -1,7 +1,7 @@
 `ifndef __PARALLEL_OR__
  `define __PARALLEL_OR__
 
- `include "src/serial_gate/serial_or.v"
+ `include "src/primitive/serial_gate/serial_or.v"
 
 module parallel_or(out, in);
    parameter WAY = 2;

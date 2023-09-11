@@ -1,8 +1,8 @@
 `ifndef __GATE_NAND__
  `define __GATE_NAND__
 
- `include "src/parallel_gate/parallel_nand.v"
- `include "src/serial_gate/serial_nand.v"
+ `include "src/primitive/parallel_gate/parallel_nand.v"
+ `include "src/primitive/serial_gate/serial_nand.v"
 
 module gate_nand(out, in);
    parameter WAY = 1;
