@@ -1,3 +1,6 @@
+`include "../../primitive/parallel_gate/src/parallel_and.v"
+`include "../../primitive/parallel_gate/src/parallel_or.v"
+
 module dec_LR(a, left, s);
    parameter SIZE = 8;
 

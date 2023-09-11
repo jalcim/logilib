@@ -1,4 +1,6 @@
-module test_regdec;
+`include "../src/decalleur_LR.v"
+
+module test_decalleur_LR;
 
    reg [7:0] a;
    reg 	     lr;

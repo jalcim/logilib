@@ -1,3 +1,6 @@
+`ifndef __DEMUX__
+ `define __DEMUX__
+
 module demux(ctrl, in, out);
    parameter S = 1;//2^S//nombre de sortie
    parameter T = 1;//taille des sorties
@@ -34,3 +37,5 @@ module demux(ctrl, in, out);
 	assign out[SIZE_OUT - 1:NEXT_SIZE_OUT] =  ctrl[S-1] ? out2 : 0;//7:4
      end
 endmodule
+
+`endif

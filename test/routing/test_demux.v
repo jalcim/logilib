@@ -1,3 +1,5 @@
+`include "../src/demux.v"
+
 module test_demux;
    parameter S = 2;
    parameter T = 1;

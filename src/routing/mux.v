@@ -1,3 +1,6 @@
+`ifndef __MUX__
+ `define __MUX__
+
 module mux(ctrl, in, out);
 
    parameter S = 1;//2^S
@@ -28,3 +31,5 @@ module mux(ctrl, in, out);
 
      end
 endmodule
+
+`endif
