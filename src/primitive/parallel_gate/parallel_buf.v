@@ -1,3 +1,6 @@
+`ifndef __PARALLEL_BUF__
+ `define __PARALLEL_BUF__
+
 module parallel_buf(out, A);
    parameter SIZE = 8;
 
@@ -9,3 +12,5 @@ module parallel_buf(out, A);
      parallel_buf #(.SIZE(SIZE-1))parallel_buf0(out[SIZE-1 : 1],
 						A[SIZE-1 : 1]);
 endmodule // parallel_buf
+
+`endif

@@ -1,7 +1,7 @@
 `ifndef __PARALLEL_XNOR__
  `define __PARALLEL_XNOR__
 
- `include "../../serial_gate/src/serial_xnor.v"
+ `include "src/serial_gate/serial_xnor.v"
 
 module parallel_xnor(out, in);
    parameter WAY = 2;

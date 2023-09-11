@@ -1,17 +1,19 @@
 `ifndef __GATE_NOT__
  `define __GATE_NOT__
 
- `include "../../serial_gate/src/serial_not.v"
+ `include "src/primitive/parallel_gate/parallel_not.v"
+ `include "src/primitive/serial_gate/serial_not.v"
 
 module gate_not(out, in);
-   parameter SIZE = 1;
+   parameter WAY = 1;
+   parameter WIRE = 1;
    input in;
-   output out;
+   output [WIRE-1:0] out;
 
-   if (SIZE == 2)
-     not not_inst(out, in);
-   else if (SIZE > 2)
-     serial_not #(.SIZE(SIZE)) serial_not_inst(out, in);
+   if (WAY > 1)
+     parallel_not #(.WAY(WAY), .WIRE(WIRE)) parallel_not_inst(out, in);
+   else
+     serial_not #(.WIRE(WIRE)) serial_not_inst(out, in);
 endmodule
 
 `endif

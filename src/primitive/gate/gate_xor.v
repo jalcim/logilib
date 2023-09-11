@@ -1,8 +1,8 @@
 `ifndef __GATE_XOR__
  `define __GATE_XOR__
 
- `include "../../parallel_gate/src/parallel_xor.v"
- `include "../../serial_gate/src/serial_xor.v"
+ `include "src/parallel_gate/parallel_xor.v"
+ `include "src/serial_gate/serial_xor.v"
 
 module gate_xor(out, in);
    parameter WAY = 1;

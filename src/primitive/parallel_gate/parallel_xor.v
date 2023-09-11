@@ -1,7 +1,7 @@
 `ifndef __PARALLEL_XOR__
  `define __PARALLEL_XOR__
 
- `include "../../serial_gate/src/serial_xor.v"
+ `include "src/serial_gate/serial_xor.v"
 
 module parallel_xor(out, in);
    parameter WAY = 2;

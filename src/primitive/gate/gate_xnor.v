@@ -1,8 +1,8 @@
 `ifndef __GATE_XNOR__
  `define __GATE_XNOR__
 
- `include "../../parallel_gate/src/parallel_xnor.v"
- `include "../../serial_gate/src/serial_xnor.v"
+ `include "src/parallel_gate/parallel_xnor.v"
+ `include "src/serial_gate/serial_xnor.v"
 
 module gate_xnor(out, in);
    parameter WAY = 1;

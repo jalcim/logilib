@@ -1,8 +1,8 @@
 `ifndef __GATE_AND__
  `define __GATE_AND__
 
- `include "../../parallel_gate/src/parallel_and.v"
- `include "../../serial_gate/src/serial_and.v"
+ `include "src/primitive/parallel_gate/parallel_and.v"
+ `include "src/primitive/serial_gate/serial_and.v"
 
 module gate_and(out, in);
    parameter WAY = 1;

@@ -1,3 +1,6 @@
+`ifndef __PARALLEL_NOT__
+ `define __PARALLEL_NOT__
+
 module parallel_not(out, A);
    parameter SIZE = 3;
 
@@ -9,3 +12,5 @@ module parallel_not(out, A);
      parallel_not #(.SIZE(SIZE-1))parallel_not0(out[SIZE-1 : 1],
 						A[SIZE-1 : 1]);
 endmodule // parallel_not
+
+`endif
