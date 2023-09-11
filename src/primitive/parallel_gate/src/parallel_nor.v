@@ -1,12 +1,21 @@
-module parallel_nor(out, A, B);
-   parameter SIZE = 3;
+`ifndef __PARALLEL_NOR__
+ `define __PARALLEL_NOR__
 
-   input  [SIZE-1 : 0] A, B;
-   output [SIZE-1 : 0] out;
+ `include "../../serial_gate/src/serial_nor.v"
 
-   nor nor2(out[0], A[0], B[0]);
-   if (SIZE > 1)
-     parallel_nor #(.SIZE(SIZE-1))parallel_nor0(out[SIZE-1 : 1],
-						A[SIZE-1 : 1],
-						B[SIZE-1 : 1]);
-endmodule // parallel_nor
+module parallel_nor(out, in);
+   parameter WAY = 2;
+   parameter WIRE = 2;
+
+   localparam SIZE = WAY * WIRE;
+
+   input  [SIZE-1 : 0] in;
+   output [WAY-1 : 0] out;
+
+   serial_nor nor1(out[0], in[WIRE-1:0]);
+   if (WAY > 1)
+     parallel_nor #(.WAY(WAY-1), .WIRE(WIRE)) parallel_nor0(out[WAY-1:1],
+							    in[SIZE-1 : WIRE]);
+endmodule
+
+`endif

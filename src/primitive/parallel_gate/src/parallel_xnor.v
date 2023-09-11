@@ -1,12 +1,21 @@
-module parallel_xnor(out, A, B);
-   parameter SIZE = 3;
+`ifndef __PARALLEL_XNOR__
+ `define __PARALLEL_XNOR__
 
-   input  [SIZE-1 : 0] A, B;
-   output [SIZE-1 : 0] out;
+ `include "../../serial_gate/src/serial_xnor.v"
 
-   xnor xnor2(out[0], A[0], B[0]);
-   if (SIZE > 1)
-     parallel_xnor #(.SIZE(SIZE-1))parallel_xnor0(out[SIZE-1 : 1],
-						  A[SIZE-1 : 1],
-						  B[SIZE-1 : 1]);
-endmodule // parallel_xnor
+module parallel_xnor(out, in);
+   parameter WAY = 2;
+   parameter WIRE = 2;
+
+   localparam SIZE = WAY * WIRE;
+
+   input  [SIZE-1 : 0] in;
+   output [WAY-1 : 0] out;
+
+   serial_xnor xnor1(out[0], in[WIRE-1:0]);
+   if (WAY > 1)
+     parallel_xnor #(.WAY(WAY-1), .WIRE(WIRE)) parallel_xnor0(out[WAY-1:1],
+							    in[SIZE-1 : WIRE]);
+endmodule
+
+`endif
