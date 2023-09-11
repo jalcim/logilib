@@ -1,17 +1,22 @@
 `ifndef __GATE_OR__
  `define __GATE_OR__
 
+ `include "../../parallel_gate/src/parallel_or.v"
  `include "../../serial_gate/src/serial_or.v"
 
 module gate_or(out, in);
-   parameter SIZE = 2;
-   input [1:0] in;
+   parameter WAY = 1;
+   parameter WIRE = 2;
+
+   localparam SIZE = WAY * WIRE;
+
+   input [SIZE-1:0] in;
    output out;
 
-   if (SIZE == 2)
-     or or_inst(out, in[0], in[1]);
-   else if (SIZE > 2)
-     serial_or #(.SIZE(SIZE)) serial_or_inst(out, in);
+   if (WAY > 1)
+     parallel_or #(.WAY(WAY), .WIRE(WIRE)) parallel_or_inst(out, in);
+   else
+     serial_or #(.WIRE(WIRE)) serial_or_inst(out, in);
 endmodule
 
 `endif

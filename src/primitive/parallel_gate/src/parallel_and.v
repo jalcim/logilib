@@ -1,6 +1,8 @@
 `ifndef __PARALLEL_AND__
  `define __PARALLEL_AND__
 
+ `include "../../serial_gate/src/serial_and.v"
+
 module parallel_and(out, in);
    parameter WAY = 2;
    parameter WIRE = 2;

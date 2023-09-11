@@ -1,17 +1,22 @@
 `ifndef __GATE_NAND__
  `define __GATE_NAND__
 
+ `include "../../parallel_gate/src/parallel_nand.v"
  `include "../../serial_gate/src/serial_nand.v"
 
 module gate_nand(out, in);
-   parameter SIZE = 2;
-   input [1:0] in;
+   parameter WAY = 1;
+   parameter WIRE = 2;
+
+   localparam SIZE = WAY * WIRE;
+
+   input [SIZE-1:0] in;
    output out;
 
-   if (SIZE == 2)
-     nand nand_inst(out, in[0], in[1]);
-   else if (SIZE > 2)
-     serial_nand #(.SIZE(SIZE)) serial_nand_inst(out, in);
+   if (WAY > 1)
+     parallel_nand #(.WAY(WAY), .WIRE(WIRE)) parallel_nand_inst(out, in);
+   else
+     serial_nand #(.WIRE(WIRE)) serial_nand_inst(out, in);
 endmodule
 
 `endif

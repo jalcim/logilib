@@ -5,7 +5,7 @@
 
 module gate_buf(out, in);
    parameter WAY = 1;
-   parameter WIRE = 2;
+   parameter WIRE = 1;
    input in;
    output [WIRE-1:0] out;
 

@@ -2,28 +2,26 @@
  `define __SERIAL_NAND__
 
 module serial_nand(out, e1);
-   parameter SIZE = 3;
-   parameter N1 = (SIZE / 2) + (SIZE % 2);
-   parameter N2 = SIZE / 2;
+   parameter WIRE = 3;
+   parameter N1 = (WIRE / 2) + (WIRE % 2);
+   parameter N2 = WIRE / 2;
 
-   input [SIZE-1:0] e1;
+   input [WIRE-1:0] e1;
    output 	    out;
 
    wire 	    W1, W2;
 
-   if (SIZE == 1)
-     begin
-	assign out = e1[0];
-     end
-   else if (SIZE == 2)
-     begin
-	nand nand0(out, e1[0], e1[1]);
-     end
-   else if (SIZE > 2)
+   if (WIRE == 1)
+     assign out = e1[0];
+
+   else if (WIRE == 2)
+     nand nand1(out, e1[0], e1[1]);
+
+   else if (WIRE > 2)
      begin
 	nand nand0(out, W1, W2);
-	serial_nand #(.SIZE(N1)) recall1(W1, e1[SIZE - 1 : SIZE - N1]);
-	serial_nand #(.SIZE(N2)) recall2(W2, e1[N2 - 1 : 0]);
+	serial_nand #(.WIRE(N1)) recall1(W1, e1[WIRE - 1 : WIRE - N1]);
+	serial_nand #(.WIRE(N2)) recall2(W2, e1[N2 - 1 : 0]);
      end
 endmodule
 

@@ -1,17 +1,22 @@
 `ifndef __GATE_XNOR__
  `define __GATE_XNOR__
 
+ `include "../../parallel_gate/src/parallel_xnor.v"
  `include "../../serial_gate/src/serial_xnor.v"
 
 module gate_xnor(out, in);
-   parameter SIZE = 2;
-   input [1:0] in;
+   parameter WAY = 1;
+   parameter WIRE = 2;
+
+   localparam SIZE = WAY * WIRE;
+
+   input [SIZE-1:0] in;
    output out;
 
-   if (SIZE == 2)
-     xnor xnor_inst(out, in[0], in[1]);
-   else if (SIZE > 2)
-     serial_xnor #(.SIZE(SIZE)) serial_xnor_inst(out, in);
+   if (WAY > 1)
+     parallel_xnor #(.WAY(WAY), .WIRE(WIRE)) parallel_xnor_inst(out, in);
+   else
+     serial_xnor #(.WIRE(WIRE)) serial_xnor_inst(out, in);
 endmodule
 
 `endif

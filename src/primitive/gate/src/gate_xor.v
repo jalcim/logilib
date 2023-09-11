@@ -1,17 +1,22 @@
 `ifndef __GATE_XOR__
  `define __GATE_XOR__
 
+ `include "../../parallel_gate/src/parallel_xor.v"
  `include "../../serial_gate/src/serial_xor.v"
 
 module gate_xor(out, in);
-   parameter SIZE = 2;
-   input [1:0] in;
+   parameter WAY = 1;
+   parameter WIRE = 2;
+
+   localparam SIZE = WAY * WIRE;
+
+   input [SIZE-1:0] in;
    output out;
 
-   if (SIZE == 2)
-     xor xor_inst(out, in[0], in[1]);
-   else if (SIZE > 2)
-     serial_xor #(.SIZE(SIZE)) serial_xor_inst(out, in);
+   if (WAY > 1)
+     parallel_xor #(.WAY(WAY), .WIRE(WIRE)) parallel_xor_inst(out, in);
+   else
+     serial_xor #(.WIRE(WIRE)) serial_xor_inst(out, in);
 endmodule
 
 `endif

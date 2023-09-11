@@ -1,0 +1,442 @@
+#! /usr/bin/vvp
+:ivl_version "11.0 (stable)";
+:ivl_delay_selection "TYPICAL";
+:vpi_time_precision + 0;
+:vpi_module "/usr/lib/x86_64-linux-gnu/ivl/system.vpi";
+:vpi_module "/usr/lib/x86_64-linux-gnu/ivl/vhdl_sys.vpi";
+:vpi_module "/usr/lib/x86_64-linux-gnu/ivl/vhdl_textio.vpi";
+:vpi_module "/usr/lib/x86_64-linux-gnu/ivl/v2005_math.vpi";
+:vpi_module "/usr/lib/x86_64-linux-gnu/ivl/va_math.vpi";
+S_0x55a156eadeb0 .scope module, "gate_buf" "gate_buf" 2 6;
+ .timescale 0 0;
+    .port_info 0 /OUTPUT 1 "out";
+    .port_info 1 /INPUT 1 "in";
+P_0x55a156eb6720 .param/l "WAY" 0 2 7, +C4<00000000000000000000000000000001>;
+P_0x55a156eb6760 .param/l "WIRE" 0 2 8, +C4<00000000000000000000000000000001>;
+o0x7f2200769018 .functor BUFZ 1, C4<z>; HiZ drive
+v0x55a156e909c0_0 .net "in", 0 0, o0x7f2200769018;  0 drivers
+o0x7f2200769048 .functor BUFZ 1, C4<z>; HiZ drive
+v0x55a156e90840_0 .net "out", 0 0, o0x7f2200769048;  0 drivers
+S_0x55a156eac370 .scope module, "gate_not" "gate_not" 3 6;
+ .timescale 0 0;
+    .port_info 0 /OUTPUT 1 "out";
+    .port_info 1 /INPUT 1 "in";
+P_0x55a156eb4930 .param/l "SIZE" 0 3 7, +C4<00000000000000000000000000000001>;
+o0x7f22007690d8 .functor BUFZ 1, C4<z>; HiZ drive
+v0x55a156e99c80_0 .net "in", 0 0, o0x7f22007690d8;  0 drivers
+o0x7f2200769108 .functor BUFZ 1, C4<z>; HiZ drive
+v0x55a156e99b00_0 .net "out", 0 0, o0x7f2200769108;  0 drivers
+S_0x55a156eaa830 .scope module, "test_serial_gate" "test_serial_gate" 4 10;
+ .timescale 0 0;
+P_0x55a156eb13b0 .param/l "WIRE" 0 4 11, +C4<00000000000000000000000000000011>;
+v0x55a156eda290_0 .var "e1", 0 0;
+v0x55a156eda350_0 .var "e2", 0 0;
+v0x55a156eda410_0 .var "e3", 0 0;
+v0x55a156eda4e0_0 .net "out_and", 0 0, L_0x55a156edb9e0;  1 drivers
+o0x7f220076a428 .functor BUFZ 1, C4<z>; HiZ drive
+v0x55a156eda5d0_0 .net "out_buf", 0 0, o0x7f220076a428;  0 drivers
+v0x55a156eda6e0_0 .net "out_nand", 0 0, L_0x55a156edb2b0;  1 drivers
+v0x55a156eda7d0_0 .net "out_nor", 0 0, L_0x55a156eb8bd0;  1 drivers
+o0x7f220076a458 .functor BUFZ 1, C4<z>; HiZ drive
+v0x55a156eda8c0_0 .net "out_not", 0 0, o0x7f220076a458;  0 drivers
+v0x55a156eda980_0 .net "out_or", 0 0, L_0x55a156edc100;  1 drivers
+v0x55a156edaa20_0 .net "out_xnor", 0 0, L_0x55a156edcf80;  1 drivers
+v0x55a156edab10_0 .net "out_xor", 0 0, L_0x55a156edc990;  1 drivers
+L_0x55a156edb210 .concat [ 1 1 1 0], v0x55a156eda410_0, v0x55a156eda350_0, v0x55a156eda290_0;
+L_0x55a156edb8a0 .concat [ 1 1 1 0], v0x55a156eda410_0, v0x55a156eda350_0, v0x55a156eda290_0;
+L_0x55a156edc060 .concat [ 1 1 1 0], v0x55a156eda410_0, v0x55a156eda350_0, v0x55a156eda290_0;
+L_0x55a156edc6b0 .concat [ 1 1 1 0], v0x55a156eda410_0, v0x55a156eda350_0, v0x55a156eda290_0;
+L_0x55a156edce50 .concat [ 1 1 1 0], v0x55a156eda410_0, v0x55a156eda350_0, v0x55a156eda290_0;
+L_0x55a156edd5b0 .concat [ 1 1 1 0], v0x55a156eda410_0, v0x55a156eda350_0, v0x55a156eda290_0;
+S_0x55a156ecc240 .scope module, "inst1" "gate_nor" 4 16, 5 7 0, S_0x55a156eaa830;
+ .timescale 0 0;
+    .port_info 0 /OUTPUT 1 "out";
+    .port_info 1 /INPUT 3 "in";
+P_0x55a156ecc420 .param/l "SIZE" 1 5 11, +C4<0000000000000000000000000000000000000000000000000000000000000011>;
+P_0x55a156ecc460 .param/l "WAY" 0 5 8, +C4<00000000000000000000000000000001>;
+P_0x55a156ecc4a0 .param/l "WIRE" 0 5 9, +C4<00000000000000000000000000000011>;
+v0x55a156ece370_0 .net "in", 2 0, L_0x55a156edb210;  1 drivers
+v0x55a156ece460_0 .net "out", 0 0, L_0x55a156eb8bd0;  alias, 1 drivers
+S_0x55a156ecc6b0 .scope generate, "genblk2" "genblk2" 5 16, 5 16 0, S_0x55a156ecc240;
+ .timescale 0 0;
+S_0x55a156ecc8b0 .scope module, "serial_nor_inst" "serial_nor" 5 19, 6 4 0, S_0x55a156ecc6b0;
+ .timescale 0 0;
+    .port_info 0 /OUTPUT 1 "out";
+    .port_info 1 /INPUT 3 "e1";
+P_0x55a156eccab0 .param/l "N1" 0 6 6, +C4<000000000000000000000000000000010>;
+P_0x55a156eccaf0 .param/l "N2" 0 6 7, +C4<00000000000000000000000000000001>;
+P_0x55a156eccb30 .param/l "WIRE" 0 6 5, +C4<00000000000000000000000000000011>;
+v0x55a156ece000_0 .net "W1", 0 0, L_0x55a156edace0;  1 drivers
+v0x55a156ece0d0_0 .net "W2", 0 0, L_0x55a156edb090;  1 drivers
+v0x55a156ece1a0_0 .net "e1", 2 0, L_0x55a156edb210;  alias, 1 drivers
+v0x55a156ece270_0 .net "out", 0 0, L_0x55a156eb8bd0;  alias, 1 drivers
+L_0x55a156edafa0 .part L_0x55a156edb210, 1, 2;
+L_0x55a156edb120 .part L_0x55a156edb210, 0, 1;
+S_0x55a156eccd20 .scope generate, "genblk5" "genblk5" 6 20, 6 20 0, S_0x55a156ecc8b0;
+ .timescale 0 0;
+L_0x55a156eb8bd0 .functor NOR 1, L_0x55a156edace0, L_0x55a156edb090, C4<0>, C4<0>;
+S_0x55a156eccf20 .scope module, "recall1" "serial_nor" 6 23, 6 4 0, S_0x55a156eccd20;
+ .timescale 0 0;
+    .port_info 0 /OUTPUT 1 "out";
+    .port_info 1 /INPUT 2 "e1";
+P_0x55a156ecd120 .param/l "N1" 0 6 6, +C4<0000000000000000000000000000000001>;
+P_0x55a156ecd160 .param/l "N2" 0 6 7, +C4<000000000000000000000000000000001>;
+P_0x55a156ecd1a0 .param/l "WIRE" 0 6 5, +C4<000000000000000000000000000000010>;
+v0x55a156eb8f80_0 .net "e1", 1 0, L_0x55a156edafa0;  1 drivers
+v0x55a156ecd690_0 .net "out", 0 0, L_0x55a156edace0;  alias, 1 drivers
+L_0x55a156edad70 .part L_0x55a156edafa0, 0, 1;
+L_0x55a156edae60 .part L_0x55a156edafa0, 1, 1;
+S_0x55a156ecd390 .scope generate, "genblk3" "genblk3" 6 17, 6 17 0, S_0x55a156eccf20;
+ .timescale 0 0;
+L_0x55a156edace0 .functor NOR 1, L_0x55a156edad70, L_0x55a156edae60, C4<0>, C4<0>;
+v0x55a156e5cff0_0 .net *"_ivl_0", 0 0, L_0x55a156edad70;  1 drivers
+v0x55a156eb8ee0_0 .net *"_ivl_1", 0 0, L_0x55a156edae60;  1 drivers
+S_0x55a156ecd7b0 .scope module, "recall2" "serial_nor" 6 24, 6 4 0, S_0x55a156eccd20;
+ .timescale 0 0;
+    .port_info 0 /OUTPUT 1 "out";
+    .port_info 1 /INPUT 1 "e1";
+P_0x55a156ecd990 .param/l "N1" 0 6 6, +C4<000000000000000000000000000000001>;
+P_0x55a156ecd9d0 .param/l "N2" 0 6 7, +C4<00000000000000000000000000000000>;
+P_0x55a156ecda10 .param/l "WIRE" 0 6 5, +C4<00000000000000000000000000000001>;
+v0x55a156ecdde0_0 .net "e1", 0 0, L_0x55a156edb120;  1 drivers
+v0x55a156ecdee0_0 .net "out", 0 0, L_0x55a156edb090;  alias, 1 drivers
+S_0x55a156ecdbe0 .scope generate, "genblk1" "genblk1" 6 14, 6 14 0, S_0x55a156ecd7b0;
+ .timescale 0 0;
+L_0x55a156edb090 .functor BUFZ 1, L_0x55a156edb120, C4<0>, C4<0>, C4<0>;
+S_0x55a156ece550 .scope module, "inst2" "gate_nand" 4 17, 7 7 0, S_0x55a156eaa830;
+ .timescale 0 0;
+    .port_info 0 /OUTPUT 1 "out";
+    .port_info 1 /INPUT 3 "in";
+P_0x55a156ece730 .param/l "SIZE" 1 7 11, +C4<0000000000000000000000000000000000000000000000000000000000000011>;
+P_0x55a156ece770 .param/l "WAY" 0 7 8, +C4<00000000000000000000000000000001>;
+P_0x55a156ece7b0 .param/l "WIRE" 0 7 9, +C4<00000000000000000000000000000011>;
+v0x55a156ed0940_0 .net "in", 2 0, L_0x55a156edb8a0;  1 drivers
+v0x55a156ed0a30_0 .net "out", 0 0, L_0x55a156edb2b0;  alias, 1 drivers
+S_0x55a156ece9e0 .scope generate, "genblk2" "genblk2" 7 16, 7 16 0, S_0x55a156ece550;
+ .timescale 0 0;
+S_0x55a156ecebe0 .scope module, "serial_nand_inst" "serial_nand" 7 19, 8 4 0, S_0x55a156ece9e0;
+ .timescale 0 0;
+    .port_info 0 /OUTPUT 1 "out";
+    .port_info 1 /INPUT 3 "e1";
+P_0x55a156ecede0 .param/l "N1" 0 8 6, +C4<000000000000000000000000000000010>;
+P_0x55a156ecee20 .param/l "N2" 0 8 7, +C4<00000000000000000000000000000001>;
+P_0x55a156ecee60 .param/l "WIRE" 0 8 5, +C4<00000000000000000000000000000011>;
+v0x55a156ed05d0_0 .net "W1", 0 0, L_0x55a156edb370;  1 drivers
+v0x55a156ed06a0_0 .net "W2", 0 0, L_0x55a156edb720;  1 drivers
+v0x55a156ed0770_0 .net "e1", 2 0, L_0x55a156edb8a0;  alias, 1 drivers
+v0x55a156ed0840_0 .net "out", 0 0, L_0x55a156edb2b0;  alias, 1 drivers
+L_0x55a156edb630 .part L_0x55a156edb8a0, 1, 2;
+L_0x55a156edb7b0 .part L_0x55a156edb8a0, 0, 1;
+S_0x55a156ecf090 .scope generate, "genblk5" "genblk5" 8 20, 8 20 0, S_0x55a156ecebe0;
+ .timescale 0 0;
+L_0x55a156edb2b0 .functor NAND 1, L_0x55a156edb370, L_0x55a156edb720, C4<1>, C4<1>;
+S_0x55a156ecf290 .scope module, "recall1" "serial_nand" 8 23, 8 4 0, S_0x55a156ecf090;
+ .timescale 0 0;
+    .port_info 0 /OUTPUT 1 "out";
+    .port_info 1 /INPUT 2 "e1";
+P_0x55a156ecf490 .param/l "N1" 0 8 6, +C4<0000000000000000000000000000000001>;
+P_0x55a156ecf4d0 .param/l "N2" 0 8 7, +C4<000000000000000000000000000000001>;
+P_0x55a156ecf510 .param/l "WIRE" 0 8 5, +C4<000000000000000000000000000000010>;
+v0x55a156ecfb20_0 .net "e1", 1 0, L_0x55a156edb630;  1 drivers
+v0x55a156ecfc20_0 .net "out", 0 0, L_0x55a156edb370;  alias, 1 drivers
+L_0x55a156edb400 .part L_0x55a156edb630, 0, 1;
+L_0x55a156edb4f0 .part L_0x55a156edb630, 1, 1;
+S_0x55a156ecf740 .scope generate, "genblk3" "genblk3" 8 17, 8 17 0, S_0x55a156ecf290;
+ .timescale 0 0;
+L_0x55a156edb370 .functor NAND 1, L_0x55a156edb400, L_0x55a156edb4f0, C4<1>, C4<1>;
+v0x55a156ecf940_0 .net *"_ivl_0", 0 0, L_0x55a156edb400;  1 drivers
+v0x55a156ecfa40_0 .net *"_ivl_1", 0 0, L_0x55a156edb4f0;  1 drivers
+S_0x55a156ecfd40 .scope module, "recall2" "serial_nand" 8 24, 8 4 0, S_0x55a156ecf090;
+ .timescale 0 0;
+    .port_info 0 /OUTPUT 1 "out";
+    .port_info 1 /INPUT 1 "e1";
+P_0x55a156ecff20 .param/l "N1" 0 8 6, +C4<000000000000000000000000000000001>;
+P_0x55a156ecff60 .param/l "N2" 0 8 7, +C4<00000000000000000000000000000000>;
+P_0x55a156ecffa0 .param/l "WIRE" 0 8 5, +C4<00000000000000000000000000000001>;
+v0x55a156ed03b0_0 .net "e1", 0 0, L_0x55a156edb7b0;  1 drivers
+v0x55a156ed04b0_0 .net "out", 0 0, L_0x55a156edb720;  alias, 1 drivers
+S_0x55a156ed01b0 .scope generate, "genblk1" "genblk1" 8 14, 8 14 0, S_0x55a156ecfd40;
+ .timescale 0 0;
+L_0x55a156edb720 .functor BUFZ 1, L_0x55a156edb7b0, C4<0>, C4<0>, C4<0>;
+S_0x55a156ed0b20 .scope module, "inst3" "gate_and" 4 18, 9 7 0, S_0x55a156eaa830;
+ .timescale 0 0;
+    .port_info 0 /OUTPUT 1 "out";
+    .port_info 1 /INPUT 3 "in";
+P_0x55a156ed0d30 .param/l "SIZE" 1 9 11, +C4<0000000000000000000000000000000000000000000000000000000000000011>;
+P_0x55a156ed0d70 .param/l "WAY" 0 9 8, +C4<00000000000000000000000000000001>;
+P_0x55a156ed0db0 .param/l "WIRE" 0 9 9, +C4<00000000000000000000000000000011>;
+v0x55a156ed2f20_0 .net "in", 2 0, L_0x55a156edc060;  1 drivers
+v0x55a156ed3010_0 .net "out", 0 0, L_0x55a156edb9e0;  alias, 1 drivers
+S_0x55a156ed0fe0 .scope generate, "genblk2" "genblk2" 9 16, 9 16 0, S_0x55a156ed0b20;
+ .timescale 0 0;
+S_0x55a156ed11c0 .scope module, "serial_and_inst" "serial_and" 9 19, 10 4 0, S_0x55a156ed0fe0;
+ .timescale 0 0;
+    .port_info 0 /OUTPUT 1 "out";
+    .port_info 1 /INPUT 3 "e1";
+P_0x55a156ed13c0 .param/l "N1" 0 10 6, +C4<000000000000000000000000000000010>;
+P_0x55a156ed1400 .param/l "N2" 0 10 7, +C4<00000000000000000000000000000001>;
+P_0x55a156ed1440 .param/l "WIRE" 0 10 5, +C4<00000000000000000000000000000011>;
+v0x55a156ed2bb0_0 .net "W1", 0 0, L_0x55a156edbb30;  1 drivers
+v0x55a156ed2c80_0 .net "W2", 0 0, L_0x55a156edbee0;  1 drivers
+v0x55a156ed2d50_0 .net "e1", 2 0, L_0x55a156edc060;  alias, 1 drivers
+v0x55a156ed2e20_0 .net "out", 0 0, L_0x55a156edb9e0;  alias, 1 drivers
+L_0x55a156edbdf0 .part L_0x55a156edc060, 1, 2;
+L_0x55a156edbf70 .part L_0x55a156edc060, 0, 1;
+S_0x55a156ed1670 .scope generate, "genblk5" "genblk5" 10 20, 10 20 0, S_0x55a156ed11c0;
+ .timescale 0 0;
+L_0x55a156edb9e0 .functor AND 1, L_0x55a156edbb30, L_0x55a156edbee0, C4<1>, C4<1>;
+S_0x55a156ed1870 .scope module, "recall1" "serial_and" 10 23, 10 4 0, S_0x55a156ed1670;
+ .timescale 0 0;
+    .port_info 0 /OUTPUT 1 "out";
+    .port_info 1 /INPUT 2 "e1";
+P_0x55a156ed1a70 .param/l "N1" 0 10 6, +C4<0000000000000000000000000000000001>;
+P_0x55a156ed1ab0 .param/l "N2" 0 10 7, +C4<000000000000000000000000000000001>;
+P_0x55a156ed1af0 .param/l "WIRE" 0 10 5, +C4<000000000000000000000000000000010>;
+v0x55a156ed2100_0 .net "e1", 1 0, L_0x55a156edbdf0;  1 drivers
+v0x55a156ed2200_0 .net "out", 0 0, L_0x55a156edbb30;  alias, 1 drivers
+L_0x55a156edbbc0 .part L_0x55a156edbdf0, 0, 1;
+L_0x55a156edbcb0 .part L_0x55a156edbdf0, 1, 1;
+S_0x55a156ed1d20 .scope generate, "genblk3" "genblk3" 10 17, 10 17 0, S_0x55a156ed1870;
+ .timescale 0 0;
+L_0x55a156edbb30 .functor AND 1, L_0x55a156edbbc0, L_0x55a156edbcb0, C4<1>, C4<1>;
+v0x55a156ed1f20_0 .net *"_ivl_0", 0 0, L_0x55a156edbbc0;  1 drivers
+v0x55a156ed2020_0 .net *"_ivl_1", 0 0, L_0x55a156edbcb0;  1 drivers
+S_0x55a156ed2320 .scope module, "recall2" "serial_and" 10 24, 10 4 0, S_0x55a156ed1670;
+ .timescale 0 0;
+    .port_info 0 /OUTPUT 1 "out";
+    .port_info 1 /INPUT 1 "e1";
+P_0x55a156ed2500 .param/l "N1" 0 10 6, +C4<000000000000000000000000000000001>;
+P_0x55a156ed2540 .param/l "N2" 0 10 7, +C4<00000000000000000000000000000000>;
+P_0x55a156ed2580 .param/l "WIRE" 0 10 5, +C4<00000000000000000000000000000001>;
+v0x55a156ed2990_0 .net "e1", 0 0, L_0x55a156edbf70;  1 drivers
+v0x55a156ed2a90_0 .net "out", 0 0, L_0x55a156edbee0;  alias, 1 drivers
+S_0x55a156ed2790 .scope generate, "genblk1" "genblk1" 10 14, 10 14 0, S_0x55a156ed2320;
+ .timescale 0 0;
+L_0x55a156edbee0 .functor BUFZ 1, L_0x55a156edbf70, C4<0>, C4<0>, C4<0>;
+S_0x55a156ed3100 .scope module, "inst4" "gate_or" 4 19, 11 7 0, S_0x55a156eaa830;
+ .timescale 0 0;
+    .port_info 0 /OUTPUT 1 "out";
+    .port_info 1 /INPUT 3 "in";
+P_0x55a156ed32e0 .param/l "SIZE" 1 11 11, +C4<0000000000000000000000000000000000000000000000000000000000000011>;
+P_0x55a156ed3320 .param/l "WAY" 0 11 8, +C4<00000000000000000000000000000001>;
+P_0x55a156ed3360 .param/l "WIRE" 0 11 9, +C4<00000000000000000000000000000011>;
+v0x55a156ed54f0_0 .net "in", 2 0, L_0x55a156edc6b0;  1 drivers
+v0x55a156ed55e0_0 .net "out", 0 0, L_0x55a156edc100;  alias, 1 drivers
+S_0x55a156ed3590 .scope generate, "genblk2" "genblk2" 11 16, 11 16 0, S_0x55a156ed3100;
+ .timescale 0 0;
+S_0x55a156ed3790 .scope module, "serial_or_inst" "serial_or" 11 19, 12 4 0, S_0x55a156ed3590;
+ .timescale 0 0;
+    .port_info 0 /OUTPUT 1 "out";
+    .port_info 1 /INPUT 3 "e1";
+P_0x55a156ed3990 .param/l "N1" 0 12 6, +C4<000000000000000000000000000000010>;
+P_0x55a156ed39d0 .param/l "N2" 0 12 7, +C4<00000000000000000000000000000001>;
+P_0x55a156ed3a10 .param/l "WIRE" 0 12 5, +C4<00000000000000000000000000000011>;
+v0x55a156ed5180_0 .net "W1", 0 0, L_0x55a156edc1c0;  1 drivers
+v0x55a156ed5250_0 .net "W2", 0 0, L_0x55a156edc550;  1 drivers
+v0x55a156ed5320_0 .net "e1", 2 0, L_0x55a156edc6b0;  alias, 1 drivers
+v0x55a156ed53f0_0 .net "out", 0 0, L_0x55a156edc100;  alias, 1 drivers
+L_0x55a156edc460 .part L_0x55a156edc6b0, 1, 2;
+L_0x55a156edc5c0 .part L_0x55a156edc6b0, 0, 1;
+S_0x55a156ed3c40 .scope generate, "genblk5" "genblk5" 12 20, 12 20 0, S_0x55a156ed3790;
+ .timescale 0 0;
+L_0x55a156edc100 .functor OR 1, L_0x55a156edc1c0, L_0x55a156edc550, C4<0>, C4<0>;
+S_0x55a156ed3e40 .scope module, "recall1" "serial_or" 12 23, 12 4 0, S_0x55a156ed3c40;
+ .timescale 0 0;
+    .port_info 0 /OUTPUT 1 "out";
+    .port_info 1 /INPUT 2 "e1";
+P_0x55a156ed4040 .param/l "N1" 0 12 6, +C4<0000000000000000000000000000000001>;
+P_0x55a156ed4080 .param/l "N2" 0 12 7, +C4<000000000000000000000000000000001>;
+P_0x55a156ed40c0 .param/l "WIRE" 0 12 5, +C4<000000000000000000000000000000010>;
+v0x55a156ed46d0_0 .net "e1", 1 0, L_0x55a156edc460;  1 drivers
+v0x55a156ed47d0_0 .net "out", 0 0, L_0x55a156edc1c0;  alias, 1 drivers
+L_0x55a156edc230 .part L_0x55a156edc460, 0, 1;
+L_0x55a156edc320 .part L_0x55a156edc460, 1, 1;
+S_0x55a156ed42f0 .scope generate, "genblk3" "genblk3" 12 17, 12 17 0, S_0x55a156ed3e40;
+ .timescale 0 0;
+L_0x55a156edc1c0 .functor OR 1, L_0x55a156edc230, L_0x55a156edc320, C4<0>, C4<0>;
+v0x55a156ed44f0_0 .net *"_ivl_0", 0 0, L_0x55a156edc230;  1 drivers
+v0x55a156ed45f0_0 .net *"_ivl_1", 0 0, L_0x55a156edc320;  1 drivers
+S_0x55a156ed48f0 .scope module, "recall2" "serial_or" 12 24, 12 4 0, S_0x55a156ed3c40;
+ .timescale 0 0;
+    .port_info 0 /OUTPUT 1 "out";
+    .port_info 1 /INPUT 1 "e1";
+P_0x55a156ed4ad0 .param/l "N1" 0 12 6, +C4<000000000000000000000000000000001>;
+P_0x55a156ed4b10 .param/l "N2" 0 12 7, +C4<00000000000000000000000000000000>;
+P_0x55a156ed4b50 .param/l "WIRE" 0 12 5, +C4<00000000000000000000000000000001>;
+v0x55a156ed4f60_0 .net "e1", 0 0, L_0x55a156edc5c0;  1 drivers
+v0x55a156ed5060_0 .net "out", 0 0, L_0x55a156edc550;  alias, 1 drivers
+S_0x55a156ed4d60 .scope generate, "genblk1" "genblk1" 12 14, 12 14 0, S_0x55a156ed48f0;
+ .timescale 0 0;
+L_0x55a156edc550 .functor BUFZ 1, L_0x55a156edc5c0, C4<0>, C4<0>, C4<0>;
+S_0x55a156ed56d0 .scope module, "inst5" "gate_xor" 4 20, 13 7 0, S_0x55a156eaa830;
+ .timescale 0 0;
+    .port_info 0 /OUTPUT 1 "out";
+    .port_info 1 /INPUT 3 "in";
+P_0x55a156ed5900 .param/l "SIZE" 1 13 11, +C4<0000000000000000000000000000000000000000000000000000000000000011>;
+P_0x55a156ed5940 .param/l "WAY" 0 13 8, +C4<00000000000000000000000000000001>;
+P_0x55a156ed5980 .param/l "WIRE" 0 13 9, +C4<00000000000000000000000000000011>;
+v0x55a156ed7ae0_0 .net "in", 2 0, L_0x55a156edce50;  1 drivers
+v0x55a156ed7bd0_0 .net "out", 0 0, L_0x55a156edc990;  alias, 1 drivers
+S_0x55a156ed5b80 .scope generate, "genblk2" "genblk2" 13 16, 13 16 0, S_0x55a156ed56d0;
+ .timescale 0 0;
+S_0x55a156ed5d80 .scope module, "serial_xor_inst" "serial_xor" 13 19, 14 4 0, S_0x55a156ed5b80;
+ .timescale 0 0;
+    .port_info 0 /OUTPUT 1 "out";
+    .port_info 1 /INPUT 3 "e1";
+P_0x55a156ed5f80 .param/l "N1" 0 14 6, +C4<000000000000000000000000000000010>;
+P_0x55a156ed5fc0 .param/l "N2" 0 14 7, +C4<00000000000000000000000000000001>;
+P_0x55a156ed6000 .param/l "WIRE" 0 14 5, +C4<00000000000000000000000000000011>;
+v0x55a156ed7770_0 .net "W1", 0 0, L_0x55a156edca00;  1 drivers
+v0x55a156ed7840_0 .net "W2", 0 0, L_0x55a156edccf0;  1 drivers
+v0x55a156ed7910_0 .net "e1", 2 0, L_0x55a156edce50;  alias, 1 drivers
+v0x55a156ed79e0_0 .net "out", 0 0, L_0x55a156edc990;  alias, 1 drivers
+L_0x55a156edcc00 .part L_0x55a156edce50, 1, 2;
+L_0x55a156edcd60 .part L_0x55a156edce50, 0, 1;
+S_0x55a156ed6230 .scope generate, "genblk5" "genblk5" 14 20, 14 20 0, S_0x55a156ed5d80;
+ .timescale 0 0;
+L_0x55a156edc990 .functor XOR 1, L_0x55a156edca00, L_0x55a156edccf0, C4<0>, C4<0>;
+S_0x55a156ed6430 .scope module, "recall1" "serial_xor" 14 23, 14 4 0, S_0x55a156ed6230;
+ .timescale 0 0;
+    .port_info 0 /OUTPUT 1 "out";
+    .port_info 1 /INPUT 2 "e1";
+P_0x55a156ed6630 .param/l "N1" 0 14 6, +C4<0000000000000000000000000000000001>;
+P_0x55a156ed6670 .param/l "N2" 0 14 7, +C4<000000000000000000000000000000001>;
+P_0x55a156ed66b0 .param/l "WIRE" 0 14 5, +C4<000000000000000000000000000000010>;
+v0x55a156ed6cc0_0 .net "e1", 1 0, L_0x55a156edcc00;  1 drivers
+v0x55a156ed6dc0_0 .net "out", 0 0, L_0x55a156edca00;  alias, 1 drivers
+L_0x55a156edca70 .part L_0x55a156edcc00, 0, 1;
+L_0x55a156edcb10 .part L_0x55a156edcc00, 1, 1;
+S_0x55a156ed68e0 .scope generate, "genblk3" "genblk3" 14 17, 14 17 0, S_0x55a156ed6430;
+ .timescale 0 0;
+L_0x55a156edca00 .functor XOR 1, L_0x55a156edca70, L_0x55a156edcb10, C4<0>, C4<0>;
+v0x55a156ed6ae0_0 .net *"_ivl_0", 0 0, L_0x55a156edca70;  1 drivers
+v0x55a156ed6be0_0 .net *"_ivl_1", 0 0, L_0x55a156edcb10;  1 drivers
+S_0x55a156ed6ee0 .scope module, "recall2" "serial_xor" 14 24, 14 4 0, S_0x55a156ed6230;
+ .timescale 0 0;
+    .port_info 0 /OUTPUT 1 "out";
+    .port_info 1 /INPUT 1 "e1";
+P_0x55a156ed70c0 .param/l "N1" 0 14 6, +C4<000000000000000000000000000000001>;
+P_0x55a156ed7100 .param/l "N2" 0 14 7, +C4<00000000000000000000000000000000>;
+P_0x55a156ed7140 .param/l "WIRE" 0 14 5, +C4<00000000000000000000000000000001>;
+v0x55a156ed7550_0 .net "e1", 0 0, L_0x55a156edcd60;  1 drivers
+v0x55a156ed7650_0 .net "out", 0 0, L_0x55a156edccf0;  alias, 1 drivers
+S_0x55a156ed7350 .scope generate, "genblk1" "genblk1" 14 14, 14 14 0, S_0x55a156ed6ee0;
+ .timescale 0 0;
+L_0x55a156edccf0 .functor BUFZ 1, L_0x55a156edcd60, C4<0>, C4<0>, C4<0>;
+S_0x55a156ed7cc0 .scope module, "inst7" "gate_xnor" 4 22, 15 7 0, S_0x55a156eaa830;
+ .timescale 0 0;
+    .port_info 0 /OUTPUT 1 "out";
+    .port_info 1 /INPUT 3 "in";
+P_0x55a156ed7ea0 .param/l "SIZE" 1 15 11, +C4<0000000000000000000000000000000000000000000000000000000000000011>;
+P_0x55a156ed7ee0 .param/l "WAY" 0 15 8, +C4<00000000000000000000000000000001>;
+P_0x55a156ed7f20 .param/l "WIRE" 0 15 9, +C4<00000000000000000000000000000011>;
+v0x55a156eda0b0_0 .net "in", 2 0, L_0x55a156edd5b0;  1 drivers
+v0x55a156eda1a0_0 .net "out", 0 0, L_0x55a156edcf80;  alias, 1 drivers
+S_0x55a156ed8150 .scope generate, "genblk2" "genblk2" 15 16, 15 16 0, S_0x55a156ed7cc0;
+ .timescale 0 0;
+S_0x55a156ed8350 .scope module, "serial_xnor_inst" "serial_xnor" 15 19, 16 4 0, S_0x55a156ed8150;
+ .timescale 0 0;
+    .port_info 0 /OUTPUT 1 "out";
+    .port_info 1 /INPUT 3 "e1";
+P_0x55a156ed8550 .param/l "N1" 0 16 6, +C4<000000000000000000000000000000010>;
+P_0x55a156ed8590 .param/l "N2" 0 16 7, +C4<00000000000000000000000000000001>;
+P_0x55a156ed85d0 .param/l "WIRE" 0 16 5, +C4<00000000000000000000000000000011>;
+v0x55a156ed9d40_0 .net "W1", 0 0, L_0x55a156edd080;  1 drivers
+v0x55a156ed9e10_0 .net "W2", 0 0, L_0x55a156edd430;  1 drivers
+v0x55a156ed9ee0_0 .net "e1", 2 0, L_0x55a156edd5b0;  alias, 1 drivers
+v0x55a156ed9fb0_0 .net "out", 0 0, L_0x55a156edcf80;  alias, 1 drivers
+L_0x55a156edd340 .part L_0x55a156edd5b0, 1, 2;
+L_0x55a156edd4c0 .part L_0x55a156edd5b0, 0, 1;
+S_0x55a156ed8800 .scope generate, "genblk5" "genblk5" 16 20, 16 20 0, S_0x55a156ed8350;
+ .timescale 0 0;
+L_0x55a156edcf80 .functor XNOR 1, L_0x55a156edd080, L_0x55a156edd430, C4<0>, C4<0>;
+S_0x55a156ed8a00 .scope module, "recall1" "serial_xnor" 16 23, 16 4 0, S_0x55a156ed8800;
+ .timescale 0 0;
+    .port_info 0 /OUTPUT 1 "out";
+    .port_info 1 /INPUT 2 "e1";
+P_0x55a156ed8c00 .param/l "N1" 0 16 6, +C4<0000000000000000000000000000000001>;
+P_0x55a156ed8c40 .param/l "N2" 0 16 7, +C4<000000000000000000000000000000001>;
+P_0x55a156ed8c80 .param/l "WIRE" 0 16 5, +C4<000000000000000000000000000000010>;
+v0x55a156ed9290_0 .net "e1", 1 0, L_0x55a156edd340;  1 drivers
+v0x55a156ed9390_0 .net "out", 0 0, L_0x55a156edd080;  alias, 1 drivers
+L_0x55a156edd110 .part L_0x55a156edd340, 0, 1;
+L_0x55a156edd200 .part L_0x55a156edd340, 1, 1;
+S_0x55a156ed8eb0 .scope generate, "genblk3" "genblk3" 16 17, 16 17 0, S_0x55a156ed8a00;
+ .timescale 0 0;
+L_0x55a156edd080 .functor XNOR 1, L_0x55a156edd110, L_0x55a156edd200, C4<0>, C4<0>;
+v0x55a156ed90b0_0 .net *"_ivl_0", 0 0, L_0x55a156edd110;  1 drivers
+v0x55a156ed91b0_0 .net *"_ivl_1", 0 0, L_0x55a156edd200;  1 drivers
+S_0x55a156ed94b0 .scope module, "recall2" "serial_xnor" 16 24, 16 4 0, S_0x55a156ed8800;
+ .timescale 0 0;
+    .port_info 0 /OUTPUT 1 "out";
+    .port_info 1 /INPUT 1 "e1";
+P_0x55a156ed9690 .param/l "N1" 0 16 6, +C4<000000000000000000000000000000001>;
+P_0x55a156ed96d0 .param/l "N2" 0 16 7, +C4<00000000000000000000000000000000>;
+P_0x55a156ed9710 .param/l "WIRE" 0 16 5, +C4<00000000000000000000000000000001>;
+v0x55a156ed9b20_0 .net "e1", 0 0, L_0x55a156edd4c0;  1 drivers
+v0x55a156ed9c20_0 .net "out", 0 0, L_0x55a156edd430;  alias, 1 drivers
+S_0x55a156ed9920 .scope generate, "genblk1" "genblk1" 16 14, 16 14 0, S_0x55a156ed94b0;
+ .timescale 0 0;
+L_0x55a156edd430 .functor BUFZ 1, L_0x55a156edd4c0, C4<0>, C4<0>, C4<0>;
+    .scope S_0x55a156eaa830;
+T_0 ;
+    %vpi_call 4 26 "$dumpfile", "signal_test_gate.vcd" {0 0 0};
+    %vpi_call 4 27 "$dumpvars" {0 0 0};
+    %vpi_call 4 28 "$monitor", "time %d\012e1\011%b\012e2\011%b\012e3\011%b\012not\011%b\012nor\011%b\012nand\011%b\012and\011%b\012or\011%b\012buf\011%b\012xor\011%b\012xnor\011%b\012\012", $time, v0x55a156eda290_0, v0x55a156eda350_0, v0x55a156eda410_0, v0x55a156eda8c0_0, v0x55a156eda7d0_0, v0x55a156eda6e0_0, v0x55a156eda4e0_0, v0x55a156eda980_0, v0x55a156eda5d0_0, v0x55a156edab10_0, v0x55a156edaa20_0 {0 0 0};
+    %pushi/vec4 0, 0, 1;
+    %assign/vec4 v0x55a156eda290_0, 0;
+    %pushi/vec4 0, 0, 1;
+    %assign/vec4 v0x55a156eda350_0, 0;
+    %pushi/vec4 0, 0, 1;
+    %assign/vec4 v0x55a156eda410_0, 0;
+    %delay 10, 0;
+    %pushi/vec4 1, 0, 1;
+    %assign/vec4 v0x55a156eda290_0, 0;
+    %delay 10, 0;
+    %pushi/vec4 0, 0, 1;
+    %assign/vec4 v0x55a156eda290_0, 0;
+    %pushi/vec4 1, 0, 1;
+    %assign/vec4 v0x55a156eda350_0, 0;
+    %delay 10, 0;
+    %pushi/vec4 1, 0, 1;
+    %assign/vec4 v0x55a156eda290_0, 0;
+    %delay 10, 0;
+    %pushi/vec4 0, 0, 1;
+    %assign/vec4 v0x55a156eda290_0, 0;
+    %pushi/vec4 0, 0, 1;
+    %assign/vec4 v0x55a156eda350_0, 0;
+    %pushi/vec4 1, 0, 1;
+    %assign/vec4 v0x55a156eda410_0, 0;
+    %delay 10, 0;
+    %pushi/vec4 1, 0, 1;
+    %assign/vec4 v0x55a156eda290_0, 0;
+    %delay 10, 0;
+    %pushi/vec4 0, 0, 1;
+    %assign/vec4 v0x55a156eda290_0, 0;
+    %pushi/vec4 1, 0, 1;
+    %assign/vec4 v0x55a156eda350_0, 0;
+    %delay 10, 0;
+    %pushi/vec4 1, 0, 1;
+    %assign/vec4 v0x55a156eda290_0, 0;
+    %delay 10, 0;
+    %end;
+    .thread T_0;
+# The file index is used to find the file name in the following table.
+:file_names 17;
+    "N/A";
+    "<interactive>";
+    "./../src/gate_buf.v";
+    "./../src/gate_not.v";
+    "test_serial_gate.v";
+    "./../src/gate_nor.v";
+    "./../../serial_gate/src/serial_nor.v";
+    "./../src/gate_nand.v";
+    "./../../serial_gate/src/serial_nand.v";
+    "./../src/gate_and.v";
+    "./../../serial_gate/src/serial_and.v";
+    "./../src/gate_or.v";
+    "./../../serial_gate/src/serial_or.v";
+    "./../src/gate_xor.v";
+    "./../../serial_gate/src/serial_xor.v";
+    "./../src/gate_xnor.v";
+    "./../../serial_gate/src/serial_xnor.v";
