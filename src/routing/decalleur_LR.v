@@ -1,38 +1,38 @@
-`include "../../primitive/parallel_gate/src/parallel_and.v"
-`include "../../primitive/parallel_gate/src/parallel_or.v"
+`include "src/primitive/parallel_gate/parallel_and.v"
+`include "src/primitive/parallel_gate/parallel_or.v"
 
 module dec_LR(a, left, s);
-   parameter SIZE = 8;
+   parameter WAY = 8;
 
-   input [SIZE-1:0] a;
+   input [WAY-1:0] a;
    input       left;
-   output [SIZE-1:0] s;
+   output [WAY-1:0] s;
 
    wire 	right;
-   wire [SIZE-2:0] 	line_right;
-   wire [SIZE-2:0] 	line_left;
+   wire [WAY-2:0] 	line_right;
+   wire [WAY-2:0] 	line_left;
 
    not not0(right, left);
 
 /////////////////////////////////////////////////////////////
 
-   parallel_and #(.SIZE(SIZE-1)) and_left(line_left,
-					  a[SIZE-1:1],
-					  {SIZE-1{left}});
+   parallel_and #(.WAY(WAY-1), .WIRE(2)) and_left(line_left,
+						  a[WAY-1:1],
+						  {WAY-1{letf}});
 
-   parallel_and #(.SIZE(SIZE-1)) and_right(line_right,
-					  a[SIZE-2:0],
-					  {SIZE-1{right}});
+   parallel_and #(.WAY(WAY-1), .WIRE(2)) and_right(line_right,
+						   a[WAY-2:0],
+						   {WAY-1{right}});
 
 //////////////////////////////////////////////////////////////////
 
    buf out0(s[0], line_left[0]);
 
-   parallel_or #(.SIZE(SIZE-2))out1_SIZE(s[SIZE-2:1],
-					 line_left[SIZE-2:1],
-					 line_right[SIZE-3:0]);
+   parallel_or #(.WAY(WAY-2), .WIRE(2)) out1_WAY(s[WAY-2:1],
+						 line_left[WAY-2:1],
+						 line_right[WAY-3:0]);
 
-   buf out7(s[SIZE-1], line_right[SIZE-2]);
+   buf out7(s[WAY-1], line_right[WAY-2]);
 endmodule
 
 /*

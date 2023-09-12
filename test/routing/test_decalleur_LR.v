@@ -1,4 +1,4 @@
-`include "../src/decalleur_LR.v"
+`include "src/routing/decalleur_LR.v"
 
 module test_decalleur_LR;
 
@@ -6,7 +6,7 @@ module test_decalleur_LR;
    reg 	     lr;
    wire [7:0] s;
    
-   dec_LR #(.SIZE(8)) test_dec_LR(a, lr, s);
+   dec_LR #(.WAY(8)) test_dec_LR(a, lr, s);
 
    
    initial
