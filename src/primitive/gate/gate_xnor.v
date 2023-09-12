@@ -11,7 +11,7 @@ module gate_xnor(out, in);
    localparam SIZE = WAY * WIRE;
 
    input [SIZE-1:0] in;
-   output out;
+   output [WAY-1:0] out;
 
    if (WAY > 1)
      parallel_xnor #(.WAY(WAY), .WIRE(WIRE)) parallel_xnor_inst(out, in);

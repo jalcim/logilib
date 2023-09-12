@@ -12,7 +12,7 @@ module parallel_or(out, in);
    input  [SIZE-1 : 0] in;
    output [WAY-1 : 0] out;
 
-   serial_or or1(out[0], in[WIRE-1:0]);
+   serial_or #(.WIRE(WIRE)) or1(out[0], in[WIRE-1:0]);
    if (WAY > 1)
      parallel_or #(.WAY(WAY-1), .WIRE(WIRE)) parallel_or0(out[WAY-1:1],
 							    in[SIZE-1 : WIRE]);

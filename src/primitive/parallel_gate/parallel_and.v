@@ -12,7 +12,7 @@ module parallel_and(out, in);
    input  [SIZE-1 : 0] in;
    output [WAY-1 : 0] out;
 
-   serial_and and1(out[0], in[WIRE-1:0]);
+   serial_and #(.WIRE(WIRE)) and1(out[0], in[WIRE-1:0]);
    if (WAY > 1)
      parallel_and #(.WAY(WAY-1), .WIRE(WIRE)) parallel_and0(out[WAY-1:1],
 							    in[SIZE-1 : WIRE]);
