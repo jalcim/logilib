@@ -2,15 +2,16 @@
  `define __PARALLEL_BUF__
 
 module parallel_buf(out, A);
-   parameter SIZE = 8;
+   parameter WAY = 8;
+   parameter WIRE = 1;
 
-   input  [SIZE-1 : 0] A;
-   output [SIZE-1 : 0] out;
+   input  [WAY-1 : 0] A;
+   output [WAY*WIRE-1 : 0] out;
 
    buf buf2(out[0], A[0]);
-   if (SIZE > 1)
-     parallel_buf #(.SIZE(SIZE-1))parallel_buf0(out[SIZE-1 : 1],
-						A[SIZE-1 : 1]);
+   if (WAY > 1)
+     parallel_buf #(.WAY(WAY-1), .WIRE(WIRE))parallel_buf0(out[WAY*WIRE-1 : 1],
+							   A[WAY-1 : 1]);
 endmodule // parallel_buf
 
 `endif
