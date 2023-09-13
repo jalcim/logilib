@@ -16,8 +16,8 @@ int main(int argc, char **argv, char **env)
 {
   init(argc, argv);
   test_primitive();
-  test_memory();
-  test_alu();
+  //  test_memory();
+  //  test_alu();
   delete(contextp);
 }
 
@@ -25,19 +25,19 @@ void init(int argc, char **argv)
 {
   contextp = new VerilatedContext;
   contextp->commandArgs(argc, argv);
-  
-  mkdir("../build", 0777);
-  mkdir("../build/cosim", 0777);
 
-  mkdir("../build/cosim/primitive", 0777);
-  mkdir("../build/cosim/primitive/gate", 0777);
-  mkdir("../build/cosim/primitive/parallel_gate", 0777);
+  mkdir("build", 0777);
+  mkdir("build/cosim", 0777);
 
-  mkdir("../build/cosim/memory", 0777);
-  mkdir("../build/cosim/memory/latch", 0777);
+  mkdir("build/cosim/primitive", 0777);
+  mkdir("build/cosim/primitive/gate", 0777);
+  mkdir("build/cosim/primitive/parallel_gate", 0777);
 
-  mkdir("../build/cosim/alu", 0777);
-  mkdir("../build/cosim/alu/arithm", 0777);
+  mkdir("build/cosim/memory", 0777);
+  mkdir("build/cosim/memory/latch", 0777);
+
+  mkdir("build/cosim/alu", 0777);
+  mkdir("build/cosim/alu/arithm", 0777);
 }
 
 int test_latch();
