@@ -25,13 +25,13 @@ struct s_gate
   int fd_buf, fd_not, fd_and, fd_nand, fd_or, fd_nor, fd_xor, fd_xnor;
 };
 
-int test_gate_buf(int e1);
-int test_gate_not(int e1);
-int test_gate_and(int e1, int e2);
-int test_gate_nand(int e1, int e2);
-int test_gate_or(int e1, int e2);
-int test_gate_nor(int e1, int e2);
-int test_gate_xor(int e1, int e2);
-int test_gate_xnor(int e1, int e2);
+int test_gate_buf(int in);
+int test_gate_not(int in);
+int test_gate_and(int in);
+int test_gate_nand(int in);
+int test_gate_or(int in);
+int test_gate_nor(int in);
+int test_gate_xor(int in);
+int test_gate_xnor(int in);
 
 #endif

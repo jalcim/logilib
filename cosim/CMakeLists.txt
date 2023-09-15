@@ -13,10 +13,10 @@ set(PWD_LOGILIB ${CMAKE_CURRENT_SOURCE_DIR}/..)
 #################################################
 
 set(SRC main.cpp
-  primitive/gate/gate.cpp
-  primitive/parallel_gate/parallel_gate.cpp
-  memory/latch/latch.cpp
-  alu/arithm/arithm.cpp)
+  primitive/gate/gate.cpp)
+#  primitive/parallel_gate/parallel_gate.cpp
+#  memory/latch/latch.cpp
+#  alu/arithm/arithm.cpp)
 
 set(PRIM_GATE_LIB
   Vgate_buf Vgate_not Vgate_and Vgate_nand
@@ -35,7 +35,6 @@ set(PRIM_GATE_LIB
 #  Vadd Vmulti_add)
 
 #################################################
-
 
 add_executable(Vmain ${SRC})
 add_subdirectory(primitive)
