@@ -1,5 +1,16 @@
 #ifndef __GATE__
 #define __GATE__
+#define GATE_LOG(name) gate_test_log(gate->fd_##name, gate->g_##name->in, gate->g_##name->out, #name, test_gate);
+
+#define X_GATES \
+  X(_xnor)      \
+  X(_buf)       \
+  X(_and)       \
+  X(_nand)      \
+  X(_or)        \
+  X(_nor)       \
+  X(_xor)       \
+  X(_not)
 
 #include "Vgate_buf.h"
 #include "Vgate_not.h"
@@ -13,13 +24,13 @@
 typedef struct s_gate t_gate;
 struct s_gate
 {
-  Vgate_buf  *g_buf;
-  Vgate_not  *g_not;
-  Vgate_and  *g_and;
+  Vgate_buf *g_buf;
+  Vgate_not *g_not;
+  Vgate_and *g_and;
   Vgate_nand *g_nand;
-  Vgate_or   *g_or;
-  Vgate_nor  *g_nor;
-  Vgate_xor  *g_xor;
+  Vgate_or *g_or;
+  Vgate_nor *g_nor;
+  Vgate_xor *g_xor;
   Vgate_xnor *g_xnor;
 
   int fd_buf, fd_not, fd_and, fd_nand, fd_or, fd_nor, fd_xor, fd_xnor;

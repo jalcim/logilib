@@ -5,9 +5,6 @@
 #include <fcntl.h>
 
 #include "gate.h"
-#define GATE_FD(NAME) fd_##NAME
-#define GATE_G(NAME) g_##NAME
-#define GATE_LOG(NAME) gate_test_log(gate->GATE_FD(NAME), gate->GATE_G(NAME)->in, gate->GATE_G(NAME)->out, #NAME, test_gate);
 
 extern VerilatedContext *contextp;
 
@@ -51,52 +48,25 @@ int gate_test()
 void gate_init()
 {
   gate = (t_gate *)malloc(sizeof(t_gate));
-  gate->g_buf = new Vgate_buf{contextp};
-  gate->g_not = new Vgate_not{contextp};
-  gate->g_and = new Vgate_and{contextp};
-  gate->g_nand = new Vgate_nand{contextp};
-  gate->g_or = new Vgate_or{contextp};
-  gate->g_nor = new Vgate_nor{contextp};
-  gate->g_xor = new Vgate_xor{contextp};
-  gate->g_xnor = new Vgate_xnor{contextp};
 
-  gate->fd_buf = open("build/cosim/primitive/gate/buf_check",
-                      O_CREAT | O_RDWR, S_IRUSR | S_IWUSR);
-  gate->fd_not = open("build/cosim/primitive/gate/not_check",
-                      O_CREAT | O_RDWR, S_IRUSR | S_IWUSR);
-  gate->fd_and = open("build/cosim/primitive/gate/and_check",
-                      O_CREAT | O_RDWR, S_IRUSR | S_IWUSR);
-  gate->fd_nand = open("build/cosim/primitive/gate/nand_check",
-                       O_CREAT | O_RDWR, S_IRUSR | S_IWUSR);
-  gate->fd_or = open("build/cosim/primitive/gate/or_check",
-                     O_CREAT | O_RDWR, S_IRUSR | S_IWUSR);
-  gate->fd_nor = open("build/cosim/primitive/gate/nor_check",
-                      O_CREAT | O_RDWR, S_IRUSR | S_IWUSR);
-  gate->fd_xor = open("build/cosim/primitive/gate/xor_check",
-                      O_CREAT | O_RDWR, S_IRUSR | S_IWUSR);
-  gate->fd_xnor = open("build/cosim/primitive/gate/xnor_check",
-                       O_CREAT | O_RDWR, S_IRUSR | S_IWUSR);
+#define X(gate_name)                                   \
+  gate->g##gate_name = new Vgate##gate_name{contextp}; \
+  gate->fd##gate_name = open("build/cosim/primitive/gate/" #gate_name "_buf_check", O_CREAT | O_RDWR, S_IRUSR | S_IWUSR);
+
+  X_GATES
+#undef X
 }
 
 void gate_destruct()
 {
-  close(gate->fd_buf);
-  close(gate->fd_not);
-  close(gate->fd_and);
-  close(gate->fd_nand);
-  close(gate->fd_or);
-  close(gate->fd_nor);
-  close(gate->fd_xor);
-  close(gate->fd_xnor);
 
-  delete gate->g_buf;
-  delete gate->g_not;
-  delete gate->g_and;
-  delete gate->g_nand;
-  delete gate->g_or;
-  delete gate->g_nor;
-  delete gate->g_xor;
-  delete gate->g_xnor;
+#define X(gate_name)          \
+  close(gate->fd##gate_name); \
+  delete gate->g##gate_name;
+
+  X_GATES
+#undef X
+
   free(gate);
 }
 
