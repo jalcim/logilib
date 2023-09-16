@@ -1,5 +1,5 @@
-project(logilib_cosim C CXX)
 cmake_minimum_required(VERSION 3.18)
+project(logilib_cosim C CXX)
 find_package(verilator HINTS $ENV{VERILATOR_ROOT})
 
 set (CMAKE_CXX_STANDARD 11)
