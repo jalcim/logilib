@@ -5,23 +5,26 @@
 #include <fcntl.h>
 
 #include "gate.h"
+#define GATE_FD(NAME) fd_##NAME
+#define GATE_G(NAME) g_##NAME
+#define GATE_LOG(NAME) gate_test_log(gate->GATE_FD(NAME), gate->GATE_G(NAME)->in, gate->GATE_G(NAME)->out, #NAME, test_gate);
 
 extern VerilatedContext *contextp;
 
 static t_gate *gate;
 
+int gate_test_log(int fd, int input, int output, char const *name, bool success)
+{
+  return dprintf(fd, "E1=%d, E2=%d, out=%d | test_gate_%s=%s\n", input & 1, input & 2, output, name, success ? "OK" : "FAIL");
+}
+
 int run_gate_test(int in)
 {
   printf("in = %d\n", in);
   //  if (test_gate_buf(in))
-      //      || test_gate_not(in))
+  //      || test_gate_not(in))
   //    return (-1);
-  if (test_gate_and(in)
-      || test_gate_nand(in)
-      || test_gate_or(in)
-      || test_gate_nor(in)
-      || test_gate_xor(in)
-      || test_gate_xnor(in))
+  if (test_gate_and(in) || test_gate_nand(in) || test_gate_or(in) || test_gate_nor(in) || test_gate_xor(in) || test_gate_xnor(in))
     return (-1);
   return (0);
 }
@@ -30,16 +33,16 @@ int gate_test()
 {
   int in;
 
-  in = 0;//00
+  in = 0; // 00
   if (run_gate_test(in))
     return (-1);
-  in = 1;//01
+  in = 1; // 01
   if (run_gate_test(in))
     return (-1);
-  in = 2;//10
+  in = 2; // 10
   if (run_gate_test(in))
     return (-1);
-  in = 3;//11
+  in = 3; // 11
   if (run_gate_test(in))
     return (-1);
   return (0);
@@ -47,32 +50,32 @@ int gate_test()
 
 void gate_init()
 {
-  gate = (t_gate *) malloc(sizeof(t_gate));
-  gate->g_buf  = new Vgate_buf {contextp};
-  gate->g_not  = new Vgate_not {contextp};
-  gate->g_and  = new Vgate_and {contextp};
+  gate = (t_gate *)malloc(sizeof(t_gate));
+  gate->g_buf = new Vgate_buf{contextp};
+  gate->g_not = new Vgate_not{contextp};
+  gate->g_and = new Vgate_and{contextp};
   gate->g_nand = new Vgate_nand{contextp};
-  gate->g_or   = new Vgate_or  {contextp};
-  gate->g_nor  = new Vgate_nor {contextp};
-  gate->g_xor  = new Vgate_xor {contextp};
+  gate->g_or = new Vgate_or{contextp};
+  gate->g_nor = new Vgate_nor{contextp};
+  gate->g_xor = new Vgate_xor{contextp};
   gate->g_xnor = new Vgate_xnor{contextp};
 
-  gate->fd_buf  = open("build/cosim/primitive/gate/buf_check",
-		       O_CREAT|O_RDWR, S_IRUSR|S_IWUSR);
-  gate->fd_not  = open("build/cosim/primitive/gate/not_check",
-		       O_CREAT|O_RDWR, S_IRUSR|S_IWUSR);
-  gate->fd_and  = open("build/cosim/primitive/gate/and_check",
-		       O_CREAT|O_RDWR, S_IRUSR|S_IWUSR);
+  gate->fd_buf = open("build/cosim/primitive/gate/buf_check",
+                      O_CREAT | O_RDWR, S_IRUSR | S_IWUSR);
+  gate->fd_not = open("build/cosim/primitive/gate/not_check",
+                      O_CREAT | O_RDWR, S_IRUSR | S_IWUSR);
+  gate->fd_and = open("build/cosim/primitive/gate/and_check",
+                      O_CREAT | O_RDWR, S_IRUSR | S_IWUSR);
   gate->fd_nand = open("build/cosim/primitive/gate/nand_check",
-		       O_CREAT|O_RDWR, S_IRUSR|S_IWUSR);
-  gate->fd_or   = open("build/cosim/primitive/gate/or_check",
-		       O_CREAT|O_RDWR, S_IRUSR|S_IWUSR);
-  gate->fd_nor  = open("build/cosim/primitive/gate/nor_check",
-		       O_CREAT|O_RDWR, S_IRUSR|S_IWUSR);
-  gate->fd_xor  = open("build/cosim/primitive/gate/xor_check",
-		       O_CREAT|O_RDWR, S_IRUSR|S_IWUSR);
+                       O_CREAT | O_RDWR, S_IRUSR | S_IWUSR);
+  gate->fd_or = open("build/cosim/primitive/gate/or_check",
+                     O_CREAT | O_RDWR, S_IRUSR | S_IWUSR);
+  gate->fd_nor = open("build/cosim/primitive/gate/nor_check",
+                      O_CREAT | O_RDWR, S_IRUSR | S_IWUSR);
+  gate->fd_xor = open("build/cosim/primitive/gate/xor_check",
+                      O_CREAT | O_RDWR, S_IRUSR | S_IWUSR);
   gate->fd_xnor = open("build/cosim/primitive/gate/xnor_check",
-		       O_CREAT|O_RDWR, S_IRUSR|S_IWUSR);
+                       O_CREAT | O_RDWR, S_IRUSR | S_IWUSR);
 }
 
 void gate_destruct()
@@ -86,7 +89,7 @@ void gate_destruct()
   close(gate->fd_xor);
   close(gate->fd_xnor);
 
-  delete gate->g_buf; 
+  delete gate->g_buf;
   delete gate->g_not;
   delete gate->g_and;
   delete gate->g_nand;
@@ -108,9 +111,8 @@ int test_gate_buf(int in)
   gate->g_buf->eval();
   test_gate = ((gate->g_buf->E1) == gate->g_buf->out);
 
-  dprintf(gate->fd_buf, "in=%d, s=%d | test_gate_buf=%s\n",
-	  gate->g_buf->in, gate->g_buf->out,
-	  test_gate ? "OK" : "FAIL");
+  GATE_LOG(buf);
+
   return (!test_gate);
 }
 
@@ -121,10 +123,9 @@ int test_gate_not(int in)
   gate->g_not->in = in;
   gate->g_not->eval();
   test_gate = ((gate->g_not->E1) != gate->g_not->out);
-  dprintf(gate->fd_not, "in=%d, s=%d | test_gate_not=%s\n",
-	  gate->g_not->in, gate->g_not->out,
-	  test_gate ? "OK" : "FAIL");
-  printf("gate_not %d\n", !test_gate);
+
+  GATE_LOG(buf);
+
   return (!test_gate);
 }
 
@@ -135,22 +136,22 @@ int test_gate_and(int in)
   gate->g_and->in = in;
   gate->g_and->eval();
   test_gate = ((gate->g_and->E1) & ((gate->g_and->E2) >> 1)) == gate->g_and->out;
-  dprintf(gate->fd_and, "in=%d, s=%d | test_gate_and=%s\n",
-	  gate->g_and->in, gate->g_and->out,
-	  test_gate ? "OK" : "FAIL");
+
+  GATE_LOG(and);
+
   return (!test_gate);
 }
 
 int test_gate_nand(int in)
 {
   int test_gate;
-  
+
   gate->g_nand->in = in;
   gate->g_nand->eval();
-  test_gate = ((gate->g_nand->E1) & ((gate->g_nand->E2)>>1)) != gate->g_nand->out;
-  dprintf(gate->fd_nand, "e1=%d, e2=%d, s=%d | test_gate_nand=%s\n",
-	  gate->g_nand->E1, gate->g_nand->E2, gate->g_nand->out,
-	  test_gate ? "OK" : "FAIL");
+  test_gate = ((gate->g_nand->E1) & ((gate->g_nand->E2) >> 1)) != gate->g_nand->out;
+
+  GATE_LOG(nand);
+
   return (!test_gate);
 }
 
@@ -160,10 +161,10 @@ int test_gate_or(int in)
 
   gate->g_or->in = in;
   gate->g_or->eval();
-  test_gate = ((gate->g_or->E1) | ((gate->g_or->E2)>>1)) == gate->g_or->out;
-  dprintf(gate->fd_or, "e1=%d, e2=%d, s=%d | test_gate_or=%s\n",
-	  gate->g_or->E1, (gate->g_or->E2) >> 1, gate->g_or->out,
-	  test_gate ? "OK" : "FAIL");
+  test_gate = ((gate->g_or->E1) | ((gate->g_or->E2) >> 1)) == gate->g_or->out;
+
+  GATE_LOG(or);
+
   return (!test_gate);
 }
 
@@ -173,10 +174,10 @@ int test_gate_nor(int in)
 
   gate->g_nor->in = in;
   gate->g_nor->eval();
-  test_gate = ((gate->g_nor->E1) | ((gate->g_nor->E2)>>1)) != gate->g_nor->out;
-  dprintf(gate->fd_nor, "e1=%d, e2=%d, s=%d | test_gate_nor=%s\n",
-	  gate->g_nor->E1, gate->g_nor->E2, gate->g_nor->out,
-	  test_gate ? "OK" : "FAIL");
+  test_gate = ((gate->g_nor->E1) | ((gate->g_nor->E2) >> 1)) != gate->g_nor->out;
+
+  GATE_LOG(nor);
+
   return (!test_gate);
 }
 
@@ -186,10 +187,10 @@ int test_gate_xor(int in)
 
   gate->g_xor->in = in;
   gate->g_xor->eval();
-  test_gate = ((gate->g_xor->E1) ^ ((gate->g_xor->E2)>>1)) == gate->g_xor->out;
-  dprintf(gate->fd_xor, "e1=%d, e2=%d, s=%d | test_gate_xor=%s\n",
-	  gate->g_xor->E1, gate->g_xor->E2, gate->g_xor->out,
-	  test_gate ? "OK" : "FAIL");
+  test_gate = ((gate->g_xor->E1) ^ ((gate->g_xor->E2) >> 1)) == gate->g_xor->out;
+
+  GATE_LOG(xor);
+
   return (!test_gate);
 }
 
@@ -199,9 +200,9 @@ int test_gate_xnor(int in)
 
   gate->g_xnor->in = in;
   gate->g_xnor->eval();
-  test_gate = ((gate->g_xnor->E1) ^ ((gate->g_xnor->E2)>>1)) != gate->g_xnor->out;
-  dprintf(gate->fd_xnor, "e1=%d, e2=%d, s=%d | test_gate_xnor=%s\n",
-	  gate->g_xnor->E1, gate->g_xnor->E2, gate->g_xnor->out,
-	  test_gate ? "OK" : "FAIL");
+  test_gate = ((gate->g_xnor->E1) ^ ((gate->g_xnor->E2) >> 1)) != gate->g_xnor->out;
+
+  GATE_LOG(xnor);
+
   return (!test_gate);
 }
