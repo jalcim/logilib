@@ -1,3 +1,6 @@
+`ifndef __DLATCH_RST__
+ `define __DLATCH_RST__
+
 module Dlatch_rst(a, clk, reset, s1, s2);
    output s1,  s2;
    input  a, clk, reset;
@@ -20,3 +23,5 @@ module Dlatch_rst(a, clk, reset, s1, s2);
    buf buf1(s2, nand_1_out);
 
 endmodule
+
+`endif

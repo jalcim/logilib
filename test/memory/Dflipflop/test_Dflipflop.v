@@ -1,3 +1,5 @@
+`include "src/memory/Dflipflop/Dflipflop.v"
+
 module test_Dflipflop;
    reg a, clk, reset, set;
    wire s1, s2;

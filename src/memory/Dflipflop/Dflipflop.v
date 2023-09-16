@@ -1,3 +1,6 @@
+`ifndef __DFLIPFLOP__
+ `define __DFLIPFLOP__
+
 module Dflipflop(preset, data, clk, clear, Q, QN);
    input clear, data, clk, preset;
    output Q, QN;
@@ -15,4 +18,5 @@ module Dflipflop(preset, data, clk, clear, Q, QN);
    assign Q = line[4];
    assign QN = line[5];
 endmodule
-  
+
+`endif

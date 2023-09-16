@@ -1,3 +1,5 @@
+`include "src/memory/JKlatch/JKlatch_rst.v"
+
 module _test_JKlatchUP_rst;
    reg j, k, clk, reset;
    wire s1, s2;

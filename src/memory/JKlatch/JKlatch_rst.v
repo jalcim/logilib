@@ -1,3 +1,6 @@
+`ifndef __JKLATCHUP_RST__
+ `define __JKLATCHUP_RST__
+
 module JKlatchUP_rst (j, k, clk, reset, out1, out2);
    input j, k, clk, reset;
    output out1, out2;
@@ -23,6 +26,11 @@ module JKlatchUP_rst (j, k, clk, reset, out1, out2);
    buf buf1(out2, line[7]);
 
 endmodule // JKlatchUP
+
+`endif
+
+`ifndef __JKLATCHDOWN_RST__
+ `define __JKLATCHDOWN_RST__
 
 module JKlatchDown_rst(j, k, clk, reset, out1, out2);
    input j, k, clk, reset;
@@ -50,3 +58,5 @@ module JKlatchDown_rst(j, k, clk, reset, out1, out2);
    
    
 endmodule // JKlatchDown
+
+`endif

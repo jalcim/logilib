@@ -1,3 +1,5 @@
+`include "src/memory/Dlatch/Dlatch_rst.v"
+
 module test_Dlatch_rst;
    reg a, clk;
    reg reset;

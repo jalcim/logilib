@@ -1,3 +1,5 @@
+`include "src/memory/JKlatch/serial_JKlatch_rst.v"
+
 module _test_serial_JKlatchUP_rst;
    reg [7:0] j, k;
    reg clk, reset;
