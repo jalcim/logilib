@@ -1,4 +1,7 @@
-`include "Dlatch.v"
+`ifndef __SERIAL_DLATCH__
+ `define __SERIAL_DLATCH__
+
+ `include "src/memory/Dlatch/Dlatch.v"
 
 module serial_Dlatch(data, clk, Q, QN);
    parameter WIRE = 1;
@@ -15,3 +18,5 @@ module serial_Dlatch(data, clk, Q, QN);
 					   .Q(Q[WIRE-1:1]),
 					   .QN(QN[WIRE-1:1]));
 endmodule
+
+`endif

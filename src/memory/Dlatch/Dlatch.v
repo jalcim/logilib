@@ -1,4 +1,7 @@
-module Dlatch_qn (D, clk, Q, QN);
+`ifndef __DLATCH__
+ `define __DLATCH__
+
+module Dlatch (D, clk, Q, QN);
    parameter WAY = 1;
    parameter WIRE = 1;
 
@@ -19,3 +22,5 @@ module Dlatch_qn (D, clk, Q, QN);
    assign QN = line[4];
 
 endmodule
+
+`endif

@@ -1,10 +1,12 @@
+`include "src/memory/Dlatch/serial_Dlatch.v"
+
 module test_serial_Dlatch;
-   parameter SIZE = 8;
+   parameter WIRE = 8;
    reg clk;
    wire	[7:0]s1, s2;
    reg [7:0] a, cpt;
 
-   serial_Dlatch #(.SIZE(SIZE)) inst0(a, clk, s1, s2);
+   serial_Dlatch #(.WIRE(WIRE)) inst0(a, clk, s1, s2);
 
    initial
      begin

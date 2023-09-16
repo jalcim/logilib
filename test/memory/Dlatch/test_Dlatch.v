@@ -1,3 +1,5 @@
+`include "src/memory/Dlatch/Dlatch.v"
+
 module test_Dlatch;
    reg a, clk;
    wire	s1, s2;
