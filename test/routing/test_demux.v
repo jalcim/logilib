@@ -1,4 +1,4 @@
-`include "../src/demux.v"
+`include "src/routing/demux.v"
 
 module test_demux;
    parameter S = 2;

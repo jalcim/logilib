@@ -1,3 +1,5 @@
+`include "src/routing/mux.v"
+
 module test_mux8;
    parameter S = 2;
    parameter T = 8;

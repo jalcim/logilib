@@ -1,3 +1,5 @@
+`include "src/routing/demux.v"
+
 module test_demux8;
    parameter S = 2;
    parameter T = 8;
