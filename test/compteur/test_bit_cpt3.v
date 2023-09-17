@@ -1,3 +1,5 @@
+`include "src/compteur/bit_cpt3.v"
+
 module _test_bit_cpt3;
 
    reg activate, clk, reset;

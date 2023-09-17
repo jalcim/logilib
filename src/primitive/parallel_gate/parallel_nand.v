@@ -4,6 +4,7 @@
  `include "src/primitive/serial_gate/serial_nand.v"
 
 module parallel_nand(out, in);
+   parameter BEHAVIORAL = 0;
    parameter WAY = 2;
    parameter WIRE = 2;
 
@@ -12,10 +13,10 @@ module parallel_nand(out, in);
    input  [SIZE-1 : 0] in;
    output [WAY-1 : 0] out;
 
-   serial_nand #(.WIRE(WIRE)) nand1(out[0], in[WIRE-1:0]);
+   serial_nand #(.BEHAVIORAL(BEHAVIORAL), .WIRE(WIRE)) nand1(out[0], in[WIRE-1:0]);
    if (WAY > 1)
-     parallel_nand #(.WAY(WAY-1), .WIRE(WIRE)) parallel_nand0(out[WAY-1:1],
-							    in[SIZE-1 : WIRE]);
+     parallel_nand #(.BEHAVIORAL(BEHAVIORAL), .WAY(WAY-1) , .WIRE(WIRE)) parallel_nand0(out[WAY-1:1],
+											in[SIZE-1 : WIRE]);
 endmodule
 
 `endif

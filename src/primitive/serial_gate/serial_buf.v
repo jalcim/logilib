@@ -1,3 +1,4 @@
+/*
 `ifndef __SERIAL_BUF__
  `define __SERIAL_BUF__
 
@@ -23,3 +24,4 @@ module serial_buf(out, in);
 endmodule
 
 `endif
+*/

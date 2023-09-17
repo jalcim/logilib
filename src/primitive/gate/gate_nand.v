@@ -3,8 +3,10 @@
 
  `include "src/primitive/parallel_gate/parallel_nand.v"
  `include "src/primitive/serial_gate/serial_nand.v"
+ `include "src/routing/shuffle.v"
 
 module gate_nand(out, in);
+   parameter BEHAVIORAL = 0;
    parameter WAY = 1;
    parameter WIRE = 2;
 
@@ -14,9 +16,14 @@ module gate_nand(out, in);
    output [WAY-1:0] out;
 
    if (WAY > 1)
-     parallel_nand #(.WAY(WAY), .WIRE(WIRE)) parallel_nand_inst(out, in);
+     begin
+	wire [SIZE-1 : 0]  shuffle_out;
+
+	shuffle #(.WAY(WAY), .WIRE(WIRE)) shuffle_inst(shuffle_out, in);
+	parallel_nand #(.BEHAVIORAL(BEHAVIORAL), .WAY(WAY), .WIRE(WIRE)) parallel_nand_inst(out, shuffle_out);
+     end
    else
-     serial_nand #(.WIRE(WIRE)) serial_nand_inst(out, in);
+     serial_nand   #(.BEHAVIORAL(BEHAVIORAL),            .WIRE(WIRE)) serial_nand_inst  (out, in);
 endmodule
 
 `endif

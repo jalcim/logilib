@@ -14,6 +14,8 @@ test_routing()
 
     iverilog -o $BIN_routing/test_mux $TEST_routing/test_mux.v
     iverilog -o $BIN_routing/test_mux8 $TEST_routing/test_mux8.v
+
+    iverilog -o $BIN_routing/test_shuffle $TEST_routing/test_shuffle.v
 }
 
 test_routing

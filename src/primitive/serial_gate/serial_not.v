@@ -1,3 +1,4 @@
+/*
 `ifndef __SERIAL_NOT__
  `define __SERIAL_NOT__
 
@@ -23,3 +24,4 @@ module serial_not(out, in);
 endmodule
 
 `endif
+*/
