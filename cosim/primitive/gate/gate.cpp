@@ -46,7 +46,7 @@ void gate_init()
 
 #define X(gate_name)                                   \
   gate->g##gate_name = new Vgate##gate_name{contextp}; \
-  gate->fd##gate_name = open("build/cosim/primitive/gate/" #gate_name "_buf_check", O_CREAT | O_RDWR, S_IRUSR | S_IWUSR);
+  gate->fd##gate_name = open("build/cosim/primitive/gate/gate" #gate_name "_check", O_CREAT | O_RDWR, S_IRUSR | S_IWUSR);
 
   X_GATES
 #undef X
