@@ -1,3 +1,10 @@
+`ifndef __ADD_SUB__
+ `define __ADD_SUB__
+
+`include "src/routing/replicator.v"
+`include "src/primitive/serial_gate/parallel_xor.v"
+`include "src/alu/arithm/addx.v"
+
 module add_sub(a, b, cin, sub, out, cout);
    parameter SIZE = 8;
 
@@ -13,7 +20,9 @@ module add_sub(a, b, cin, sub, out, cout);
 
    or or0(line, cin, sub);
 
-   serial_buf #(.SIZE(SIZE)) replicator(sub_repliq, sub);
+   replicator   #(.SIZE(SIZE)) replicator(sub_repliq, sub);
    parallel_xor #(.SIZE(SIZE)) xor8 (b_line, b, sub_repliq);
    addX         #(.SIZE(SIZE)) add8 (a, b_line, line, out, cout);
 endmodule
+
+`endif
