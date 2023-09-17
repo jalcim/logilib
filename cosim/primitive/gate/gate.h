@@ -8,14 +8,14 @@
 #define GATE_LOG(name) dprintf(gate->fd##name, "E1=%d, E2=%d, out=%d | test_gate%s=%s\n", gate->g##name->in & 1, gate->g##name->in & 2, gate->g##name->out, #name, gate_error ? "FAIL" : "OK");
 
 #define X_GATES \
-  X(_xnor)      \
+  X(_not)       \
   X(_buf)       \
+  X(_xnor)      \
   X(_and)       \
   X(_nand)      \
   X(_or)        \
   X(_nor)       \
-  X(_xor)       \
-  X(_not)
+  X(_xor)
 
 #define GENERATE_GATE_TEST_FUNCTION(gate_name, fail_condition) \
   int test_gate##gate_name(int input)                          \

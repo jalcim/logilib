@@ -16,7 +16,12 @@ int run_gate_test(int in)
   //  if (test_gate_buf(in))
   //      || test_gate_not(in))
   //    return (-1);
-  if (test_gate_and(in) || test_gate_nand(in) || test_gate_or(in) || test_gate_nor(in) || test_gate_xor(in) || test_gate_xnor(in))
+  if (
+#define X(gate_name) test_gate##gate_name(in) ||
+
+      X_GATES
+#undef X
+      || false)
     return (-1);
   return (0);
 }
