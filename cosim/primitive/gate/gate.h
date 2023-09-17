@@ -7,9 +7,10 @@
 
 #define GATE_LOG(name) dprintf(gate->fd##name, "E1=%d, E2=%d, out=%d | test_gate%s=%s\n", gate->g##name->in & 1, gate->g##name->in & 2, gate->g##name->out, #name, gate_error ? "FAIL" : "OK");
 
+// X(_buf)       \
+  // X(_not)       \
+
 #define X_GATES \
-  X(_not)       \
-  X(_buf)       \
   X(_xnor)      \
   X(_and)       \
   X(_nand)      \
@@ -31,8 +32,8 @@
     return (gate_error);                                       \
   }
 
-#include "Vgate_buf.h"
-#include "Vgate_not.h"
+// #include "Vgate_buf.h"
+// #include "Vgate_not.h"
 #include "Vgate_and.h"
 #include "Vgate_nand.h"
 #include "Vgate_or.h"

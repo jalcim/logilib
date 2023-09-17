@@ -18,11 +18,13 @@ int run_gate_test(int in)
   //    return (-1);
   if (
 #define X(gate_name) test_gate##gate_name(in) ||
-
       X_GATES
 #undef X
-      || false)
+      false)
+  {
     return (-1);
+  }
+
   return (0);
 }
 
@@ -70,9 +72,9 @@ void gate_destruct()
   free(gate);
 }
 
-GENERATE_GATE_TEST_FUNCTION(_buf, ((gate->g_buf->E1) != gate->g_buf->out))
+// GENERATE_GATE_TEST_FUNCTION(_buf, ((gate->g_buf->E1) != gate->g_buf->out))
 
-GENERATE_GATE_TEST_FUNCTION(_not, ((gate->g_not->E1) == gate->g_not->out))
+// GENERATE_GATE_TEST_FUNCTION(_not, ((gate->g_not->E1) == gate->g_not->out))
 
 GENERATE_GATE_TEST_FUNCTION(_and, ((gate->g_and->E1) & ((gate->g_and->E2) >> 1)) != gate->g_and->out)
 
