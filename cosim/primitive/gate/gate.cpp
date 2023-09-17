@@ -8,7 +8,11 @@
 
 extern VerilatedContext *contextp;
 
-static t_gate *gate;
+#define X(gate_name) static t_gate##gate_name *gate##gate_name;
+
+X_GATES
+
+#undef X
 
 int run_gate_test(int in)
 {
@@ -16,14 +20,12 @@ int run_gate_test(int in)
   //  if (test_gate_buf(in))
   //      || test_gate_not(in))
   //    return (-1);
-  if (
-#define X(gate_name) test_gate##gate_name(in) ||
-      X_GATES
-#undef X
-      false)
-  {
+#define X(gate_name)            \
+  if (test_gate##gate_name(in)) \
     return (-1);
-  }
+
+  X_GATES
+#undef X
 
   return (0);
 }
@@ -49,11 +51,11 @@ int gate_test()
 
 void gate_init()
 {
-  gate = (t_gate *)malloc(sizeof(t_gate));
 
-#define X(gate_name)                                   \
-  gate->g##gate_name = new Vgate##gate_name{contextp}; \
-  gate->fd##gate_name = open("build/cosim/primitive/gate/gate" #gate_name "_check", O_CREAT | O_RDWR, S_IRUSR | S_IWUSR);
+#define X(gate_name)                                                        \
+  gate##gate_name = (t_gate##gate_name *)malloc(sizeof(t_gate##gate_name)); \
+  gate##gate_name->gate = new Vgate##gate_name{contextp};                   \
+  gate##gate_name->fd = open("build/cosim/primitive/gate/gate" #gate_name "_check", O_CREAT | O_RDWR, S_IRUSR | S_IWUSR);
 
   X_GATES
 #undef X
@@ -63,27 +65,25 @@ void gate_destruct()
 {
 
 #define X(gate_name)          \
-  close(gate->fd##gate_name); \
-  delete gate->g##gate_name;
+  close(gate##gate_name->fd); \
+  free(gate##gate_name->gate);
 
   X_GATES
 #undef X
-
-  free(gate);
 }
 
 // GENERATE_GATE_TEST_FUNCTION(_buf, ((gate->g_buf->E1) != gate->g_buf->out))
 
 // GENERATE_GATE_TEST_FUNCTION(_not, ((gate->g_not->E1) == gate->g_not->out))
 
-GENERATE_GATE_TEST_FUNCTION(_and, ((gate->g_and->E1) & ((gate->g_and->E2) >> 1)) != gate->g_and->out)
+GENERATE_GATE_TEST_FUNCTION(_and, ((gate_and->gate->E1) & ((gate_and->gate->E2) >> 1)) != gate_and->gate->out)
 
-GENERATE_GATE_TEST_FUNCTION(_nand, ((gate->g_nand->E1) & ((gate->g_nand->E2) >> 1)) == gate->g_nand->out)
+GENERATE_GATE_TEST_FUNCTION(_nand, ((gate_nand->gate->E1) & ((gate_nand->gate->E2) >> 1)) == gate_nand->gate->out)
 
-GENERATE_GATE_TEST_FUNCTION(_or, ((gate->g_or->E1) | ((gate->g_or->E2) >> 1)) != gate->g_or->out)
+GENERATE_GATE_TEST_FUNCTION(_or, ((gate_or->gate->E1) | ((gate_or->gate->E2) >> 1)) != gate_or->gate->out)
 
-GENERATE_GATE_TEST_FUNCTION(_nor, ((gate->g_nor->E1) | ((gate->g_nor->E2) >> 1)) == gate->g_nor->out)
+GENERATE_GATE_TEST_FUNCTION(_nor, ((gate_nor->gate->E1) | ((gate_nor->gate->E2) >> 1)) == gate_nor->gate->out)
 
-GENERATE_GATE_TEST_FUNCTION(_xor, ((gate->g_xor->E1) ^ ((gate->g_xor->E2) >> 1)) != gate->g_xor->out)
+GENERATE_GATE_TEST_FUNCTION(_xor, ((gate_xor->gate->E1) ^ ((gate_xor->gate->E2) >> 1)) != gate_xor->gate->out)
 
-GENERATE_GATE_TEST_FUNCTION(_xnor, ((gate->g_xnor->E1) ^ ((gate->g_xnor->E2) >> 1)) == gate->g_xnor->out)
+GENERATE_GATE_TEST_FUNCTION(_xnor, ((gate_xnor->gate->E1) ^ ((gate_xnor->gate->E2) >> 1)) == gate_xnor->gate->out)
