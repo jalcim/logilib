@@ -1,6 +1,7 @@
 #ifndef __GATE__
 #define __GATE__
-#define GATE_LOG(name) gate_test_log(gate->fd_##name, gate->g_##name->in, gate->g_##name->out, #name, test_gate);
+
+#define GATE_LOG(name) dprintf(gate->fd_##name, "E1=%d, E2=%d, out=%d | test_gate_%s=%s\n", gate->g_##name->in & 1, gate->g_##name->in & 2, gate->g_##name->out, #name, gate_error ? "FAIL" : "OK");
 
 #define X_GATES \
   X(_xnor)      \
