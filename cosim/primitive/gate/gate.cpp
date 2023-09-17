@@ -5,6 +5,7 @@
 #include <fcntl.h>
 
 #include "gate.h"
+#include "../../utils.h"
 
 extern VerilatedContext *contextp;
 
@@ -14,54 +15,34 @@ X_GATES
 
 #undef X
 
-int run_gate_test(int in)
+int run_gates_tests()
 {
-  printf("in = %d\n", in);
+  int input;
+  int error;
+
   //  if (test_gate_buf(in))
   //      || test_gate_not(in))
   //    return (-1);
-#define X(gate_name)            \
-  if (test_gate##gate_name(in)) \
-    return (-1);
-
+#define X(gate_name) error |= debug_test_error(test_gate##gate_name, #gate_name, GET_LOG_FILE(gate_name));
   X_GATES
 #undef X
 
-  return (0);
+  return (error);
 }
 
-int gate_test()
-{
-  int in;
-
-  in = 0; // 00
-  if (run_gate_test(in))
-    return (-1);
-  in = 1; // 01
-  if (run_gate_test(in))
-    return (-1);
-  in = 2; // 10
-  if (run_gate_test(in))
-    return (-1);
-  in = 3; // 11
-  if (run_gate_test(in))
-    return (-1);
-  return (0);
-}
-
-void gate_init()
+void gates_init()
 {
 
 #define X(gate_name)                                                        \
   gate##gate_name = (t_gate##gate_name *)malloc(sizeof(t_gate##gate_name)); \
   gate##gate_name->gate = new Vgate##gate_name{contextp};                   \
-  gate##gate_name->fd = open("build/cosim/primitive/gate/gate" #gate_name "_check", O_CREAT | O_RDWR, S_IRUSR | S_IWUSR);
+  gate##gate_name->fd = open(GET_LOG_FILE(gate_name), O_CREAT | O_RDWR, S_IRUSR | S_IWUSR);
 
   X_GATES
 #undef X
 }
 
-void gate_destruct()
+void gates_destruct()
 {
 
 #define X(gate_name)          \
@@ -80,7 +61,7 @@ GENERATE_GATE_TEST_FUNCTION(_and, ((gate_and->gate->E1) & ((gate_and->gate->E2) 
 
 GENERATE_GATE_TEST_FUNCTION(_nand, ((gate_nand->gate->E1) & ((gate_nand->gate->E2) >> 1)) == gate_nand->gate->out)
 
-GENERATE_GATE_TEST_FUNCTION(_or, ((gate_or->gate->E1) | ((gate_or->gate->E2) >> 1)) != gate_or->gate->out)
+GENERATE_GATE_TEST_FUNCTION(_or, ((gate_or->gate->E1) | ((gate_or->gate->E2) >> 1)) == gate_or->gate->out)
 
 GENERATE_GATE_TEST_FUNCTION(_nor, ((gate_nor->gate->E1) | ((gate_nor->gate->E2) >> 1)) == gate_nor->gate->out)
 
