@@ -1,7 +1,7 @@
 #include <stdio.h>
 
-#ifndef __COSIM_UTILS_H__
-#define __COSIM_UTILS_H__
+#ifndef __COSIM_TOOLS_LOGS_H__
+#define __COSIM_TOOLS_LOGS_H__
 
 #define RESTEXT(error) error ? "fail" : "ok"
 
@@ -13,4 +13,4 @@ void debug_input_error(int input_number, ...);
 
 int run_test_and_log(int (*test_fn)(), char const *name, char const *log_file);
 
-#endif /* __COSIM_UTILS_H__ */
+#endif /* __COSIM_TOOLS_LOGS_H__ */

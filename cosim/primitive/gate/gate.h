@@ -1,5 +1,5 @@
-#ifndef __GATE__
-#define __GATE__
+#ifndef __COSIM_PRIMITIVE_GATE_H__
+#define __COSIM_PRIMITIVE_GATE_H__
 
 // #include "Vgate_buf.h"
 // #include "Vgate_not.h"
@@ -76,4 +76,8 @@ X_GATES
     return (gate_error);                                                          \
   }
 
-#endif
+void gates_init();
+int run_gates_tests();
+void gates_destruct();
+
+#endif /* __COSIM_PRIMITIVE_GATE_H__ */
