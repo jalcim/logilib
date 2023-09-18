@@ -5,7 +5,7 @@
 #include <fcntl.h>
 
 #include "gate.h"
-#include "../../utils.h"
+#include "../../tools/logs.h"
 
 extern VerilatedContext *contextp;
 

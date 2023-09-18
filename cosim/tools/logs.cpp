@@ -30,7 +30,7 @@ void debug_input_error(int input_number, ...)
 
   va_start(arg_ptr, input_number);
 
-  clog << "\n\nError with input:";
+  cerr << "\n\nError with input:";
 
   while (args < input_number)
   {
