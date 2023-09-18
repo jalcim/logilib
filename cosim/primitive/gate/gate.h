@@ -52,7 +52,7 @@ X_GATES
 #define GENERATE_GATE_TEST_FUNCTION(gate_name, fail_condition)                    \
   int test_gate##gate_name()                                                      \
   {                                                                               \
-    int input;                                                                    \
+    int input = 0;                                                                \
     int gate_error;                                                               \
     int final_error = 0;                                                          \
                                                                                   \
@@ -61,7 +61,7 @@ X_GATES
       gate##gate_name->gate->in = input;                                          \
       gate##gate_name->gate->eval();                                              \
       gate_error = fail_condition;                                                \
-      final_error |= gate_error << input;                                         \
+      final_error |= !(!(gate_error)) << input;                                   \
                                                                                   \
       if (gate_error)                                                             \
       {                                                                           \
