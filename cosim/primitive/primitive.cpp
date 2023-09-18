@@ -4,18 +4,22 @@
 
 #include "primitive.h"
 #include "./gate/gate.h"
-#include "../tools/logs.h"
 
 int test_gate()
 {
   int error = 0;
   int fd_gate;
 
+  printf("\nprimitive-gate test :");
+
   gates_init();
   error = run_gates_tests();
   gates_destruct();
 
-  printf("\nprimitive-gate test : %s\n", RESTEXT(error));
+  if (error)
+  {
+    dprintf(2, "primitive-gate error : %d", error);
+  }
 
   return (error);
 }

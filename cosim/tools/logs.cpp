@@ -30,7 +30,7 @@ void debug_input_error(int input_number, ...)
 
   va_start(arg_ptr, input_number);
 
-  cerr << "\n\nError with input:";
+  clog << "\n\nError with input:";
 
   while (args < input_number)
   {
@@ -51,14 +51,15 @@ int run_test_and_log(int (*test_fn)(), char const *name, char const *log_file)
 {
   int error;
 
-  cout << "\n\n# Test " << name << " : ";
+  cout << "\n# Test " << name << " : ";
 
   error = test_fn();
 
-  cout << (RESTEXT(error));
+  cout << (RESTEXT(error)) << endl;
+
   if (error && log_file)
   {
-    clog << "\n\nLogs in" << log_file;
+    clog << "\nLogs in" << log_file << endl;
   }
 
   return error;

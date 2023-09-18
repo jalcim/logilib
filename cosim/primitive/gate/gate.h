@@ -61,7 +61,7 @@ X_GATES
       gate##gate_name->gate->in = input;                                          \
       gate##gate_name->gate->eval();                                              \
       gate_error = fail_condition;                                                \
-      final_error |= !(!(gate_error)) << input;                                   \
+      final_error |= gate_error << input;                                         \
                                                                                   \
       if (gate_error)                                                             \
       {                                                                           \

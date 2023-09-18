@@ -22,7 +22,7 @@ int run_gates_tests()
   //  if (test_gate_buf(in))
   //      || test_gate_not(in))
   //    return (-1);
-#define X(gate_name) error |= run_test_and_log(test_gate##gate_name, #gate_name, GET_LOG_FILE(gate_name));
+#define X(gate_name) error |= run_test_and_log(test_gate##gate_name, "primitive" #gate_name, GET_LOG_FILE(gate_name));
   X_GATES
 #undef X
 
