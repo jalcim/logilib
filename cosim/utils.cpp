@@ -1,7 +1,10 @@
 #include <stdio.h>
 #include <unistd.h>
 #include <stdarg.h>
+#include <iostream>
 #include "utils.h"
+
+using namespace std;
 
 int get_bit(long value, unsigned long bit_num)
 {
@@ -27,14 +30,15 @@ void debug_input_error(int input_number, ...)
 
   va_start(arg_ptr, input_number);
 
-  dprintf(2, "\n\nError with input:");
+  clog << "\n\nError with input:";
 
   while (args < input_number)
   {
     name = va_arg(arg_ptr, char *);
     value = va_arg(arg_ptr, int);
 
-    dprintf(2, "\n%s : ", name);
+    clog << "\n"
+         << name << " ";
     dprint_bin(2, value, sizeof(int));
 
     ++args;
@@ -43,18 +47,18 @@ void debug_input_error(int input_number, ...)
   va_end(arg_ptr);
 }
 
-int debug_test_error(int (*test_fn)(), char const *name, char const *log_file)
+int run_test_and_log(int (*test_fn)(), char const *name, char const *log_file)
 {
   int error;
 
-  printf("\n\n# Test %s : ", name);
+  cout << "\n\n# Test " << name << " : ";
 
   error = test_fn();
 
-  printf("%s", RESTEXT(error));
+  cout << (RESTEXT(error));
   if (error && log_file)
   {
-    dprintf(2, "\n\nLogs in %s", log_file);
+    clog << "\n\nLogs in" << log_file;
   }
 
   return error;
