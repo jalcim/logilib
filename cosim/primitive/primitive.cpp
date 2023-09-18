@@ -1,16 +1,19 @@
 #include <stdio.h>
 #include <fcntl.h>
 #include <unistd.h>
+#include <iostream>
 
 #include "primitive.h"
 #include "./gate/gate.h"
+
+using namespace std;
 
 int test_gate()
 {
   int error = 0;
   int fd_gate;
 
-  printf("\nprimitive-gate test :");
+  cout << "\nprimitive-gate test :" << endl;
 
   gates_init();
   error = run_gates_tests();
@@ -18,7 +21,7 @@ int test_gate()
 
   if (error)
   {
-    dprintf(2, "primitive-gate error : %d", error);
+    clog << "primitive-gate error :" << error << endl;
   }
 
   return (error);
