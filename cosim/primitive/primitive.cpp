@@ -4,24 +4,20 @@
 
 #include "primitive.h"
 #include "./gate/gate.h"
+#include "../tools/logs.h"
 
 int test_gate()
 {
-  int test = 0;
+  int error = 0;
   int fd_gate;
 
   gates_init();
-  test = run_gates_tests();
+  error = run_gates_tests();
   gates_destruct();
 
-  fd_gate = open("build/cosim/primitive/gate_check",
-                 O_CREAT | O_RDWR, S_IRUSR | S_IWUSR);
+  printf("\nprimitive-gate test : %s\n", RESTEXT(error));
 
-  printf("\nprimitive-gate test : %s\n", test ? "FAIL" : "OK");
-  dprintf(fd_gate, "\nprimitive-gate test : %s\n", test ? "FAIL" : "OK");
-
-  close(fd_gate);
-  return (test);
+  return (error);
 }
 
 void test_primitive()
