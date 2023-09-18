@@ -61,7 +61,7 @@ GENERATE_GATE_TEST_FUNCTION(_and, ((gate_and->gate->E1) & ((gate_and->gate->E2) 
 
 GENERATE_GATE_TEST_FUNCTION(_nand, ((gate_nand->gate->E1) & ((gate_nand->gate->E2) >> 1)) == gate_nand->gate->out)
 
-GENERATE_GATE_TEST_FUNCTION(_or, ((gate_or->gate->E1) | ((gate_or->gate->E2) >> 1)) == gate_or->gate->out)
+GENERATE_GATE_TEST_FUNCTION(_or, ((gate_or->gate->E1) | ((gate_or->gate->E2) >> 1)) != gate_or->gate->out)
 
 GENERATE_GATE_TEST_FUNCTION(_nor, ((gate_nor->gate->E1) | ((gate_nor->gate->E2) >> 1)) == gate_nor->gate->out)
 
