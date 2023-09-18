@@ -1,4 +1,5 @@
 #include <stdio.h>
+#include <unistd.h>
 #include <stdarg.h>
 #include "utils.h"
 
@@ -10,12 +11,9 @@ int get_bit(long value, unsigned long bit_num)
 void dprint_bin(int fd, long value, unsigned long size)
 {
   unsigned int mask = 1 << (size - 1);
-  int cpt;
-
-  cpt = -1;
-  while (++cpt < size)
+  while (mask)
   {
-    dprintf(fd, "%d", mask & instr ? 1 : 0);
+    write(fd, mask & value ? "1" : "0", 1);
     mask >>= 1;
   }
 }
