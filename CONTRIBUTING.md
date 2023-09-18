@@ -1,3 +1,7 @@
+# Commits
+
+Commit messages should follow [conventional commit rules](https://www.conventionalcommits.org/en/v1.0.0/#specification) with the [config conventional types](https://github.com/conventional-changelog/commitlint/tree/master/%40commitlint/config-conventional)
+
 # Macros
 
 ## X-Macros
