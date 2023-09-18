@@ -11,6 +11,6 @@ void dprint_bin(int fd, long value, unsigned long size);
 
 void debug_input_error(int input_number, ...);
 
-int debug_test_error(int (*test_fn)(), char const *name, char const *log_file);
+int run_test_and_log(int (*test_fn)(), char const *name, char const *log_file);
 
 #endif /* __COSIM_UTILS_H__ */
