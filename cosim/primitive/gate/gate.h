@@ -29,8 +29,8 @@
 #define GATE_LOG(gate_name) dprintf(           \
     gate##gate_name->fd,                       \
     "E1=%d, E2=%d, out=%d | test_gate%s=%s\n", \
-    gate##gate_name->gate->in & 1,             \
-    gate##gate_name->gate->in & 2 >> 1,        \
+    gate##gate_name->gate->E1,                 \
+    gate##gate_name->gate->E2 >> 1,            \
     gate##gate_name->gate->out,                \
     #gate_name,                                \
     RESTEXT(gate_error));
