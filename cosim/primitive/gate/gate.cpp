@@ -17,7 +17,7 @@ X_GATES
 
 int run_gates_tests()
 {
-  int error;
+  int error = 0;
 
   //  if (test_gate_buf(in))
   //      || test_gate_not(in))
