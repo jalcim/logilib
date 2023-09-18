@@ -4,7 +4,7 @@
 
 int get_bit(int value, int bit_num)
 {
-  return (value & bit_num) >> (bit_num - 1);
+  return (value & (1 << bit_num)) >> (bit_num - 1);
 }
 
 void dprint_bin(int fd, unsigned int instr, int size)
