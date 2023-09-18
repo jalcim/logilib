@@ -2,12 +2,12 @@
 #include <stdarg.h>
 #include "utils.h"
 
-int get_bit(int value, int bit_num)
+int get_bit(long value, unsigned long bit_num)
 {
   return (value & (1 << bit_num)) >> (bit_num - 1);
 }
 
-void dprint_bin(int fd, unsigned int instr, int size)
+void dprint_bin(int fd, long value, unsigned long size)
 {
   unsigned int mask = 1 << (size - 1);
   int cpt;
