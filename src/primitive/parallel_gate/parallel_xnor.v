@@ -11,7 +11,7 @@ module parallel_xnor(out, in);
    input  [SIZE-1 : 0] in;
    output [WIRE-1 : 0] out;
 
-   serial_xnor #(.WAY(WIRE)) xnor1(out[0], in[WAY-1:0]);
+   serial_xnor #(.WAY(WAY)) xnor1(out[0], in[WAY-1:0]);
    if (WIRE > 1)
      parallel_xnor #(.WAY(WAY), .WIRE(WIRE-1)) parallel_xnor0(out[WIRE-1:1],
 							      in[SIZE-1 : WAY]);

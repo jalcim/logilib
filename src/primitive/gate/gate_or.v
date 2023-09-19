@@ -6,8 +6,8 @@
  `include "src/routing/shuffle.v"
 
 module gate_or(out, in);
-   parameter WAY = 1;
-   parameter WIRE = 2;
+   parameter WAY = 2;
+   parameter WIRE = 1;
 
    localparam SIZE = WAY * WIRE;
 
