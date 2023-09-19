@@ -23,7 +23,7 @@ module mult_cell(A, B, C, div2, mod2);
    wire [WIRE-1:0] b_line;
 
    replicator #(.WAY(WIRE), .WIRE(1)) replicator(A_repliq, A);
-   gate_and #(.WAY(WIRE), .WIRE(2)) inst_and(b_line, {B, A_repliq});
+   gate_and #(.WAY(2), .WIRE(WIRE)) inst_and(b_line, {B, A_repliq});
    addX #(.WIRE(WIRE)) inst_add(B, C, padding, line, ignored);
    divmod2 #(.WIRE(WIRE)) inst_divmod2(line, div2, mod2);
 endmodule

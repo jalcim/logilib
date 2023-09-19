@@ -13,12 +13,6 @@ test_alu_arithm()
     iverilog -o $BIN_alu_arithm/test_multX $TEST_alu_arithm/test_multX.v
 
     #   iverilog -o $BIN_alu_arithm/test_cmp8 $TEST_alu_arithm/test_cmp8.v
-
-    #    iverilog -o $BIN_alu_arithm/test_add $TEST_alu_arithm/test_add.v
-    #    iverilog -o $BIN_alu_arithm/test_cmp $TEST_alu_arithm/test_cmp.v
-    #    iverilog -o $BIN_alu_arithm/test_mult8 $TEST_alu_arithm/test_mult8.v
-    #    iverilog -o $BIN_alu_arithm/test_multi_add $TEST_alu_arithm/test_multi_add.v
-    #    iverilog -o $BIN_alu_arithm/test_mult $TEST_alu_arithm/test_mult.v
 }
 
 test_alu()
@@ -27,3 +21,8 @@ test_alu()
 }
 
 test_alu
+
+#    iverilog -o $BIN_alu_arithm/test_cmp $TEST_alu_arithm/test_cmp.v
+#    iverilog -o $BIN_alu_arithm/test_mult8 $TEST_alu_arithm/test_mult8.v
+#    iverilog -o $BIN_alu_arithm/test_multi_add $TEST_alu_arithm/test_multi_add.v
+#    iverilog -o $BIN_alu_arithm/test_mult $TEST_alu_arithm/test_mult.v
