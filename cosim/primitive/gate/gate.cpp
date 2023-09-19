@@ -5,6 +5,7 @@
 #include <fcntl.h>
 
 #include "gate.h"
+#include "../../tools/logs.h"
 
 extern VerilatedContext *contextp;
 
@@ -14,54 +15,30 @@ X_GATES
 
 #undef X
 
-int run_gate_test(int in)
+int run_gates_tests()
 {
-  printf("in = %d\n", in);
-  //  if (test_gate_buf(in))
-  //      || test_gate_not(in))
-  //    return (-1);
-#define X(gate_name)            \
-  if (test_gate##gate_name(in)) \
-    return (-1);
+  int error = 0;
 
+#define X(gate_name) error |= run_test_and_log(test_gate##gate_name, "primitive" #gate_name, GET_LOG_FILE(gate_name));
   X_GATES
 #undef X
 
-  return (0);
+  return (error);
 }
 
-int gate_test()
-{
-  int in;
-
-  in = 0; // 00
-  if (run_gate_test(in))
-    return (-1);
-  in = 1; // 01
-  if (run_gate_test(in))
-    return (-1);
-  in = 2; // 10
-  if (run_gate_test(in))
-    return (-1);
-  in = 3; // 11
-  if (run_gate_test(in))
-    return (-1);
-  return (0);
-}
-
-void gate_init()
+void gates_init()
 {
 
 #define X(gate_name)                                                        \
   gate##gate_name = (t_gate##gate_name *)malloc(sizeof(t_gate##gate_name)); \
   gate##gate_name->gate = new Vgate##gate_name{contextp};                   \
-  gate##gate_name->fd = open("build/cosim/primitive/gate/gate" #gate_name "_check", O_CREAT | O_RDWR, S_IRUSR | S_IWUSR);
+  gate##gate_name->fd = open(GET_LOG_FILE(gate_name), O_CREAT | O_RDWR, S_IRUSR | S_IWUSR);
 
   X_GATES
 #undef X
 }
 
-void gate_destruct()
+void gates_destruct()
 {
 
 #define X(gate_name)          \

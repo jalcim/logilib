@@ -1,6 +1,7 @@
 cmake_minimum_required(VERSION 3.18)
 project(logilib_cosim C CXX)
 find_package(verilator HINTS $ENV{VERILATOR_ROOT})
+include_directories(PRIVATE ./tools)
 
 set (CMAKE_CXX_STANDARD 11)
 set (CC gcc)
@@ -13,14 +14,17 @@ set(PWD_LOGILIB ${CMAKE_CURRENT_SOURCE_DIR}/..)
 #################################################
 
 set(SRC main.cpp
-  primitive/gate/gate.cpp)
+tools/logs.cpp
+primitive/primitive.cpp
+primitive/gate/gate.cpp
+)
 #  primitive/parallel_gate/parallel_gate.cpp
 #  memory/latch/latch.cpp
 #  alu/arithm/arithm.cpp)
 
 set(PRIM_GATE_LIB
-  Vgate_buf Vgate_not Vgate_and Vgate_nand
-  Vgate_nor Vgate_or  Vgate_xnor Vgate_xor)
+Vgate_buf Vgate_not Vgate_and Vgate_nand
+Vgate_nor Vgate_or  Vgate_xnor Vgate_xor)
 
 #set(PRIM_PARALLEL_GATE_LIB
 #  Vparallel_gate_buf Vparallel_gate_not
