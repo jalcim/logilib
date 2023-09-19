@@ -4,27 +4,27 @@
  `include "src/alu/arithm/mult_cell.v"
 
 module multX(A, B, C, out);
-   parameter SIZE = 8;
-   parameter ELEM = SIZE;
+   parameter WIRE = 8;
+   parameter ELEM = WIRE;
 
    input  [ELEM-1:0] A;
-   input  [SIZE-1:0] B;
-   input  [SIZE-1:0] C;
+   input  [WIRE-1:0] B;
+   input  [WIRE-1:0] C;
 
    output [ELEM-1:0] out;
 
-   wire [SIZE-1:0]   div;
+   wire [WIRE-1:0]   div;
 
    if (ELEM > 1)
      begin
-	if (SIZE == ELEM)
+	if (WIRE == ELEM)
 	  begin
-	     supply0 [SIZE-1:0] ignore;
-	     mult_cell #(.SIZE(SIZE)) inst_mult_cells(A[0], B, ignore, div, out[0]);
+	     supply0 [WIRE-1:0] ignore;
+	     mult_cell #(.WIRE(WIRE)) inst_mult_cells(A[0], B, ignore, div, out[0]);
 	  end
 	else
-	  mult_cell #(.SIZE(SIZE)) inst_mult_cells(A[0], B, C, div, out[0]);
-	multX #(.SIZE(SIZE), .ELEM(ELEM-1)) inst_multX(A[ELEM-1:1],
+	  mult_cell #(.WIRE(WIRE)) inst_mult_cells(A[0], B, C, div, out[0]);
+	multX #(.WIRE(WIRE), .ELEM(ELEM-1)) inst_multX(A[ELEM-1:1],
 						       B, div,//div == C
 						       out[ELEM-1:1]);
      end

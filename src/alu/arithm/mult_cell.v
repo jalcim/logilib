@@ -8,22 +8,24 @@
  `include "src/primitive/gate/gate_and.v"
 
 module mult_cell(A, B, C, div2, mod2);
-   parameter SIZE = 8;
+   parameter WIRE = 8;
 
-   input A, B, C;
+   input [WIRE-1:0] B, C;
+   input	    A;
 
-   output [SIZE-1:0] div2;
+   output [WIRE-1:0] div2;
    output mod2;
 
-   wire line, ignored;
-   wire [SIZE-1:0]   sub_repliq;
-   wire [SIZE-1:0]   b_line;
+   supply0 padding;
+   wire [WIRE-1:0] line;
+   wire		   ignored;
+   wire [WIRE-1:0] A_repliq;
+   wire [WIRE-1:0] b_line;
 
-//   replicator #(.SIZE(SIZE)) replicator(A_repliq, A);
-//   parallel_and #(.SIZE(SIZE)) mux(b_line, B, A_repliq);
-   gate_and #(.WAY(SIZE), .WIRE(2)) inst_and(b_line, {B, {SIZE{A}}});
-   addX #(.SIZE(SIZE)) inst_add(B, C, 0, line, ignored);
-   divmod2 #(.SIZE(SIZE)) inst_divmod2(line, div2, mod2);
+   replicator #(.WAY(WIRE), .WIRE(1)) replicator(A_repliq, A);
+   gate_and #(.WAY(WIRE), .WIRE(2)) inst_and(b_line, {B, A_repliq});
+   addX #(.WIRE(WIRE)) inst_add(B, C, padding, line, ignored);
+   divmod2 #(.WIRE(WIRE)) inst_divmod2(line, div2, mod2);
 endmodule
 
 `endif
