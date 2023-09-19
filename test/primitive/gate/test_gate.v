@@ -40,4 +40,4 @@ module test_gate;
 	e1 <= 1;
 	#10;
      end
-endmodule // test_gate_nor
+endmodule

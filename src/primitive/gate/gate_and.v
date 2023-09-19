@@ -6,23 +6,21 @@
  `include "src/routing/shuffle.v"
 
 module gate_and(out, in);
-   parameter WAY = 1;
-   parameter WIRE = 2;
+   parameter WAY = 2;
+   parameter WIRE = 1;
 
    localparam SIZE = WAY * WIRE;
-
    input [SIZE-1:0] in;
-   output [WAY-1:0] out;
+   output [WIRE-1:0] out;
 
-   if (WAY > 1)
+   if (WIRE > 1)
      begin
 	wire [SIZE-1 : 0]  shuffle_out;
-
-	shuffle #(.WAY(WAY), .WIRE(WIRE)) shuffle_inst(shuffle_out, in);
-	parallel_and #(.WAY(WAY), .WIRE(WIRE)) parallel_and_inst(out, shuffle_out);
+	shuffle      #(.WAY(WAY), .WIRE(WIRE)) shuffle_inst(shuffle_out, in);//2 voie de 8 bit
+	parallel_and #(.WAY(WAY), .WIRE(WIRE)) parallel_and_inst(out, shuffle_out);//8 voie de 2 bit
      end
    else
-     serial_and   #(.WIRE(WIRE)) serial_and_inst(out, in);
+     serial_and   #(.WAY(WAY)) serial_and_inst(out, in);
 endmodule
 
 `endif

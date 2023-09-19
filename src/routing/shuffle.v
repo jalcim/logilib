@@ -2,8 +2,8 @@
  `define __SHUFFLE__
 
 module shuffle(out, in);
-   parameter WAY = 3;
-   parameter WIRE = 4;
+   parameter WAY = 2;
+   parameter WIRE = 8;
 
    input  [WAY*WIRE-1:0]	  in;
    output [WAY*WIRE-1:0]	  out;
