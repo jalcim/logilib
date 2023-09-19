@@ -29,8 +29,6 @@ module test_parallel_gate;
 
    gate_nand #(.BEHAVIORAL(1), .WAY(WAY), .WIRE(WIRE)) b_gate_nand_inst(b_out_nand, in);
    gate_nor  #(.BEHAVIORAL(1), .WAY(WAY), .WIRE(WIRE)) b_gate_nor_inst (b_out_nor,  in);
-//   gate_xnor #(.BEHAVIORAL(1), .WAY(WAY), .WIRE(WIRE)) b_gate_xnor_inst(out_xnor, {e2, e1});
-//   gate_xor  #(.BEHAVIORAL(1), .WAY(WAY), .WIRE(WIRE)) b_gate_xor_inst (out_xor,  {e2, e1});
 
    initial
      begin

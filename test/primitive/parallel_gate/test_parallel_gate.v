@@ -9,17 +9,17 @@
 
 module test_parallel_gate;
 
-   parameter WAY = 8;
-   parameter WIRE = 2;
+   parameter WAY = 2;
+   parameter WIRE = 8;
 
    reg  [WAY*WIRE-1:0] in;
-   wire [WAY-1:0]  out_and, out_nand, out_nor, out_or, out_xnor, out_xor, out_not, out_buf;
-   wire [WAY-1:0]  b_out_nand, b_out_nor;
+   wire [WIRE-1:0]  out_and, out_nand, out_nor, out_or, out_xnor, out_xor, out_not, out_buf;
+   wire [WIRE-1:0]  b_out_nand, b_out_nor;
 
    integer	   i;
 
-   parallel_buf  #(                           .WIRE(WAY )) parallel_buf_inst (out_buf,  in[7:0]);
-   parallel_not  #(                           .WIRE(WAY )) parallel_not_inst (out_not,  in[7:0]);
+   parallel_buf  #(                           .WIRE(WIRE)) parallel_buf_inst (out_buf,  in[7:0]);
+   parallel_not  #(                           .WIRE(WIRE)) parallel_not_inst (out_not,  in[7:0]);
    parallel_and  #(                .WAY(WAY), .WIRE(WIRE)) parallel_and_inst (out_and,  in);
    parallel_nand #(.BEHAVIORAL(0), .WAY(WAY), .WIRE(WIRE)) parallel_nand_inst(out_nand, in);
    parallel_nor  #(.BEHAVIORAL(0), .WAY(WAY), .WIRE(WIRE)) parallel_nor_inst (out_nor,  in);
@@ -29,8 +29,6 @@ module test_parallel_gate;
 
    parallel_nand #(.BEHAVIORAL(1), .WAY(WAY), .WIRE(WIRE)) b_gate_nand_inst(b_out_nand, in);
    parallel_nor  #(.BEHAVIORAL(1), .WAY(WAY), .WIRE(WIRE)) b_gate_nor_inst (b_out_nor,  in);
-//   gate_xnor #(.BEHAVIORAL(1), .WAY(WAY), .WIRE(WIRE)) b_gate_xnor_inst(out_xnor, {e2, e1});
-//   gate_xor  #(.BEHAVIORAL(1), .WAY(WAY), .WIRE(WIRE)) b_gate_xor_inst (out_xor,  {e2, e1});
 
    initial
      begin

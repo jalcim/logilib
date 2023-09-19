@@ -8,13 +8,14 @@ module serial_nor(out, e1);
    input [WAY-1:0] e1;
    output 	    out;
 
-   wire		    line;
-   
-   generate_serial_nor #(.BEHAVIORAL(BEHAVIORAL), .WAY(WAY)) generate_serial_nor_inst(line, e1);
    if (BEHAVIORAL == 1)
-     not inst_not0(out, line);
+     begin
+	wire line;
+	serial_or #(.WAY(WAY)) serial_or_inst(line, e1);
+	not inst_not0(out, line);
+     end
    else
-     assign out = line;   
+     generate_serial_nor #(.BEHAVIORAL(BEHAVIORAL), .WAY(WAY)) generate_serial_nor_inst(out, e1);
 endmodule
 
 module generate_serial_nor(out, e1);

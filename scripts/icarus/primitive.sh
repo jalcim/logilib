@@ -36,8 +36,8 @@ test_parallel_gate()
 test_primitive()
 {
     test_gate
-#    test_serial_gate
-#    test_parallel_gate
+    test_serial_gate
+    test_parallel_gate
 }
 
 test_primitive
