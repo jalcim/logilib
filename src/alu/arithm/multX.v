@@ -1,3 +1,8 @@
+`ifndef __MULTX__
+ `define  __MULTX__
+
+ `include "src/alu/arithm/mult_cell.v"
+
 module multX(A, B, C, out);
    parameter SIZE = 8;
    parameter ELEM = SIZE;
@@ -24,3 +29,5 @@ module multX(A, B, C, out);
 						       out[ELEM-1:1]);
      end
 endmodule
+
+`endif

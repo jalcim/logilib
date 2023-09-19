@@ -1,3 +1,6 @@
+`ifndef __DIVMOD2__
+ `define __DIVMOD2__
+
 module divmod2(in, div2, mod2);
    parameter SIZE = 8;
 
@@ -16,3 +19,5 @@ module divmod2(in, div2, mod2);
 	assign div2[cpt] = in[cpt+1];
    endgenerate
 endmodule
+
+`endif

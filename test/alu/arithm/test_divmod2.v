@@ -1,3 +1,5 @@
+`include "src/alu/arithm/divmod2.v"
+
 module test_divmod2;
    reg [7:0] a;
    wire      mod2;

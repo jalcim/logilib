@@ -1,3 +1,6 @@
+`ifndef __ADD__
+ `define __ADD__
+
 module add (a, b, cin, out, cout);
    input a, b, cin;
    output out, cout;
@@ -10,3 +13,5 @@ module add (a, b, cin, out, cout);
    nand nand3 (cout, line[0], line[2]);
    assign out = (a ^ b ^ cin);
 endmodule // full_add
+
+`endif

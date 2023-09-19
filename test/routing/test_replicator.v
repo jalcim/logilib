@@ -1,22 +1,24 @@
+`include "src/routing/replicator.v"
+
 module test_replicator;
-   parameter WIRE = 3;
    parameter WAY = 2;
+   parameter WIRE = 8;
 
-   reg [2**WIRE-1:0] in;
-   wire [(2**WAY)*(2**WIRE) -1:0] out;
+   reg  [    WIRE-1:0] in;
+   wire [WAY*WIRE-1:0] out;
 
-   replicator #(.WIRE(WIRE), .WAY(WAY)) replicator(in[7:0], out);
+   replicator #(.WAY(WAY), .WIRE(WIRE)) replicator(out, in);
 
    initial
      begin
-	$dumpfile("build/routing/signal/signal_replicator.vcd");
+	$dumpfile("signal_replicator.vcd");
 	$dumpvars;
-	$display("time\t\tin,\tout1,\tout2");
-	$monitor("%d\t%d\t%d\t%d\n", $time, in, out[7:0], out[15:8]);
+	$display("\t\ttime\tin,\tout");
+	$monitor("%d\t%b\t%b\n", $time, in, out);
 
 	in = 187;
-	#5;
+	#10;
 	in = 203;
-	#5;
+	#10;
      end
 endmodule // test_replicator

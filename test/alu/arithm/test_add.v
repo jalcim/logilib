@@ -1,3 +1,5 @@
+`include "src/alu/arithm/add.v"
+
 module test_add;
    reg a, b, cin, sub;
    wire s, cout;

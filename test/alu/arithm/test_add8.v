@@ -1,12 +1,14 @@
+`include "src/alu/arithm/add_sub.v"
+
 module test_add8;
-   parameter SIZE = 8;
+   parameter WIRE = 8;
    reg [7:0] a, b;
    reg 	     cin, sub;
    wire [7:0] s;
    wire       cout;
 
 //   add8 test_add8(a, b, cin, sub, s, cout);
-   add_sub #(.SIZE(SIZE)) test_addX(a, b, cin, sub, s, cout);
+   add_sub #(.WIRE(WIRE)) test_addX(a, b, cin, sub, s, cout);
 
    initial
      begin

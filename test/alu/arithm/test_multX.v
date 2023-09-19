@@ -1,3 +1,5 @@
+`include "src/alu/arithm/multX.v"
+
 module test_multX();
    parameter SIZE = 8;
 

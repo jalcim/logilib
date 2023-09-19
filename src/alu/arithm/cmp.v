@@ -1,3 +1,4 @@
+
 module cmp(a, b, c, d);
    input a, b;
    output c, d;

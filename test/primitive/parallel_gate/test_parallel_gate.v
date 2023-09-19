@@ -16,8 +16,8 @@ module test_parallel_gate;
    wire [WAY-1:0]  out_and, out_nand, out_nor, out_or, out_xnor, out_xor, out_not, out_buf;
    wire [WAY-1:0]  b_out_nand, b_out_nor;
 
-   parallel_buf  #(                .WAY(WAY))              parallel_buf_inst (out_buf,  {       e1[1],        e1[0]});
-   parallel_not  #(                .WAY(WAY))              parallel_not_inst (out_not,  {       e1[1],        e1[0]});
+   parallel_buf  #(                           .WIRE(WIRE)) parallel_buf_inst (out_buf,  {       e1[1],        e1[0]});
+   parallel_not  #(                           .WIRE(WIRE)) parallel_not_inst (out_not,  {       e1[1],        e1[0]});
    parallel_and  #(                .WAY(WAY), .WIRE(WIRE)) parallel_and_inst (out_and,  {e2[1], e1[1], e2[0], e1[0]});
    parallel_nand #(.BEHAVIORAL(0), .WAY(WAY), .WIRE(WIRE)) parallel_nand_inst(out_nand, {e2[1], e1[1], e2[0], e1[0]});
    parallel_nor  #(.BEHAVIORAL(0), .WAY(WAY), .WIRE(WIRE)) parallel_nor_inst (out_nor,  {e2[1], e1[1], e2[0], e1[0]});
