@@ -28,6 +28,8 @@ module multX(A, B, C, out);
 						       B, div,//div == C
 						       out[ELEM-1:1]);
      end
+   else
+     mult_cell #(.WIRE(WIRE)) inst_mult_cells(A[0], B, C, div, out[0]);
 endmodule
 
 `endif
