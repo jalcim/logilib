@@ -1,3 +1,6 @@
+`ifndef __BIT_CPT__
+ `define __BIT_CPT__
+
 module bit_cpt3(activate, clk, reset, cpt);
    input activate, clk, reset;
    output [2:0] cpt;
@@ -19,3 +22,5 @@ module bit_cpt3(activate, clk, reset, cpt);
    buf buf3(cpt[2], line[4]);
 
 endmodule // bit_cpt3
+
+`endif

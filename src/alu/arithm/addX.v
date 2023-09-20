@@ -1,23 +1,30 @@
-module addX (a, b, cin, out, cout);
-   parameter SIZE = 8;
+`ifndef __ADDX__
+ `define __ADDX__
 
-   input [SIZE-1:0] a, b;
+ `include "src/alu/arithm/add.v"
+
+module addX (a, b, cin, out, cout);
+   parameter WIRE = 8;
+
+   input [WIRE-1:0] a, b;
    input 	    cin;
 
-   output [SIZE-1:0] out;
+   output [WIRE-1:0] out;
    output 	     cout;
 
    wire 	     ret;
 
-   if (SIZE > 1)
+   if (WIRE > 1)
      begin
 	add add0 (a[0], b[0], cin, out[0], ret);
-	addX #(.SIZE(SIZE-1)) recall(a[SIZE-1:1],
-				     b[SIZE-1:1],
+	addX #(.WIRE(WIRE-1)) recall(a[WIRE-1:1],
+				     b[WIRE-1:1],
 				     ret,
-				     out[SIZE-1:1],
+				     out[WIRE-1:1],
 				     cout);
      end
    else
      add add0 (a[0], b[0], cin, out[0], cout);
 endmodule
+
+`endif

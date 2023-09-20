@@ -49,9 +49,10 @@ void gates_destruct()
 #undef X
 }
 
-// GENERATE_GATE_TEST_FUNCTION(_buf, ((gate->g_buf->E1) != gate->g_buf->out))
+// (out & 1) verilator fix verilog buffer management
+GENERATE_GATE_TEST_FUNCTION(_buf, ((gate_buf->gate->E1) != (gate_buf->gate->out & 1)))
 
-// GENERATE_GATE_TEST_FUNCTION(_not, ((gate->g_not->E1) == gate->g_not->out))
+GENERATE_GATE_TEST_FUNCTION(_not, ((gate_not->gate->E1) == gate_not->gate->out))
 
 GENERATE_GATE_TEST_FUNCTION(_and, ((gate_and->gate->E1) & ((gate_and->gate->E2) >> 1)) != gate_and->gate->out)
 

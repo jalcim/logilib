@@ -1,9 +1,12 @@
-module test_multX();
-   parameter SIZE = 8;
+`include "src/alu/arithm/multX.v"
 
-   reg [SIZE -1:0] A, B;
-   
-   multX #(.SIZE(SIZE)) inst_multX();
+module test_multX();
+   parameter WIRE = 8;
+
+   reg [WIRE-1:0] A, B;
+   wire [WIRE-1:0] out;
+
+   multX #(.WIRE(WIRE)) inst_multX(A, B, 8'b0, out);
 
    initial
      begin

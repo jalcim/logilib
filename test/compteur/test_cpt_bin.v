@@ -1,4 +1,6 @@
-module _test_cpt_bin;
+`include "src/compteur/cpt_bin.v"
+
+module test_cpt_bin;
    parameter SIZE = 8;
    reg activate, clk, reset;
    wire [7:0] cpt;

@@ -1,3 +1,8 @@
+`ifndef __REPLICATOR__
+ `define __REPLICATOR__
+
+ `include "src/primitive/gate/gate_buf.v"
+
 module replicator(out, in);
    parameter WAY = 8;
    parameter WIRE = 1;
@@ -16,13 +21,14 @@ module replicator(out, in);
      assign out = in;
    else if (WAY > 1)
      begin
-	parallel_buf #(.SIZE(WIRE)) buf1(l1, in);
-	parallel_buf #(.SIZE(WIRE)) buf1(l2, in);
+	gate_buf #(.WIRE(WIRE)) buf_inst1(l1, in);
+	gate_buf #(.WIRE(WIRE)) buf_inst2(l2, in);
 	replicator #(.WAY(N1), .WIRE(WIRE)) recall1(out[NSIZE-1:0], l1);   //1:0 = 2bit
 	replicator #(.WAY(N2), .WIRE(WIRE)) recall2(out[SIZE-1:NSIZE], l2);//2:2 = 1bit
      end
 endmodule
    
+`endif
 
 //deprecated
 

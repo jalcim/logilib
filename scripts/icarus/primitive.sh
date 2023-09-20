@@ -1,3 +1,4 @@
+
 #!/bin/sh
 
 test_gate()
@@ -7,7 +8,7 @@ test_gate()
 
     mkdir -p $BIN_gate
 
-    iverilog -o $BIN_gate/test_gate $TEST_gate/test_gate.v
+    iverilog  -o $BIN_gate/test_gate $TEST_gate/test_gate.v
     iverilog -o $BIN_gate/test_serial_gate $TEST_gate/test_serial_gate.v
     iverilog -o $BIN_gate/test_parallel_gate $TEST_gate/test_parallel_gate.v
 }

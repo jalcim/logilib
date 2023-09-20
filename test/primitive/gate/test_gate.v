@@ -1,8 +1,8 @@
 `include "src/primitive/gate/gate_and.v"
-//`include "src/primitive/gate/gate_buf.v"
+`include "src/primitive/gate/gate_buf.v"
 `include "src/primitive/gate/gate_nand.v"
 `include "src/primitive/gate/gate_nor.v"
-//`include "src/primitive/gate/gate_not.v"
+`include "src/primitive/gate/gate_not.v"
 `include "src/primitive/gate/gate_or.v"
 `include "src/primitive/gate/gate_xnor.v"
 `include "src/primitive/gate/gate_xor.v"
@@ -11,14 +11,14 @@ module test_gate;
    reg e1, e2;
    wire out_not, out_nor, out_nand, out_and, out_or, out_xor, out_buf, out_xnor;
 
-//   gate_not  inst0(out_not ,  e1);
-   gate_nor  inst1(out_nor , {e1, e2});
-   gate_nand inst2(out_nand, {e1, e2});
-   gate_and  inst3(out_and , {e1, e2});
-   gate_or   inst4(out_or  , {e1, e2});
-   gate_xor  inst5(out_xor , {e1, e2});
-//   gate_buf  inst6(out_buf ,  e1);
-   gate_xnor inst7(out_xnor , {e1, e2});
+   gate_not  not_inst (out_not  ,      e1);
+   gate_nor  nor_inst (out_nor  , {e2, e1});
+   gate_nand nand_inst(out_nand , {e2, e1});
+   gate_and  and_inst (out_and  , {e2, e1});
+   gate_or   or_inst  (out_or   , {e2, e1});
+   gate_xor  xor_inst (out_xor  , {e2, e1});
+   gate_buf  buf_inst (out_buf  ,      e1);
+   gate_xnor xnor_inst(out_xnor , {e2, e1});
 
    initial
      begin
@@ -40,4 +40,4 @@ module test_gate;
 	e1 <= 1;
 	#10;
      end
-endmodule // test_gate_nor
+endmodule
