@@ -1,64 +1,38 @@
-add_library(Vgate_buf STATIC)
-add_library(Vgate_not STATIC)
-add_library(Vgate_and STATIC)
-add_library(Vgate_nand STATIC)
-add_library(Vgate_nor STATIC)
-add_library(Vgate_or STATIC)
-add_library(Vgate_xnor STATIC)
-add_library(Vgate_xor STATIC)
+cmake_minimum_required(VERSION 3.18)
+project(Cosim_gates C CXX)
 
-verilator_generate_key(KEY_INIT)
-set(PROTECT_KEY ${KEY_INIT} CACHE STRING "Random seed for protection")
+find_package(verilator HINTS $ENV{VERILATOR_ROOT} ${VERILATOR_ROOT})
+if (NOT verilator_FOUND)
+  message(FATAL_ERROR "Verilator was not found. Either install it, or set the VERILATOR_ROOT environment variable")
+endif()
 
-set(PRIM_SRC_GATE ${PWD_LOGILIB}/src/primitive/gate)
+set(GATE_LIBRARIES
+  "Vgate_buf"
+  "Vgate_not"
+  "Vgate_and"
+  "Vgate_nand"
+  "Vgate_nor"
+  "Vgate_or"
+  "Vgate_xnor"
+  "Vgate_xor"
+)
 
-#https://verilator.org/guide/latest/verilating.html#verilate-in-cmake
-verilate(Vgate_buf
-  VERILATOR_ARGS
-  DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}/lib/lib_gate_buf
-  INCLUDE_DIRS ${PWD_LOGILIB}
-  SOURCES ${PRIM_SRC_GATE}/gate_buf.v
-  TOP_MODULE gate_buf)
+add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/../../../src/primitive/gate vgates)
 
-verilate(Vgate_not
-  VERILATOR_ARGS
-  DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}/lib/lib_gate_not
-  INCLUDE_DIRS ${PWD_LOGILIB}
-  SOURCES ${PRIM_SRC_GATE}/gate_not.v
-  TOP_MODULE gate_not)
+add_compile_options(-std=c++11)
 
-verilate(Vgate_and
-  VERILATOR_ARGS
-  DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}/lib/lib_gate_and
-  INCLUDE_DIRS ${PWD_LOGILIB}
-  SOURCES ${PRIM_SRC_GATE}/gate_and.v)
+add_library(${PROJECT_NAME} STATIC)
 
-verilate(Vgate_nand
-  VERILATOR_ARGS
-  DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}/lib/lib_gate_nand
-  INCLUDE_DIRS ${PWD_LOGILIB}
-  SOURCES ${PRIM_SRC_GATE}/gate_nand.v)
+target_sources(${PROJECT_NAME} PRIVATE ./gate.cpp)
 
-verilate(Vgate_nor
-  VERILATOR_ARGS
-  DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}/lib/lib_gate_nor
-  INCLUDE_DIRS ${PWD_LOGILIB}
-  SOURCES ${PRIM_SRC_GATE}/gate_nor.v)
+target_include_directories(${PROJECT_NAME}
+  PUBLIC
+  ${CMAKE_CURRENT_SOURCE_DIR}/gate.h
+  # where top-level project will look for the library's public headers
+  $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/>
+  # where external projects will look for the library's public headers
+  $<INSTALL_INTERFACE:${CMAKE_INSTALL_INCLUDEDIR}>
+)
 
-verilate(Vgate_or
-  VERILATOR_ARGS
-  DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}/lib/lib_gate_or
-  INCLUDE_DIRS ${PWD_LOGILIB}
-  SOURCES ${PRIM_SRC_GATE}/gate_or.v)
+target_link_libraries(${PROJECT_NAME} LINK_PUBLIC ${GATE_LIBRARIES} Cosim_tools)
 
-verilate(Vgate_xnor
-  VERILATOR_ARGS
-  DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}/lib/lib_gate_xnor
-  INCLUDE_DIRS ${PWD_LOGILIB}
-  SOURCES ${PRIM_SRC_GATE}/gate_xnor.v)
-
-verilate(Vgate_xor
-  VERILATOR_ARGS
-  DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}/lib/lib_gate_xor
-  INCLUDE_DIRS ${PWD_LOGILIB}
-  SOURCES ${PRIM_SRC_GATE}/gate_xor.v)

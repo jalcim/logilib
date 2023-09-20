@@ -4,7 +4,7 @@
 #include <iostream>
 
 #include "primitive.h"
-#include "./gate/gate.h"
+#include "gate.h"
 
 using namespace std;
 

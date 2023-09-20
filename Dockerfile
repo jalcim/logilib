@@ -1,14 +1,20 @@
-FROM verilator/verilator:v5.016
+FROM verilator/verilator:v5.016 as build
 
 RUN apt-get update && apt-get install -y \
   cmake \
+  ninja-build \
   && rm -rf /var/lib/apt/lists/*
 
-COPY ./scripts /work/scripts
+COPY Makefile /work/
 COPY ./cosim /work/cosim
 COPY ./src /work/src
 
+RUN make build
 
-RUN ./scripts/verilator.sh
+FROM scratch
 
-ENTRYPOINT ["sh", "-c", "./build/Vmain"]
+COPY --from=build /work/build/Vmain /Vmain
+
+ENTRYPOINT ["/Vmain"]
+
+# ENTRYPOINT ["sh", "-c", "sleep infinity"]

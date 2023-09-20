@@ -1,50 +1,37 @@
 cmake_minimum_required(VERSION 3.18)
-project(logilib_cosim C CXX)
+project(Vmain C CXX)
+
 find_package(verilator HINTS $ENV{VERILATOR_ROOT})
-include_directories(PRIVATE ./tools)
+if (NOT verilator_FOUND)
+  message(FATAL_ERROR "Verilator was not found. Either install it, or set the VERILATOR_ROOT environment variable")
+endif()
 
-set (CMAKE_CXX_STANDARD 11)
-set (CC gcc)
-set (CXX g++)
-set(CMAKE_BUILD_TYPE Debug)
-#set(CMAKE_CPPFLAGS "${CMAKE_CPPFLAGS} -DVL_DEBUG")
+set(CMAKE_FIND_LIBRARY_SUFFIXES ".a")
+set(BUILD_SHARED_LIBS OFF)
+set(CMAKE_EXE_LINKER_FLAGS "-static")
 
-set(PWD_LOGILIB ${CMAKE_CURRENT_SOURCE_DIR}/..)
+# set(CMAKE_BUILD_TYPE Debug)
+# set(CMAKE_CPPFLAGS "${CMAKE_CPPFLAGS} -DVL_DEBUG")
 
-#################################################
-
-set(SRC main.cpp
-tools/logs.cpp
-primitive/primitive.cpp
-primitive/gate/gate.cpp
-)
-#  primitive/parallel_gate/parallel_gate.cpp
-#  memory/latch/latch.cpp
-#  alu/arithm/arithm.cpp)
-
-set(PRIM_GATE_LIB
-Vgate_buf Vgate_not Vgate_and Vgate_nand
-Vgate_nor Vgate_or  Vgate_xnor Vgate_xor)
-
-#set(PRIM_PARALLEL_GATE_LIB
-#  Vparallel_gate_buf Vparallel_gate_not
-#  Vparallel_gate_and Vparallel_gate_nand
-#  Vparallel_gate_or Vparallel_gate_nor
-#  Vparallel_gate_xor Vparallel_gate_xnor)
-
-#set(MEM_LATCH_LIB
-#  VDlatch)
-
-#set(ALU_LIB
-#  Vadd Vmulti_add)
-
-#################################################
-
-add_executable(Vmain ${SRC})
 add_subdirectory(primitive)
-#add_subdirectory(memory)
-#add_subdirectory(alu)
+add_subdirectory(tools)
 
-target_link_libraries(Vmain PRIVATE
-  ${PRIM_GATE_LIB})
-#  ${PRIM_GATE_LIB} ${PRIM_PARALLEL_GATE_LIB} ${MEM_LATCH_LIB} ${ALU_LIB})
+add_compile_options(-std=c++11)
+
+add_executable(${PROJECT_NAME})
+
+target_link_libraries(${PROJECT_NAME} LINK_PUBLIC Cosim_tools Cosim_primitives)
+
+target_sources(${PROJECT_NAME} PRIVATE ./main.cpp)
+
+# target_include_directories(${PROJECT_NAME}
+#   PRIVATE
+#       # where the library itself will look for its internal headers
+#   PUBLIC
+#       # where top-level project will look for the library's public headers
+#       $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}>
+#       # where external projects will look for the library's public headers
+#       $<INSTALL_INTERFACE:${CMAKE_INSTALL_INCLUDEDIR}>
+# )
+
+

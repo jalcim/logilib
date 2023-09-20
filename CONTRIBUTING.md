@@ -14,12 +14,12 @@ You can have detailled explanation about their behavior there [X-Macros](https:/
 
 Macro could reduce readability for debugging even if macros in this repo should be short and readable to avoid problems.
 
-In case you need a more clear view on the preprocesed code use the `./scripts/expand_macro.sh`
+In case you need a more clear view on the preprocesed code use the `%.i` Makefile rule
 
-E.g. to see `cosim/primitive/gate/gate.cpp` preprocessed run
+E.g. to see `cosim/primitive/gate/gate.cpp` preprocessed, run
 
 ```sh
-./scripts/expand_macro.sh primitive/gate/gate.cpp
+make cosim/primitive/gate/gate.cpp.i
 ```
 
 Please note you need to install [gnu-indent](https://www.gnu.org/software/indent/) or [clang-complete](https://clang.llvm.org/docs/ClangFormat.html)
