@@ -14,7 +14,7 @@ module test_shuffle;
      begin
 	$dumpfile("signal_test_shuffle.vcd");
 	$dumpvars;
-	$display("\t\ttime, \tout\t\te1\te2\te3\n");
+	$display("\t\ttime, \tout\t\t\te1\te2\te3\n");
 	$monitor("%d \t%b \t%b \t%b \t%b\n", $time, out, e1, e2, e3);
 
 	e1 <= 5'b11111;
