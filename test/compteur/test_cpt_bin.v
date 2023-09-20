@@ -10,7 +10,7 @@ module test_cpt_bin;
 
    initial
      begin
-	$dumpfile("signal/signal_cpt_bin.vcd");
+	$dumpfile("signal_cpt_bin.vcd");
 	$dumpvars;
 	$display("\t\ttime, \tactivate, \tclk, \treset, \tcpt");
 	$monitor("%d \t%b \t\t%b \t%b \t%d", $time, activate, clk, reset, cpt);
