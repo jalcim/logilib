@@ -35,7 +35,7 @@ module test_mux8;
 		  cpt2++;
 	       end
 	     xin = ~xin;
-	     $display("in[%d] = %b", cpt1, in[cpt1 * T +: 8]);//:cpt1 * T]);
+	     $display("\t\tin[%d] = %b", cpt1, in[cpt1 * T +: 8]);//:cpt1 * T]);
 	  end
 
 	$display("\t\ttime, \tout, \t\tctrl");
