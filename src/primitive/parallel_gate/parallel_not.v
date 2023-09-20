@@ -1,8 +1,6 @@
 `ifndef __PARALLEL_NOT__
  `define __PARALLEL_NOT__
 
- `include "src/primitive/serial_gate/serial_nor.v"
-
 module parallel_not(out, A);
    parameter WIRE = 1;
 

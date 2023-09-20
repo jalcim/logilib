@@ -1,8 +1,8 @@
 #ifndef __COSIM_PRIMITIVE_GATE_H__
 #define __COSIM_PRIMITIVE_GATE_H__
 
-// #include "Vgate_buf.h"
-// #include "Vgate_not.h"
+#include "Vgate_buf.h"
+#include "Vgate_not.h"
 #include "Vgate_and.h"
 #include "Vgate_nand.h"
 #include "Vgate_or.h"
@@ -18,8 +18,8 @@
   X(_nor)       \
   X(_xor)       \
   X(_xnor)      \
-// X(_buf)       \
-// X(_not)       \
+  X(_buf)       \
+  X(_not)       \
 
 #define E1 in & 1
 
