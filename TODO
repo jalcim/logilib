@@ -1,3 +1,2 @@
 routing        : dec_LR
-mem : parallel_Dlatch (faire les tests)
-alu : mulX non fonctionnel
+exemple : blockreg, blockmem, alu
