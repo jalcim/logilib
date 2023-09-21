@@ -1,16 +1,18 @@
+`include "src/alu/arithm/cmp.v"
+
 module test_cmp8;
 
    reg [7:0] a, b;
-   wire      i, j, k;
+   wire      eq, less, more;
 
-   cmp8 test_cmp(a, b, i, j, k);
+   cmp #(.WIRE(8)) test_cmp(a, b, eq, more, less);
 
    initial
      begin
-	$dumpfile("build/alu/arithm/signal/signal_cmp.vcd");
+	$dumpfile("signal_cmp.vcd");
 	$dumpvars;
-	$display("\t\ttime, \ta, \tb, \ti, \tj, \tk");
-	$monitor("%d \t%d \t%d \t%b \t%b \t%b", $time, a, b, i, j, k);
+	$display("\t\ttime, \ta, \tb, \teq, \tmore, \tless\n");
+	$monitor("%d \t%d \t%d \t%b \t%b \t%b", $time, a, b, eq, more, less);
 
 	a = 0;
 	b = 0;
@@ -24,6 +26,6 @@ module test_cmp8;
 	a = 22;
 	b = 22;
      end
-endmodule // test_cmp
+endmodule
 
 	
