@@ -7,7 +7,6 @@ module test_add8;
    wire [7:0] s;
    wire       cout;
 
-//   add8 test_add8(a, b, cin, sub, s, cout);
    add_sub #(.WIRE(WIRE)) test_addX(a, b, cin, sub, s, cout);
 
    initial
