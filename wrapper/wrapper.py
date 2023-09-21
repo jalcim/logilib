@@ -3,7 +3,7 @@
 from os import environ
 
 import amaranth as am
-from amaranth import Signal, Module, Instance
+# from amaranth import Signal, Module, Instance
 from amaranth.back import rtlil
 from amaranth.hdl import ir
 from amaranth.hdl.ir import Fragment
@@ -31,79 +31,81 @@ class Verilog_module(am.Elaboratable):
                 self.ports.append(kwargs.get(key))
 
     def elaborate(self, platform):
-        m = Module()
-        m.submodules.verilog = Instance(
+        m = am.Module()
+        m.submodules.verilog = am.Instance(
             self.name,
             **self.kwargs
         )
         return m
 
+# must be updated with each module_type
+ALLOWED_PARAMS = {
+    "gate_and": ["WAY", "WIRE"],
+    "gate_or": ["WAY", "WIRE"],
+    "gate_not": ["WIRE"],
+    "gate_nand": ["WAY", "WIRE", "BEHAVIORAL"],
+}
 
-class Regroupement():
+class Module():
 
-    def __init__(self):
+    module_id = 0 # auto increment
 
-        nom_param = "SIZE"
-        value_param = 2
-        self.modules = [
+    def __init__(self, module_type, params):
+        if module_type == "gate_or":
+            self.params = {
+                "i_in" : am.Signal(params["WAY"] * params["WIRE"]),
+                "o_out": am.Signal(params["WIRE"]),
+            }
+        elif module_type == "gate_and":
+            self.params = {
+                "i_in" : am.Signal(params["WAY"] * params["WIRE"]),
+                "o_out": am.Signal(params["WIRE"]),
+            }
+        elif module_type == "gate_nand":
+            self.params = {
+                "i_in" : am.Signal(params["WAY"] * params["WIRE"]),
+                "o_out": am.Signal(params["WIRE"]),
+            }
+        elif module_type == "gate_not":
+            self.params = {
+                "i_in" : am.Signal(params["WIRE"]),
+                "o_out": am.Signal(params["WIRE"]),
+            }
+        self.params.update({"p_" + key: value for key, value in params.items() if key in ALLOWED_PARAMS[module_type]})
+        self.module = Verilog_module(
+            module_type,
+            str(Module.module_id),
+            **self.params
+        )
+        Module.module_id += 1
 
-            Verilog_module(
-                "gate_not",
-                "0", #attribuer un identifiant unique automatiquement
-                **{
-                    "i_in" : Signal(1),
-                    "o_out" : Signal(1)
-                }
-            ),
-            Verilog_module(
-                "gate_and",
-                "1",
-                **{
-                    "p_" + nom_param : 2,#"p_WIDTH": self.width,
-                    "i_in" : Signal(2),
-                    "o_out" : Signal(1)
-                }
-            ),
-            Verilog_module(
-                "gate_and",
-                "2",
-                **{
-                    "p_SIZE": 3,
-                    "i_in"  : Signal(3),
-                    "o_out" : Signal(1)
-                }
-            ),
-            Verilog_module(
-                "gate_and",
-                "3",
-                **{
-                    "p_" + "SIZE": 4,
-                    "i_in" : Signal(4),
-                    "o_out" : Signal(1)
-                }
-            )
-        ]
 
-def write_rtlil_file(modules_list : Regroupement):
+def write_rtlil_file(modules_list : list):
     platform = None
     emit_src = True
     strip_internal_attrs = False
 
-    for module in modules_list.modules:
-        fragment = Fragment.get(module, platform).prepare(ports=module.ports)
+    for elem in modules_list:
+        fragment = Fragment.get(elem.module, platform).prepare(ports=elem.module.ports)
         rtlil_text, name_map = convert_fragment(
             fragment,
-            "wrapper_" + module.name,
+            "wrapper_" + elem.module.name,
             emit_src=emit_src,
         )
         ENV_USERNAME = environ.get("USER")
-        module.rtlil_source = rtlil_text.replace(ENV_USERNAME, "user")
+        elem.module.rtlil_source = rtlil_text.replace(ENV_USERNAME, "user")
 
-        with open(module.rtlil_file, "w") as fd:
-            fd.write(module.rtlil_source)
-            print(f"'{module.rtlil_file}' filename written.")
+        with open(elem.module.rtlil_file, "w") as fd:
+            fd.write(elem.module.rtlil_source)
+            print(f"'{elem.module.rtlil_file}' filename written.")
 
 
 if __name__ == "__main__":
-    modules_list = Regroupement()
+    # exemple :
+    modules_list = [
+        Module("gate_not", {"WIRE": 2}),
+        Module("gate_or", {"WAY": 2, "WIRE": 2}),
+        Module("gate_and", {"WAY": 2, "WIRE": 2}),
+        Module("gate_nand", {"WAY": 2, "WIRE": 2, "BEHAVIORAL": 0})
+    ]
     write_rtlil_file(modules_list)
