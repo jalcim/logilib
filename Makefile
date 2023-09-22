@@ -46,10 +46,10 @@ VERILATOR_ARGS += --coverage
 # Add this trace to get a backtrace in gdb
 #VERILATOR_ARGS += --gdbbt
 
-GNUINDENT := $(command -v indent)
-CLANGFORMAT := $(command -v clang-format)
+GNUINDENT := `command -v indent`
+CLANGFORMAT := `command -v clang-format`
 
-ifeq ($(CLANGFORMAT),)
+ifneq ($(CLANGFORMAT),)
 FORMAT := $(CLANGFORMAT)
 else
 FORMAT := $(GNUINDENT)
@@ -58,7 +58,7 @@ endif
 ifeq ($(FORMAT),)
 FORMAT_TARGET := noformat
 else
-FORMAT_TARGET := has-format
+FORMAT_TARGET := hasformat
 endif
 
 
@@ -95,12 +95,15 @@ run: build
 	./build/Vmain
 
 hasformat:
+	@echo using $(FORMAT)
 
 noformat:
 	@echo "Please install clang-format or indent"
+	false
 
-%.i: $(FORMAT_TARGET) clean build-make
-	make -C `dirname $@ | sed s/cosim/build/` `basename $@` | $(FORMAT)
+%.i: $(FORMAT_TARGET) build-make
+	make -C `dirname $@ | sed s/cosim/build/` `basename $@`
+	cat `find build -name \`basename $@\`` | $(FORMAT)
 
 clean mostlyclean distclean maintainer-clean:
 	@rm -rf build logs
