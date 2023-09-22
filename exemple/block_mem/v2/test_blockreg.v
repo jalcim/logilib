@@ -1,24 +1,24 @@
+`include "exemple/block_mem/v2/blockreg.v"
+
 module test_blockreg;
    reg clk, reset, charge;
    reg [1:0] addr_reg, outA, outB;
    reg [7:0] datain;
 
    wire [7:0] dataoutA, dataoutB;
-   wire       error;
 
-   blockreg blockreg(clk,
-		     reset, charge,
+   blockreg blockreg(clk, reset, charge,
 		     addr_reg, outA, outB,
 		     datain,
-		     dataoutA, dataoutB, error);
+		     dataoutA, dataoutB);
 
    initial
      begin
 	$dumpfile("build/memory/signal/signal_blockreg.vcd");
 	$dumpvars;
-	$display("\t\ttime, \tclk, \treset, \tcharge, \taddr_reg, \toutA, \toutB, \tdatain, \tdataoutA, \tdataoutB, \terror);");
-	$monitor("%d \t%b \t%b \t%b \t\t%d \t\t%d \t%d \t%d \t\t%d \t\t%d \t\t%d",
-		 $time, clk, reset, charge, addr_reg, outA, outB, datain, dataoutA, dataoutB, error);
+	$display("\t\ttime, \tclk, \treset, \tcharge, \taddr_reg, \toutA, \toutB, \tdatain, \tdataoutA, \tdataoutB\n);");
+	$monitor("%d \t%b \t%b \t%b \t\t%d \t\t%d \t%d \t%d \t\t%d \t\t%d \n",
+		 $time, clk, reset, charge, addr_reg, outA, outB, datain, dataoutA, dataoutB);
 
 	clk = 0;
 	reset = 1;
