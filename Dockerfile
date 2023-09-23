@@ -9,6 +9,8 @@ COPY Makefile /work/
 COPY ./cosim /work/cosim
 COPY ./src /work/src
 
+ENV COMPILE_STATIC=true
+
 RUN make build
 
 FROM scratch
