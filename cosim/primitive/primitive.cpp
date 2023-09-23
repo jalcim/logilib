@@ -10,18 +10,16 @@ using namespace std;
 
 int test_gate()
 {
-  int error = 0;
+  bool error;
   int fd_gate;
 
-  cout << "\nprimitive-gate test :" << endl;
+  cout << "\n\nPrimitive test : gates" << endl;
 
-  gates_init();
   error = run_gates_tests();
-  gates_destruct();
 
   if (error)
   {
-    clog << "primitive-gate error :" << error << endl;
+    cerr << "\n\nPrimitive error : gates" << endl;
   }
 
   return (error);

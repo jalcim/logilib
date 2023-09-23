@@ -30,21 +30,21 @@ void debug_input_error(int input_number, ...)
 
   va_start(arg_ptr, input_number);
 
-  clog << "\nError with input : ";
+  cerr << "\nError with input : ";
 
   while (args < input_number)
   {
     name = va_arg(arg_ptr, char *);
     value = va_arg(arg_ptr, int);
     if (args)
-      clog << " , ";
-    clog << name << " : ";
+      cerr << " , ";
+    cerr << name << " : ";
     dprint_bin(2, value, sizeof(int));
 
     ++args;
   }
 
-  clog << endl;
+  cerr << endl;
 
   va_end(arg_ptr);
 }
@@ -62,7 +62,7 @@ int run_test_and_log(int (*test_fn)(), char const *name, char const *log_file)
 
   if (error && log_file)
   {
-    clog << "\nLogs in : " << log_file << endl;
+    cerr << "\nLogs in : " << log_file << endl;
   }
 
   return error;
