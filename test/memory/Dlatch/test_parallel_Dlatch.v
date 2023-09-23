@@ -33,7 +33,7 @@ module test_parallel_Dlatch;
 	#100;
 	clk <= cpt;
 	cpt <= cpt + 1;
-
+	D <= ~D;
 	if (cpt >= (2**WAY)-1)
 	  begin
 	     $finish;
