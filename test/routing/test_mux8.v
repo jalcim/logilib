@@ -1,21 +1,21 @@
 `include "src/routing/mux.v"
 
 module test_mux8;
-   parameter S = 2;
-   parameter T = 8;
+   parameter WAY = 2;
+   parameter WIRE = 8;
 
-   localparam NB_IN = 2 ** S;
-   localparam SIZE_IN = NB_IN * T;
+   localparam NB_IN = 2 ** WAY;
+   localparam SIZE_IN = NB_IN * WIRE;
 
-   wire [T - 1 : 0] out;
+   wire [WIRE - 1 : 0] out;
    reg [SIZE_IN - 1 : 0] in;
-   reg [S-1 : 0] ctrl;
+   reg [WAY-1 : 0] ctrl;
 
    integer     cpt1;
    integer     cpt2;
    reg 	       xin;
 
-   mux #(.S(S), .T(T)) mux0(ctrl, in, out);
+   mux #(.WAY(WAY), .WIRE(WIRE)) mux0(ctrl, in, out);
 
    initial
      begin
@@ -28,14 +28,14 @@ module test_mux8;
 	cpt2 = 0;
 	while (++cpt1 < NB_IN)
 	  begin
-	     while (cpt2 < (cpt1+1)*T)
+	     while (cpt2 < (cpt1+1)*WIRE)
 	       begin
 		  in[cpt2] = xin;
 		  xin = ~xin;
 		  cpt2++;
 	       end
 	     xin = ~xin;
-	     $display("\t\tin[%d] = %b", cpt1, in[cpt1 * T +: 8]);//:cpt1 * T]);
+	     $display("\t\tin[%d] = %b", cpt1, in[cpt1 * WIRE +: 8]);//:cpt1 * WIRE]);
 	  end
 
 	$display("\t\ttime, \tout, \t\tctrl");

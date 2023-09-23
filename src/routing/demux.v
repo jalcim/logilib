@@ -2,39 +2,32 @@
  `define __DEMUX__
 
 module demux(ctrl, in, out);
-   parameter S = 1;//2^S//nombre de sortie
-   parameter T = 1;//taille des sorties
+   parameter WAY = 2;//nombre de sortie = 2^WAY
+   parameter WIRE = 1;//taille des sorties
 
-   localparam NB_OUT = 2 ** S;
-   localparam SIZE_OUT = NB_OUT * T;
+   localparam	  NB_OUT = 2 ** WAY;
+   localparam	  SIZE_OUT = NB_OUT * WIRE;
 
-   localparam NEXT_S = S-1;
-   localparam NEXT_SIZE_OUT = 2 ** (S-1) * T;
+   input [WIRE-1:0] in;
+   input [WAY-1:0]  ctrl;
 
-   input [T-1:0] in;//0:0
-   input [S-1:0] ctrl;//2:0
+   output [SIZE_OUT - 1:0] out;
 
-   output [SIZE_OUT - 1:0] out; //7:0
+   supply0		   padding;
 
-   if (S == 1)
-     begin
-	assign out[T - 1 : 0]     = ~ctrl ? in : 0;//0:0//t==2 ? 1:0
-	assign out[2 * T - 1 : T] =  ctrl ? in : 0;//1:1//t==2 ? 3:2
-     end
+   if (WAY == 1)
+     assign out = ctrl ? {in, {WIRE{padding}}} : {{WIRE{padding}}, in};
    else
      begin
-	wire [NEXT_SIZE_OUT - 1:0]out1, out2;//3:0
+	localparam	  N1 = (SIZE_OUT / 2) + (SIZE_OUT % 2);
+	localparam	  N2 = SIZE_OUT / 2;
 
-	demux #(.S(S-1), .T(T)) mux1(ctrl[S - 2:0],//1:0
-				     in,           //3:0
-				     out1);
+	wire [N1 - 1:0]	  W1;
+	wire [N2 - 1:0]	  W2;
 
-	demux #(.S(S-1), .T(T)) mux2(ctrl[S - 2:0],//1:0
-				     in,           //7:4
-				     out2);
-
-	assign out[NEXT_SIZE_OUT - 1:0]        = ~ctrl[S-1] ? out1 : 0;//3:0
-	assign out[SIZE_OUT - 1:NEXT_SIZE_OUT] =  ctrl[S-1] ? out2 : 0;//7:4
+	assign out = ctrl[WAY-1] ? {W1, {N2{padding}}} : {{N1{padding}}, W2};
+	demux #(.WAY(WAY-1), .WIRE(WIRE)) mux1(ctrl[WAY - 2:0], in, W1);
+	demux #(.WAY(WAY-1), .WIRE(WIRE)) mux2(ctrl[WAY - 2:0], in, W2);
      end
 endmodule
 

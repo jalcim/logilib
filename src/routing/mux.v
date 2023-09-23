@@ -2,33 +2,31 @@
  `define __MUX__
 
 module mux(ctrl, in, out);
+   parameter WAY = 1;//nombre de sortie = 2^WAY
+   parameter WIRE = 8;//taille des sorties
 
-   parameter S = 1;//2^S
-   parameter T = 8;
+   localparam	  NB_IN = 2 ** WAY;
+   localparam	  SIZE_IN = NB_IN * WIRE;
 
-   input [(2**S) * T - 1:0] in;  //7:0
-   input [S - 1:0] 	    ctrl;//2:0
+   input [SIZE_IN - 1:0] in;
+   input [WAY-1:0]	 ctrl;
 
-   output [T-1:0] 	    out;//0:0
+   output [WIRE-1:0]	 out;
 
-   if (S == 1)
-     begin
-	assign out = ctrl ? in[2 * T - 1 : T] : in[T - 1 : 0]; //1:1 & 0:0
-     end
+   if (WAY == 1)
+     assign out = ctrl ? in[2 * WIRE - 1 : WIRE] : in[WIRE - 1 : 0];
    else
      begin
-	wire [T-1:0]out1, out2;//0:0
+	wire [WIRE-1:0]out1, out2;
 
-	mux #(.S(S - 1), .T(T)) mux1(.ctrl(ctrl[S - 2:0]),                        //1:0
-				     .in(in[(2 ** (S - 1)) * T - 1:0]),           //3:0
-				     .out(out1));
+	assign out = ctrl[WAY - 1] ? out2 : out1;
+	mux #(.WAY(WAY - 1), .WIRE(WIRE)) mux1(.ctrl(ctrl[WAY - 2:0]),
+					       .in(in[(2 ** (WAY - 1)) * WIRE - 1:0]),
+					       .out(out1));
 
-	mux #(.S(S - 1), .T(T)) mux2(.ctrl(ctrl[S - 2:0]),                        //1:0
-				     .in(in[(2 ** S) * T - 1:(2 ** (S - 1)) * T]),//7:4
-				     .out(out2));
-
-	assign out = ctrl[S - 1] ? out2 : out1;//[2]
-
+	mux #(.WAY(WAY - 1), .WIRE(WIRE)) mux2(.ctrl(ctrl[WAY - 2:0]),
+					       .in(in[(2 ** WAY) * WIRE - 1:(2 ** (WAY - 1)) * WIRE]),
+					       .out(out2));
      end
 endmodule
 

@@ -1,14 +1,14 @@
 `include "src/routing/demux.v"
 
 module test_demux;
-   parameter S = 2;
-   parameter T = 1;
+   localparam WAY = 2;
+   parameter WIRE = 1;
 
-   wire [(2 ** S) * T - 1 : 0] out; 
-   reg [T - 1 : 0] in;
-   reg [1 : 0] ctrl;
+   wire [((2 ** WAY) * WIRE) - 1 : 0] out;
+   reg [WIRE - 1 : 0] in;
+   reg [WAY-1 : 0] ctrl;
 
-   demux #(.S(S), .T(T))demux0(ctrl, in, out);
+   demux #(.WAY(WAY), .WIRE(WIRE))demux0(ctrl, in, out);
 
    initial
      begin
