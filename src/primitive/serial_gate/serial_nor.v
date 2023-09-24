@@ -1,6 +1,8 @@
 `ifndef __SERIAL_NOR__
  `define __SERIAL_NOR__
 
+ `include "src/primitive/serial_gate/serial_or.v"
+
 module serial_nor(out, e1);
    parameter BEHAVIORAL = 0;
    parameter WAY = 3;
@@ -19,7 +21,7 @@ module serial_nor(out, e1);
 endmodule
 
 module generate_serial_nor(out, e1);
-   parameter BEHAVIORAL = 0;
+   parameter BEHAVIORAL = 1;
    parameter WAY       = 3;
    parameter N1         = (WAY / 2) + (WAY % 2);
    parameter N2         =  WAY / 2;

@@ -6,16 +6,30 @@ if (NOT verilator_FOUND)
   message(FATAL_ERROR "Verilator was not found. Either install it, or set the VERILATOR_ROOT environment variable")
 endif()
 
+if(NOT DEFINED MAX_WAYS)
+  set(MAX_WAYS 8)
+endif()
+
+
 set(GATE_LIBRARIES
-  "Vgate_buf"
-  "Vgate_not"
-  "Vgate_and"
-  "Vgate_nand"
-  "Vgate_nor"
-  "Vgate_or"
-  "Vgate_xnor"
-  "Vgate_xor"
+  "Vgate_buf_1"
+  "Vgate_not_1"
 )
+
+
+foreach(way_number RANGE 2 ${MAX_WAYS})
+  set(GATE_LIBRARIES
+    ${GATE_LIBRARIES}
+    "Vgate_and_${way_number}"
+    "Vgate_nand_${way_number}"
+    "Vgate_nor_${way_number}"
+    "Vgate_or_${way_number}"
+    "Vgate_xnor_${way_number}"
+    "Vgate_xor_${way_number}"
+  )
+endforeach()
+
+
 
 add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/../../../src/primitive/gate vgates)
 
@@ -23,7 +37,7 @@ add_compile_options(-std=c++11)
 
 add_library(${PROJECT_NAME} STATIC)
 
-target_sources(${PROJECT_NAME} PRIVATE ./gate.cpp)
+target_sources(${PROJECT_NAME} PRIVATE ./gate.cpp ./gate_utils.cpp)
 
 target_include_directories(${PROJECT_NAME}
   PUBLIC

@@ -4,7 +4,7 @@
  `include "src/primitive/serial_gate/serial_and.v"
 
 module serial_nand(out, e1);
-   parameter BEHAVIORAL = 0;
+   parameter BEHAVIORAL = 1;
    parameter WAY = 3;//nombre d'input (pour cette gate)
 
    input [WAY-1:0] e1;
@@ -21,7 +21,7 @@ module serial_nand(out, e1);
 endmodule
 
 module generate_serial_nand(out, e1);
-   parameter BEHAVIORAL = 0;
+   parameter BEHAVIORAL = 1;
    parameter WAY       = 3;
    parameter N1         = (WAY / 2) + (WAY % 2);
    parameter N2         =  WAY / 2;

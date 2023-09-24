@@ -6,7 +6,7 @@
  `include "src/routing/shuffle.v"
 
 module gate_nand(out, in);
-   parameter BEHAVIORAL = 0;
+   parameter BEHAVIORAL = 1;
    parameter WAY = 2;//nombre d'input
    parameter WIRE = 1;//nombre de fil par input
 

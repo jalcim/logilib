@@ -1,26 +1,15 @@
 
-#include "Vgate_buf.h"
-#include "Vgate_not.h"
-#include "Vgate_and.h"
-#include "Vgate_nand.h"
-#include "Vgate_or.h"
-#include "Vgate_nor.h"
-#include "Vgate_xor.h"
-#include "Vgate_xnor.h"
-#include "gate.h"
+#include "gate_utils.h"
+#include "gate_template.h"
+#include "gate_macros.h"
 
-#define X(gate_name, test_condition)         \
-  bool test_gate##gate_name(int in, int out) \
-  {                                          \
-    return test_condition;                   \
-  }
-
-X_GATES
-#undef X
+#include <cmath>
+#include <stdio.h>
+using namespace std;
 
 bool run_gates_tests()
 {
-#define X(gate_name, test) GATE_TEST<Vgate##gate_name> *gate##gate_name;
+#define X(gate_name, way_number) GATE_TEST<Vgate##gate_name##_##way_number> *gate##gate_name##_##way_number;
 
   X_GATES
 
@@ -28,12 +17,12 @@ bool run_gates_tests()
 
   bool error = false;
 
-#define X(gate_name, test_condition)                    \
-  gate##gate_name = new GATE_TEST<Vgate##gate_name>();  \
-                                                        \
-  error |= gate##gate_name->test(test_gate##gate_name); \
-                                                        \
-  delete gate##gate_name;
+#define X(gate_name, way_number)                                                                                    \
+  gate##gate_name##_##way_number = new GATE_TEST<Vgate##gate_name##_##way_number>(test_msb##gate_name, way_number); \
+                                                                                                                    \
+  error |= gate##gate_name##_##way_number->test();                                                                  \
+                                                                                                                    \
+  delete gate##gate_name##_##way_number;
 
   X_GATES
 #undef X

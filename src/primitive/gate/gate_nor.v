@@ -6,7 +6,7 @@
  `include "src/routing/shuffle.v"
 
 module gate_nor(out, in);
-   parameter BEHAVIORAL = 0;
+   parameter BEHAVIORAL = 1;
    parameter WAY = 2;
    parameter WIRE = 1;
 

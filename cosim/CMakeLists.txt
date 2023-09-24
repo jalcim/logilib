@@ -12,6 +12,16 @@ if (DEFINED ENV{COMPILE_STATIC})
   set(CMAKE_EXE_LINKER_FLAGS "-static")
 endif()
 
+add_compile_definitions(LOG_LEVEL=LOG_LEVEL_WARN)
+
+if(DEFINED ENV{MAX_WAYS})
+  set(MAX_WAYS $ENV{MAX_WAYS})
+endif()
+
+if(DEFINED ENV{MAX_WAYS})
+  set(MAX_WAYS $ENV{MAX_WAYS})
+endif()
+
 # set(CMAKE_BUILD_TYPE Debug)
 # set(CMAKE_CPPFLAGS "${CMAKE_CPPFLAGS} -DVL_DEBUG")
 
