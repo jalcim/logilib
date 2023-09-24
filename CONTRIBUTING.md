@@ -22,6 +22,6 @@ E.g. to see `cosim/primitive/gate/gate.cpp` preprocessed, run
 make cosim/primitive/gate/gate.cpp.i
 ```
 
-If you build with ninja before (defaultly use for buil and run) you need to run `make clean` before
+If you build with ninja before (used by default for build) you need to run `make clean` before
 
 Please note you need to install [gnu-indent](https://www.gnu.org/software/indent/) or [clang-complete](https://clang.llvm.org/docs/ClangFormat.html)
