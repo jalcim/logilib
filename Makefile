@@ -82,11 +82,23 @@ endif
 
 default: $(TARGET)
 
-build:
-	cmake -B build -GNinja ./cosim && ninja -C build
+cmake-ninja:
+	cmake -B build -GNinja ./cosim
 
-build-make:
-	cmake -B build ./cosim && make -C build
+build: cmake-ninja
+	ninja -C build
+
+cmake-src:
+	cmake -B ./src/primitive/gate/build -GNinja ./src/primitive/gate
+
+build-src: cmake-src
+	ninja -C ./src/primitive/gate/build
+
+cmake-make:
+	cmake -B build ./cosim
+
+build-make: cmake-make
+	 make -j -C build
 
 run-make: build-make
 	./build/Vmain
@@ -101,7 +113,15 @@ noformat:
 	@echo "Please install clang-format or indent"
 	false
 
-%.i: $(FORMAT_TARGET) build-make
+re: clean build
+
+re-make: clean build-make
+
+rerun: re run
+
+rerun-make: re run-make
+
+%.i: $(FORMAT_TARGET) cmake-make
 	make -C `dirname $@ | sed s/cosim/build/` `basename $@`
 	cat `find build -name \`basename $@\`` | $(FORMAT)
 
@@ -118,4 +138,4 @@ oldcmake:
 	@echo "%Skip: CMake version is too old (need at least 3.8)"
 	@echo
 
-.PHONY:  test default build run clean mostlyclean distclean maintainer-clean nocmake oldcmake
+.PHONY:	test default build run clean mostlyclean distclean maintainer-clean nocmake oldcmake
