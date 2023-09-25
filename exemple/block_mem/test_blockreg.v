@@ -1,4 +1,4 @@
-`include "exemple/block_mem/v2/blockreg.v"
+`include "exemple/block_mem/blockreg.v"
 
 module test_blockreg;
    parameter SIZE_ADDR_REG = 5;
