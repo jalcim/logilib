@@ -1,7 +1,7 @@
 `ifndef __SERIAL_XNOR__
  `define __SERIAL_XNOR__
 
- `include "src/primitive/serial_gate/serial_and.v"
+ `include "src/primitive/serial_gate/serial_xor.v"
 
 module serial_xnor(out, e1);
    parameter BEHAVIORAL = 1;
