@@ -9,9 +9,9 @@ module blockreg(clk, reset, write,
 		datain,
 		data_out_A, data_out_B);
    parameter SIZE_ADDR_REG = 5;
-   
+   parameter SIZE_REG = 8;
+
    localparam NB_REG = 2**SIZE_ADDR_REG;
-   localparam SIZE_REG = 32;
    localparam SIZE = NB_REG * SIZE_REG;
 
    input      clk, reset, write;
@@ -49,17 +49,20 @@ module write_demux(clk, addr_write_reg, write, out_write_demux);
 
    wire and_out;
    and and0(and_out, clk, write);
-   demux #(.S(SIZE_ADDR_REG)) demux0(addr_write_reg, and_out, out_write_demux);
+   demux #(.SIZE_CTRL(SIZE_ADDR_REG)) demux0(addr_write_reg, and_out, out_write_demux);
 endmodule
 
-module read_mux(read_addr, out_reg, out_read_mux);
+module read_mux(read_addr, in, out_read_mux);
    parameter SIZE_ADDR_REG = 5;
+   parameter SIZE_REG = 8;
+   localparam SIZE_IN = (2**SIZE_ADDR_REG) * SIZE_REG;
 
    input [SIZE_ADDR_REG-1:0] read_addr;
-   input [(2**SIZE_ADDR_REG)-1:0] out_reg;
-   output 	    out_read_mux;
+   input [SIZE_IN-1:0] in;
 
-   mux #(.S(SIZE_ADDR_REG)) mux0(read_addr, out_reg, out_read_mux);
+   output [SIZE_REG-1:0]	    out_read_mux;
+
+   mux #(.SIZE_CTRL(SIZE_ADDR_REG), .WIRE(SIZE_REG)) mux0(read_addr, in, out_read_mux);
 endmodule
 
 `endif
