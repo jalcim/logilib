@@ -103,9 +103,9 @@ def write_rtlil_file(modules_list : list):
 if __name__ == "__main__":
     # exemple :
     modules_list = [
-        Module("gate_not", {"WIRE": 2}),
-        Module("gate_or", {"WAY": 2, "WIRE": 2}),
-        Module("gate_and", {"WAY": 2, "WIRE": 2}),
-        Module("gate_nand", {"WAY": 2, "WIRE": 2, "BEHAVIORAL": 0})
+        Module("gate_not", {"WIRE": 1}),
+        Module("gate_or", {"WAY": 2, "WIRE": 1}),
+        Module("gate_and", {"WAY": 2, "WIRE": 1}),
+        Module("gate_nand", {"WAY": 2, "WIRE": 1, "BEHAVIORAL": 1})
     ]
     write_rtlil_file(modules_list)
