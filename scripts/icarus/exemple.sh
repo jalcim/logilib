@@ -1,1 +1,1 @@
-iverilog exemple/block_mem/v2/test_blockreg.v -pRECURSIVE_MOD_LIMIT=100
+iverilog exemple/block_mem/test_blockreg.v -pRECURSIVE_MOD_LIMIT=100
