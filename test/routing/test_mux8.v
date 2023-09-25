@@ -1,21 +1,21 @@
 `include "src/routing/mux.v"
 
 module test_mux8;
-   parameter WAY = 2;
+   parameter SIZE_CTRL = 2;
    parameter WIRE = 8;
 
-   localparam NB_IN = 2 ** WAY;
+   localparam NB_IN = 2 ** SIZE_CTRL;
    localparam SIZE_IN = NB_IN * WIRE;
 
    wire [WIRE - 1 : 0] out;
    reg [SIZE_IN - 1 : 0] in;
-   reg [WAY-1 : 0] ctrl;
+   reg [SIZE_CTRL-1 : 0] ctrl;
 
    integer     cpt1;
    integer     cpt2;
    reg 	       xin;
 
-   mux #(.WAY(WAY), .WIRE(WIRE)) mux0(ctrl, in, out);
+   mux #(.SIZE_CTRL(SIZE_CTRL), .WIRE(WIRE)) mux0(ctrl, in, out);
 
    initial
      begin

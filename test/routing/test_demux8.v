@@ -1,17 +1,17 @@
 `include "src/routing/demux.v"
 
 module test_demux8;
-   parameter WAY = 2;
+   parameter SIZE_CTRL = 2;
    parameter WIRE = 8;
 
-   wire [((2**WAY) * WIRE) - 1 : 0] out; 
+   wire [((2**SIZE_CTRL) * WIRE) - 1 : 0] out; 
    reg [WIRE - 1 : 0] in;
-   reg [WAY-1 : 0] ctrl;
+   reg [SIZE_CTRL-1 : 0] ctrl;
 
    integer     cpt;
    reg 	       xin;
 
-   demux #(.WAY(WAY), .WIRE(WIRE))demux0(ctrl, in, out);
+   demux #(.SIZE_CTRL(SIZE_CTRL), .WIRE(WIRE))demux0(ctrl, in, out);
 
    initial
      begin
@@ -22,7 +22,7 @@ module test_demux8;
 
         cpt = -1;
 	xin = 0;
-	while (++cpt <= (2**WAY) * WIRE - 1)
+	while (++cpt <= (2**SIZE_CTRL) * WIRE - 1)
 	  begin
 	     in[cpt] = xin;
 	     xin = ~xin;

@@ -1,14 +1,14 @@
 `include "src/routing/mux.v"
 
 module test_mux;
-   parameter WAY = 2;
+   parameter SIZE_CTRL = 2;
    parameter WIRE = 1;
 
    wire [WIRE - 1 : 0] out;
-   reg [2 ** WAY - 1 : 0] in;
+   reg [2 ** SIZE_CTRL - 1 : 0] in;
    reg [1 : 0] ctrl;
 
-   mux #(.WAY(WAY), .WIRE(WIRE)) mux0(ctrl, in, out);
+   mux #(.SIZE_CTRL(SIZE_CTRL), .WIRE(WIRE)) mux0(ctrl, in, out);
 
    initial
      begin

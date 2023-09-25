@@ -1,14 +1,14 @@
 `include "src/routing/demux.v"
 
 module test_demux;
-   localparam WAY = 2;
+   localparam SIZE_CTRL = 2;
    parameter WIRE = 1;
 
-   wire [((2 ** WAY) * WIRE) - 1 : 0] out;
+   wire [((2 ** SIZE_CTRL) * WIRE) - 1 : 0] out;
    reg [WIRE - 1 : 0] in;
-   reg [WAY-1 : 0] ctrl;
+   reg [SIZE_CTRL-1 : 0] ctrl;
 
-   demux #(.WAY(WAY), .WIRE(WIRE))demux0(ctrl, in, out);
+   demux #(.SIZE_CTRL(SIZE_CTRL), .WIRE(WIRE))demux0(ctrl, in, out);
 
    initial
      begin
