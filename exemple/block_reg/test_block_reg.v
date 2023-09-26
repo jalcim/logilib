@@ -1,6 +1,6 @@
-`include "exemple/block_mem/blockreg.v"
+`include "exemple/block_reg/block_reg.v"
 
-module test_blockreg;
+module test_block_reg;
    parameter SIZE_ADDR_REG = 5;
    parameter SIZE_REG = 8;
 
@@ -10,14 +10,14 @@ module test_blockreg;
 
    wire [SIZE_REG-1:0] dataoutA, dataoutB;
 
-   blockreg #(.SIZE_ADDR_REG(SIZE_ADDR_REG), .SIZE_REG(SIZE_REG))blockreg(clk, reset, charge,
+   block_reg #(.SIZE_ADDR_REG(SIZE_ADDR_REG), .SIZE_REG(SIZE_REG))block_reg(clk, reset, charge,
 									  addr_write_reg, outA, outB,
 									  datain,
 									  dataoutA, dataoutB);
 
    initial
      begin
-	$dumpfile("signal_blockreg.vcd");
+	$dumpfile("signal_block_reg.vcd");
 	$dumpvars;
 	$display("\t\ttime, \tclk, \treset, \tcharge, \taddr_write_reg, \toutA, \toutB, \tdatain, \tdataoutA, \tdataoutB\n");
 	$monitor("%d \t%b \t%b \t%b \t\t%d \t\t\t%d \t%d \t%d \t\t%d \t\t%d \n",
