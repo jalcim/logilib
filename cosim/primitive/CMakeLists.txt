@@ -14,7 +14,7 @@ add_compile_options(-std=c++11)
 
 add_library(${PROJECT_NAME} STATIC)
 
-target_link_libraries(${PROJECT_NAME} LINK_PUBLIC Cosim_gates)
+target_link_libraries(${PROJECT_NAME} LINK_PUBLIC Cosim_gates Boost::log)
 
 target_sources(${PROJECT_NAME} PRIVATE ./primitive.cpp)
 

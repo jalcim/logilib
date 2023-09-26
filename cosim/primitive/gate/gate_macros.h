@@ -2,6 +2,8 @@
 #define __COSIM_GATE_MACROS_H__
 #include "gate_includes.h"
 
+#define RESTEXT(error) (error ? "fail" : "success")
+
 const int get_bit_bitmasks[16] = {
     1,
     2,

@@ -10,7 +10,6 @@ if(NOT DEFINED MAX_WAYS)
   set(MAX_WAYS 8)
 endif()
 
-
 set(GATE_LIBRARIES
   "Vgate_buf_1"
   "Vgate_not_1"
@@ -29,8 +28,6 @@ foreach(way_number RANGE 2 ${MAX_WAYS})
   )
 endforeach()
 
-
-
 add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/../../../src/primitive/gate vgates)
 
 add_compile_options(-std=c++11)
@@ -48,5 +45,5 @@ target_include_directories(${PROJECT_NAME}
   $<INSTALL_INTERFACE:${CMAKE_INSTALL_INCLUDEDIR}>
 )
 
-target_link_libraries(${PROJECT_NAME} LINK_PUBLIC ${GATE_LIBRARIES} Cosim_tools)
+target_link_libraries(${PROJECT_NAME} LINK_PUBLIC ${GATE_LIBRARIES} Boost::log)
 

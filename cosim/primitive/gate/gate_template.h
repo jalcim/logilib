@@ -1,12 +1,12 @@
 #ifndef __COSIM_GATE_TEMPLATE_H__
 #define __COSIM_GATE_TEMPLATE_H__
-#include <fcntl.h>
-#include <unistd.h>
 #include <typeinfo>
 #include <iostream>
+#include <verilated.h>
+#include <verilated_vcd_c.h>
 #include <cmath>
-#include "../../tools/logs.h"
-#include "verilated.h"
+#include <fstream>
+#include <boost/log/trivial.hpp>
 #include "gate_macros.h"
 
 using namespace std;
@@ -15,13 +15,14 @@ extern VerilatedContext *contextp;
 
 const string LOG_PATH_PREFIX = "build/cosim/primitive/gate/gate";
 const string LOG_PATH_SUFFIX = "_check";
+const string LOG_TRACE_SUFFIX = "_trace.vcd";
 
 template <class VGATE>
 class GATE_TEST
 {
-
   int error;
   int log_fd;
+  std::ofstream log_file_stream;
   int way_number;
   string log_path;
   const char *name;
@@ -31,12 +32,12 @@ class GATE_TEST
 public:
   GATE_TEST(int (*gate_test)(int input, int way), int ways)
   {
+    name = typeid(gate).name();
     gate = new VGATE{contextp};
     test_fn = gate_test;
     way_number = ways;
-    name = typeid(gate).name();
     log_path = LOG_PATH_PREFIX + name + LOG_PATH_SUFFIX;
-    log_fd = open(log_path.c_str(), O_CREAT | O_RDWR, S_IRUSR | S_IWUSR);
+    log_file_stream.open(log_path, ios::trunc | ios::out);
   }
 
   bool test()
@@ -48,10 +49,13 @@ public:
     int result;
     bool error;
 
-    cout << "\n\n# Test " << name << " : " << endl;
+    BOOST_LOG_TRIVIAL(info) << "# Test " << name << " : ";
+
     while (input < input_max)
     {
-      cout << "\nTest input " << input << " : " << endl;
+
+      BOOST_LOG_TRIVIAL(debug) << "Test input " << input << " : ";
+
       gate->in = input;
       gate->eval();
       waited_result = test_fn(gate->in, way_number) & 1;
@@ -59,20 +63,37 @@ public:
       /* fix verilog buffer management */
       result = gate->out & 1;
 
+      BOOST_LOG_TRIVIAL(trace)
+          << "OUT wait = res : "
+          << waited_result
+          << " = "
+          << result << " "
+          << RESTEXT(result != waited_result);
+
       error = result != waited_result;
-      log(error, waited_result);
+      log_to_file(error, waited_result);
 
       test_error |= error;
-
-      cout << "\n"
-           << (RESTEXT(error)) << endl;
 
       if (error)
       {
         log_error(error, waited_result);
       }
+      else
+      {
+        BOOST_LOG_TRIVIAL(debug) << input << " : " << RESTEXT(error);
+      }
 
       input++;
+    }
+
+    if (test_error)
+    {
+      BOOST_LOG_TRIVIAL(error) << name << " : " << RESTEXT(error);
+    }
+    else
+    {
+      BOOST_LOG_TRIVIAL(info) << name << " : " << RESTEXT(error);
     }
 
     return (test_error);
@@ -107,16 +128,44 @@ public:
   //   gate->i_clk = 0;
   //   gate->eval();
   // }
-  int log(bool test_error, int waited_result)
+
+  string format_log(bool test_error, int waited_result)
   {
-    return dprintf(log_fd, "\nTest %s : %s |-> E1=%d, E2=%d,E3=%d,E4=%d,E5=%d,E6=%d,E7=%d, out=%d  waited_result %d \n", name, RESTEXT(test_error), GET_BIT(gate->in, 0), GET_BIT(gate->in, 1), GET_BIT(gate->in, 2), GET_BIT(gate->in, 3), GET_BIT(gate->in, 4), GET_BIT(gate->in, 5), GET_BIT(gate->in, 6), gate->out, waited_result);
+    std::stringstream ss;
+
+    ss << "Test " << name << " : "
+       << RESTEXT(test_error)
+       << " |-> E1="
+       << GET_BIT(gate->in, 0)
+       << ", E2="
+       << GET_BIT(gate->in, 1)
+       << ",E3="
+       << GET_BIT(gate->in, 2)
+       << ",E4="
+       << GET_BIT(gate->in, 3)
+       << ",E5="
+       << GET_BIT(gate->in, 4)
+       << ",E6="
+       << GET_BIT(gate->in, 5)
+       << ",E7="
+       << GET_BIT(gate->in, 6)
+       << ", out="
+       << gate->out
+       << "waited_result "
+       << waited_result;
+
+    return ss.str();
+  }
+
+  void log_to_file(bool test_error, int waited_result)
+  {
+    log_file_stream << format_log(test_error, waited_result) << endl;
   }
 
   void log_error(bool test_error, int waited_result)
   {
-    dprintf(2, "\nTest %s : %s |-> E1=%d, E2=%d,E3=%d,E4=%d,E5=%d,E6=%d,E7=%d,out=%d  waited_result %d", name, RESTEXT(test_error), GET_BIT(gate->in, 0), GET_BIT(gate->in, 1), GET_BIT(gate->in, 2), GET_BIT(gate->in, 3), GET_BIT(gate->in, 4), GET_BIT(gate->in, 5), GET_BIT(gate->in, 6), gate->out, waited_result);
-
-    cerr << "\nLogs in : " << log_path << endl;
+    BOOST_LOG_TRIVIAL(error)
+        << format_log(test_error, waited_result) << "Logs in : " << log_path;
   }
 
   bool done(void) { return (Verilated::gotFinish()); }
@@ -125,7 +174,7 @@ public:
   {
     delete gate;
     gate = NULL;
-    close(log_fd);
+    log_file_stream.close();
   }
 };
 #endif /* __COSIM_GATE_TEMPLATE_H__ */

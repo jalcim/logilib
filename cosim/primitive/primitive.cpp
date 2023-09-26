@@ -2,6 +2,7 @@
 #include <fcntl.h>
 #include <unistd.h>
 #include <iostream>
+#include <boost/log/trivial.hpp>
 
 #include "primitive.h"
 #include "gate.h"
@@ -13,13 +14,17 @@ int test_gate()
   bool error;
   int fd_gate;
 
-  cout << "\n\nPrimitive test : gates" << endl;
+  BOOST_LOG_TRIVIAL(info) << "Primitive test : gates";
 
   error = run_gates_tests();
 
   if (error)
   {
-    cerr << "\n\nPrimitive error : gates" << endl;
+    BOOST_LOG_TRIVIAL(error) << "Primitive error : gates";
+  }
+  else
+  {
+    BOOST_LOG_TRIVIAL(info) << "Primitive test : gates";
   }
 
   return (error);

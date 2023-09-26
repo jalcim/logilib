@@ -1,11 +1,8 @@
-void parallel_gate_init();
-int parallel_gate_test();
-void parallel_gate_destruct();
+#ifndef __COSIM_MAIN_H__
+#define __COSIM_MAIN_H__
 
-void latch_init();
-int latch_test();
-void latch_destruct();
+#ifndef LOG_LEVEL
+#define LOG_LEVEL warning
+#endif /* LOG_LEVEL */
 
-void arithm_init();
-int arithm_test();
-void arithm_destruct();
+#endif /* __COSIM_MAIN_H__ */

@@ -3,6 +3,7 @@ FROM verilator/verilator:v5.016 as build
 RUN apt-get update && apt-get install -y \
   cmake \
   ninja-build \
+  libboost-all-dev \
   && rm -rf /var/lib/apt/lists/*
 
 COPY Makefile /work/
@@ -16,6 +17,7 @@ RUN make build
 FROM scratch
 
 COPY --from=build /work/build/Vmain /Vmain
+COPY --from=build /work/cosim/settings.ini /cosim/settings.ini
 
 ENTRYPOINT ["/Vmain"]
 
