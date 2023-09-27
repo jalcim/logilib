@@ -34,5 +34,98 @@ module test_alu;
 	funct7 <= 1;
 	#100;
 
+	$display("sll 4 1");
+	datain_A <= 4;
+	datain_B <= 1;
+	funct7 <= 0;
+	funct3 <= 1;
+	#100;
+
+	$display("slt 4 1");
+	datain_A <= 4;
+	datain_B <= 1;
+	funct3 <= 2;
+	#100;
+
+	$display("slt 1 4");
+	datain_A <= 1;
+	datain_B <= 4;
+	#100;
+
+	$display("slt 4 4");
+	datain_A <= 4;
+	datain_B <= 4;
+	#100;
+
+	$display("slt -4 1");
+	datain_A <= -4;
+	datain_B <= 1;
+	#100;
+
+	$display("slt 1 -4");
+	datain_A <= 1;
+	datain_B <= -4;
+	#100;
+
+	$display("slt -4 -4");
+	datain_A <= -4;
+	datain_B <= -4;
+	#100;
+
+	$display("sltu 4 1");
+	datain_A <= 4;
+	datain_B <= 1;
+	funct3 <= 3;
+	#100;
+
+	$display("sltu 1 4");
+	datain_A <= 1;
+	datain_B <= 4;
+	#100;
+
+	$display("sltu 4 4");
+	datain_A <= 4;
+	datain_B <= 4;
+	#100;
+
+	$display("xor 7 5");
+	datain_A <= 7;
+	datain_B <= 5;
+	funct3 <= 4;
+	#100;
+
+	$display("xor 4 4");
+	datain_A <= 4;
+	datain_B <= 1;
+	#100;
+
+	$display("srl 7 1");
+	datain_A <= 7;
+	datain_B <= 1;
+	funct3 <= 5;
+	#100;
+
+	$display("srl 7 2");
+	datain_A <= 7;
+	datain_B <= 2;
+	#100;
+
+	$display("or 4 3");
+	datain_A <= 4;
+	datain_B <= 3;
+	funct3 <= 6;
+	#100;
+
+	$display("or 2 3");
+	datain_A <= 2;
+	datain_B <= 4;
+	#100;
+
+	$display("and 5 3");
+	datain_A <= 5;
+	datain_B <= 3;
+	funct3 <= 7;
+	#100;
+
      end
 endmodule
