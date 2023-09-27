@@ -14,9 +14,20 @@ test_alu_arithm()
     iverilog -o $BIN_alu_arithm/test_cmp $TEST_alu_arithm/test_cmp.v
 }
 
+test_alu_logic()
+{
+    TEST_alu_logic="test/alu/logic"
+    BIN_alu_logic="bin/alu/logic"
+
+    mkdir -p $BIN_alu_logic
+
+    iverilog -o $BIN_alu_logic/test_alu_logic $TEST_alu_logic/test_alu_logic.v
+}
+
 test_alu()
 {
     test_alu_arithm
+    test_alu_logic
 }
 
 test_alu
