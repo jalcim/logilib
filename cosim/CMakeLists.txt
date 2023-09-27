@@ -38,6 +38,10 @@ if(DEFINED ENV{MAX_WAYS})
   set(MAX_WAYS $ENV{MAX_WAYS})
 endif()
 
+if(DEFINED ENV{VCD_TRACE_ON})
+  add_compile_definitions(VCD_TRACE_ON=$ENV{VCD_TRACE_ON})
+endif()
+
 if(DEFINED ENV{LOG_LEVEL})
 add_compile_definitions(LOG_LEVEL=$ENV{LOG_LEVEL})
 endif()

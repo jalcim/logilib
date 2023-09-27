@@ -9,6 +9,8 @@
 #include <boost/log/trivial.hpp>
 #include "gate_macros.h"
 
+#define TRACE_INCREMENT 1000
+
 using namespace std;
 
 extern VerilatedContext *contextp;
@@ -28,16 +30,41 @@ class GATE_TEST
   const char *name;
   VGATE *gate;
   int (*test_fn)(int input, int way);
+  string trace_path;
+  VerilatedVcdC *m_trace;
 
 public:
   GATE_TEST(int (*gate_test)(int input, int way), int ways)
   {
     name = typeid(gate).name();
+    contextp->traceEverOn(true);
     gate = new VGATE{contextp};
     test_fn = gate_test;
     way_number = ways;
     log_path = LOG_PATH_PREFIX + name + LOG_PATH_SUFFIX;
     log_file_stream.open(log_path, ios::trunc | ios::out);
+    trace_path = LOG_PATH_PREFIX + name + LOG_TRACE_SUFFIX;
+  }
+
+  void open_trace()
+  {
+#ifdef VCD_TRACE_ON
+    if (!m_trace)
+    {
+      m_trace = new VerilatedVcdC;
+      gate->trace(m_trace, 99);
+      m_trace->open(trace_path.c_str());
+    }
+#endif
+  }
+
+  void close_trace(void)
+  {
+    if (m_trace)
+    {
+      m_trace->close();
+      m_trace = NULL;
+    }
   }
 
   bool test()
@@ -51,9 +78,16 @@ public:
 
     BOOST_LOG_TRIVIAL(info) << "# Test " << name << " : ";
 
+    if (m_trace)
+    {
+      m_trace->dump(contextp->time());
+      contextp->timeInc(TRACE_INCREMENT);
+    }
+
     while (input < input_max)
     {
 
+      contextp->timeInc(TRACE_INCREMENT);
       BOOST_LOG_TRIVIAL(debug) << "Test input " << input << " : ";
 
       gate->in = input;
@@ -84,6 +118,9 @@ public:
         BOOST_LOG_TRIVIAL(debug) << input << " : " << RESTEXT(error);
       }
 
+      if (m_trace)
+        m_trace->dump(contextp->time());
+
       input++;
     }
 
@@ -94,6 +131,13 @@ public:
     else
     {
       BOOST_LOG_TRIVIAL(info) << name << " : " << RESTEXT(error);
+    }
+
+    if (m_trace)
+    {
+      contextp->timeInc(TRACE_INCREMENT);
+      m_trace->dump(contextp->time());
+      m_trace->flush();
     }
 
     return (test_error);
@@ -168,13 +212,12 @@ public:
         << format_log(test_error, waited_result) << "Logs in : " << log_path;
   }
 
-  bool done(void) { return (Verilated::gotFinish()); }
-
   ~GATE_TEST(void)
   {
     delete gate;
     gate = NULL;
     log_file_stream.close();
+    close_trace();
   }
 };
 #endif /* __COSIM_GATE_TEMPLATE_H__ */

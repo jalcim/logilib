@@ -20,6 +20,10 @@ Result files are on build/
 
 ## Environment
 
+### VCD_TRACE_ON
+
+Enable generation of vcd trace files
+
 ### COMPILE_STATIC
 
 If defined compile all libraries as static
