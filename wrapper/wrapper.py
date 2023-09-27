@@ -17,18 +17,20 @@ class Verilog_module(am.Elaboratable):
         self.name = name
         self.rtlil_source = "" #affectation dans write_rtlil_file
         self.rtlil_file = self.name + id + ".rtlil"
+        self.update_prefab()
 
+    def update_prefab(self):
         self.params = []
-        for key in kwargs.keys():
+        for key in self.kwargs.keys():
             if key[0:2] in ["p_"]:
                 print("PARAM:", key)
-                self.params.append(kwargs.get(key))
+                self.params.append(self.kwargs.get(key))
 
         self.ports = []
-        for key in kwargs.keys():
+        for key in self.kwargs.keys():
             if key[0:2] in ["i_", "o_"] or key[0:3] in ["io_"]:
                 print("PORT:", key)
-                self.ports.append(kwargs.get(key))
+                self.ports.append(self.kwargs.get(key))
 
     def elaborate(self, platform):
         m = am.Module()
@@ -79,6 +81,13 @@ class Module():
         )
         Module.module_id += 1
 
+    def get(self, key):
+        return self.module.kwargs.get(key)
+
+    def set(self, key : str, value):
+        self.module.kwargs[key] = value
+        self.module.update_prefab()
+
 
 def write_rtlil_file(modules_list : list):
     platform = None
@@ -101,11 +110,22 @@ def write_rtlil_file(modules_list : list):
 
 
 if __name__ == "__main__":
+
     # exemple :
+    module_1 = Module("gate_not", {"WIRE": 1})
+    module_2 = Module("gate_or", {"WAY": 2, "WIRE": 1})
+    module_3 = Module("gate_and", {"WAY": 2, "WIRE": 1})
+    module_4 = Module("gate_nand", {"WAY": 2, "WIRE": 1, "BEHAVIORAL": 1})
+
+    module_1.set("o_out", module_2.get("i_in"))
+    module_2.set("o_out", module_3.get("i_in"))
+    module_3.set("o_out", module_4.get("i_in"))
+    module_4.set("p_WIRE", 1)
+
     modules_list = [
-        Module("gate_not", {"WIRE": 1}),
-        Module("gate_or", {"WAY": 2, "WIRE": 1}),
-        Module("gate_and", {"WAY": 2, "WIRE": 1}),
-        Module("gate_nand", {"WAY": 2, "WIRE": 1, "BEHAVIORAL": 1})
+        module_1,
+        module_2,
+        module_3,
+        module_4
     ]
     write_rtlil_file(modules_list)
