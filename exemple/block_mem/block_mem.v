@@ -8,7 +8,7 @@ module block_mem(clk, reset, signal_write,
 		addrin, addrout,
 		datain, dataout);
 
-   parameter SIZE_ADDR_MEM = 5;
+   parameter SIZE_ADDR_MEM = 8;
    parameter SIZE_MEM = 8;
 
    localparam NB_MEM = 2**SIZE_ADDR_MEM;
