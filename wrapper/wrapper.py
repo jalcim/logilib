@@ -133,23 +133,28 @@ def write_top_rtlil(top : am.Elaboratable):
 
 class Top(am.Elaboratable):
     def __init__(self):
-        self.ports = []
-
-    def elaborate(self, platform):
         self.gate1 = Module("gate_and", {"WAY": 2, "WIRE": 1}, 1)
         self.gate2 = Module("gate_and", {"WAY": 2, "WIRE": 1}, 1)
         self.gate3 = Module("gate_and", {"WAY": 2, "WIRE": 1}, 0)
-        self.gate3.set("i_in", am.Cat(self.gate1.get("o_out"), self.gate2.get("o_out")))
 
+    def elaborate(self, platform):
         top = am.Module()
         top.submodules.gate_and1 = self.gate1.module
         top.submodules.gate_and2 = self.gate2.module
         top.submodules.gate_and3 = self.gate3.module
 
-        self.ports.append(self.gate1.module.ports)
-        self.ports.append(self.gate2.module.ports)
-        self.ports.append(self.gate3.module.ports)
+        self.ports = []
 
+        for pin in self.gate1.module.ports :
+            self.ports.append(pin)
+
+        for pin in self.gate2.module.ports :
+            self.ports.append(self.gate2.module.ports)
+
+        for pin in self.gate3.module.ports :
+            self.ports.append(self.gate3.module.ports)
+
+        self.gate3.set("i_in", am.Cat(self.gate1.get("o_out"), self.gate2.get("o_out")))
         return top
 
 if __name__ == "__main__":
