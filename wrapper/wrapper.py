@@ -30,7 +30,7 @@ class Verilog_module(am.Elaboratable):
         for key in self.kwargs.keys():
             if key[0:2] in ["i_", "o_"] or key[0:3] in ["io_"]:
                 print("PORT:", key)
-                self.ports.append(self.kwargs.get(key))
+                self.ports.append(self.kwargs.get(key))#(signal None)
 
     def elaborate(self, platform):
         m = am.Module()
@@ -76,7 +76,7 @@ class Module():
                 }
         else :
             self.params = {
-                "i_in" : 0,
+#                "i_in" : 0,
                 "o_out": am.Signal(params["WIRE"]),
             }
 
@@ -127,7 +127,7 @@ def write_top_rtlil(top : am.Elaboratable):
         name,
         emit_src=emit_src,
     )
-    ENV_USERNAME = os.environ.get("USER")
+    ENV_USERNAME = environ.get("USER")
     rtlil_source_text = rtlil_text.replace(ENV_USERNAME, "user")
     return rtlil_source_text
 
