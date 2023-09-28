@@ -129,7 +129,10 @@ def write_top_rtlil(top : am.Elaboratable):
     )
     ENV_USERNAME = environ.get("USER")
     rtlil_source_text = rtlil_text.replace(ENV_USERNAME, "user")
-    return rtlil_source_text
+
+    with open("top.rtlil", "w") as fd:
+        fd.write(rtlil_source_text)
+        print(f"top.rtlil filename written.")
 
 class Top(am.Elaboratable):
     def __init__(self):
