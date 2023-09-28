@@ -45,7 +45,7 @@ ALLOWED_PARAMS = {
     "gate_and": ["WAY", "WIRE"],
     "gate_or": ["WAY", "WIRE"],
     "gate_not": ["WIRE"],
-    "gate_nand": ["WAY", "WIRE", "BEHAVIORAL"],
+    "gate_nand": ["WAY", "WIRE"],
 }
 
 class Module():
@@ -157,7 +157,7 @@ if __name__ == "__main__":
     # exemple :
     module_1 = Module("gate_not" , {"WIRE": 1}, 1)
     module_2 = Module("gate_or"  , {"WAY": 2, "WIRE": 1}, 1)
-    module_3 = Module("gate_nand", {"WAY": 2, "WIRE": 1, "BEHAVIORAL": 1}, 1)
+    module_3 = Module("gate_nand", {"WAY": 2, "WIRE": 1}, 1)
     module_4 = Module("gate_and", {"WAY": 2, "WIRE": 1}, 1)
 
     module_1.set("p_WIRE", 1)
