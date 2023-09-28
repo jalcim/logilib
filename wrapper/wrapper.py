@@ -144,15 +144,12 @@ class Top(am.Elaboratable):
         top.submodules.gate_and3 = self.gate3.module
 
         self.ports = []
-
         for pin in self.gate1.module.ports :
             self.ports.append(pin)
-
         for pin in self.gate2.module.ports :
-            self.ports.append(self.gate2.module.ports)
-
+            self.ports.append(pin)
         for pin in self.gate3.module.ports :
-            self.ports.append(self.gate3.module.ports)
+            self.ports.append(pin)
 
         self.gate3.set("i_in", am.Cat(self.gate1.get("o_out"), self.gate2.get("o_out")))
         return top
