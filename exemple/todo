@@ -1,5 +1,2 @@
 add_sub    : gerer les signed
-write_back : gerer l'encodage des 4 signaux (4bit -> 2bit)
 alu        : rajouter le BRU
-LSU        : gerer le bit de signe
-add_sub    : rajouter porte AND sur le func7 car pas de sub dans OP-IMM

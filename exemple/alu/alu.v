@@ -12,24 +12,25 @@
 
  `include "src/routing/mux.v"
 
-module alu(datain_A, datain_B, funct3, funct7, out);
+module alu(datain_A, datain_B, funct3, funct7, SIGNAL_alu, out);
    localparam WAY = 8;
    localparam WIRE = 32;
    localparam SIZE_CTRL = 3;
 
    input [WIRE-1:0] datain_A, datain_B;
    input [SIZE_CTRL-1 :0] funct3;
-   input		  funct7;
+   input		  funct7, SIGNAL_alu;
 
    output [WIRE-1:0]	  out;
 
    wire [WAY*WIRE-1:0]	  line;
-
    wire			  ignore_cout;
+
    supply0		  ignore_cin;
 
+   and and_inst(sig_sub, funct7, SIGNAL_alu);
    add_sub #(.WIRE(32)) inst_add_sub(datain_A, datain_B,
-				     ignore_cin, funct7,
+				     ignore_cin, sig_sub,
 				     line[1 * WIRE-1:(1-1) * WIRE],
 				     ignore_cout);
    sll  #(.WIRE(WIRE)) sll_inst(datain_A, datain_B,
