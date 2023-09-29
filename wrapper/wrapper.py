@@ -63,28 +63,33 @@ class Module():
     module_id = 0 # auto increment
 
     def __init__(self, module_type : str, params : dict, **kwargs):
-        if module_type == "gate_or" or module_type == "gate_and" or module_type == "gate_nand" :
+        self.params = {}
+        if module_type in ["gate_or", "gate_and" , "gate_nand"]:
             if "i_in" not in kwargs.keys():
-                self.params = {
-                    "o_out": am.Signal(params["WIRE"]),
-                }
-            else :
+                unreg = False
                 self.params = {
                     "i_in" : am.Signal(params["WAY"] * params["WIRE"]),
                     "o_out": am.Signal(params["WIRE"]),
                 }
-        elif module_type == "gate_not":
-            if "i_in" not in kwargs.keys():
+            else :
+                unreg = True
                 self.params = {
+                    "i_in" : kwargs.get("i_in"),
                     "o_out": am.Signal(params["WIRE"]),
                 }
-            else :
+        elif module_type == "gate_not":
+            if "i_in" not in kwargs.keys():
+                unreg = False
                 self.params = {
                     "i_in" : am.Signal(params["WIRE"]),
                     "o_out": am.Signal(params["WIRE"]),
                 }
-        else :
-            self.params = {}
+            else :
+                unreg = True
+                self.params = {
+                    "i_in" : kwargs.get("i_in"),
+                    "o_out": am.Signal(params["WIRE"]),
+                }
 
         # override explicit kwargs
         for key,value in kwargs.items():
@@ -94,13 +99,6 @@ class Module():
 
         self.params.update({"p_" + key: value for key, value in params.items() if key in ALLOWED_PARAMS[module_type]})
 
-        import json
-        print(module_type, self.params.keys())
-
-        if "i_in" not in kwargs.keys():
-            unreg = False
-        else :
-            unreg = True
         self.module = Verilog_module(
             unreg,
             module_type,
