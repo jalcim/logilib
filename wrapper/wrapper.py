@@ -12,35 +12,37 @@ from amaranth.back.rtlil import convert_fragment
 from collections import defaultdict, OrderedDict
 
 class Verilog_module(am.Elaboratable):
-    def __init__(self, unreg, name, id, **kwargs):
-        self.unreg = unreg
+    def __init__(self, reg_in, reg_out, name, id, **kwargs):
+        self.reg_in = reg_in
+        self.reg_out = reg_out
         self.kwargs = kwargs
         self.name = name
         self.rtlil_source = "" #affectation dans write_rtlil_file
         self.rtlil_file = self.name + id + ".rtlil"
+        #print("reg_in", reg_in)
+        #print("reg_out", reg_out)
         self.update_prefab()
 
     def update_prefab(self):
         self.params = []
         for key in self.kwargs.keys():
             if key[0:2] in ["p_"]:
-                print("PARAM:", key)
                 self.params.append(self.kwargs.get(key))
 
         self.ports = []
         for key in self.kwargs.keys():
-            if self.unreg == False :
-                print("unreg false")
-                print(self.name)
-                if key[0:2] in ["i_", "o_"] or key[0:3] in ["io_"]:
-                    print("PORT:", key)
-                    self.ports.append(self.kwargs.get(key))#(signal None)
-            else :
-                print("unreg true")
-                print(self.name)
+            if self.reg_in == False :
+                #print("1")
                 if key[0:2] in ["o_"] or key[0:3] in ["io_"]:
-                    print("PORT:", key)
-                    self.ports.append(self.kwargs.get(key))#(signal None)
+                    self.ports.append(self.kwargs.get(key))
+            elif self.reg_out == False :
+                #print("2")
+                if key[0:2] in ["i_"] or key[0:3] in ["io_"]:
+                    self.ports.append(self.kwargs.get(key))
+            else :
+                #print("3")
+                if key[0:2] in ["i_", "o_"] or key[0:3] in ["io_"]:
+                    self.ports.append(self.kwargs.get(key))
 
     def elaborate(self, platform):
         m = am.Module()
@@ -67,12 +69,11 @@ class Module():
             if required_param not in params.keys():
                 raise Exception(f"'{module_type}' module type must explicit '{required_param}' parameter.")
 
-    def __init__(self, module_type : str, params : dict, **kwargs):
+    def __init__(self, reg_out, module_type : str, params : dict, **kwargs):
         self.check_module_type(module_type, params)
-
         self.params = {}
         if "i_in" not in kwargs.keys():
-            unreg = False
+            reg_in = True
             if module_type in ["gate_or", "gate_and", "gate_nand"]:
                 self.params["i_in"] = am.Signal(params["WAY"] * params["WIRE"])
                 self.params["o_out"] = am.Signal(params["WIRE"])
@@ -81,21 +82,21 @@ class Module():
                 self.params["o_out"] = am.Signal(params["WIRE"])
 
         else :
-            unreg = True
+            reg_in = False
             if module_type in ["gate_or", "gate_and", "gate_nand", "gate_not"]:
                 self.params["i_in"] = kwargs.get("i_in"),
                 self.params["o_out"] = am.Signal(params["WIRE"])
 
         # override explicit kwargs
         for key,value in kwargs.items():
-            print(key, value)
+            #print(key, value)
             if value is not None: # avoid None kwargs initialization
                 self.params[key] = value
 
         self.params.update({"p_" + key: value for key, value in params.items() if key in ALLOWED_PARAMS[module_type]})
 
         self.module = Verilog_module(
-            unreg,
+            reg_in, reg_out,
             module_type,
             str(Module.module_id),
             **self.params,
@@ -127,7 +128,7 @@ def write_rtlil_file(modules_list : list):
 
         with open(elem.module.rtlil_file, "w") as fd:
             fd.write(elem.module.rtlil_source)
-            print(f"'{elem.module.rtlil_file}' filename written.")
+            #print(f"'{elem.module.rtlil_file}' filename written.")
 
 
 def write_top_rtlil(top : am.Elaboratable):
@@ -146,7 +147,7 @@ def write_top_rtlil(top : am.Elaboratable):
 
     with open("top.rtlil", "w") as fd:
         fd.write(rtlil_source_text)
-        print(f"top.rtlil filename written.")
+        #print(f"top.rtlil filename written.")
 
 
 class Top(am.Elaboratable):
@@ -165,12 +166,12 @@ class Top(am.Elaboratable):
         return top
 
 if __name__ == "__main__":
-
+    '''
     # exemple 1 : modules independant
-    module_1 = Module("gate_not" , {"WIRE": 1})
-    module_2 = Module("gate_or"  , {"WAY": 2, "WIRE": 1})
-    module_3 = Module("gate_nand", {"WAY": 2, "WIRE": 1})
-    module_4 = Module("gate_and", {"WAY": 2, "WIRE": 1})
+    module_1 = Module(True, "gate_not" , {"WIRE": 1})
+    module_2 = Module(True, "gate_or"  , {"WAY": 2, "WIRE": 1})
+    module_3 = Module(True, "gate_nand", {"WAY": 2, "WIRE": 1})
+    module_4 = Module(True, "gate_and", {"WAY": 2, "WIRE": 1})
 
     module_1.set("p_WIRE", 1)
 
@@ -181,11 +182,14 @@ if __name__ == "__main__":
         module_4
     ]
     write_rtlil_file(modules_list)
-
+    '''
     # exemple 2 : modules relier dans un top
-    top_mod1 = Module("gate_and", {"WAY": 2, "WIRE": 1})
-    top_mod2 = Module("gate_and", {"WAY": 2, "WIRE": 1})
-    top_mod3 = Module("gate_and", {"WAY": 2, "WIRE": 1}, i_in=am.Cat(top_mod1.get("o_out"), top_mod2.get("o_out")))
+    #print("top1")
+    top_mod1 = Module(False, "gate_and", {"WAY": 2, "WIRE": 1})
+    #print("top2")
+    top_mod2 = Module(False, "gate_and", {"WAY": 2, "WIRE": 1})
+    #print("top3")
+    top_mod3 = Module(True, "gate_and", {"WAY": 2, "WIRE": 1}, i_in=am.Cat(top_mod1.get("o_out"), top_mod2.get("o_out")))
 
     top = Top(modules_list = [top_mod1, top_mod2, top_mod3])
     write_top_rtlil(top)
