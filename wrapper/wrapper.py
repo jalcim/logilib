@@ -62,9 +62,15 @@ class Module():
 
     module_id = 0 # auto increment
 
-    def __init__(self, module_type : str, params : dict, **kwargs):
-        self.params = {}
+    def check_module_type(self, module_type, params):
+        for required_param in ALLOWED_PARAMS[module_type]:
+            if required_param not in params.keys():
+                raise Exception(f"'{module_type}' module type must explicit '{required_param}' parameter.")
 
+    def __init__(self, module_type : str, params : dict, **kwargs):
+        self.check_module_type(module_type, params)
+
+        self.params = {}
         if "i_in" not in kwargs.keys():
             unreg = False
             if module_type in ["gate_or", "gate_and", "gate_nand"]:
