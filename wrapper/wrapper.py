@@ -64,32 +64,21 @@ class Module():
 
     def __init__(self, module_type : str, params : dict, **kwargs):
         self.params = {}
-        if module_type in ["gate_or", "gate_and" , "gate_nand"]:
-            if "i_in" not in kwargs.keys():
-                unreg = False
-                self.params = {
-                    "i_in" : am.Signal(params["WAY"] * params["WIRE"]),
-                    "o_out": am.Signal(params["WIRE"]),
-                }
-            else :
-                unreg = True
-                self.params = {
-                    "i_in" : kwargs.get("i_in"),
-                    "o_out": am.Signal(params["WIRE"]),
-                }
-        elif module_type == "gate_not":
-            if "i_in" not in kwargs.keys():
-                unreg = False
-                self.params = {
-                    "i_in" : am.Signal(params["WIRE"]),
-                    "o_out": am.Signal(params["WIRE"]),
-                }
-            else :
-                unreg = True
-                self.params = {
-                    "i_in" : kwargs.get("i_in"),
-                    "o_out": am.Signal(params["WIRE"]),
-                }
+
+        if "i_in" not in kwargs.keys():
+            unreg = False
+            if module_type in ["gate_or", "gate_and", "gate_nand"]:
+                self.params["i_in"] = am.Signal(params["WAY"] * params["WIRE"])
+                self.params["o_out"] = am.Signal(params["WIRE"])
+            elif module_type == "gate_not":
+                self.params["i_in"] = am.Signal(params["WIRE"])
+                self.params["o_out"] = am.Signal(params["WIRE"])
+
+        else :
+            unreg = True
+            if module_type in ["gate_or", "gate_and", "gate_nand", "gate_not"]:
+                self.params["i_in"] = kwargs.get("i_in"),
+                self.params["o_out"] = am.Signal(params["WIRE"])
 
         # override explicit kwargs
         for key,value in kwargs.items():
