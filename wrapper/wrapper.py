@@ -72,18 +72,19 @@ class Module():
     def __init__(self, reg_out, module_type : str, params : dict, **kwargs):
         self.check_module_type(module_type, params)
         self.params = {}
+        self.module_type = module_type
         if "i_in" not in kwargs.keys():
             reg_in = True
-            if module_type in ["gate_or", "gate_and", "gate_nand"]:
+            if self.module_type in ["gate_or", "gate_and", "gate_nand"]:
                 self.params["i_in"] = am.Signal(params["WAY"] * params["WIRE"])
                 self.params["o_out"] = am.Signal(params["WIRE"])
-            elif module_type == "gate_not":
+            elif self.module_type == "gate_not":
                 self.params["i_in"] = am.Signal(params["WIRE"])
                 self.params["o_out"] = am.Signal(params["WIRE"])
 
         else :
             reg_in = False
-            if module_type in ["gate_or", "gate_and", "gate_nand", "gate_not"]:
+            if self.module_type in ["gate_or", "gate_and", "gate_nand", "gate_not"]:
                 self.params["i_in"] = kwargs.get("i_in"),
                 self.params["o_out"] = am.Signal(params["WIRE"])
 
@@ -93,11 +94,11 @@ class Module():
             if value is not None: # avoid None kwargs initialization
                 self.params[key] = value
 
-        self.params.update({"p_" + key: value for key, value in params.items() if key in ALLOWED_PARAMS[module_type]})
+        self.params.update({"p_" + key: value for key, value in params.items() if key in ALLOWED_PARAMS[self.module_type]})
 
         self.module = Verilog_module(
             reg_in, reg_out,
-            module_type,
+            self.module_type,
             str(Module.module_id),
             **self.params,
         )
@@ -159,7 +160,7 @@ class Top(am.Elaboratable):
         self.ports = []
         unique_id = 1
         for mod in self.modules_list:
-            setattr(top.submodules, f"gate_{unique_id}", mod.module)
+            setattr(top.submodules, f"{mod.module_type}_{unique_id}", mod.module)
             unique_id += 1
             for pin in mod.module.ports:
                 self.ports.append(pin)
