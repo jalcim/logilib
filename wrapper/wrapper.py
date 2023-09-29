@@ -12,7 +12,8 @@ from amaranth.back.rtlil import convert_fragment
 from collections import defaultdict, OrderedDict
 
 class Verilog_module(am.Elaboratable):
-    def __init__(self, name, id, **kwargs):
+    def __init__(self, unreg, name, id, **kwargs):
+        self.unreg = unreg
         self.kwargs = kwargs
         self.name = name
         self.rtlil_source = "" #affectation dans write_rtlil_file
@@ -28,9 +29,18 @@ class Verilog_module(am.Elaboratable):
 
         self.ports = []
         for key in self.kwargs.keys():
-            if key[0:2] in ["i_", "o_"] or key[0:3] in ["io_"]:
-                print("PORT:", key)
-                self.ports.append(self.kwargs.get(key))#(signal None)
+            if self.unreg == False :
+                print("unreg false")
+                print(self.name)
+                if key[0:2] in ["i_", "o_"] or key[0:3] in ["io_"]:
+                    print("PORT:", key)
+                    self.ports.append(self.kwargs.get(key))#(signal None)
+            else :
+                print("unreg true")
+                print(self.name)
+                if key[0:2] in ["o_"] or key[0:3] in ["io_"]:
+                    print("PORT:", key)
+                    self.ports.append(self.kwargs.get(key))#(signal None)
 
     def elaborate(self, platform):
         m = am.Module()
@@ -53,14 +63,28 @@ class Module():
     module_id = 0 # auto increment
 
     def __init__(self, module_type : str, params : dict, **kwargs):
-        self.params = {}
-        if "o_out" not in kwargs.keys():
-            self.params["o_out"] = am.Signal(params["WIRE"])
-        if "i_in" not in kwargs.keys():
-            if module_type in ["gate_or", "gate_and", "gate_nand"]:
-                self.params["i_in"] = am.Signal(params["WAY"] * params["WIRE"])
-            elif module_type == "gate_not":
-                self.params["i_in"] = am.Signal(params["WIRE"])
+        if module_type == "gate_or" or module_type == "gate_and" or module_type == "gate_nand" :
+            if "i_in" not in kwargs.keys():
+                self.params = {
+                    "o_out": am.Signal(params["WIRE"]),
+                }
+            else :
+                self.params = {
+                    "i_in" : am.Signal(params["WAY"] * params["WIRE"]),
+                    "o_out": am.Signal(params["WIRE"]),
+                }
+        elif module_type == "gate_not":
+            if "i_in" not in kwargs.keys():
+                self.params = {
+                    "o_out": am.Signal(params["WIRE"]),
+                }
+            else :
+                self.params = {
+                    "i_in" : am.Signal(params["WIRE"]),
+                    "o_out": am.Signal(params["WIRE"]),
+                }
+        else :
+            self.params = {}
 
         # override explicit kwargs
         for key,value in kwargs.items():
@@ -73,10 +97,15 @@ class Module():
         import json
         print(module_type, self.params.keys())
 
+        if "i_in" not in kwargs.keys():
+            unreg = False
+        else :
+            unreg = True
         self.module = Verilog_module(
+            unreg,
             module_type,
             str(Module.module_id),
-            **self.params
+            **self.params,
         )
         Module.module_id += 1
 
@@ -130,7 +159,7 @@ class Top(am.Elaboratable):
     def __init__(self):
         self.gate1 = Module("gate_and", {"WAY": 2, "WIRE": 1})
         self.gate2 = Module("gate_and", {"WAY": 2, "WIRE": 1})
-        self.gate3 = Module("gate_and", {"WAY": 2, "WIRE": 1}, i_in=None)
+        self.gate3 = Module("gate_and", {"WAY": 2, "WIRE": 1}, i_in=am.Cat(self.gate1.get("o_out"), self.gate2.get("o_out")))
 
     def elaborate(self, platform):
         top = am.Module()
@@ -146,7 +175,6 @@ class Top(am.Elaboratable):
         for pin in self.gate3.module.ports :
             self.ports.append(pin)
 
-        self.gate3.set("i_in", am.Cat(self.gate1.get("o_out"), self.gate2.get("o_out")))
         return top
 
 if __name__ == "__main__":
