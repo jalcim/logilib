@@ -148,26 +148,20 @@ def write_top_rtlil(top : am.Elaboratable):
         fd.write(rtlil_source_text)
         print(f"top.rtlil filename written.")
 
+
 class Top(am.Elaboratable):
-    def __init__(self):
-        self.gate1 = Module("gate_and", {"WAY": 2, "WIRE": 1})
-        self.gate2 = Module("gate_and", {"WAY": 2, "WIRE": 1})
-        self.gate3 = Module("gate_and", {"WAY": 2, "WIRE": 1}, i_in=am.Cat(self.gate1.get("o_out"), self.gate2.get("o_out")))
+    def __init__(self, modules_list):
+        self.modules_list = modules_list
 
     def elaborate(self, platform):
         top = am.Module()
-        top.submodules.gate_and1 = self.gate1.module
-        top.submodules.gate_and2 = self.gate2.module
-        top.submodules.gate_and3 = self.gate3.module
-
         self.ports = []
-        for pin in self.gate1.module.ports :
-            self.ports.append(pin)
-        for pin in self.gate2.module.ports :
-            self.ports.append(pin)
-        for pin in self.gate3.module.ports :
-            self.ports.append(pin)
-
+        unique_id = 1
+        for mod in self.modules_list:
+            setattr(top.submodules, f"gate_{unique_id}", mod.module)
+            unique_id += 1
+            for pin in mod.module.ports:
+                self.ports.append(pin)
         return top
 
 if __name__ == "__main__":
@@ -188,6 +182,15 @@ if __name__ == "__main__":
     ]
     write_rtlil_file(modules_list)
 
+    top_mod1 = Module("gate_and", {"WAY": 2, "WIRE": 1})
+    top_mod2 = Module("gate_and", {"WAY": 2, "WIRE": 1})
+    top_mod3 = Module("gate_and", {"WAY": 2, "WIRE": 1}, i_in=am.Cat(top_mod1.get("o_out"), top_mod2.get("o_out")))
+
+    top = Top(modules_list = [top_mod1, top_mod2, top_mod3])
+    write_top_rtlil(top)
+
+    '''
     top = Top()
     write_top_rtlil(top)
 
+    '''
