@@ -166,7 +166,7 @@ class Top(am.Elaboratable):
 
 if __name__ == "__main__":
 
-    # exemple :
+    # exemple 1 : modules independant
     module_1 = Module("gate_not" , {"WIRE": 1})
     module_2 = Module("gate_or"  , {"WAY": 2, "WIRE": 1})
     module_3 = Module("gate_nand", {"WAY": 2, "WIRE": 1})
@@ -182,15 +182,10 @@ if __name__ == "__main__":
     ]
     write_rtlil_file(modules_list)
 
+    # exemple 2 : modules relier dans un top
     top_mod1 = Module("gate_and", {"WAY": 2, "WIRE": 1})
     top_mod2 = Module("gate_and", {"WAY": 2, "WIRE": 1})
     top_mod3 = Module("gate_and", {"WAY": 2, "WIRE": 1}, i_in=am.Cat(top_mod1.get("o_out"), top_mod2.get("o_out")))
 
     top = Top(modules_list = [top_mod1, top_mod2, top_mod3])
     write_top_rtlil(top)
-
-    '''
-    top = Top()
-    write_top_rtlil(top)
-
-    '''
