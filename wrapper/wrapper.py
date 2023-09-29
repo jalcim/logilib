@@ -11,7 +11,7 @@ from amaranth.back.rtlil import convert_fragment
 
 from collections import defaultdict, OrderedDict
 
-class Verilog_module(am.Elaboratable):
+class Verilog_module():
     def __init__(self, reg_in, reg_out, name, id, **kwargs):
         self.reg_in = reg_in
         self.reg_out = reg_out
@@ -43,14 +43,6 @@ class Verilog_module(am.Elaboratable):
                 #print("3")
                 if key[0:2] in ["i_", "o_"] or key[0:3] in ["io_"]:
                     self.ports.append(self.kwargs.get(key))
-
-    def elaborate(self, platform):
-        m = am.Module()
-        m.submodules.verilog = am.Instance(
-            self.name,
-            **self.kwargs
-        )
-        return m
 
 # must be updated with each module_type
 ALLOWED_PARAMS = {
@@ -160,30 +152,17 @@ class Top(am.Elaboratable):
         self.ports = []
         unique_id = 1
         for mod in self.modules_list:
-            setattr(top.submodules, f"{mod.module_type}_{unique_id}", mod.module)
+            verilog = am.Instance(
+                mod.module_type,
+                **mod.params
+            )
+            setattr(top.submodules, f"{mod.module_type}_{unique_id}.verilog", verilog)
             unique_id += 1
             for pin in mod.module.ports:
                 self.ports.append(pin)
         return top
 
 if __name__ == "__main__":
-    '''
-    # exemple 1 : modules independant
-    module_1 = Module(True, "gate_not" , {"WIRE": 1})
-    module_2 = Module(True, "gate_or"  , {"WAY": 2, "WIRE": 1})
-    module_3 = Module(True, "gate_nand", {"WAY": 2, "WIRE": 1})
-    module_4 = Module(True, "gate_and", {"WAY": 2, "WIRE": 1})
-
-    module_1.set("p_WIRE", 1)
-
-    modules_list = [
-        module_1,
-        module_2,
-        module_3,
-        module_4
-    ]
-    write_rtlil_file(modules_list)
-    '''
     # exemple 2 : modules relier dans un top
     #print("top1")
     top_mod1 = Module(False, "gate_and", {"WAY": 2, "WIRE": 1})
