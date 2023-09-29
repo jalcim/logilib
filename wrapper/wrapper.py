@@ -52,35 +52,27 @@ class Module():
 
     module_id = 0 # auto increment
 
-    def __init__(self, module_type, params, allocate):
-        if allocate == 1:
-            if module_type == "gate_or":
-                self.params = {
-                    "i_in" : am.Signal(params["WAY"] * params["WIRE"]),
-                    "o_out": am.Signal(params["WIRE"]),
-                }
-            elif module_type == "gate_and":
-                self.params = {
-                    "i_in" : am.Signal(params["WAY"] * params["WIRE"]),
-                    "o_out": am.Signal(params["WIRE"]),
-                }
-            elif module_type == "gate_nand":
-                self.params = {
-                    "i_in" : am.Signal(params["WAY"] * params["WIRE"]),
-                    "o_out": am.Signal(params["WIRE"]),
-                }
+    def __init__(self, module_type : str, params : dict, **kwargs):
+        self.params = {}
+        if "o_out" not in kwargs.keys():
+            self.params["o_out"] = am.Signal(params["WIRE"])
+        if "i_in" not in kwargs.keys():
+            if module_type in ["gate_or", "gate_and", "gate_nand"]:
+                self.params["i_in"] = am.Signal(params["WAY"] * params["WIRE"])
             elif module_type == "gate_not":
-                self.params = {
-                    "i_in" : am.Signal(params["WIRE"]),
-                    "o_out": am.Signal(params["WIRE"]),
-                }
-        else :
-            self.params = {
-#                "i_in" : 0,
-                "o_out": am.Signal(params["WIRE"]),
-            }
+                self.params["i_in"] = am.Signal(params["WIRE"])
+
+        # override explicit kwargs
+        for key,value in kwargs.items():
+            print(key, value)
+            if value is not None: # avoid None kwargs initialization
+                self.params[key] = value
 
         self.params.update({"p_" + key: value for key, value in params.items() if key in ALLOWED_PARAMS[module_type]})
+
+        import json
+        print(module_type, self.params.keys())
+
         self.module = Verilog_module(
             module_type,
             str(Module.module_id),
@@ -136,9 +128,9 @@ def write_top_rtlil(top : am.Elaboratable):
 
 class Top(am.Elaboratable):
     def __init__(self):
-        self.gate1 = Module("gate_and", {"WAY": 2, "WIRE": 1}, 1)
-        self.gate2 = Module("gate_and", {"WAY": 2, "WIRE": 1}, 1)
-        self.gate3 = Module("gate_and", {"WAY": 2, "WIRE": 1}, 0)
+        self.gate1 = Module("gate_and", {"WAY": 2, "WIRE": 1})
+        self.gate2 = Module("gate_and", {"WAY": 2, "WIRE": 1})
+        self.gate3 = Module("gate_and", {"WAY": 2, "WIRE": 1}, i_in=None)
 
     def elaborate(self, platform):
         top = am.Module()
@@ -160,10 +152,10 @@ class Top(am.Elaboratable):
 if __name__ == "__main__":
 
     # exemple :
-    module_1 = Module("gate_not" , {"WIRE": 1}, 1)
-    module_2 = Module("gate_or"  , {"WAY": 2, "WIRE": 1}, 1)
-    module_3 = Module("gate_nand", {"WAY": 2, "WIRE": 1}, 1)
-    module_4 = Module("gate_and", {"WAY": 2, "WIRE": 1}, 1)
+    module_1 = Module("gate_not" , {"WIRE": 1})
+    module_2 = Module("gate_or"  , {"WAY": 2, "WIRE": 1})
+    module_3 = Module("gate_nand", {"WAY": 2, "WIRE": 1})
+    module_4 = Module("gate_and", {"WAY": 2, "WIRE": 1})
 
     module_1.set("p_WIRE", 1)
 
