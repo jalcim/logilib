@@ -25,12 +25,13 @@ ALLOWED_PARAMS = {
     "default": ["p_WAY", "p_WIRE"], # define defaut required parameters
 }
 
-class Module(am.Elaboratable):
+class Module(am.Elaboratable): # this is a recursive Element
 
     unique_id = 0 # auto increment
     ports = []
     data = {}
     name = "default"
+    submodules_list = []
 
     # sit to remove
     reg_in = False
@@ -48,10 +49,8 @@ class Module(am.Elaboratable):
         self.data = kwargs
         self.name = module_type + "_" + str(Module.unique_id)
         self.module_type = module_type
-        self.submodules_list = []
-        # self.ports = []
 
-        # DO NOT INITIALIZE signals at MOdule.__init__()
+        # DO NOT INITIALIZE signals at Module.__init__()
         """
         if "i_in" not in kwargs.keys():
             reg_in = True
@@ -89,6 +88,20 @@ class Module(am.Elaboratable):
         for req_param in required_parameters:
             if req_param not in params.keys():
                 raise Exception(f"'{module_type}' module type must explicit '{req_param}' parameter.")
+
+    def init_sig(self, sig_name : str):
+        # auto init signal with correct size
+        value = None
+        if sig_name == "i_in":
+            if self.module_type in ["gate_or", "gate_and", "gate_nand"]:
+                value = (self.data["p_WAY"] * self.data["p_WIRE"])
+            else:
+                value = am.Signal(self.data["p_WIRE"])
+        elif sig_name == "o_out":
+            value = am.Signal(self.data["p_WIRE"])
+        if value is not None:
+            self.set(sig_name, value)
+
 
     def add_submodules(self, new_modules : list):
         for mod in new_modules:
@@ -195,13 +208,12 @@ if __name__ == "__main__":
 
 
     # here, we have to rely all elements correctly, AFTER initialisation
-    top_mod1.set("o_out", am.Signal(1))
-    top_mod2.set("o_out", am.Signal(1))
+    top_mod1.init_sig("o_out")
+    top_mod2.init_sig("o_out")
     top_mod3.set("i_in", am.Cat(top_mod1.get("o_out"), top_mod2.get("o_out")))
     # ...
 
 
-    top.add_submodules([top_mod1, top_mod2, top_mod3])
     # now plug to top in/out
     # ...
 

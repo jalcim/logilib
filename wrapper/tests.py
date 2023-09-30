@@ -21,9 +21,9 @@ if __name__ == "__main__":
     ##########################################
 
     top_1_mod_1 = Module("gate_and", p_WAY=2, p_WIRE=1)
-    top_1_mod_1.set("o_out", am.Signal(2))
+    top_1_mod_1.init_sig("o_out")
     top_1_mod_2 = Module("gate_and", p_WAY=2, p_WIRE=1)
-    top_1_mod_2.set("o_out", am.Signal(2))
+    top_1_mod_2.init_sig("o_out")
     top_1_mod_3 = Module("gate_and", p_WAY=2, p_WIRE=1, i_in=am.Cat(
         top_1_mod_1.get("o_out"),
         top_1_mod_2.get("o_out")
@@ -41,14 +41,14 @@ if __name__ == "__main__":
     ##########################################
 
     top_2 = Module("top_2", p_WAY=8, p_WIRE=8)
-    top_2.set("i_in", am.Signal(2))
+    top_2.init_sig("i_in")
     top_2_mod_1 = Module("gate_nand", p_WAY=2, p_WIRE=1)
-    top_2_mod_1.set("o_out", am.Signal(2))
+    top_2_mod_1.init_sig("o_out")
     top_2_mod_2 = Module("gate_xor", p_WAY=2, p_WIRE=1)
-    top_2_mod_2.set("o_out", am.Signal(2))
+    top_2_mod_2.init_sig("o_out")
     top_2_mod_3 = Module("gate_xor", p_WAY=2, p_WIRE=1)
     top_2_mod_4 = Module("gate_nand", p_WAY=2, p_WIRE=1)
-    top_2_mod_4.set("o_out", am.Signal(2))
+    top_2_mod_4.init_sig("o_out")
     top_2_mod_5 = Module("gate_nand", p_WAY=2, p_WIRE=1)
 
     top_2_mod_1.set("i_in", am.Cat(
