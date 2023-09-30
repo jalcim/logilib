@@ -155,7 +155,7 @@ class Module(am.Elaboratable): # this is a recursive Element
 
         if recursive is True:
             for sub_mod in self.submodules_list:
-                sub_mod.finish_prefab()
+                 sub_mod.finish_prefab(recursive=recursive)
 
     def elaborate(self, platform):
         top = am.Module()
@@ -169,6 +169,8 @@ class Module(am.Elaboratable): # this is a recursive Element
             Module.unique_id += 1
             for pin in sub_mod.ports:
                 self.ports.append(pin)
+            for port in self.ports:
+                top.ports.append(port)
         return top
 
 
@@ -183,10 +185,10 @@ if __name__ == "__main__":
     # exemple 2 : modules relier dans un top
 
     # first, declare elements
-    top_mod1 = Module("gate_and")
-    top_mod2 = Module("gate_and")
-    top_mod3 = Module("gate_and")
-    top = Module("top")
+    top_mod1 = Module("gate_and", p_WAY=2, p_WIRE=1)
+    top_mod2 = Module("gate_and", p_WAY=2, p_WIRE=1)
+    top_mod3 = Module("gate_and", p_WAY=2, p_WIRE=1)
+    top = Module("top", p_WAY=8, p_WIRE=8)
 
     # plug
     top.add_submodules([top_mod1, top_mod2, top_mod3])
@@ -195,13 +197,13 @@ if __name__ == "__main__":
     # now we have to rely some entries
     top_mod1.set("p_WAY", 2)
     top_mod1.set("p_WIRE", 1)
-    top_mod1.reg_out = False
+    #top_mod1.reg_out = False
     top_mod2.set("p_WAY", 2)
     top_mod2.set("p_WIRE", 1)
-    top_mod2.reg_out = False
+    #top_mod2.reg_out = False
     top_mod3.set("p_WAY", 2)
     top_mod2.set("p_WIRE", 1)
-    top_mod3.reg_out = True
+    #top_mod3.reg_out = True
     top.set("p_WAY",  8)
     top.set("p_WIRE", 8)
 
@@ -218,7 +220,9 @@ if __name__ == "__main__":
     # ...
 
 
-    top.finish_prefab(recursive=True) # fill empty i_ / o_, following reg_in/reg_out pattern
+    top.finish_prefab(recursive=False) # fill empty i_ / o_, following reg_in/reg_out pattern
 
+    print("SUBMOD LIST", top.submodules_list)
+    #print("SUBMOD S", top.submodules)
     # fnally
     top.write_rtlil_file()
