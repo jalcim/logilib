@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 
 from wrapper import Module, Top
-from wrapper import write_top_rtlil
+from wrapper import write_rtlil
 
 import amaranth as am # THIS SHOULD NOT BE DIRECTLY IMPORTED DIRECTLY
 
@@ -22,7 +22,7 @@ if __name__ == "__main__":
         top_1_mod_2.get("o_out")
     ))
     top_1 = Top(modules_list = [top_1_mod_1, top_1_mod_2, top_1_mod_3])
-    write_top_rtlil(top_1)
+    write_rtlil(top_1)
 
     ##########################################
     # exemple 2 : additionner 1bit
@@ -62,4 +62,4 @@ if __name__ == "__main__":
         top_2_mod_4,
         top_2_mod_5,
     ]
-    write_top_rtlil(top_2)
+    write_rtlil(top_2)

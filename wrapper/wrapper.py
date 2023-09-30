@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 
 from os import environ
+import datetime
 
 import amaranth as am
 # from amaranth import Signal, Module, Instance
@@ -125,12 +126,12 @@ def write_rtlil_file(modules_list : list):
             #print(f"'{elem.module.rtlil_file}' filename written.")
 
 
-def write_top_rtlil(top : am.Elaboratable):
-    name = "top"
+def write_rtlil(module : am.Elaboratable):
+    name = "module" # must generate the name from object
     platform = None
     emit_src = True
     strip_internal_attrs = False
-    fragment = Fragment.get(top, platform).prepare(ports=top.ports)
+    fragment = Fragment.get(module, platform).prepare(ports=module.ports)
     rtlil_text, name_map = convert_fragment(
         fragment,
         name,
@@ -138,10 +139,11 @@ def write_top_rtlil(top : am.Elaboratable):
     )
     ENV_USERNAME = environ.get("USER")
     rtlil_source_text = rtlil_text.replace(ENV_USERNAME, "user")
-
-    with open("top.rtlil", "w") as fd:
+    now = datetime.datetime.now().strftime("%Y-%m-%d_%H-%M-%S")
+    filename = name + "_" + now + ".rtlil"
+    with open(filename, "w") as fd:
         fd.write(rtlil_source_text)
-        #print(f"top.rtlil filename written.")
+        print(f"{filename} file written.")
 
 
 class Top(am.Elaboratable):
@@ -179,4 +181,4 @@ if __name__ == "__main__":
     top_mod3 = Module(True, "gate_and", {"WAY": 2, "WIRE": 1}, i_in=am.Cat(top_mod1.get("o_out"), top_mod2.get("o_out")))
 
     top = Top(modules_list = [top_mod1, top_mod2, top_mod3])
-    write_top_rtlil(top)
+    write_rtlil(top)
