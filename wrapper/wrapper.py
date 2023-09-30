@@ -48,6 +48,7 @@ class Verilog_module():
 ALLOWED_PARAMS = {
     "gate_and": ["WAY", "WIRE"],
     "gate_or": ["WAY", "WIRE"],
+    "gate_xor": ["WAY", "WIRE"],
     "gate_not": ["WIRE"],
     "gate_nand": ["WAY", "WIRE"],
 }
@@ -144,7 +145,7 @@ def write_top_rtlil(top : am.Elaboratable):
 
 
 class Top(am.Elaboratable):
-    def __init__(self, modules_list):
+    def __init__(self, modules_list : list = []):
         self.modules_list = modules_list
 
     def elaborate(self, platform):
@@ -161,6 +162,12 @@ class Top(am.Elaboratable):
             for pin in mod.module.ports:
                 self.ports.append(pin)
         return top
+
+    def get(self, key): ## REMOVE THIS SHIT ONCE INHERITS FROM Module()
+        return am.Signal(1) ## REMOVE THIS SHIT ONCE INHERITS FROM Module()
+
+    def set(self, key, value): ## REMOVE THIS SHIT ONCE INHERITS FROM Module()
+        pass ## REMOVE THIS SHIT ONCE INHERITS FROM Module()
 
 if __name__ == "__main__":
     # exemple 2 : modules relier dans un top
