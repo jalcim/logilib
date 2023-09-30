@@ -12,61 +12,47 @@ from amaranth.back.rtlil import convert_fragment
 
 from collections import defaultdict, OrderedDict
 
-class Verilog_module():
-    def __init__(self, reg_in, reg_out, name, id, **kwargs):
-        self.reg_in = reg_in
-        self.reg_out = reg_out
-        self.kwargs = kwargs
-        self.name = name
-        self.rtlil_source = "" #affectation dans write_rtlil_file
-        self.rtlil_file = self.name + id + ".rtlil"
-        #print("reg_in", reg_in)
-        #print("reg_out", reg_out)
-        self.update_prefab()
 
-    def update_prefab(self):
-        self.params = []
-        for key in self.kwargs.keys():
-            if key[0:2] in ["p_"]:
-                self.params.append(self.kwargs.get(key))
-
-        self.ports = []
-        for key in self.kwargs.keys():
-            if self.reg_in == False :
-                #print("1")
-                if key[0:2] in ["o_"] or key[0:3] in ["io_"]:
-                    self.ports.append(self.kwargs.get(key))
-            elif self.reg_out == False :
-                #print("2")
-                if key[0:2] in ["i_"] or key[0:3] in ["io_"]:
-                    self.ports.append(self.kwargs.get(key))
-            else :
-                #print("3")
-                if key[0:2] in ["i_", "o_"] or key[0:3] in ["io_"]:
-                    self.ports.append(self.kwargs.get(key))
 
 # must be updated with each module_type
 ALLOWED_PARAMS = {
-    "gate_and": ["WAY", "WIRE"],
-    "gate_or": ["WAY", "WIRE"],
-    "gate_xor": ["WAY", "WIRE"],
-    "gate_not": ["WIRE"],
-    "gate_nand": ["WAY", "WIRE"],
+    "gate_and": ["p_WAY", "p_WIRE"],
+    "gate_or": ["p_WAY", "p_WIRE"],
+    "gate_xor": ["p_WAY", "p_WIRE"],
+    "gate_not": ["p_WIRE"],
+    "gate_nand": ["p_WAY", "p_WIRE"],
+    # new module types must be added above this
+    "default": ["p_WAY", "p_WIRE"], # define defaut required parameters
 }
 
-class Module():
+class Module(am.Elaboratable):
 
-    module_id = 0 # auto increment
+    unique_id = 0 # auto increment
+    ports = []
+    data = {}
+    name = "default"
 
-    def check_module_type(self, module_type, params):
-        for required_param in ALLOWED_PARAMS[module_type]:
-            if required_param not in params.keys():
-                raise Exception(f"'{module_type}' module type must explicit '{required_param}' parameter.")
+    # sit to remove
+    reg_in = False
+    reg_out = False
 
-    def __init__(self, reg_out, module_type : str, params : dict, **kwargs):
-        self.check_module_type(module_type, params)
-        self.params = {}
+    def __init__(
+            self,
+            # reg_out, # who shat here ? need better generic class
+            # is it important to define it now ?
+            # and not just before rtlil generation ?
+            module_type : str = "default",
+            # params : dict = {},
+            **kwargs
+    ):
+        self.data = kwargs
+        self.name = module_type + "_" + str(Module.unique_id)
         self.module_type = module_type
+        self.submodules_list = []
+        # self.ports = []
+
+        # DO NOT INITIALIZE signals at MOdule.__init__()
+        """
         if "i_in" not in kwargs.keys():
             reg_in = True
             if self.module_type in ["gate_or", "gate_and", "gate_nand"]:
@@ -81,104 +67,146 @@ class Module():
             if self.module_type in ["gate_or", "gate_and", "gate_nand", "gate_not"]:
                 self.params["i_in"] = kwargs.get("i_in"),
                 self.params["o_out"] = am.Signal(params["WIRE"])
+        """
 
-        # override explicit kwargs
-        for key,value in kwargs.items():
-            #print(key, value)
-            if value is not None: # avoid None kwargs initialization
-                self.params[key] = value
+        #to_copy = ALLOWED_PARAMS[self.module_type if self.module_type in ALLOWED_PARAMS.keys() else "default"]
+        #self.params.update({"p_" + key: value for key, value in self.data.items() if key in to_copy})
 
-        self.params.update({"p_" + key: value for key, value in params.items() if key in ALLOWED_PARAMS[self.module_type]})
-
+        # NOT HERE
+        """
         self.module = Verilog_module(
             reg_in, reg_out,
             self.module_type,
-            str(Module.module_id),
+            str(Module.unique_id),
             **self.params,
         )
-        Module.module_id += 1
+        """
+        # nothing below increment
+        Module.unique_id += 1
+
+    def check_module_type(self, module_type, params):
+        required_parameters = ALLOWED_PARAMS[module_type] if module_type in ALLOWED_PARAMS.keys() else ALLOWED_PARAMS["default"]
+        for req_param in required_parameters:
+            if req_param not in params.keys():
+                raise Exception(f"'{module_type}' module type must explicit '{req_param}' parameter.")
+
+    def add_submodules(self, new_modules : list):
+        for mod in new_modules:
+            self.submodules_list.append(mod)
 
     def get(self, key):
-        return self.module.kwargs.get(key)
+        return self.data.get(key)
 
     def set(self, key : str, value):
-        self.module.kwargs[key] = value
-        self.module.update_prefab()
+        self.data[key] = value
 
-
-def write_rtlil_file(modules_list : list):
-    platform = None
-    emit_src = True
-    strip_internal_attrs = False
-
-    for elem in modules_list:
-        fragment = Fragment.get(elem.module, platform).prepare(ports=elem.module.ports)
+    def write_rtlil_file(self):
+        #name = "module" # must generate the name from object
+        platform = None
+        emit_src = True
+        strip_internal_attrs = False
+        fragment = Fragment.get(self, platform).prepare(ports=self.ports)
         rtlil_text, name_map = convert_fragment(
             fragment,
-            "wrapper_" + elem.module.name,
+            self.name,
             emit_src=emit_src,
         )
         ENV_USERNAME = environ.get("USER")
-        elem.module.rtlil_source = rtlil_text.replace(ENV_USERNAME, "user")
+        rtlil_source_text = rtlil_text.replace(ENV_USERNAME, "user")
+        now = datetime.datetime.now().strftime("%Y-%m-%d_%H-%M-%S")
+        filename = self.name + "_" + now + ".rtlil"
+        with open(filename, "w") as fd:
+            fd.write(rtlil_source_text)
+            print(f"{filename} file written.")
 
-        with open(elem.module.rtlil_file, "w") as fd:
-            fd.write(elem.module.rtlil_source)
-            #print(f"'{elem.module.rtlil_file}' filename written.")
+    def finish_prefab(self, recursive = False):
+        self.params = {}
+        for key, value in self.data.items():
+            if key[0:2] in ["p_"]:
+                self.params[key] = value
 
+        self.ports = []
+        for key in self.data.keys():
+            if self.reg_in == False :
+                #print("1")
+                if key[0:2] in ["o_"] or key[0:3] in ["io_"]:
+                    self.ports.append(self.data.get(key))
+            elif self.reg_out == False :
+                #print("2")
+                if key[0:2] in ["i_"] or key[0:3] in ["io_"]:
+                    self.ports.append(self.data.get(key))
+            else :
+                #print("3")
+                if key[0:2] in ["i_", "o_"] or key[0:3] in ["io_"]:
+                    self.ports.append(self.data.get(key))
 
-def write_rtlil(module : am.Elaboratable):
-    name = "module" # must generate the name from object
-    platform = None
-    emit_src = True
-    strip_internal_attrs = False
-    fragment = Fragment.get(module, platform).prepare(ports=module.ports)
-    rtlil_text, name_map = convert_fragment(
-        fragment,
-        name,
-        emit_src=emit_src,
-    )
-    ENV_USERNAME = environ.get("USER")
-    rtlil_source_text = rtlil_text.replace(ENV_USERNAME, "user")
-    now = datetime.datetime.now().strftime("%Y-%m-%d_%H-%M-%S")
-    filename = name + "_" + now + ".rtlil"
-    with open(filename, "w") as fd:
-        fd.write(rtlil_source_text)
-        print(f"{filename} file written.")
-
-
-class Top(am.Elaboratable):
-    def __init__(self, modules_list : list = []):
-        self.modules_list = modules_list
+        if recursive is True:
+            for sub_mod in self.submodules_list:
+                sub_mod.finish_prefab()
 
     def elaborate(self, platform):
         top = am.Module()
         self.ports = []
-        unique_id = 1
-        for mod in self.modules_list:
+        for sub_mod in self.submodules_list:
             verilog = am.Instance(
-                mod.module_type,
-                **mod.params
+                sub_mod.module_type,
+                **sub_mod.data
             )
-            setattr(top.submodules, f"{mod.module_type}_{unique_id}.verilog", verilog)
-            unique_id += 1
-            for pin in mod.module.ports:
+            setattr(top.submodules, f"{sub_mod.module_type}_{Module.unique_id}.verilog", verilog)
+            Module.unique_id += 1
+            for pin in sub_mod.ports:
                 self.ports.append(pin)
         return top
 
-    def get(self, key): ## REMOVE THIS SHIT ONCE INHERITS FROM Module()
-        return am.Signal(1) ## REMOVE THIS SHIT ONCE INHERITS FROM Module()
 
-    def set(self, key, value): ## REMOVE THIS SHIT ONCE INHERITS FROM Module()
-        pass ## REMOVE THIS SHIT ONCE INHERITS FROM Module()
+
+
+
+
+
+
 
 if __name__ == "__main__":
     # exemple 2 : modules relier dans un top
-    #print("top1")
-    top_mod1 = Module(False, "gate_and", {"WAY": 2, "WIRE": 1})
-    #print("top2")
-    top_mod2 = Module(False, "gate_and", {"WAY": 2, "WIRE": 1})
-    #print("top3")
-    top_mod3 = Module(True, "gate_and", {"WAY": 2, "WIRE": 1}, i_in=am.Cat(top_mod1.get("o_out"), top_mod2.get("o_out")))
 
-    top = Top(modules_list = [top_mod1, top_mod2, top_mod3])
-    write_rtlil(top)
+    # first, declare elements
+    top_mod1 = Module("gate_and")
+    top_mod2 = Module("gate_and")
+    top_mod3 = Module("gate_and")
+    top = Module("top")
+
+    # plug
+    top.add_submodules([top_mod1, top_mod2, top_mod3])
+
+
+    # now we have to rely some entries
+    top_mod1.set("p_WAY", 2)
+    top_mod1.set("p_WIRE", 1)
+    top_mod1.reg_out = False
+    top_mod2.set("p_WAY", 2)
+    top_mod2.set("p_WIRE", 1)
+    top_mod2.reg_out = False
+    top_mod3.set("p_WAY", 2)
+    top_mod2.set("p_WIRE", 1)
+    top_mod3.reg_out = True
+    top.set("p_WAY",  8)
+    top.set("p_WIRE", 8)
+
+
+
+    # here, we have to rely all elements correctly, AFTER initialisation
+    top_mod1.set("o_out", am.Signal(1))
+    top_mod2.set("o_out", am.Signal(1))
+    top_mod3.set("i_in", am.Cat(top_mod1.get("o_out"), top_mod2.get("o_out")))
+    # ...
+
+
+    top.add_submodules([top_mod1, top_mod2, top_mod3])
+    # now plug to top in/out
+    # ...
+
+
+    top.finish_prefab(recursive=True) # fill empty i_ / o_, following reg_in/reg_out pattern
+
+    # fnally
+    top.write_rtlil_file()
