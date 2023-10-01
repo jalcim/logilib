@@ -47,6 +47,7 @@ class Module(am.Elaboratable): # this is a recursive Element
             **kwargs
     ):
         self.data = kwargs
+        print(kwargs)
         self.name = module_type + "_" + str(Module.unique_id)
         self.module_type = module_type
 
@@ -93,12 +94,16 @@ class Module(am.Elaboratable): # this is a recursive Element
         # auto init signal with correct size
         value = None
         if sig_name == "i_in":
-            if self.module_type in ["gate_or", "gate_and", "gate_nand"]:
-                value = (self.data["p_WAY"] * self.data["p_WIRE"])
-            else:
+            #if self.reg_in == True:
+            if self.module_type in ["gate_or", "gate_and", "gate_nand", "gate_nor", "gate_xor", "gate_xnor"]:
+                value = am.Signal(self.data["p_WAY"] * self.data["p_WIRE"])
+            elif self.module_type in ["gate_buf", "gate_not"]:
                 value = am.Signal(self.data["p_WIRE"])
         elif sig_name == "o_out":
-            value = am.Signal(self.data["p_WIRE"])
+            #if self.reg_out == True:
+            if self.module_type in ["gate_or", "gate_and", "gate_nand", "gate_nor",
+                                    "gate_xor", "gate_xnor", "gate_buf", "gate_not"]:
+                value = am.Signal(self.data["p_WIRE"])
         if value is not None:
             self.set(sig_name, value)
 
@@ -112,13 +117,16 @@ class Module(am.Elaboratable): # this is a recursive Element
 
     def set(self, key : str, value):
         self.data[key] = value
+        print("set data of module", self.name, self.data)
 
     def write_rtlil_file(self):
         #name = "module" # must generate the name from object
         platform = None
         emit_src = True
         strip_internal_attrs = False
+        print("ports", self.ports)
         fragment = Fragment.get(self, platform).prepare(ports=self.ports)
+        print("1")
         rtlil_text, name_map = convert_fragment(
             fragment,
             self.name,
@@ -138,24 +146,34 @@ class Module(am.Elaboratable): # this is a recursive Element
             if key[0:2] in ["p_"]:
                 self.params[key] = value
 
+        #enregistrement des ports des submodules dans les ports du pere
         self.ports = []
-        for key in self.data.keys():
-            if self.reg_in == False :
-                #print("1")
-                if key[0:2] in ["o_"] or key[0:3] in ["io_"]:
-                    self.ports.append(self.data.get(key))
-            elif self.reg_out == False :
-                #print("2")
-                if key[0:2] in ["i_"] or key[0:3] in ["io_"]:
-                    self.ports.append(self.data.get(key))
-            else :
-                #print("3")
+        print("------------------")
+        print(self.name)
+        print("------------------")
+        for sub_mod in self.submodules_list:
+            print("module name", sub_mod.name)
+            for key in sub_mod.data.keys():
                 if key[0:2] in ["i_", "o_"] or key[0:3] in ["io_"]:
-                    self.ports.append(self.data.get(key))
-
+                    print("key =", key, sub_mod.data.get(key))
+                    if sub_mod.reg_in == False and sub_mod.reg_out == False :
+                        print("no port to reg")
+                    elif sub_mod.reg_in == False :
+                        if key[0:2] in ["o_"]:
+                            print("port o_out to reg")
+                            self.ports.append(sub_mod.data.get(key))
+                    elif sub_mod.reg_out == False :
+                        if key[0:2] in ["i_"]:
+                            print("port i_in to reg")
+                            self.ports.append(sub_mod.data.get(key))
+                    else :#io_ tombe ici (actuellement non gerer)
+                        print("all port to reg")
+                        self.ports.append(sub_mod.data.get(key))
+        '''
         if recursive is True:
             for sub_mod in self.submodules_list:
                  sub_mod.finish_prefab(recursive=recursive)
+        '''
 
     def elaborate(self, platform):
         top = am.Module()
@@ -167,10 +185,13 @@ class Module(am.Elaboratable): # this is a recursive Element
             )
             setattr(top.submodules, f"{sub_mod.module_type}_{Module.unique_id}.verilog", verilog)
             Module.unique_id += 1
-            for pin in sub_mod.ports:
-                self.ports.append(pin)
-            for port in self.ports:
-                top.ports.append(port)
+            print("coucou", sub_mod.name)
+            #for pin in sub_mod.ports:
+                #print("pin", pin)
+                #self.ports.append(pin)
+            #for port in self.ports:
+                #print("port", port)
+                #top.ports.append(port)
         return top
 
 
@@ -188,31 +209,52 @@ if __name__ == "__main__":
     top_mod1 = Module("gate_and", p_WAY=2, p_WIRE=1)
     top_mod2 = Module("gate_and", p_WAY=2, p_WIRE=1)
     top_mod3 = Module("gate_and", p_WAY=2, p_WIRE=1)
-    top = Module("top", p_WAY=8, p_WIRE=8)
+    top_mod4 = Module("gate_not", p_WIRE=1)
+
+    #module herite des ports de ses enfants si ils sont enregistrer (reg_in/reg_out)
+    top = Module("top")
 
     # plug
-    top.add_submodules([top_mod1, top_mod2, top_mod3])
+    top.add_submodules([top_mod1, top_mod2, top_mod3, top_mod4])
 
 
     # now we have to rely some entries
     top_mod1.set("p_WAY", 2)
     top_mod1.set("p_WIRE", 1)
-    #top_mod1.reg_out = False
+
+    top_mod1.reg_in = True
+    top_mod1.reg_out = False
+    #level_top_in
+
     top_mod2.set("p_WAY", 2)
     top_mod2.set("p_WIRE", 1)
-    #top_mod2.reg_out = False
+    top_mod2.reg_in = True
+    top_mod2.reg_out = False
+    #level_top_in
+
     top_mod3.set("p_WAY", 2)
-    top_mod2.set("p_WIRE", 1)
-    #top_mod3.reg_out = True
-    top.set("p_WAY",  8)
-    top.set("p_WIRE", 8)
+    top_mod3.set("p_WIRE", 1)
+    top_mod3.reg_in = False
+    top_mod3.reg_out = False
+    #level_intern
 
-
+    top_mod4.set("p_WIRE", 1)
+    top_mod4.reg_in = False
+    top_mod4.reg_out = True
+    #level_top_out
 
     # here, we have to rely all elements correctly, AFTER initialisation
+    top_mod1.init_sig("i_in")
     top_mod1.init_sig("o_out")
+
+    top_mod2.init_sig("i_in")
     top_mod2.init_sig("o_out")
+
     top_mod3.set("i_in", am.Cat(top_mod1.get("o_out"), top_mod2.get("o_out")))
+    top_mod3.init_sig("o_out")
+
+    top_mod4.set("i_in", top_mod3.get("o_out"))
+    top_mod4.init_sig("o_out")
     # ...
 
 
@@ -222,7 +264,6 @@ if __name__ == "__main__":
 
     top.finish_prefab(recursive=False) # fill empty i_ / o_, following reg_in/reg_out pattern
 
-    print("SUBMOD LIST", top.submodules_list)
     #print("SUBMOD S", top.submodules)
     # fnally
     top.write_rtlil_file()
