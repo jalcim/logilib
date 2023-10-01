@@ -9,3 +9,4 @@ pip install amaranth
     raise TypeError("Object {!r} cannot be converted to an Amaranth value".format(obj))
 TypeError: Object None cannot be converted to an Amaranth value
 ```
+- Les signaux concaténé ne doivent pas etre enregistrer dans les ports lors de l'elaboration, (uniquement dans le am.Instance)
