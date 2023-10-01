@@ -10,15 +10,10 @@ COPY Makefile /work/
 COPY ./cosim /work/cosim
 COPY ./src /work/src
 
-ENV COMPILE_STATIC=true
+ENV LOG_LEVEL=trace
 
 RUN make build
 
-FROM scratch
-
-COPY --from=build /work/build/Vmain /Vmain
-COPY --from=build /work/cosim/settings.ini /cosim/settings.ini
-
-ENTRYPOINT ["/Vmain"]
+ENTRYPOINT ["./build/Vmain"]
 
 # ENTRYPOINT ["sh", "-c", "sleep infinity"]
