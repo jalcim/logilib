@@ -21,14 +21,14 @@ ALLOWED_PARAMS = {
     "gate_xor": ["p_WAY", "p_WIRE"],
     "gate_not": ["p_WIRE"],
     "gate_nand": ["p_WAY", "p_WIRE"],
-    # new module types must be added above this
+    # new cells types must be added above this
+    # les cells complexe auront d'autres parametres
     "default": ["p_WAY", "p_WIRE"], # define defaut required parameters
 }
 
 class Module(am.Elaboratable): # this is a recursive Element
 
     unique_id = 0 # auto increment
-    ports = []
     data = {}
     name = "default"
     submodules_list = []
@@ -39,48 +39,14 @@ class Module(am.Elaboratable): # this is a recursive Element
 
     def __init__(
             self,
-            # reg_out, # who shat here ? need better generic class
-            # is it important to define it now ?
-            # and not just before rtlil generation ?
             module_type : str = "default",
             # params : dict = {},
             **kwargs
     ):
         self.data = kwargs
-        print(kwargs)
         self.name = module_type + "_" + str(Module.unique_id)
         self.module_type = module_type
-
-        # DO NOT INITIALIZE signals at Module.__init__()
-        """
-        if "i_in" not in kwargs.keys():
-            reg_in = True
-            if self.module_type in ["gate_or", "gate_and", "gate_nand"]:
-                self.params["i_in"] = am.Signal(params["WAY"] * params["WIRE"])
-                self.params["o_out"] = am.Signal(params["WIRE"])
-            elif self.module_type == "gate_not":
-                self.params["i_in"] = am.Signal(params["WIRE"])
-                self.params["o_out"] = am.Signal(params["WIRE"])
-
-        else :
-            reg_in = False
-            if self.module_type in ["gate_or", "gate_and", "gate_nand", "gate_not"]:
-                self.params["i_in"] = kwargs.get("i_in"),
-                self.params["o_out"] = am.Signal(params["WIRE"])
-        """
-
-        #to_copy = ALLOWED_PARAMS[self.module_type if self.module_type in ALLOWED_PARAMS.keys() else "default"]
-        #self.params.update({"p_" + key: value for key, value in self.data.items() if key in to_copy})
-
-        # NOT HERE
-        """
-        self.module = Verilog_module(
-            reg_in, reg_out,
-            self.module_type,
-            str(Module.unique_id),
-            **self.params,
-        )
-        """
+        self.ports = []
         # nothing below increment
         Module.unique_id += 1
 
@@ -94,15 +60,15 @@ class Module(am.Elaboratable): # this is a recursive Element
         # auto init signal with correct size
         value = None
         if sig_name == "i_in":
-            #if self.reg_in == True:
+            #les cells complexe pouront avoir des entrees differentes et d'autres parametres
             if self.module_type in ["gate_or", "gate_and", "gate_nand", "gate_nor", "gate_xor", "gate_xnor"]:
                 value = am.Signal(self.data["p_WAY"] * self.data["p_WIRE"])
             elif self.module_type in ["gate_buf", "gate_not"]:
                 value = am.Signal(self.data["p_WIRE"])
         elif sig_name == "o_out":
-            #if self.reg_out == True:
             if self.module_type in ["gate_or", "gate_and", "gate_nand", "gate_nor",
                                     "gate_xor", "gate_xnor", "gate_buf", "gate_not"]:
+                #les cells complexe pouront avoir des sorties differentes et d'autres parametres
                 value = am.Signal(self.data["p_WIRE"])
         if value is not None:
             self.set(sig_name, value)
@@ -117,16 +83,12 @@ class Module(am.Elaboratable): # this is a recursive Element
 
     def set(self, key : str, value):
         self.data[key] = value
-        print("set data of module", self.name, self.data)
 
     def write_rtlil_file(self):
-        #name = "module" # must generate the name from object
         platform = None
         emit_src = True
         strip_internal_attrs = False
-        print("ports", self.ports)
         fragment = Fragment.get(self, platform).prepare(ports=self.ports)
-        print("1")
         rtlil_text, name_map = convert_fragment(
             fragment,
             self.name,
@@ -147,28 +109,26 @@ class Module(am.Elaboratable): # this is a recursive Element
                 self.params[key] = value
 
         #enregistrement des ports des submodules dans les ports du pere
-        self.ports = []
-        print("------------------")
-        print(self.name)
-        print("------------------")
+        #ici ?
+        '''
         for sub_mod in self.submodules_list:
             print("module name", sub_mod.name)
             for key in sub_mod.data.keys():
                 if key[0:2] in ["i_", "o_"] or key[0:3] in ["io_"]:
-                    print("key =", key, sub_mod.data.get(key))
                     if sub_mod.reg_in == False and sub_mod.reg_out == False :
                         print("no port to reg")
                     elif sub_mod.reg_in == False :
                         if key[0:2] in ["o_"]:
-                            print("port o_out to reg")
+                            print("port reg", key)
                             self.ports.append(sub_mod.data.get(key))
                     elif sub_mod.reg_out == False :
                         if key[0:2] in ["i_"]:
-                            print("port i_in to reg")
+                            print("port reg", key)
                             self.ports.append(sub_mod.data.get(key))
                     else :#io_ tombe ici (actuellement non gerer)
-                        print("all port to reg")
+                        print("port reg", key)
                         self.ports.append(sub_mod.data.get(key))
+        '''
         '''
         if recursive is True:
             for sub_mod in self.submodules_list:
@@ -176,22 +136,35 @@ class Module(am.Elaboratable): # this is a recursive Element
         '''
 
     def elaborate(self, platform):
+        # SEUL LE TOP APPELLE CETTE FONCTION
+        # car seul le top est un module, les "gate_XXX" sont des cells pas des modules !
+        # c'est a dire des composants primitif de bas niveau (abstraction materiel)
+        # les modules parcontre contenir d'autres modules, qui contiennent eux des cells !
         top = am.Module()
-        self.ports = []
         for sub_mod in self.submodules_list:
             verilog = am.Instance(
                 sub_mod.module_type,
                 **sub_mod.data
             )
             setattr(top.submodules, f"{sub_mod.module_type}_{Module.unique_id}.verilog", verilog)
+            #ou la ?
+            print("module name", sub_mod.name)
+            for key in sub_mod.data.keys():
+                if key[0:2] in ["i_", "o_"] or key[0:3] in ["io_"]:
+                    if sub_mod.reg_in == False and sub_mod.reg_out == False :
+                        print("no port to reg")
+                    elif sub_mod.reg_in == False :
+                        if key[0:2] in ["o_"]:
+                            print("port reg", key)
+                            self.ports.append(sub_mod.data.get(key))
+                    elif sub_mod.reg_out == False :
+                        if key[0:2] in ["i_"]:
+                            print("port reg", key)
+                            self.ports.append(sub_mod.data.get(key))
+                    else :#io_ tombe ici (actuellement non gerer)
+                        print("port reg", key)
+                        self.ports.append(sub_mod.data.get(key))
             Module.unique_id += 1
-            print("coucou", sub_mod.name)
-            #for pin in sub_mod.ports:
-                #print("pin", pin)
-                #self.ports.append(pin)
-            #for port in self.ports:
-                #print("port", port)
-                #top.ports.append(port)
         return top
 
 
@@ -206,53 +179,52 @@ if __name__ == "__main__":
     # exemple 2 : modules relier dans un top
 
     # first, declare elements
-    top_mod1 = Module("gate_and", p_WAY=2, p_WIRE=1)
-    top_mod2 = Module("gate_and", p_WAY=2, p_WIRE=1)
-    top_mod3 = Module("gate_and", p_WAY=2, p_WIRE=1)
-    top_mod4 = Module("gate_not", p_WIRE=1)
+    top_mod1 = Module("gate_and", p_WAY=2, p_WIRE=1)#cells : composants primitif de bas niveau (abstraction materiel)
+    top_mod2 = Module("gate_and", p_WAY=2, p_WIRE=1)#cells
+    top_mod3 = Module("gate_and", p_WAY=2, p_WIRE=1)#cells
+    top_mod4 = Module("gate_not", p_WIRE=1)#cells
 
     #module herite des ports de ses enfants si ils sont enregistrer (reg_in/reg_out)
-    top = Module("top")
+    top = Module("top")#module (peux en contenir d'autres)
 
     # plug
+    # les cells out les modules sous jacent
+    # les deux sont ajouter de la meme maniere
     top.add_submodules([top_mod1, top_mod2, top_mod3, top_mod4])
-
 
     # now we have to rely some entries
     top_mod1.set("p_WAY", 2)
     top_mod1.set("p_WIRE", 1)
+    top_mod2.set("p_WAY", 2)
+    top_mod2.set("p_WIRE", 1)
+    top_mod3.set("p_WAY", 2)
+    top_mod3.set("p_WIRE", 1)
+    top_mod4.set("p_WIRE", 1)
 
+    #register ports of submodules on top modules
     top_mod1.reg_in = True
     top_mod1.reg_out = False
     #level_top_in
-
-    top_mod2.set("p_WAY", 2)
-    top_mod2.set("p_WIRE", 1)
     top_mod2.reg_in = True
     top_mod2.reg_out = False
     #level_top_in
-
-    top_mod3.set("p_WAY", 2)
-    top_mod3.set("p_WIRE", 1)
     top_mod3.reg_in = False
     top_mod3.reg_out = False
     #level_intern
-
-    top_mod4.set("p_WIRE", 1)
     top_mod4.reg_in = False
     top_mod4.reg_out = True
     #level_top_out
 
     # here, we have to rely all elements correctly, AFTER initialisation
+    # l'ordre d'initialisation est importante !
+    # "o_out" ne doit JAMAIS se trouver avant "i_in"
+    # cet ordre est susceptible de varier sur les cells complexe
     top_mod1.init_sig("i_in")
     top_mod1.init_sig("o_out")
-
     top_mod2.init_sig("i_in")
     top_mod2.init_sig("o_out")
-
     top_mod3.set("i_in", am.Cat(top_mod1.get("o_out"), top_mod2.get("o_out")))
     top_mod3.init_sig("o_out")
-
     top_mod4.set("i_in", top_mod3.get("o_out"))
     top_mod4.init_sig("o_out")
     # ...
