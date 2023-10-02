@@ -8,6 +8,7 @@ test_alu_arithm()
     mkdir -p $BIN_alu_arithm
 
     iverilog -o $BIN_alu_arithm/test_add $TEST_alu_arithm/test_add.v
+    iverilog -o $BIN_alu_arithm/test_addX $TEST_alu_arithm/test_addX.v
     iverilog -o $BIN_alu_arithm/test_add8 $TEST_alu_arithm/test_add8.v
     iverilog -o $BIN_alu_arithm/test_divmod2 $TEST_alu_arithm/test_divmod2.v
     iverilog -o $BIN_alu_arithm/test_multX $TEST_alu_arithm/test_multX.v
