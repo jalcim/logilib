@@ -9,8 +9,6 @@
 #include <boost/log/trivial.hpp>
 #include "gate_macros.h"
 
-#define TRACE_INCREMENT 1000
-
 using namespace std;
 
 extern VerilatedContext *contextp;
@@ -81,13 +79,13 @@ public:
     if (m_trace)
     {
       m_trace->dump(contextp->time());
-      contextp->timeInc(TRACE_INCREMENT);
+      contextp->timeInc(VERILATOR_TIME_INCREMENT);
     }
 
     while (input < input_max)
     {
 
-      contextp->timeInc(TRACE_INCREMENT);
+      contextp->timeInc(VERILATOR_TIME_INCREMENT);
       BOOST_LOG_TRIVIAL(debug) << "Test input " << input << " : ";
 
       gate->in = input;
@@ -135,7 +133,7 @@ public:
 
     if (m_trace)
     {
-      contextp->timeInc(TRACE_INCREMENT);
+      contextp->timeInc(VERILATOR_TIME_INCREMENT);
       m_trace->dump(contextp->time());
       m_trace->flush();
     }

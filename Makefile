@@ -19,6 +19,9 @@
 # package install, and verilator is in your path. Otherwise find the
 # binary relative to $VERILATOR_ROOT (such as when inside the git sources).
 ######################################################################
+MAKEFILE_PATH := $(abspath $(lastword $(MAKEFILE_LIST)))
+MAKEFILE_DIR := $(dir $(MAKEFILE_PATH))
+
 ifeq ($(VERILATOR_ROOT),)
 	VERILATOR = verilator
 	VERILATOR_COVERAGE = verilator_coverage
@@ -70,7 +73,8 @@ else
 	CMAKE_MAJOR := $(shell echo $(CMAKE_VERSION) | cut -f1 -d.)
 	CMAKE_MINOR := $(shell echo $(CMAKE_VERSION) | cut -f2 -d.)
 	CMAKE_GT_3_8 := $(shell [ $(CMAKE_MAJOR) -gt 3 -o \( $(CMAKE_MAJOR) -eq 3 -a $(CMAKE_MINOR) -ge 12 \) ] && echo true)
-	CMAKE_MODULE_PATH=$(pwd)/cosim/cmake
+	CMAKE_MODULE_PATH := $(MAKEFILE_DIR)cosim/cmake
+	CMAKE := cmake -DCMAKE_MODULE_PATH=$(CMAKE_MODULE_PATH)
 	ifeq ($(CMAKE_GT_3_8),true)
 		TARGET := run
 	else
@@ -84,19 +88,19 @@ endif
 default: $(TARGET)
 
 cmake-ninja:
-	cmake -B build -GNinja ./cosim
+	$(CMAKE) -B build -GNinja ./cosim
 
 build: cmake-ninja
 	ninja -C build
 
 cmake-src:
-	cmake -B ./src/primitive/gate/build -GNinja ./src/primitive/gate
+	$(CMAKE) -B ./src/primitive/gate/build -GNinja ./src/primitive/gate
 
 build-src: cmake-src
 	ninja -C ./src/primitive/gate/build
 
 cmake-make:
-	cmake -B build ./cosim
+	$(CMAKE) -B build ./cosim
 
 build-make: cmake-make
 	 make -j -C build
@@ -143,4 +147,4 @@ oldcmake:
 	@echo "%Skip: CMake version is too old (need at least 3.8)"
 	@echo
 
-.PHONY:	test default build run clean mostlyclean distclean maintainer-clean nocmake oldcmake
+.PHONY: cmake-ninja build cmake-src build-src cmake-make build-make run-make run hasformat noformat re re-make rerun rerun-make clean mostlyclean distclean maintainer-clean nocmake oldcmake

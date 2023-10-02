@@ -25,12 +25,15 @@ To build only a part of cosim you may use this kind of command from root of logi
 Example for build alu lib
 
 ```sh
-rm -rf cosim/alu/build
-make cosim/alu/build
+touch cosim/alu && make cosim/alu/build
 ```
 
 
 ## Environment
+
+### VERILATOR_TIME_INCREMENT
+
+Set time increment on each verilator eval default 1000
 
 ### VCD_TRACE_ON
 
