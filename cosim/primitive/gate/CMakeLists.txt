@@ -1,59 +1,49 @@
-add_library(Vgate_buf STATIC)
-add_library(Vgate_not STATIC)
-add_library(Vgate_and STATIC)
-add_library(Vgate_nand STATIC)
-add_library(Vgate_nor STATIC)
-add_library(Vgate_or STATIC)
-add_library(Vgate_xnor STATIC)
-add_library(Vgate_xor STATIC)
+cmake_minimum_required(VERSION 3.18)
+project(Cosim_gates C CXX)
 
-verilator_generate_key(KEY_INIT)
-set(PROTECT_KEY ${KEY_INIT} CACHE STRING "Random seed for protection")
+find_package(verilator HINTS $ENV{VERILATOR_ROOT} ${VERILATOR_ROOT})
+if (NOT verilator_FOUND)
+  message(FATAL_ERROR "Verilator was not found. Either install it, or set the VERILATOR_ROOT environment variable")
+endif()
 
-verilate(Vgate_buf
-  VERILATOR_ARGS --protect-lib lib_gate_buf
-  --protect-key ${PROTECT_KEY}
-  DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}/lib/lib_gate_buf
-  SOURCES ${PRIM_SRC_GATE}/gate_buf.v)
+if(NOT DEFINED MAX_WAYS)
+  set(MAX_WAYS 8)
+endif()
 
-verilate(Vgate_not
-  VERILATOR_ARGS --protect-lib lib_gate_not
-  --protect-key ${PROTECT_KEY}
-  DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}/lib/lib_gate_not
-  SOURCES ${PRIM_SRC_GATE}/gate_not.v)
+set(GATE_LIBRARIES
+  "Vgate_buf_1"
+  "Vgate_not_1"
+)
 
-verilate(Vgate_and
-  VERILATOR_ARGS --protect-lib lib_gate_and
-  --protect-key ${PROTECT_KEY}
-  DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}/lib/lib_gate_and
-  SOURCES ${PRIM_SRC_GATE}/gate_and.v)
 
-verilate(Vgate_nand
-  VERILATOR_ARGS --protect-lib lib_gate_nand
-  --protect-key ${PROTECT_KEY}
-  DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}/lib/lib_gate_nand
-  SOURCES ${PRIM_SRC_GATE}/gate_nand.v)
+foreach(way_number RANGE 2 ${MAX_WAYS})
+  set(GATE_LIBRARIES
+    ${GATE_LIBRARIES}
+    "Vgate_and_${way_number}"
+    "Vgate_nand_${way_number}"
+    "Vgate_nor_${way_number}"
+    "Vgate_or_${way_number}"
+    "Vgate_xnor_${way_number}"
+    "Vgate_xor_${way_number}"
+  )
+endforeach()
 
-verilate(Vgate_nor
-  VERILATOR_ARGS --protect-lib lib_gate_nor
-  --protect-key ${PROTECT_KEY}
-  DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}/lib/lib_gate_nor
-  SOURCES ${PRIM_SRC_GATE}/gate_nor.v)
+add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/../../../src/primitive/gate vgates)
 
-verilate(Vgate_or
-  VERILATOR_ARGS --protect-lib lib_gate_or
-  --protect-key ${PROTECT_KEY}
-  DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}/lib/lib_gate_or
-  SOURCES ${PRIM_SRC_GATE}/gate_or.v)
+add_compile_options(-std=c++11)
 
-verilate(Vgate_xnor
-  VERILATOR_ARGS --protect-lib lib_gate_xnor
-  --protect-key ${PROTECT_KEY}
-  DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}/lib/lib_gate_xnor
-  SOURCES ${PRIM_SRC_GATE}/gate_xnor.v)
+add_library(${PROJECT_NAME} STATIC)
 
-verilate(Vgate_xor
-  VERILATOR_ARGS --protect-lib lib_gate_xor
-  --protect-key ${PROTECT_KEY}
-  DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}/lib/lib_gate_xor
-  SOURCES ${PRIM_SRC_GATE}/gate_xor.v)
+target_sources(${PROJECT_NAME} PRIVATE ./gate.cpp ./gate_utils.cpp)
+
+target_include_directories(${PROJECT_NAME}
+  PUBLIC
+  ${CMAKE_CURRENT_SOURCE_DIR}/gate.h
+  # where top-level project will look for the library's public headers
+  $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/>
+  # where external projects will look for the library's public headers
+  $<INSTALL_INTERFACE:${CMAKE_INSTALL_INCLUDEDIR}>
+)
+
+target_link_libraries(${PROJECT_NAME} LINK_PUBLIC ${GATE_LIBRARIES} Boost::log)
+
