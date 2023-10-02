@@ -1,4 +1,4 @@
 #!/bin/sh
 
-mkdir -p synth/alu/arithm
-sh scripts/yosys/alu/arithm/addX.sh
+rm -rf synth
+yosys -c scripts/yosys/all.tcl
