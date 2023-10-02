@@ -126,6 +126,10 @@ rerun-make: re run-make
 	make -C `dirname $@ | sed s/cosim/build/` `basename $@`
 	cat `find build -name \`basename $@\`` | $(FORMAT)
 
+cosim/%/build: cosim/%
+	cmake -B $@ -GNinja `echo $@ | sed s/build//`
+	ninja -C $@
+
 clean mostlyclean distclean maintainer-clean:
 	@rm -rf build logs
 

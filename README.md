@@ -18,6 +18,18 @@ Build of co-simulation library by running in the root folder
 ```
 Result files are on build/
 
+## Partial build
+
+To build only a part of cosim you may use this kind of command from root of logilib
+
+Example for build alu lib
+
+```sh
+rm -rf cosim/alu/build
+make cosim/alu/build
+```
+
+
 ## Environment
 
 ### VCD_TRACE_ON
