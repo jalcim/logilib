@@ -20,11 +20,11 @@
 # binary relative to $VERILATOR_ROOT (such as when inside the git sources).
 ######################################################################
 ifeq ($(VERILATOR_ROOT),)
-VERILATOR = verilator
-VERILATOR_COVERAGE = verilator_coverage
+	VERILATOR = verilator
+	VERILATOR_COVERAGE = verilator_coverage
 else
-VERILATOR = $(VERILATOR_ROOT)/bin/verilator
-VERILATOR_COVERAGE = $(VERILATOR_ROOT)/bin/verilator_coverage
+	VERILATOR = $(VERILATOR_ROOT)/bin/verilator
+	VERILATOR_COVERAGE = $(VERILATOR_ROOT)/bin/verilator_coverage
 endif
 
 # Generate C++ in executable form
@@ -50,31 +50,32 @@ GNUINDENT := `command -v indent`
 CLANGFORMAT := `command -v clang-format`
 
 ifneq ($(CLANGFORMAT),)
-FORMAT := $(CLANGFORMAT)
+	FORMAT := $(CLANGFORMAT)
 else
-FORMAT := $(GNUINDENT)
+	FORMAT := $(GNUINDENT)
 endif
 
 ifeq ($(FORMAT),)
-FORMAT_TARGET := noformat
+	FORMAT_TARGET := noformat
 else
-FORMAT_TARGET := hasformat
+	FORMAT_TARGET := hasformat
 endif
 
 
 # Check if CMake is installed and of correct version
 ifeq ($(shell which cmake),)
-TARGET := nocmake
+	TARGET := nocmake
 else
-CMAKE_VERSION := $(shell cmake --version | grep -Eo '([0-9]+)(\.[0-9]+)*')
-CMAKE_MAJOR := $(shell echo $(CMAKE_VERSION) | cut -f1 -d.)
-CMAKE_MINOR := $(shell echo $(CMAKE_VERSION) | cut -f2 -d.)
-CMAKE_GT_3_8 := $(shell [ $(CMAKE_MAJOR) -gt 3 -o \( $(CMAKE_MAJOR) -eq 3 -a $(CMAKE_MINOR) -ge 12 \) ] && echo true)
-ifeq ($(CMAKE_GT_3_8),true)
-TARGET := run
-else
-TARGET := oldcmake
-endif
+	CMAKE_VERSION := $(shell cmake --version | grep -Eo '([0-9]+)(\.[0-9]+)*')
+	CMAKE_MAJOR := $(shell echo $(CMAKE_VERSION) | cut -f1 -d.)
+	CMAKE_MINOR := $(shell echo $(CMAKE_VERSION) | cut -f2 -d.)
+	CMAKE_GT_3_8 := $(shell [ $(CMAKE_MAJOR) -gt 3 -o \( $(CMAKE_MAJOR) -eq 3 -a $(CMAKE_MINOR) -ge 12 \) ] && echo true)
+	CMAKE_MODULE_PATH=$(pwd)/cosim/cmake
+	ifeq ($(CMAKE_GT_3_8),true)
+		TARGET := run
+	else
+		TARGET := oldcmake
+	endif
 endif
 
 

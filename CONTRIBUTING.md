@@ -3,17 +3,31 @@
 Commit messages should follow [conventional commit rules](https://www.conventionalcommits.org/en/v1.0.0/#specification) with the [config conventional types](https://github.com/conventional-changelog/commitlint/tree/master/%40commitlint/config-conventional)
 
 # Cosim
+
+## CMake
+In each new `CMakeLists.txt` created please include the [environment.cmake](./cosim/cmake/environment.cmake) and call the INIT_ENVIRONMENT() to ensure necessary libraries and defines are present
+
+```cmake
+include(environment)
+
+INIT_ENVIRONMENT()
+```
+
+
 ## Logs
 
 Logs are handled with [boost trivial logging](https://www.boost.org/doc/libs/1_83_0/libs/log/doc/html/index.html)
 
+
 ## Macros
+
 
 ### X-Macros
 
 X-Macros are used to repeat a macro on a list of variables.
 
 You can have detailled explanation about their behavior there [X-Macros](https://www.geeksforgeeks.org/x-macros-in-c/)
+
 
 ### Debugging
 
