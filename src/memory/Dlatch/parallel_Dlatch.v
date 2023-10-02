@@ -1,3 +1,6 @@
+`ifndef __PARALLEL_DLATCH__
+ `define __PARALLEL_DLATCH__
+
 `include "src/memory/Dlatch/Dlatch.v"
 `include "src/memory/Dlatch/serial_Dlatch.v"
 
@@ -20,3 +23,5 @@ module parallel_Dlatch(D, clk, Q, QN);
 								  Q[WAY*WIRE-1 : WIRE],
 								  QN[WAY*WIRE-1 : WIRE]);
 endmodule
+
+`endif

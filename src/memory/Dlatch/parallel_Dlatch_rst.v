@@ -1,3 +1,6 @@
+`ifndef __PARALLEL_DLATCH_RST__
+ `define __PARALLEL_DLATCH_RST__
+
 `include "src/memory/Dlatch/Dlatch_rst.v"
 `include "src/memory/Dlatch/serial_Dlatch_rst.v"
 
@@ -21,3 +24,5 @@ module parallel_Dlatch_rst(D, clk, rst, Q, QN);
 								  Q[WAY*WIRE-1 : WIRE],
 								  QN[WAY*WIRE-1 : WIRE]);
 endmodule
+
+`endif
