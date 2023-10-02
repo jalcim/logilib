@@ -51,17 +51,15 @@ proc synth_multX {PATH WIRE} {
     general $PATH $NAME
 }
 
-proc synth_arithm {} {
+proc synth_arithm {WAY WIRE} {
     set PATH "alu/arithm"
     
-    file mkdir synth/$PATH/verilog \
-	synth/$PATH/spice \
-	synth/$PATH/rtlil
+    make_dir $PATH
 
-    synth_add $PATH 
-    synth_addX $PATH 32
-    synth_add_sub $PATH 32
-    synth_cmp $PATH 32
-    synth_divmod2 $PATH 32
-    synth_multX $PATH 32
+    synth_add $PATH
+    synth_addX $PATH $WIRE
+    synth_add_sub $PATH $WIRE
+    synth_cmp $PATH $WIRE
+    synth_divmod2 $PATH $WIRE
+    synth_multX $PATH $WIRE
 }

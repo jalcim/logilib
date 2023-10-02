@@ -1,7 +1,10 @@
 set arithm_file "scripts/yosys/alu/arithm/arithm.tcl"
-source $arithm_file
+set logic_file "scripts/yosys/alu/logic/logic.tcl"
 
-proc synth_alu {} {
-    synth_arithm
-#    synth_logic
+source $arithm_file
+source $logic_file
+
+proc synth_alu {WAY WIRE} {
+    synth_arithm $WAY $WIRE
+    synth_logic $WAY $WIRE
 }

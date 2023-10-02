@@ -1,13 +1,10 @@
 set alu_file "scripts/yosys/alu/alu.tcl"
+set compteur_file "scripts/yosys/compteur/compteur.tcl"
+set memory_file "scripts/yosys/memory/memory.tcl"
+
 source $alu_file
-
-proc synth_compteur {} {
-
-}
-
-proc synth_memory {} {
-    
-}
+source $compteur_file
+source $memory_file
 
 proc synth_primitive {} {
 
@@ -27,10 +24,22 @@ proc general {PATH NAME} {
     design -reset
 }
 
-yosys -import
+proc make_dir {PATH} {
+    file mkdir synth/$PATH/verilog \
+	synth/$PATH/spice \
+	synth/$PATH/rtlil
+}
 
-synth_alu
-synth_compteur
-synth_memory
-synth_primitive
-synth_routing
+yosys -import
+puts $argc
+puts $argv0
+puts $argv1
+puts $argv2
+
+#puts [lindex $argv 0]
+
+synth_alu $argv1 $argv2
+synth_compteur $argv1 $argv2
+synth_memory $argv1 $argv2
+#synth_primitive
+#synth_routing

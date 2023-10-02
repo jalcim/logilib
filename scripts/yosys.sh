@@ -1,4 +1,4 @@
 #!/bin/sh
 
 rm -rf synth
-yosys -c scripts/yosys/all.tcl
+~/tools/yosys/yosys -q -c scripts/yosys/all.tcl 2 32
