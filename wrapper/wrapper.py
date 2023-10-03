@@ -140,7 +140,7 @@ class Module(am.Elaboratable):  # this is a recursive Element
             verilog = am.Instance(sub_mod.module_type, **sub_mod.data)
             setattr(
                 top.submodules,
-                f"{sub_mod.module_type}_{Module.unique_id}.verilog",
+                f"{sub_mod.name}.verilog",
                 verilog,
             )
             # ou là ?
@@ -160,7 +160,6 @@ class Module(am.Elaboratable):  # this is a recursive Element
                     else:  # io_ tombe ici (actuellement non geré)
                         print("port reg", key)
                         self.ports.append(sub_mod.data.get(key))
-            Module.unique_id += 1
         return top
 
     # DEBUG
