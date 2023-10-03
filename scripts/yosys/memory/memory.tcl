@@ -7,7 +7,7 @@ source $Dlatch_file
 #source $JKlatch
 
 proc synth_memory {WAY WIRE} {
-    synth_Dlatch_all $WAY $WIRE    
+    synth_Dlatch_all $WAY $WIRE
 #    synth_Dflipflop $WAY $WIRE
 #    synth_JKlatch $WAY $WIRE
 }

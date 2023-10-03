@@ -1,21 +1,17 @@
 set alu_file "scripts/yosys/alu/alu.tcl"
 set compteur_file "scripts/yosys/compteur/compteur.tcl"
 set memory_file "scripts/yosys/memory/memory.tcl"
+set primitive_file "scripts/yosys/primitive/primitive.tcl"
+set routing_file "scripts/yosys/routing/routing.tcl"
 
 source $alu_file
 source $compteur_file
 source $memory_file
-
-proc synth_primitive {} {
-
-}
-
-proc synth_routing {} {
-
-}
+source $primitive_file
+source $routing_file
 
 proc general {PATH NAME} {
-    hierarchy -check -top $NAME
+#    hierarchy -check -top $NAME
     check
 
     write_verilog synth/$PATH/verilog/$NAME.v
@@ -31,15 +27,16 @@ proc make_dir {PATH} {
 }
 
 yosys -import
-puts $argc
-puts $argv0
-puts $argv1
-puts $argv2
 
-#puts [lindex $argv 0]
+set WAY  2
+set WIRE 32
+#set WAY  $argv4
+#set WIRE $argv5
+#set WAY [lindex $argv 0]
+#set WIRE [lindex $argv 0]
 
-synth_alu $argv1 $argv2
-synth_compteur $argv1 $argv2
-synth_memory $argv1 $argv2
-#synth_primitive
-#synth_routing
+synth_alu $WAY $WIRE
+synth_compteur $WAY $WIRE
+synth_memory $WAY $WIRE
+synth_primitive $WAY $WIRE
+synth_routing $WAY $WIRE
