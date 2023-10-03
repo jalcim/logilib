@@ -1,10 +1,19 @@
 # Build
 
+## Synthesis (first stage)
+
+Synthesis of design for provide final verilog/rtlil usable
+
+```sh
+./script/yosys.sh
+```
+Result files are on synth/
+
 ## Simulation
 
 Build of simulation by running in the root folder
 
-```
+```sh
 ./script/icarus.sh
 ```
 Result files are on bin/
@@ -14,7 +23,7 @@ Result files are on bin/
 Build of co-simulation library by running in the root folder
 
 ```sh
-./scripts/verilator.sh
+make
 ```
 Result files are on build/
 
