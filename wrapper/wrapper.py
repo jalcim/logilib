@@ -78,6 +78,12 @@ class Module(am.Elaboratable): # this is a recursive Element
         for mod in new_modules:
             self.submodules_list.append(mod)
 
+    def clean_submodules(self):
+        #for i in range(0, len(self.submodules_list)):
+        #    del self.submodules_list[i]
+        for mod in self.submodules_list:
+            del mod
+
     def get(self, key):
         return self.data.get(key)
 
@@ -167,9 +173,11 @@ class Module(am.Elaboratable): # this is a recursive Element
             Module.unique_id += 1
         return top
 
-
-
-
+    # DEBUG
+    # ajout du nom du module inutilisé
+    # UnusedElaboratable: Module() NOM_DU_MODULE created but never used
+    def __repr__(self):
+        return self.__class__.__name__ + "() " + self.name
 
 
 
