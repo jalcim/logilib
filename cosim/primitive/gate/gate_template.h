@@ -34,6 +34,7 @@ class GATE_TEST
 public:
   GATE_TEST(int (*gate_test)(int input, int way), int ways)
   {
+    m_trace = NULL;
     name = typeid(gate).name();
     contextp->traceEverOn(true);
     gate = new VGATE{contextp};
