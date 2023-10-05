@@ -1,8 +1,8 @@
 `ifndef __GATE_XOR__
  `define __GATE_XOR__
 
- `include "src/primitive/parallel_gate/parallel_xor.v"
- `include "src/primitive/serial_gate/serial_xor.v"
+ `include "src/primitive/gate/parallel_gate/parallel_xor.v"
+ `include "src/primitive/gate/serial_gate/serial_xor.v"
  `include "src/routing/shuffle.v"
 
 module gate_xor(out, in);
@@ -18,8 +18,8 @@ module gate_xor(out, in);
      begin
 	wire [SIZE-1 : 0]  shuffle_out;
 
-	shuffle      #(.WAY(WAY), .WIRE(WIRE)) shuffle_inst(shuffle_out, in);//2 voie de 8 bit
-	parallel_xor #(.WAY(WAY), .WIRE(WIRE)) parallel_xor_inst(out, shuffle_out);//8 voie de 2 bit
+	shuffle      #(.WAY(WAY), .WIRE(WIRE)) shuffle_inst(shuffle_out, in);
+	parallel_xor #(.WAY(WAY), .WIRE(WIRE)) parallel_xor_inst(out, shuffle_out);
      end
    else
      serial_xor #(.WAY(WAY)) serial_xor_inst(out, in);

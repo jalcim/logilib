@@ -1,8 +1,8 @@
 `ifndef __GATE_XNOR__
  `define __GATE_XNOR__
 
- `include "src/primitive/parallel_gate/parallel_xnor.v"
- `include "src/primitive/serial_gate/serial_xnor.v"
+ `include "src/primitive/gate/parallel_gate/parallel_xnor.v"
+ `include "src/primitive/gate/serial_gate/serial_xnor.v"
  `include "src/routing/shuffle.v"
 
 module gate_xnor(out, in);

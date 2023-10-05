@@ -2,7 +2,7 @@
  `define __PARALLEL_DLATCH__
 
 `include "src/memory/Dlatch/Dlatch.v"
-`include "src/memory/Dlatch/serial_Dlatch.v"
+`include "src/memory/Dlatch/serial_Dlatch/serial_Dlatch.v"
 
 module parallel_Dlatch(D, clk, Q, QN);
    parameter WAY = 1;

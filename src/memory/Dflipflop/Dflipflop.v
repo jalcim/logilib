@@ -1,8 +1,8 @@
 `ifndef __DFLIPFLOP_PRE_RST_
  `define __DFLIPFLOP_PRE_RST_
 
- `include "src/memory/Dflipflop/parallel_Dflipflop.v"
- `include "src/memory/Dflipflop/serial_Dflipflop.v"
+ `include "src/memory/Dflipflop/parallel_Dflipflop/parallel_Dflipflop.v"
+ `include "src/memory/Dflipflop/serial_Dflipflop/serial_Dflipflop.v"
 
 module Dflipflop(D, clk, Q, QN);
    parameter WAY = 1;

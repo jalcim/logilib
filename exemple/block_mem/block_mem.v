@@ -2,7 +2,7 @@
  `define __BLOCK_MEM__
 
  `include "src/routing/replicator.v"
- `include "src/memory/Dlatch/parallel_Dlatch_rst.v"
+ `include "src/memory/Dlatch/parallel_Dlatch/parallel_Dlatch_rst.v"
 
 module block_mem(clk, reset, signal_write,
 		addrin, addrout,

@@ -2,7 +2,7 @@
  `define __PARALLEL_DFLIPFLOP__
 
 `include "src/memory/Dflipflop/Dflipflop.v"
-`include "src/memory/Dflipflop/serial_Dflipflop.v"
+`include "src/memory/Dflipflop/serial_Dflipflop/serial_Dflipflop.v"
 
 module parallel_Dflipflop(D, clk, Q, QN);
    parameter WAY = 1;

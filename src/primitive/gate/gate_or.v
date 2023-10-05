@@ -1,8 +1,8 @@
 `ifndef __GATE_OR__
  `define __GATE_OR__
 
- `include "src/primitive/parallel_gate/parallel_or.v"
- `include "src/primitive/serial_gate/serial_or.v"
+ `include "src/primitive/gate/parallel_gate/parallel_or.v"
+ `include "src/primitive/gate/serial_gate/serial_or.v"
  `include "src/routing/shuffle.v"
 
 module gate_or(out, in);

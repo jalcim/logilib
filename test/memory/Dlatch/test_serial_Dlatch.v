@@ -1,4 +1,4 @@
-`include "src/memory/Dlatch/serial_Dlatch.v"
+`include "src/memory/Dlatch/serial_Dlatch/serial_Dlatch.v"
 
 module test_serial_Dlatch;
    parameter WIRE = 8;

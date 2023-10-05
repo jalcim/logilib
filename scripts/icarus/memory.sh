@@ -24,6 +24,8 @@ test_Dflipflop ()
     mkdir -p $BIN_Dflipflop
 
     iverilog -o $BIN_Dflipflop/test_Dflipflop $TEST_Dflipflop/test_Dflipflop.v
+#    iverilog -o $BIN_Dflipflop/test_serial_Dflipflop $TEST_Dflipflop/test_serial_Dflipflop.v
+#    iverilog -o $BIN_Dflipflop/test_parallel_Dflipflop $TEST_Dflipflop/test_parallel_Dflipflop.v
 }
 
 test_JKlatch ()

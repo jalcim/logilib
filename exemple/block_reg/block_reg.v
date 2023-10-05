@@ -2,7 +2,7 @@
  `define __BLOCK_REG__
 
  `include "src/routing/replicator.v"
- `include "src/memory/Dlatch/parallel_Dlatch_rst.v"
+ `include "src/memory/Dlatch/parallel_Dlatch/parallel_Dlatch_rst.v"
 
 module block_reg(clk, reset, write,
 		addrin, read_A, read_B,
