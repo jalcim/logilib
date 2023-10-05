@@ -4,7 +4,7 @@
  `include "src/memory/Dflipflop/parallel_Dflipflop.v"
  `include "src/memory/Dflipflop/serial_Dflipflop.v"
 
-module Dflipflop(D, clk, Q, QN);
+module Dflipflop_pre_rst(preset, D, clk, reset, Q, QN);
    parameter WAY = 1;
    parameter WIRE = 1;
 
@@ -17,15 +17,15 @@ module Dflipflop(D, clk, Q, QN);
    if (WAY > 1)
         parallel_Dflipflop #(.WAY(WAY), .WIRE(WIRE)) parallel_Dflipflop_inst(D, clk, Q, QN);
    else if (WIRE > 1)
-        serial_Dflipflop #(.WIRE(WIRE)) inst0(a, clk, Q, QN);
+        serial_Dflipflop #(.WIRE(WIRE)) inst0(a, clk, s1, s2);
    else
      begin
-	assign line[0] = ~(line[3] | line[1]);
+        assign line[0] = ~(reset | line[3] | line[1]);
 	assign line[1] = ~(line[0] | clk);
 	assign line[2] = ~(line[1] | clk | line[3]);
 	assign line[3] = ~(line[2] | D);
 
-	assign line[4] = ~(line[1] | line[5]);
+	assign line[4] = ~(reset | line[1] | line[5]);
 	assign line[5] = ~(line[4] | line[2]);
 
 	assign Q = line[4];

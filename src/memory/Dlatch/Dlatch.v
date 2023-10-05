@@ -1,8 +1,8 @@
 `ifndef __DLATCH__
  `define __DLATCH__
 
- `include "src/memory/Dlatch/parallel_Dlatch.v"
- `include "src/memory/Dlatch/serial_Dlatch.v"
+ `include "src/memory/Dlatch/parallel_Dlatch/parallel_Dlatch.v"
+ `include "src/memory/Dlatch/serial_Dlatch/serial_Dlatch.v"
 
 module Dlatch (D, clk, Q, QN);
    parameter WAY = 1;

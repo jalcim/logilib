@@ -2,7 +2,7 @@
  `define __SERIAL_AND__
 
 module serial_and(out, e1);
-   parameter WAY = 3;
+   parameter WAY = 2;
    parameter N1 = (WAY / 2) + (WAY % 2);
    parameter N2 = WAY / 2;
 

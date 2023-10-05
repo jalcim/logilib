@@ -10,8 +10,7 @@ module serial_Dlatch(D, clk, Q, QN);
    input [WIRE -1:0] D;
    output [WIRE -1:0] Q, QN;
 
-   if (WIRE > 0)
-     Dlatch latch1(D[0], clk, Q[0], QN[0]);
+   Dlatch Dlatch_inst(D[0], clk, Q[0], QN[0]);
    if (WIRE > 1)
      serial_Dlatch #(.WIRE(WIRE-1)) recall(.D(D[WIRE-1:1]),
 					   .clk(clk),

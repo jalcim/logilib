@@ -1,8 +1,8 @@
 `ifndef __DLATCH_RST__
  `define __DLATCH_RST__
 
- `include "src/memory/Dlatch/parallel_Dlatch_rst.v"
- `include "src/memory/Dlatch/serial_Dlatch_rst.v"
+ `include "src/memory/Dlatch/parallel_Dlatch/parallel_Dlatch_rst.v"
+ `include "src/memory/Dlatch/serial_Dlatch/serial_Dlatch_rst.v"
 
 module Dlatch_rst(D, clk, reset, Q, QN);
    parameter WAY = 1;
@@ -20,18 +20,17 @@ module Dlatch_rst(D, clk, reset, Q, QN);
         serial_Dlatch_rst #(.WIRE(WIRE)) inst0(a, clk, rst, s1, s2);
    else
      begin
-
 	xor xor0(xor_0_out, D, reset);
 	and and0(and_0_out, D, xor_0_out);
    
-	nand nand2(nand_2_out, and_0_out, clk);
+	nand nand1(nand_2_out, and_0_out, clk);
 	not not0(not_0_out, and_0_out);
-	nand nand3(nand_3_out, clk, not_0_out);
-
-	nand nand0(nand_0_out, nand_2_out, or_0_out);   
-	nand nand1(nand_1_out, nand_0_out, nand_3_out);
+	nand nand2(nand_3_out, clk, not_0_out);
 
 	or or0(or_0_out, nand_1_out, reset);
+	nand nand3(nand_0_out, nand_2_out, or_0_out);   
+	nand nand4(nand_1_out, nand_0_out, nand_3_out);
+
 
 	buf buf0(Q, nand_0_out);
 	buf buf1(QN, nand_1_out);
