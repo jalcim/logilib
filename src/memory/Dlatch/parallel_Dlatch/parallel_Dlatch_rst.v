@@ -5,8 +5,8 @@
 `include "src/memory/Dlatch/serial_Dlatch/serial_Dlatch_rst.v"
 
 module parallel_Dlatch_rst(D, clk, rst, Q, QN);
-   parameter WAY = 3;
-   parameter WIRE = 8;
+   parameter WAY = 1;
+   parameter WIRE = 1;
 
    input [WAY-1:0] clk, rst;
    input  [(WAY*WIRE)-1 : 0] D;

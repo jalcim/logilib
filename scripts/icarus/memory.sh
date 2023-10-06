@@ -14,6 +14,10 @@ test_Dlatch ()
     iverilog -o $BIN_Dlatch/test_Dlatch_rst $TEST_Dlatch/test_Dlatch_rst.v
     iverilog -o $BIN_Dlatch/test_serial_Dlatch_rst $TEST_Dlatch/test_serial_Dlatch_rst.v
     iverilog -o $BIN_Dlatch/test_parallel_Dlatch_rst $TEST_Dlatch/test_parallel_Dlatch_rst.v
+
+    iverilog -o $BIN_Dlatch/test_Dlatch_rst $TEST_Dlatch/test_Dlatch_rst.v
+    iverilog -o $BIN_Dlatch/test_serial_Dlatch_rst $TEST_Dlatch/test_serial_Dlatch_rst.v
+    iverilog -o $BIN_Dlatch/test_parallel_Dlatch_rst $TEST_Dlatch/test_parallel_Dlatch_rst.v
 }
 
 test_Dflipflop ()

@@ -17,18 +17,17 @@ module Dlatch (D, clk, Q, QN);
    if (WAY > 1)
         parallel_Dlatch #(.WAY(WAY), .WIRE(WIRE)) parallel_Dlatch_inst(D, clk, Q, QN);
    else if (WIRE > 1)
-        serial_Dlatch #(.WIRE(WIRE)) inst0(a, clk, s1, s2);
+        serial_Dlatch #(.WIRE(WIRE)) inst0(D, clk, Q, QN);
    else
      begin
-	not not0(line[0], D);
-   
-	and and0(line[1], line[0], clk);
-	and and1(line[2], D      , clk);
+	not not0(line[0], clk);
+	nor nor0(line[1], D, line[0]);
+	nor nor1(line[2], line[1], line[4]);
 
-	nor nor0(line[3], line[1], line[4]);
-	nor nor1(line[4], line[2], line[3]);
+	and and2(line[3], D, clk);
+	nor nor3(line[4], line[3], line[2]);
 
-	assign Q  = line[3];
+	assign Q  = line[2];
 	assign QN = line[4];
      end
 

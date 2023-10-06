@@ -1,4 +1,4 @@
-`include "src/memory/Dlatch/parallel_Dlatch/parallel_Dlatch.v"
+`include "src/memory/Dlatch/Dlatch.v"
 
 module test_parallel_Dlatch;
    parameter WAY = 3;
@@ -10,7 +10,7 @@ module test_parallel_Dlatch;
 
    integer		    cpt;
 
-   parallel_Dlatch #(.WAY(WAY), .WIRE(WIRE)) parallel_Dlatch_inst(D, clk, Q, QN);
+   Dlatch #(.WAY(WAY), .WIRE(WIRE)) Dlatch_inst(D, clk, Q, QN);
 
    initial
      begin
@@ -39,4 +39,4 @@ module test_parallel_Dlatch;
 	     $finish;
 	  end
      end
-endmodule // test_parallel_Dlatch
+endmodule

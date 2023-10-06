@@ -1,25 +1,25 @@
-`include "src/memory/Dlatch/Dlatch_rst.v"
+`include "src/memory/Dlatch/Dlatch_pre.v"
 
-module test_Dlatch_rst;
+module test_Dlatch_pre;
    reg D, clk;
-   reg reset;
-   wire	s1, s2;
+   reg preset;
+   wire	Q, QN;
 
    reg [7:0] cpt;
 
-   Dlatch_rst inst0(D, clk, reset, s1, s2);
+   Dlatch_pre inst0(D, clk, preset, Q, QN);
 
    initial
      begin
 	$dumpfile("signal_Dlatch.vcd");
         $dumpvars;
-        $display("\t\ttime, \ta, \tclk, \treset, \ts1, \ts2");
+        $display("\t\ttime, \tD, \tclk, \tpreset, \tQ, \tQN");
         $display("\t\t-----------------------------------------");
-        $monitor("%d \t%b\t%b\t%b\t%b\t%b", $time, D, clk, reset, s1, s2);
+        $monitor("%d \t%b\t%b\t%b\t%b\t%b", $time, D, clk, preset, Q, QN);
 	D <= 0;
 	clk <= 0;
 	cpt <= 0;
-	reset <= 1;
+	preset <= 1;
      end
    
    always
@@ -29,15 +29,15 @@ module test_Dlatch_rst;
 	cpt <= cpt + 1;
 
 	if (cpt % 3)
-	  reset <= 1;
+	  preset <= 1;
 	else
-	  reset <= 0;
+	  preset <= 0;
      end
 
    always @(posedge clk)
      begin
 	if (cpt % 2)
-	     D <= ~D;
+	  D <= ~D;
 
 	if (cpt > 20)
 	     $finish;

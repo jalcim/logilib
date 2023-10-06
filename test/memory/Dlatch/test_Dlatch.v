@@ -1,21 +1,21 @@
 `include "src/memory/Dlatch/Dlatch.v"
 
 module test_Dlatch;
-   reg a, clk;
-   wire	s1, s2;
+   reg D, clk;
+   wire	Q, QN;
 
    reg [7:0] cpt;
 
-   Dlatch inst0(a, clk, s1, s2);
+   Dlatch inst0(D, clk, Q, QN);
 
    initial
      begin
 	$dumpfile("signal_Dlatch.vcd");
         $dumpvars;
-        $display("\t\ttime, \ta, \tclk, \ts1, \ts2");
+        $display("\t\ttime, \tD, \tclk, \tQ, \tQN");
         $display("\t\t-----------------------------------------");
-        $monitor("%d \t%b\t%b\t%b\t%b", $time, a, clk, s1, s2);
-	a <= 0;
+        $monitor("%d \t%b\t%b\t%b\t%b", $time, D, clk, Q, QN);
+	D <= 0;
 	clk <= 0;
 	cpt <= 0;
      end
@@ -24,18 +24,18 @@ module test_Dlatch;
      begin
 	#100;
 	clk <= ~clk;   
+	cpt <= cpt + 1;
      end
 
    always @(posedge clk)
      begin
-	cpt <= cpt + 1;
 
 	if (cpt % 2)
 	  begin
-	     a <= ~a;
+	     D <= ~D;
 	  end
 
-	if (cpt > 5)
+	if (cpt > 10)
 	  begin
 	     $finish;
 	  end

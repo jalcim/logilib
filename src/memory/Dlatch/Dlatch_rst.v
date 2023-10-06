@@ -9,31 +9,27 @@ module Dlatch_rst(D, clk, reset, Q, QN);
    parameter WIRE = 1;
 
    input [WAY -1: 0] clk, reset;
-   input [(WAY * WIRE)-1 : 0] D;
-   output [(WAY * WIRE)-1:0]  Q, QN;
+   input [WAY*WIRE-1 : 0] D;
+   output [WAY*WIRE-1:0]  Q, QN;
 
-   wire			      or_0_out, nand_0_out, nand_1_out, xor_0_out, and_0_out, nand_2_out, not_0_out, nand_3_out;
+   wire [5:0]		      line;
 
    if (WAY > 1)
         parallel_Dlatch_rst #(.WAY(WAY), .WIRE(WIRE)) parallel_Dlatch_rst_inst(D, clk, reset, Q, QN);
    else if (WIRE > 1)
-        serial_Dlatch_rst #(.WIRE(WIRE)) inst0(a, clk, rst, s1, s2);
+        serial_Dlatch_rst #(.WIRE(WIRE)) inst0(D, clk, reset, Q, QN);
    else
      begin
-	xor xor0(xor_0_out, D, reset);
-	and and0(and_0_out, D, xor_0_out);
-   
-	nand nand1(nand_2_out, and_0_out, clk);
-	not not0(not_0_out, and_0_out);
-	nand nand2(nand_3_out, clk, not_0_out);
+	not not0(line[0], clk);
+	nor nor0(line[1], D, line[0]);
+	nor nor1(line[2], line[1], line[5]);
 
-	or or0(or_0_out, nand_1_out, reset);
-	nand nand3(nand_0_out, nand_2_out, or_0_out);   
-	nand nand4(nand_1_out, nand_0_out, nand_3_out);
+	and and2(line[3], clk, D);
+	nor nor3(line[4], line[3], line[2]);
+	or  or4 (line[5], line[4], reset);
 
-
-	buf buf0(Q, nand_0_out);
-	buf buf1(QN, nand_1_out);
+	assign Q = line[2];
+	assign QN = line[5];
      end
 
 endmodule
