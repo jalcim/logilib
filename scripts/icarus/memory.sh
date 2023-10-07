@@ -16,11 +16,11 @@ test_Dlatch ()
     iverilog -o $BIN_Dlatch/test_parallel_Dlatch_rst $TEST_Dlatch/test_parallel_Dlatch_rst.v
 
     iverilog -o $BIN_Dlatch/test_Dlatch_pre $TEST_Dlatch/test_Dlatch_pre.v
-#    iverilog -o $BIN_Dlatch/test_serial_Dlatch_pre $TEST_Dlatch/test_serial_Dlatch_pre.v
+    iverilog -o $BIN_Dlatch/test_serial_Dlatch_pre $TEST_Dlatch/test_serial_Dlatch_pre.v
     iverilog -o $BIN_Dlatch/test_parallel_Dlatch_pre $TEST_Dlatch/test_parallel_Dlatch_pre.v
 
     iverilog -o $BIN_Dlatch/test_Dlatch_rst_pre $TEST_Dlatch/test_Dlatch_rst_pre.v
-#    iverilog -o $BIN_Dlatch/test_serial_Dlatch_rst_pre $TEST_Dlatch/test_serial_Dlatch_rst_pre.v
+    iverilog -o $BIN_Dlatch/test_serial_Dlatch_rst_pre $TEST_Dlatch/test_serial_Dlatch_rst_pre.v
     iverilog -o $BIN_Dlatch/test_parallel_Dlatch_rst_pre $TEST_Dlatch/test_parallel_Dlatch_rst_pre.v
 }
 

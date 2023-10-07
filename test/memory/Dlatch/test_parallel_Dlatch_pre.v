@@ -25,7 +25,7 @@ module test_parallel_Dlatch_pre;
 	cpt <= 0;
 	D <= (2 ** (WAY*WIRE)) - 1;
      end
-   
+
    always
      begin
 	#100;

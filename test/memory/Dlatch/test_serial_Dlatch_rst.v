@@ -3,19 +3,19 @@
 module test_serial_Dlatch_rst;
    parameter WIRE = 8;
    reg clk, rst;
-   wire	[7:0]s1, s2;
-   reg [7:0] a, cpt;
+   wire	[7:0]Q, QN;
+   reg [7:0] D, cpt;
 
-   serial_Dlatch_rst #(.WIRE(WIRE)) inst0(a, clk, rst, s1, s2);
+   serial_Dlatch_rst #(.WIRE(WIRE)) inst0(D, clk, rst, Q, QN);
 
    initial
      begin
 	$dumpfile("signal_Dlatch_rst.vcd");
         $dumpvars;
-        $display("\t\ttime, \ta, \t\tclk, \trst, \ts1, \t\ts2");
+        $display("\t\ttime, \tD, \t\tclk, \trst, \tQ, \t\tQN");
         $display("\t\t----------------------------------------------------------------");
-        $monitor("%d \t%b\t%b\t%b\t%b\t%b", $time, a, clk, rst, s1, s2);
-	a <= 0;
+        $monitor("%d \t%b\t%b\t%b\t%b\t%b", $time, D, clk, rst, Q, QN);
+	D <= 0;
 	clk <= 0;
 	cpt <= 0;
 	rst <= 0;
@@ -33,9 +33,9 @@ module test_serial_Dlatch_rst;
 	if (cpt % 7)
 	  rst <= ~rst;
 	if (cpt % 2)
-	  a <= cpt;
+	  D <= cpt;
 	if (cpt > 20)
 	  $finish;
      end
 
-endmodule // test_Dlatch
+endmodule
