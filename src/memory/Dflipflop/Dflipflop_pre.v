@@ -1,16 +1,16 @@
 `ifndef __DFLIPFLOP_PRE__
  `define __DFLIPFLOP_PRE__
 
- `include "src/memory/Dflipflop/parallel_Dflipflop_pre.v"
- `include "src/memory/Dflipflop/serial_Dflipflop_pre.v"
+ `include "src/memory/Dflipflop/parallel_Dflipflop/parallel_Dflipflop_pre.v"
+ `include "src/memory/Dflipflop/serial_Dflipflop/serial_Dflipflop_pre.v"
 
-module Dflipflop_pre(D, clk, rst, pre, Q, QN);
+module Dflipflop_pre(D, clk, pre, Q, QN);
    parameter WAY = 1;
    parameter WIRE = 1;
 
    input [WAY*WIRE -1:0] D, pre;
    input [WAY-1:0]	 clk, rst;
-   output [WAY-1:0]	 Q, QN;
+   output [WAY*WIRE-1:0] Q, QN;
 
    wire [5:0]		 line;
 

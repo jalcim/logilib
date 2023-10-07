@@ -1,5 +1,5 @@
-`ifndef __DFLIPFLOP_PRE_RST__
- `define __DFLIPFLOP_PRE_RST__
+`ifndef __DFLIPFLOP__
+ `define __DFLIPFLOP__
 
  `include "src/memory/Dflipflop/parallel_Dflipflop/parallel_Dflipflop.v"
  `include "src/memory/Dflipflop/serial_Dflipflop/serial_Dflipflop.v"
@@ -10,7 +10,7 @@ module Dflipflop(D, clk, Q, QN);
 
    input [WAY-1:0] clk;
    input [WAY*WIRE -1:0] D;
-   output [WAY-1:0]	 Q, QN;
+   output [WAY*WIRE-1:0] Q, QN;
 
    wire [5:0]		 line;
 
@@ -20,10 +20,10 @@ module Dflipflop(D, clk, Q, QN);
 									  .Q(Q),
 									  .QN(QN));
    else if (WIRE > 1)
-        serial_Dflipflop #(.WIRE(WIRE)) inst0(.D(D),
-					      .clk(clk),
-					      .Q(Q),
-					      .QN(QN));
+     serial_Dflipflop #(.WIRE(WIRE)) inst0(.D(D),
+					   .clk(clk),
+					   .Q(Q),
+					   .QN(QN));
    else
      begin
 	assign line[0] = ~(line[3] | line[1]);

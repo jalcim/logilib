@@ -1,21 +1,29 @@
 `include "src/memory/Dflipflop/Dflipflop.v"
 
-module test_Dflipflop;
-   reg D, clk;
-   wire	Q, QN;
+module test_parallel_Dflipflop;
+   parameter WAY = 3;
+   parameter WIRE = 8;
 
-   integer cpt;
+   reg [WAY -1: 0] clk;
+   reg [(WAY * WIRE)-1 : 0] D;
+   wire [(WAY * WIRE)-1:0]  Q, QN;
 
-   Dflipflop inst0(D, clk, Q, QN);
+   integer		    cpt;
+
+   Dflipflop #(.WAY(WAY), .WIRE(WIRE)) Dflipflop_inst(D, clk, Q, QN);
 
    initial
      begin
-	$dumpfile("signal_Dflipflop.vcd");
+	$dumpfile("signal_parallel_Dflipflop.vcd");
         $dumpvars;
         $display("\t\ttime, \tD, \tclk, \tQ, \tQN");
         $display("\t\t-----------------------------------------");
         $monitor("%d \t%b\t%b\t%b\t%b", $time, D, clk, Q, QN);
+
 	D <= 0;
+	clk <= (2 **WAY) - 1;
+	#10;
+	D <= (2 ** (WAY*WIRE)) - 1;
 	clk <= 0;
 	cpt <= 0;
      end
@@ -23,19 +31,10 @@ module test_Dflipflop;
    always
      begin
 	#100;
-	clk <= ~clk;   
+	clk <= cpt;
 	cpt <= cpt + 1;
-     end
-
-   always @(posedge clk)
-     begin
-
-	if (cpt % 2)
-	  begin
-	     D <= ~D;
-	  end
-
-	if (cpt > 10)
+	D <= ~D;
+	if (cpt >= (2**WAY)-1)
 	  begin
 	     $finish;
 	  end

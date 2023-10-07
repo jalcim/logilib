@@ -10,7 +10,7 @@ module Dflipflop_rst(D, clk, rst, Q, QN);
 
    input [WAY*WIRE -1:0] D;
    input [WAY-1:0] clk, rst;
-   output [WAY-1:0]	 Q, QN;
+   output [WAY*WIRE-1:0] Q, QN;
 
    wire [5:0]		 line;
 
@@ -24,7 +24,7 @@ module Dflipflop_rst(D, clk, rst, Q, QN);
      serial_Dflipflop_rst #(.WIRE(WIRE)) inst0(.D(D),
 					       .clk(clk),
 					       .rst(rst),
-					       .Q(Q)
+					       .Q(Q),
 					       .QN(QN));
    else
      begin

@@ -5,13 +5,13 @@ module test_Dlatch_pre;
    reg clk;
    wire	Q, QN;
 
-   reg [7:0] cpt;
+   integer cpt;
 
    Dlatch_pre inst0(D, clk, preset, Q, QN);
 
    initial
      begin
-	$dumpfile("signal_Dlatch.vcd");
+	$dumpfile("signal_Dlatch_pre.vcd");
         $dumpvars;
         $display("\t\ttime, \tD, \tclk, \tpreset, \tQ, \tQN");
         $display("\t\t-----------------------------------------");

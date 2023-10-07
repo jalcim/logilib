@@ -4,7 +4,7 @@ module test_Dlatch;
    reg D, clk;
    wire	Q, QN;
 
-   reg [7:0] cpt;
+   integer cpt;
 
    Dlatch inst0(D, clk, Q, QN);
 

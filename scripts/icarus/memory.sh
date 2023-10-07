@@ -32,8 +32,20 @@ test_Dflipflop ()
     mkdir -p $BIN_Dflipflop
 
     iverilog -o $BIN_Dflipflop/test_Dflipflop $TEST_Dflipflop/test_Dflipflop.v
-#    iverilog -o $BIN_Dflipflop/test_serial_Dflipflop $TEST_Dflipflop/test_serial_Dflipflop.v
-#    iverilog -o $BIN_Dflipflop/test_parallel_Dflipflop $TEST_Dflipflop/test_parallel_Dflipflop.v
+    iverilog -o $BIN_Dflipflop/test_serial_Dflipflop $TEST_Dflipflop/test_serial_Dflipflop.v
+    iverilog -o $BIN_Dflipflop/test_parallel_Dflipflop $TEST_Dflipflop/test_parallel_Dflipflop.v
+
+    iverilog -o $BIN_Dflipflop/test_Dflipflop_rst $TEST_Dflipflop/test_Dflipflop_rst.v
+    iverilog -o $BIN_Dflipflop/test_serial_Dflipflop_rst $TEST_Dflipflop/test_serial_Dflipflop_rst.v
+    iverilog -o $BIN_Dflipflop/test_parallel_Dflipflop_rst $TEST_Dflipflop/test_parallel_Dflipflop_rst.v
+
+    iverilog -o $BIN_Dflipflop/test_Dflipflop_pre $TEST_Dflipflop/test_Dflipflop_pre.v
+    iverilog -o $BIN_Dflipflop/test_serial_Dflipflop_pre $TEST_Dflipflop/test_serial_Dflipflop_pre.v
+    iverilog -o $BIN_Dflipflop/test_parallel_Dflipflop_pre $TEST_Dflipflop/test_parallel_Dflipflop_pre.v
+
+    iverilog -o $BIN_Dflipflop/test_Dflipflop_rst_pre $TEST_Dflipflop/test_Dflipflop_rst_pre.v
+    iverilog -o $BIN_Dflipflop/test_serial_Dflipflop_rst_pre $TEST_Dflipflop/test_serial_Dflipflop_rst_pre.v
+    iverilog -o $BIN_Dflipflop/test_parallel_Dflipflop_rst_pre $TEST_Dflipflop/test_parallel_Dflipflop_rst_pre.v
 }
 
 test_JKlatch ()

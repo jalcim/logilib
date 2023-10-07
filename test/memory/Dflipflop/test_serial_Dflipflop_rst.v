@@ -1,6 +1,6 @@
-`include "src/memory/Dlatch/serial_Dlatch/serial_Dlatch_rst.v"
+`include "src/memory/Dflipflop/serial_Dflipflop/serial_Dflipflop_rst.v"
 
-module test_serial_Dlatch_rst;
+module test_serial_Dflipflop_rst;
    parameter WIRE = 8;
    reg clk, rst;
    wire	[7:0]Q, QN;
@@ -8,11 +8,11 @@ module test_serial_Dlatch_rst;
 
    integer   cpt;
 
-   serial_Dlatch_rst #(.WIRE(WIRE)) inst0(D, clk, rst, Q, QN);
+   serial_Dflipflop_rst #(.WIRE(WIRE)) inst0(D, clk, rst, Q, QN);
 
    initial
      begin
-	$dumpfile("signal_Dlatch_rst.vcd");
+	$dumpfile("signal_Dflipflop_rst.vcd");
         $dumpvars;
         $display("\t\ttime, \tD, \t\tclk, \trst, \tQ, \t\tQN");
         $display("\t\t----------------------------------------------------------------");
