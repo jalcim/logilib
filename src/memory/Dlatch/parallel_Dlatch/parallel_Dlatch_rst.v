@@ -12,18 +12,11 @@ module parallel_Dlatch_rst(D, clk, rst, Q, QN);
    input  [(WAY*WIRE)-1 : 0] D;
    output [(WAY*WIRE)-1 : 0] Q, QN;
 
-   if (WIRE == 1)
-     Dlatch_rst Dlatch0(.D(D[0]),
-			.clk(clk[0]),
-			.rst(rst[0]),
-			.Q(Q[0]),
-			.QN(QN[0]));
-   else if (WIRE > 1)
-     serial_Dlatch_rst #(.WIRE(WIRE)) Dlatch1(.D(D[WIRE-1:0]),
-					      .clk(clk[0]),
-					      .rst(rst[0]),
-					      .Q(Q[WIRE-1:0]),
-					      .QN(QN[WIRE-1:0]));
+   serial_Dlatch_rst #(.WIRE(WIRE)) Dlatch1(.D(D[WIRE-1:0]),
+					    .clk(clk[0]),
+					    .rst(rst[0]),
+					    .Q(Q[WIRE-1:0]),
+					    .QN(QN[WIRE-1:0]));
 
    if (WAY > 1)
      parallel_Dlatch_rst #(.WAY(WAY-1), .WIRE(WIRE)) parallel_Dlatch0(.D(D[WAY*WIRE-1 : WIRE]),

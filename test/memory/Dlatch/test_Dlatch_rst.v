@@ -5,7 +5,7 @@ module test_Dlatch_rst;
    reg reset;
    wire	s1, s2;
 
-   reg [7:0] cpt;
+   integer cpt;
 
    Dlatch_rst inst0(D, clk, reset, s1, s2);
 
