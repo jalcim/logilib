@@ -9,7 +9,7 @@ module Dflipflop_pre(D, clk, pre, Q, QN);
    parameter WIRE = 1;
 
    input [WAY*WIRE -1:0] D, pre;
-   input [WAY-1:0]	 clk, rst;
+   input [WAY-1:0]	 clk;
    output [WAY*WIRE-1:0] Q, QN;
 
    wire [5:0]		 line;
