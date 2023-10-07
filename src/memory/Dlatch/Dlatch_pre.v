@@ -10,7 +10,7 @@ module Dlatch_pre(D, clk, preset, Q, QN);
 
    input [WAY -1: 0] clk;
    input [WAY*WIRE-1 : 0] D, preset;;
-   output [WAY*WIRE-1: 0]  Q, Q;
+   output [WAY*WIRE-1: 0]  Q, QN;
 
    wire [5:0]		      line;
 

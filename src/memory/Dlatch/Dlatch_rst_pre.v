@@ -4,20 +4,20 @@
  `include "src/memory/Dlatch/parallel_Dlatch/parallel_Dlatch_rst_pre.v"
  `include "src/memory/Dlatch/serial_Dlatch/serial_Dlatch_rst_pre.v"
 
-module Dlatch_rst_pre(D, clk, reset, preset Q, QN);
+module Dlatch_rst_pre(D, clk, reset, preset, Q, QN);
    parameter WAY = 1;
    parameter WIRE = 1;
 
    input [WAY -1: 0] clk, reset;
    input [WAY*WIRE -1 : 0] D, preset;
-   output [WAY*WIRE -1:0]  Q, Q;
+   output [WAY*WIRE -1:0]  Q, QN;
 
-   wire [5:0]		      line;
+   wire [6:0]		      line;
 
    if (WAY > 1)
-        parallel_Dlatch_rst_pre #(.WAY(WAY), .WIRE(WIRE)) parallel_Dlatch_rst_pre_inst(D, clk, reset, preset Q, QN);
+        parallel_Dlatch_rst_pre #(.WAY(WAY), .WIRE(WIRE)) parallel_Dlatch_rst_pre_inst(D, clk, reset, preset, Q, QN);
    else if (WIRE > 1)
-        serial_Dlatch_rst_pre #(.WIRE(WIRE)) inst0(D, clk, reset, preset Q, QN);
+        serial_Dlatch_rst_pre #(.WIRE(WIRE)) inst0(D, clk, reset, preset, Q, QN);
    else
      begin
 	not not0(line[0], clk);
