@@ -18,7 +18,6 @@ module parallel_Dlatch_rst_pre(D, clk, rst, pre, Q, QN);
 						.clk(clk[0]),
 						.Q(Q[WIRE-1:0]),
 						.QN(QN[WIRE-1:0]));
-
    if (WAY > 1)
      parallel_Dlatch_rst_pre #(.WAY(WAY-1), .WIRE(WIRE)) parallel_Dlatch0(.D(D[WAY*WIRE-1 : WIRE]),
 									  .clk(clk[WAY-1:1]),
