@@ -15,9 +15,15 @@ module Dlatch (D, clk, Q, QN);
    wire [4:0] line;
 
    if (WAY > 1)
-        parallel_Dlatch #(.WAY(WAY), .WIRE(WIRE)) parallel_Dlatch_inst(D, clk, Q, QN);
+     parallel_Dlatch #(.WAY(WAY), .WIRE(WIRE)) parallel_Dlatch_inst(.D(D),
+								    .clk(clk),
+								    .Q(Q),
+								    .QN(QN));
    else if (WIRE > 1)
-        serial_Dlatch #(.WIRE(WIRE)) inst0(D, clk, Q, QN);
+     serial_Dlatch #(.WIRE(WIRE)) inst0(.D(D),
+					.clk(clk),
+					.Q(Q),
+					.QN(QN));
    else
      begin
 	not not0(line[0], clk);

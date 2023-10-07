@@ -11,7 +11,11 @@ module serial_Dlatch_pre(D, clk, pre, Q, QN);
    output [WIRE -1:0] Q, QN;
 
    if (WIRE > 0)
-     Dlatch_pre latch1(D[0], clk, pre[0], Q[0], QN[0]);
+     Dlatch_pre latch1(.D(D[0]),
+		       .clk(clk),
+		       .pre(pre[0]),
+		       .Q(Q[0]),
+		       .QN(QN[0]));
    if (WIRE > 1)
      serial_Dlatch_pre #(.WIRE(WIRE-1)) recall(.D(D[WIRE-1:1]),
 					       .clk(clk),

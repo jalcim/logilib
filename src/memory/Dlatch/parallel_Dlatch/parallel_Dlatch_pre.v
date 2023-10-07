@@ -13,16 +13,24 @@ module parallel_Dlatch_pre(D, clk, pre, Q, QN);
    output [WAY*WIRE-1 : 0] Q, QN;
 
    if (WIRE == 1)
-     Dlatch_pre Dlatch0(D[0], clk[0], pre[0], Q[0], QN[0]);
+     Dlatch_pre Dlatch0(.D(D[0]),
+			.clk(clk[0]),
+			.pre(pre[0]),
+			.Q(Q[0]),
+			.QN(QN[0]));
    else if (WIRE > 1)
-     serial_Dlatch_pre #(.WIRE(WIRE)) Dlatch1(D[WIRE-1:0], clk[0], pre[WIRE-1:0], Q[WIRE-1:0], QN[WIRE-1:0]);
+     serial_Dlatch_pre #(.WIRE(WIRE)) Dlatch1(.D(D[WIRE-1:0]),
+					      .clk(clk[0]),
+					      .pre(pre[WIRE-1:0]),
+					      .Q(Q[WIRE-1:0]),
+					      .QN(QN[WIRE-1:0]));
 
    if (WAY > 1)
-     parallel_Dlatch_pre #(.WAY(WAY-1), .WIRE(WIRE)) parallel_Dlatch0(D[WAY*WIRE-1 : WIRE],
-								      clk[WAY-1:1],
-								      pre[WAY*WIRE-1:WIRE],
-								      Q[WAY*WIRE-1 : WIRE],
-								      QN[WAY*WIRE-1 : WIRE]);
+     parallel_Dlatch_pre #(.WAY(WAY-1), .WIRE(WIRE)) parallel_Dlatch0(.D(D[WAY*WIRE-1 : WIRE]),
+								      .clk(clk[WAY-1:1]),
+								      .pre(pre[WAY*WIRE-1:WIRE]),
+								      .Q(Q[WAY*WIRE-1 : WIRE]),
+								      .QN(QN[WAY*WIRE-1 : WIRE]));
 endmodule
 
 `endif

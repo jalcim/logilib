@@ -11,7 +11,11 @@ module serial_Dlatch_rst(D, clk, rst, Q, QN);
    output [WIRE -1:0] Q, QN;
 
    if (WIRE > 0)
-     Dlatch_rst latch1(D[0], clk, rst, Q[0], QN[0]);
+     Dlatch_rst latch1(.D(D[0]),
+		       .clk(clk),
+		       .rst(rst),
+		       .Q(Q[0]),
+		       .QN(QN[0]));
    if (WIRE > 1)
      serial_Dlatch_rst #(.WIRE(WIRE-1)) recall(.D(D[WIRE-1:1]),
 					       .clk(clk),
