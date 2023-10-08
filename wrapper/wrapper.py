@@ -11,8 +11,11 @@ ALLOWED_PARAMS = {
     # must be updated with each module_type
     "gate_and": ["p_WAY", "p_WIRE"],
     "gate_or": ["p_WAY", "p_WIRE"],
+    "gate_nor": ["p_WAY", "p_WIRE"],
     "gate_xor": ["p_WAY", "p_WIRE"],
+    "gate_xnor": ["p_WAY", "p_WIRE"],
     "gate_not": ["p_WIRE"],
+    "gate_buf": ["p_WIRE"],
     "gate_nand": ["p_WAY", "p_WIRE"],
     # new cells types must be added above this
     # les cells complexe auront d'autres parametres
@@ -104,7 +107,6 @@ class Module(am.Elaboratable):  # this is a recursive Element
     def write_rtlil_file(self):
         platform = None
         emit_src = True
-        strip_internal_attrs = False
         fragment = Fragment.get(self, platform).prepare(ports=self.ports)
         rtlil_text, name_map = convert_fragment(
             fragment,
@@ -125,9 +127,6 @@ class Module(am.Elaboratable):  # this is a recursive Element
             if key[0:2] in ["p_"]:
                 self.params[key] = value
 
-        # enregistrement des ports des submodules dans les ports du père
-        # ici ?
-
     def elaborate(self, platform):
         # SEUL LE TOP APPELLE CETTE FONCTION
         # car seul le top est un module
@@ -143,7 +142,7 @@ class Module(am.Elaboratable):  # this is a recursive Element
                 f"{sub_mod.name}.verilog",
                 verilog,
             )
-            # ou là ?
+            # enregistrement des ports des submodules dans les ports du père
             print("module name", sub_mod.name)
             for key in sub_mod.data.keys():
                 if key[0:2] in ["i_", "o_"] or key[0:3] in ["io_"]:
