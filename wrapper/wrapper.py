@@ -22,24 +22,57 @@ ALLOWED_PARAMS = {
     "default": ["p_WAY", "p_WIRE"],  # define defaut required parameters
 }
 
-
 class Module(am.Elaboratable):  # this is a recursive Element
-
     unique_id = 0  # auto increment
-    data: dict = {}
+    kwargs: dict = {}
     name = "default"
     submodules_list: list = []
 
     reg_in = False
     reg_out = False
+    #param: dict = {}
+    #param = {}
 
     def __init__(self, module_type: str = "default", **kwargs):
-        self.data = kwargs
+        self.kwargs = kwargs
         self.name = module_type + "_" + str(Module.unique_id)
         self.module_type = module_type
         self.ports: list = []
         # nothing below increment
         Module.unique_id += 1
+        self.reg_port()
+        self.init_sig()
+
+    def reg_port(self):
+        if "reg_in" in self.kwargs and self.kwargs["reg_in"] == True :
+            self.reg_in = True;
+        if "reg_out" in self.kwargs and self.kwargs["reg_out"] == True :
+            self.reg_out = True;
+
+    def init_sig(self):
+        if self.module_type in [
+                "gate_or",
+                "gate_and",
+                "gate_nand",
+                "gate_nor",
+                "gate_xor",
+                "gate_xnor",
+                "gate_buf",
+                "gate_not",
+        ]:
+            #if "p_WIRE" not in self.kwargs -> error
+            if "i_in" not in self.kwargs:
+                if self.module_type in [
+                        "gate_buf",
+                        "gate_not",
+                ]:
+                    self.set("i_in", am.Signal(self.kwargs["p_WIRE"]))
+                else :
+                    #if "p_WAY" not in self.kwargs -> error
+                    self.set("i_in", am.Signal(self.kwargs["p_WAY"] * self.kwargs["p_WIRE"]))
+            else :
+                self.set("i_in", self.kwargs["i_in"])
+            self.set("o_out", am.Signal(self.kwargs["p_WIRE"]))
 
     def check_module_type(self, module_type: str, params: dict):
         required_parameters = (
@@ -54,40 +87,6 @@ class Module(am.Elaboratable):  # this is a recursive Element
                     f"'{req_param}' parameter."
                 )
 
-    def init_sig(self, sig_name: str):
-        # auto init signal with correct size
-        value = None
-        if sig_name == "i_in":
-            # les cells complexe pouront avoir des entrees
-            # differentes et d'autres parametres
-            if self.module_type in [
-                "gate_or",
-                "gate_and",
-                "gate_nand",
-                "gate_nor",
-                "gate_xor",
-                "gate_xnor",
-            ]:
-                value = am.Signal(self.data["p_WAY"] * self.data["p_WIRE"])
-            elif self.module_type in ["gate_buf", "gate_not"]:
-                value = am.Signal(self.data["p_WIRE"])
-        elif sig_name == "o_out":
-            # les cells complexe pouront avoir des
-            # sorties differentes et d'autres parametres
-            if self.module_type in [
-                "gate_or",
-                "gate_and",
-                "gate_nand",
-                "gate_nor",
-                "gate_xor",
-                "gate_xnor",
-                "gate_buf",
-                "gate_not",
-            ]:
-                value = am.Signal(self.data["p_WIRE"])
-        if value is not None:
-            self.set(sig_name, value)
-
     def add_submodules(self, new_modules: list):
         for mod in new_modules:
             self.submodules_list.append(mod)
@@ -99,10 +98,10 @@ class Module(am.Elaboratable):  # this is a recursive Element
             del mod
 
     def get(self, key: str):
-        return self.data.get(key)
+        return self.kwargs.get(key)
 
     def set(self, key: str, value):
-        self.data[key] = value
+        self.kwargs[key] = value
 
     def write_rtlil_file(self):
         platform = None
@@ -121,12 +120,6 @@ class Module(am.Elaboratable):  # this is a recursive Element
             fd.write(rtlil_source_text)
             print(f"{filename} file written.")
 
-    def finish_prefab(self, recursive=False):
-        self.params = {}
-        for key, value in self.data.items():
-            if key[0:2] in ["p_"]:
-                self.params[key] = value
-
     def elaborate(self, platform):
         # SEUL LE TOP APPELLE CETTE FONCTION
         # car seul le top est un module
@@ -136,7 +129,7 @@ class Module(am.Elaboratable):  # this is a recursive Element
         # contiennent eux des cells !
         top = am.Module()
         for sub_mod in self.submodules_list:
-            verilog = am.Instance(sub_mod.module_type, **sub_mod.data)
+            verilog = am.Instance(sub_mod.module_type, **sub_mod.kwargs)
             setattr(
                 top.submodules,
                 f"{sub_mod.name}.verilog",
@@ -144,21 +137,21 @@ class Module(am.Elaboratable):  # this is a recursive Element
             )
             # enregistrement des ports des submodules dans les ports du père
             print("module name", sub_mod.name)
-            for key in sub_mod.data.keys():
+            for key in sub_mod.kwargs.keys():
                 if key[0:2] in ["i_", "o_"] or key[0:3] in ["io_"]:
                     if sub_mod.reg_in is False and sub_mod.reg_out is False:
                         print("no port to reg")
                     elif sub_mod.reg_in is False:
                         if key[0:2] in ["o_"]:
                             print("port reg", key)
-                            self.ports.append(sub_mod.data.get(key))
+                            self.ports.append(sub_mod.kwargs.get(key))
                     elif sub_mod.reg_out is False:
                         if key[0:2] in ["i_"]:
                             print("port reg", key)
-                            self.ports.append(sub_mod.data.get(key))
+                            self.ports.append(sub_mod.kwargs.get(key))
                     else:  # io_ tombe ici (actuellement non geré)
                         print("port reg", key)
-                        self.ports.append(sub_mod.data.get(key))
+                        self.ports.append(sub_mod.kwargs.get(key))
         return top
 
     # DEBUG
