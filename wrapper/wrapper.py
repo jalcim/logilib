@@ -34,7 +34,7 @@ ALLOWED_PARAMS = {
     "default": ["p_WAY", "p_WIRE"],  # define defaut required parameters
 }
 
-class Module(am.Elaboratable):  # this is a recursive Element
+class Module():  # this is a recursive Element
     unique_id = 0  # auto increment
     kwargs: dict = {}
     name = "default"
@@ -92,33 +92,10 @@ class Module(am.Elaboratable):  # this is a recursive Element
             self.submodules_list.append(sub_mod)
             
 
-    def write_rtlil_file(self):
-        platform = None
-        emit_src = True
-        fragment = Fragment.get(self, platform).prepare(ports=self.ports)
-        rtlil_text, name_map = convert_fragment(
-            fragment,
-            self.name,
-            emit_src=emit_src,
-        )
-        ENV_USERNAME = environ.get("USER")
-        rtlil_source_text = rtlil_text.replace(ENV_USERNAME, "user")
-        now = datetime.datetime.now().strftime("%Y-%m-%d_%H-%M-%S")
-        filename = self.name + "_" + now + ".rtlil"
-        with open(filename, "w") as fd:
-            fd.write(rtlil_source_text)
-            print(f"{filename} file written.")
-
-    def elaborate(self, platform):
-        # SEUL LE TOP APPELLE CETTE FONCTION
-        top = am.Module()
-        self.reg_port(top)
-        return top
-
-    def reg_port(self, top):
+    def reg_port(self):
         for sub_mod in self.submodules_list:
             setattr(
-                top.submodules,
+                self.submodules,
                 f"{sub_mod.name}.verilog",
                 sub_mod.verilog,
             )

@@ -2,6 +2,7 @@
 
 import amaranth as am
 from wrapper import Module
+from Top import Top
 
 if __name__ == "__main__":
 
@@ -17,7 +18,7 @@ if __name__ == "__main__":
     in_4 = top_cell3.get("o_out")
     top_cell4 = Module("gate_not", False, True, p_WIRE=1, i_in=in_4)
 
-    top = Module("top")
+    top = Top("top")
     # enregistrement des cells/submodules dans le Module pere 
     top.add_submodules([top_cell1, top_cell2, top_cell3, top_cell4])
 
