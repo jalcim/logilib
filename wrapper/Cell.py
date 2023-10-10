@@ -19,22 +19,7 @@ PRIMITIVE = {
     "gate_nand",
 }
 
-ALLOWED_PARAMS = {
-    # must be updated with each module_type
-    "gate_and": ["p_WAY", "p_WIRE"],
-    "gate_or": ["p_WAY", "p_WIRE"],
-    "gate_nor": ["p_WAY", "p_WIRE"],
-    "gate_xor": ["p_WAY", "p_WIRE"],
-    "gate_xnor": ["p_WAY", "p_WIRE"],
-    "gate_not": ["p_WIRE"],
-    "gate_buf": ["p_WIRE"],
-    "gate_nand": ["p_WAY", "p_WIRE"],
-    # new cells types must be added above this
-    # les cells complexe auront d'autres parametres
-    "default": ["p_WAY", "p_WIRE"],  # define defaut required parameters
-}
-
-class Module():  # this is a recursive Element
+class Cell():
     unique_id = 0  # auto increment
     kwargs: dict = {}
     name = "default"
@@ -42,17 +27,18 @@ class Module():  # this is a recursive Element
 
     reg_in = False
     reg_out = False
+    verilog = None
 
     def __init__(self, module_type: str = "default", reg_in: bool = False, reg_out: bool = False, **kwargs):
         self.kwargs = kwargs
-        self.name = module_type + "_" + str(Module.unique_id)
+        self.name = module_type + "_" + str(Cell.unique_id)
         self.module_type = module_type
         self.ports: list = []
         self.reg_in = reg_in;
         self.reg_out = reg_out;
         self.init_sig()
         # nothing below increment
-        Module.unique_id += 1
+        Cell.unique_id += 1
 
     def init_sig(self):
         self.init_primitive_sig()
@@ -86,32 +72,3 @@ class Module():  # this is a recursive Element
 
     def set(self, key: str, value):
         self.kwargs[key] = value
-
-    def add_submodules(self, new_modules: list):
-        for sub_mod in new_modules:
-            self.submodules_list.append(sub_mod)
-            
-
-    def reg_port(self):
-        for sub_mod in self.submodules_list:
-            setattr(
-                self.submodules,
-                f"{sub_mod.name}.verilog",
-                sub_mod.verilog,
-            )
-            # enregistrement des ports des submodules dans les ports du père
-            for key in sub_mod.kwargs.keys():
-                if key[0:2] in ["i_", "o_"] or key[0:3] in ["io_"]:
-                    if sub_mod.reg_in is False and sub_mod.reg_out is False:
-                        print("no port to reg")
-                    elif sub_mod.reg_in is False:
-                        if key[0:2] in ["o_"]:
-                            print("port reg", key)
-                            self.ports.append(sub_mod.kwargs.get(key))
-                    elif sub_mod.reg_out is False:
-                        if key[0:2] in ["i_"]:
-                            print("port reg", key)
-                            self.ports.append(sub_mod.kwargs.get(key))
-                    else:  # io_ tombe ici (actuellement non geré)
-                        print("port reg", key)
-                        self.ports.append(sub_mod.kwargs.get(key))

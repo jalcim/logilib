@@ -4,7 +4,6 @@ from os import environ
 import datetime
 
 import amaranth as am
-from wrapper import Module
 from amaranth.back.rtlil import convert_fragment
 from amaranth.hdl.ir import Fragment
 
