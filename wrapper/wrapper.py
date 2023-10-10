@@ -76,7 +76,10 @@ class Module(am.Elaboratable):  # this is a recursive Element
             else :
                 self.set("i_in", self.kwargs["i_in"])
             self.set("o_out", am.Signal(self.kwargs["p_WIRE"]))
+            self.init_cells()
 
+    def init_cells(self):
+        self.verilog = am.Instance(self.module_type, **self.kwargs)
 
     def get(self, key: str):
         return self.kwargs.get(key)
@@ -114,11 +117,10 @@ class Module(am.Elaboratable):  # this is a recursive Element
 
     def reg_port(self, top):
         for sub_mod in self.submodules_list:
-            verilog = am.Instance(sub_mod.module_type, **sub_mod.kwargs)
             setattr(
                 top.submodules,
                 f"{sub_mod.name}.verilog",
-                verilog,
+                sub_mod.verilog,
             )
             # enregistrement des ports des submodules dans les ports du père
             for key in sub_mod.kwargs.keys():
