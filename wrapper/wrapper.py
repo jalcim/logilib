@@ -109,10 +109,10 @@ class Module(am.Elaboratable):  # this is a recursive Element
     def elaborate(self, platform):
         # SEUL LE TOP APPELLE CETTE FONCTION
         top = am.Module()
-        self.reg_port()
+        self.reg_port(top)
         return top
 
-    def reg_port(self):
+    def reg_port(self, top):
         for sub_mod in self.submodules_list:
             verilog = am.Instance(sub_mod.module_type, **sub_mod.kwargs)
             setattr(
