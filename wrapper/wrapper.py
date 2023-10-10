@@ -8,6 +8,17 @@ import amaranth as am
 from amaranth.back.rtlil import convert_fragment
 from amaranth.hdl.ir import Fragment
 
+PRIMITIVE = {
+    "gate_and",
+    "gate_or",
+    "gate_nor",
+    "gate_xor",
+    "gate_xnor",
+    "gate_not",
+    "gate_buf",
+    "gate_nand",
+}
+
 ALLOWED_PARAMS = {
     # must be updated with each module_type
     "gate_and": ["p_WAY", "p_WIRE"],
@@ -47,16 +58,7 @@ class Module(am.Elaboratable):  # this is a recursive Element
         self.init_primitive_sig()
 
     def init_primitive_sig(self):
-        if self.module_type in [
-                "gate_or",
-                "gate_and",
-                "gate_nand",
-                "gate_nor",
-                "gate_xor",
-                "gate_xnor",
-                "gate_buf",
-                "gate_not",
-        ]:
+        if self.module_type in PRIMITIVE:
             if "p_WIRE" not in self.kwargs or self.kwargs["p_WIRE"] == None:
                 print("'\033[91m'Error : module " + self.module_type + " require p_WIRE definition'\033[95m'")
                 _exit(-1)
@@ -85,32 +87,8 @@ class Module(am.Elaboratable):  # this is a recursive Element
     def add_submodules(self, new_modules: list):
         for sub_mod in new_modules:
             self.submodules_list.append(sub_mod)
-    '''
-    def add_cells(self, cells_list):
-        for cell in cells_list:
-            verilog = am.Instance(cell.module_type, **cell.kwargs)
-            setattr(
-                top.submodules,
-                f"{sub_mod.name}.verilog",
-                verilog,
-            )
-            # enregistrement des ports des submodules dans les ports du père
-            for key in sub_mod.kwargs.keys():
-                if key[0:2] in ["i_", "o_"] or key[0:3] in ["io_"]:
-                    if sub_mod.reg_in is False and sub_mod.reg_out is False:
-                        print("no port to reg")
-                    elif sub_mod.reg_in is False:
-                        if key[0:2] in ["o_"]:
-                            print("port reg", key)
-                            self.ports.append(sub_mod.kwargs.get(key))
-                    elif sub_mod.reg_out is False:
-                        if key[0:2] in ["i_"]:
-                            print("port reg", key)
-                            self.ports.append(sub_mod.kwargs.get(key))
-                    else:  # io_ tombe ici (actuellement non geré)
-                        print("port reg", key)
-                        self.ports.append(sub_mod.kwargs.get(key))
-    '''
+            
+
     def write_rtlil_file(self):
         platform = None
         emit_src = True
@@ -131,6 +109,10 @@ class Module(am.Elaboratable):  # this is a recursive Element
     def elaborate(self, platform):
         # SEUL LE TOP APPELLE CETTE FONCTION
         top = am.Module()
+        self.reg_port()
+        return top
+
+    def reg_port(self):
         for sub_mod in self.submodules_list:
             verilog = am.Instance(sub_mod.module_type, **sub_mod.kwargs)
             setattr(
@@ -154,11 +136,3 @@ class Module(am.Elaboratable):  # this is a recursive Element
                     else:  # io_ tombe ici (actuellement non geré)
                         print("port reg", key)
                         self.ports.append(sub_mod.kwargs.get(key))
-        return top
-
-    # DEBUG
-    # ajout du nom du module inutilisé
-    # UnusedElaboratable: Module() NOM_DU_MODULE created but never used
-    def __repr__(self):
-        return self.__class__.__name__ + "() " + self.name
-
