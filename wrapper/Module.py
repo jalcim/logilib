@@ -8,16 +8,19 @@ import amaranth as am
 from amaranth.back.rtlil import convert_fragment
 from amaranth.hdl.ir import Fragment
 
-class Module():  # this is a recursive Element
+class Module():
     unique_id = 0  # auto increment
     kwargs: dict = {}
     name = "default"
     submodules_list: list = []
+    verilog = None
 
     reg_in = False
     reg_out = False
+    ports: list = []
 
     def __init__(self, module_type: str = "default", reg_in: bool = False, reg_out: bool = False, **kwargs):
+        self.module = am.Module()
         self.kwargs = kwargs
         self.name = module_type + "_" + str(Module.unique_id)
         self.ports: list = []
@@ -35,9 +38,9 @@ class Module():  # this is a recursive Element
     def add_submodules(self, new_modules: list):
         for sub_mod in new_modules:
             self.submodules_list.append(sub_mod)
-            if verilog in sub_mod and sub_mod.verilog != None:
+            if sub_mod.verilog != None:
                 setattr(
-                    self.submodules,
+                    self.module.submodules,
                     f"{sub_mod.name}.verilog",
                     sub_mod.verilog,
                 )
@@ -57,3 +60,6 @@ class Module():  # this is a recursive Element
                     else:  # io_ tombe ici (actuellement non geré)
                         print("port reg", key)
                         self.ports.append(sub_mod.kwargs.get(key))
+    def elaborate(self, platform):
+        # SEUL LE TOP APPELLE CETTE FONCTION
+        return self.module

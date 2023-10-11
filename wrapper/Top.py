@@ -4,6 +4,7 @@ from os import environ
 import datetime
 
 import amaranth as am
+from amaranth.back import rtlil
 from amaranth.back.rtlil import convert_fragment
 from amaranth.hdl.ir import Fragment
 
@@ -14,7 +15,7 @@ class Top(am.Elaboratable):
     def __init__(self, module_name: str = "Top"):
         self.top = am.Module()
         self.name = module_name
-        
+
     def elaborate(self, platform):
         # SEUL LE TOP APPELLE CETTE FONCTION
         self.reg_port()
@@ -22,11 +23,12 @@ class Top(am.Elaboratable):
 
     def reg_port(self):
         for sub_mod in self.submodules_list:
-            setattr(
-                self.top.submodules,
-                f"{sub_mod.name}.verilog",
-                sub_mod.verilog,
-            )
+            if sub_mod.verilog != None:
+                setattr(
+                    self.top.submodules,
+                    f"{sub_mod.name}.verilog",
+                    sub_mod.verilog,
+                )
             # enregistrement des ports des submodules dans les ports du père
             for key in sub_mod.kwargs.keys():
                 if key[0:2] in ["i_", "o_"] or key[0:3] in ["io_"]:
@@ -51,6 +53,7 @@ class Top(am.Elaboratable):
     def write_rtlil_file(self):
         platform = None
         emit_src = True
+
         fragment = Fragment.get(self, platform).prepare(ports=self.ports)
         rtlil_text, name_map = convert_fragment(
             fragment,
@@ -59,6 +62,7 @@ class Top(am.Elaboratable):
         )
         ENV_USERNAME = environ.get("USER")
         rtlil_source_text = rtlil_text.replace(ENV_USERNAME, "user")
+
         now = datetime.datetime.now().strftime("%Y-%m-%d_%H-%M-%S")
         filename = self.name + "_" + now + ".rtlil"
         with open(filename, "w") as fd:
