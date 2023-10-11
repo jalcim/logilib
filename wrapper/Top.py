@@ -48,6 +48,7 @@ class Top(am.Elaboratable):
 
     def add_submodules(self, new_modules: list):
         for sub_mod in new_modules:
+            self.top.submodules += sub_mod
             self.submodules_list.append(sub_mod)
 
     def write_rtlil_file(self):
