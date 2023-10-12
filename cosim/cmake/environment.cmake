@@ -29,8 +29,22 @@ macro(init_environment)
 
   include_directories(${Boost_INCLUDE_DIRS})
 
-  if(DEFINED ENV{MAX_WAYS})
-    set(MAX_WAYS $ENV{MAX_WAYS})
+  if(DEFINED ENV{ARITHM_WIRES_LIST})
+    set(ARITHM_WIRES_LIST $ENV{ARITHM_WIRES_LIST})
+  else()
+    set(ARITHM_WIRES_LIST 1 2 3 4 7 8 16 32)
+  endif()
+
+  if(DEFINED ENV{ARITHM_WAYS_LIST})
+    set(ARITHM_WAYS_LIST $ENV{ARITHM_WAYS_LIST})
+  else()
+    set(ARITHM_WAYS_LIST 1)
+  endif()
+
+  if(DEFINED ENV{GATES_WAYS_LIST})
+    set(GATES_WAYS_LIST $ENV{GATES_WAYS_LIST})
+  else()
+    set(GATES_WAYS_LIST 2 3 4 7 8)
   endif()
 
   if(DEFINED ENV{VCD_TRACE_ON})

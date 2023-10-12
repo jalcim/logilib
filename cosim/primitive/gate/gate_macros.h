@@ -65,18 +65,6 @@ const int get_n_bits_bitmasks[16] = {
   X(_nor, 4)    \
   X(_xor, 4)    \
   X(_xnor, 4)   \
-  X(_and, 5)    \
-  X(_nand, 5)   \
-  X(_or, 5)     \
-  X(_nor, 5)    \
-  X(_xor, 5)    \
-  X(_xnor, 5)   \
-  X(_and, 6)    \
-  X(_nand, 6)   \
-  X(_or, 6)     \
-  X(_nor, 6)    \
-  X(_xor, 6)    \
-  X(_xnor, 6)   \
   X(_and, 7)    \
   X(_nand, 7)   \
   X(_or, 7)     \
@@ -89,6 +77,18 @@ const int get_n_bits_bitmasks[16] = {
   X(_nor, 8)    \
   X(_xor, 8)    \
   X(_xnor, 8)   \
+  // X(_and, 5)    \
+  // X(_nand, 5)   \
+  // X(_or, 5)     \
+  // X(_nor, 5)    \
+  // X(_xor, 5)    \
+  // X(_xnor, 5)   \
+  // X(_and, 6)    \
+  // X(_nand, 6)   \
+  // X(_or, 6)     \
+  // X(_nor, 6)    \
+  // X(_xor, 6)    \
+  // X(_xnor, 6)   \
   // X(_and, 9)    \
   // X(_nand, 9)   \
   // X(_or, 9)     \

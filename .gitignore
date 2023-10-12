@@ -3,3 +3,7 @@ build
 bin
 *.vcd
 a.out
+.DS_Store
+synth/**/*.v
+synth/**/*.sp
+synth/**/*.rtlil

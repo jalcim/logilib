@@ -1,22 +1,16 @@
 cmake_minimum_required(VERSION 3.18)
 project(Cosim_gates C CXX)
 
-find_package(verilator HINTS $ENV{VERILATOR_ROOT} ${VERILATOR_ROOT})
-if (NOT verilator_FOUND)
-  message(FATAL_ERROR "Verilator was not found. Either install it, or set the VERILATOR_ROOT environment variable")
-endif()
+include(environment)
 
-if(NOT DEFINED MAX_WAYS)
-  set(MAX_WAYS 8)
-endif()
+INIT_ENVIRONMENT()
 
 set(GATE_LIBRARIES
   "Vgate_buf_1"
   "Vgate_not_1"
 )
 
-
-foreach(way_number RANGE 2 ${MAX_WAYS})
+foreach(way_number IN LISTS GATES_WAYS_LIST)
   set(GATE_LIBRARIES
     ${GATE_LIBRARIES}
     "Vgate_and_${way_number}"
@@ -29,8 +23,6 @@ foreach(way_number RANGE 2 ${MAX_WAYS})
 endforeach()
 
 add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/../../../src/primitive/gate vgates)
-
-add_compile_options(-std=c++11)
 
 add_library(${PROJECT_NAME} STATIC)
 

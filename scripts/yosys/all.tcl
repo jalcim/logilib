@@ -30,10 +30,6 @@ yosys -import
 
 set WAY  2
 set WIRE 32
-#set WAY  $argv4
-#set WIRE $argv5
-#set WAY [lindex $argv 0]
-#set WIRE [lindex $argv 0]
 
 synth_alu $WAY $WIRE
 synth_compteur $WAY $WIRE

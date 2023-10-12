@@ -1,6 +1,6 @@
-#include "gate_macros.h"
 #include <iostream>
 #include <cmath>
+#include "gate_macros.h"
 
 int test_lsb_buf(int input, int way_number)
 {

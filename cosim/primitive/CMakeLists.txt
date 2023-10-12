@@ -1,16 +1,13 @@
 cmake_minimum_required(VERSION 3.18)
 project(Cosim_primitives C CXX)
 
-find_package(verilator HINTS $ENV{VERILATOR_ROOT} ${VERILATOR_ROOT})
-if (NOT verilator_FOUND)
-  message(FATAL_ERROR "Verilator was not found. Either install it, or set the VERILATOR_ROOT environment variable")
-endif()
+include(environment)
+
+INIT_ENVIRONMENT()
 
 add_subdirectory(gate)
 #add_subdirectory(parallel_gate)
 #add_subdirectory(serial_gate)
-
-add_compile_options(-std=c++11)
 
 add_library(${PROJECT_NAME} STATIC)
 

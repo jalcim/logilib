@@ -29,7 +29,7 @@ class GATE_TEST
   VGATE *gate;
   int (*test_fn)(int input, int way);
   string trace_path;
-  VerilatedVcdC *m_trace;
+  VerilatedVcdC *m_trace = NULL;
 
 public:
   GATE_TEST(int (*gate_test)(int input, int way), int ways)
@@ -208,7 +208,7 @@ public:
   void log_error(bool test_error, int waited_result)
   {
     BOOST_LOG_TRIVIAL(error)
-        << format_log(test_error, waited_result) << "Logs in : " << log_path;
+        << format_log(test_error, waited_result) << "\nLogs in : " << log_path;
   }
 
   ~GATE_TEST(void)

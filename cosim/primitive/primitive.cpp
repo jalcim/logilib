@@ -4,7 +4,6 @@
 #include <iostream>
 #include <boost/log/trivial.hpp>
 
-#include "primitive.h"
 #include "gate.h"
 
 using namespace std;
@@ -30,8 +29,8 @@ int test_gate()
   return (error);
 }
 
-void test_primitive()
+bool test_primitive()
 {
-  test_gate();
+  return test_gate();
   //  test_parallele_gate();
 }

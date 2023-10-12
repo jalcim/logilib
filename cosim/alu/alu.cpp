@@ -1,20 +1,31 @@
+
+#include <stdio.h>
+#include <fcntl.h>
+#include <unistd.h>
+#include <iostream>
+#include <boost/log/trivial.hpp>
+
+#include "arithm.h"
+
+using namespace std;
+
 int test_alu()
 {
-  int test = 0;
-  int fd_arithm;
+  bool error;
+  int fd_gate;
 
-  mkdir("build/cosim/alu", 0777);
-  mkdir("build/cosim/alu/arithm", 0777);
+  BOOST_LOG_TRIVIAL(info) << "Alu test : arithm";
 
-  arithm_init();
-  test = arithm_test();
-  arithm_destruct();
-  fd_arithm = open("../build/cosim/alu/arithm_check",
-		   O_CREAT|O_RDWR, S_IRUSR|S_IWUSR);
+  error = test_arithm();
 
-  printf("alu-arithm test : %s\n", test ? "FAIL" : "OK");
-  dprintf(fd_arithm, "alu-arithm test : %s\n", test ? "FAIL" : "OK");
+  if (error)
+  {
+    BOOST_LOG_TRIVIAL(error) << "Alu error : arithm";
+  }
+  else
+  {
+    BOOST_LOG_TRIVIAL(info) << "Alu test : arithm";
+  }
 
-  close(fd_arithm);
-  return (test);
+  return (error);
 }

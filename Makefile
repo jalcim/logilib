@@ -87,19 +87,17 @@ endif
 
 default: $(TARGET)
 
-cmake-ninja:
-	$(CMAKE) -B build -GNinja ./cosim
-
-build: cmake-ninja
-	ninja -C build
-
+# Src
 cmake-src:
 	$(CMAKE) -B ./src/primitive/gate/build -GNinja ./src/primitive/gate
-
+	$(CMAKE) -B ./src/alu/arithm/build -GNinja ./src/alu/arithm
 build-src: cmake-src
 	ninja -C ./src/primitive/gate/build
+	ninja -C ./src/alu/arithm/build
 
-cmake-make:
+# Cosim
+## Main make
+cmake-make: synthesis
 	$(CMAKE) -B build ./cosim
 
 build-make: cmake-make
@@ -108,9 +106,32 @@ build-make: cmake-make
 run-make: build-make
 	./build/Vmain
 
+re-make: clean build-make
+
+rerun-make: re run-make
+
+## Main ninja
+cmake-ninja: synthesis
+	$(CMAKE) -B build -GNinja ./cosim
+
+build: cmake-ninja
+	ninja -C build
+
 run: build
 	./build/Vmain
 
+re: clean build
+
+rerun: re run
+
+## Partial ninja
+
+cosim/%/build: cosim/%
+	$(CMAKE) -B $@ -GNinja `echo $@ | sed s/build//`
+	ninja -C $@
+
+
+## Preprocessing
 hasformat:
 	@echo using $(FORMAT)
 
@@ -118,24 +139,22 @@ noformat:
 	@echo "Please install clang-format or indent"
 	false
 
-re: clean build
-
-re-make: clean build-make
-
-rerun: re run
-
-rerun-make: re run-make
-
 %.i: $(FORMAT_TARGET) cmake-make
 	make -C `dirname $@ | sed s/cosim/build/` `basename $@`
 	cat `find build -name \`basename $@\`` | $(FORMAT)
 
-cosim/%/build: cosim/%
-	cmake -B $@ -GNinja `echo $@ | sed s/build//`
-	ninja -C $@
+# Synthesis
 
-clean mostlyclean distclean maintainer-clean:
-	@rm -rf build logs
+synthesis:
+	cmake -B src/alu/arithm/build src/alu/arithm && make -C src/alu/arithm/build
+
+clean-synthesis:
+	rm -f `find synth -name "*.v" -or -name "*.sp" -or -name "*.rtlil"`
+
+# Utils
+
+clean mostlyclean distclean maintainer-clean: clean-synthesis
+	@rm -rf src/alu/arithm/build build logs
 
 nocmake:
 	@echo

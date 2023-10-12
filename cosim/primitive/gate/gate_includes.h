@@ -1,3 +1,5 @@
+#ifndef __COSIM_GATE_INCLUDES_H__
+#define __COSIM_GATE_INCLUDES_H__
 
 #include "Vgate_buf_1.h"
 #include "Vgate_not_1.h"
@@ -23,19 +25,19 @@
 #include "Vgate_xor_4.h"
 #include "Vgate_xnor_4.h"
 
-#include "Vgate_and_5.h"
-#include "Vgate_nand_5.h"
-#include "Vgate_or_5.h"
-#include "Vgate_nor_5.h"
-#include "Vgate_xor_5.h"
-#include "Vgate_xnor_5.h"
+// #include "Vgate_and_5.h"
+// #include "Vgate_nand_5.h"
+// #include "Vgate_or_5.h"
+// #include "Vgate_nor_5.h"
+// #include "Vgate_xor_5.h"
+// #include "Vgate_xnor_5.h"
 
-#include "Vgate_and_6.h"
-#include "Vgate_nand_6.h"
-#include "Vgate_or_6.h"
-#include "Vgate_nor_6.h"
-#include "Vgate_xor_6.h"
-#include "Vgate_xnor_6.h"
+// #include "Vgate_and_6.h"
+// #include "Vgate_nand_6.h"
+// #include "Vgate_or_6.h"
+// #include "Vgate_nor_6.h"
+// #include "Vgate_xor_6.h"
+// #include "Vgate_xnor_6.h"
 
 #include "Vgate_and_7.h"
 #include "Vgate_nand_7.h"
@@ -442,3 +444,5 @@
 // #include "Vgate_nor_64.h"
 // #include "Vgate_xor_64.h"
 // #include "Vgate_xnor_64.h"
+
+#endif /* __COSIM_GATE_INCLUDES_H__ */

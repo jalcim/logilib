@@ -1,21 +1,27 @@
-set(ALU_SRC_ARITHM ${PWD_LOGILIB}/alu/arithm/src)
+cmake_minimum_required(VERSION 3.18)
+project(Cosim_arithm C CXX)
 
-add_library(Vadd STATIC)
-add_library(Vmulti_add STATIC)
+include(environment)
 
-verilator_generate_key(KEY_INIT)
-set(PROTECT_KEY ${KEY_INIT} CACHE STRING "Random seed for protection")
+INIT_ENVIRONMENT()
 
-verilate(Vadd
-  VERILATOR_ARGS --protect-lib lib_add
-  --protect-key ${PROTECT_KEY}
-  -I${PRIM_SRC_GATE}
-  DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}/lib/lib_add
-  SOURCES ${ALU_SRC_ARITHM}/add.v)
+add_subdirectory(addx)
 
-verilate(Vmulti_add
-  VERILATOR_ARGS --protect-lib lib_multi_add
-  --protect-key ${PROTECT_KEY}
-  -I${PRIM_SRC_GATE} -I${ALU_SRC_ARITHM}
-  DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}/lib/lib_multi_add
-  SOURCES ${ALU_SRC_ARITHM}/multi_add.v)
+add_library(${PROJECT_NAME} STATIC)
+
+target_link_libraries(${PROJECT_NAME} LINK_PUBLIC Cosim_addx Boost::log)
+
+target_sources(${PROJECT_NAME} PRIVATE ./arithm.cpp)
+
+target_include_directories(${PROJECT_NAME}
+  PRIVATE
+    ${CMAKE_CURRENT_SOURCE_DIR}/addx
+  PUBLIC
+    # where top-level project will look for the library's public headers
+    $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}>
+    # where external projects will look for the library's public headers
+    $<INSTALL_INTERFACE:${CMAKE_INSTALL_INCLUDEDIR}>
+)
+
+
+

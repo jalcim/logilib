@@ -8,8 +8,8 @@ endif()
 
 set(INCLUDE_DIRS "../../..")
 
-if(NOT DEFINED MAX_WAYS)
-  set(MAX_WAYS 8)
+if(NOT DEFINED GATES_WAYS_LIST)
+  set(GATES_WAYS_LIST 2 3 4 7 8)
 endif()
 
 set(SOURCE_DIR ".")
@@ -67,7 +67,7 @@ verilate(Vgate_not_1
 
 foreach(gate IN LISTS GATE_NAMES)
 
-foreach(way_number RANGE 2 ${MAX_WAYS})
+foreach(way_number IN LISTS GATES_WAYS_LIST)
     add_library(Vgate_${gate}_${way_number} STATIC)
     target_include_directories(Vgate_${gate}_${way_number}
       PUBLIC

@@ -58,11 +58,21 @@ module alu_primary(datain_A, datain_B,
 				 slt_out);
 
    sltu #(.WIRE(WIRE)) sltu_inst (datain_A, datain_B,
+<<<<<<< HEAD
 				  //line[4 * WIRE-1:(4-1) * WIRE]
 				  sltu_out);
    
    gate_xor #(.WAY(2), .WIRE(WIRE)) xor_inst(xor_out,
 					     //line[5 * WIRE-1:(5-1) * WIRE],
+||||||| parent of 3cc06be (feat(cosim:alu): test addx)
+				  line[4 * WIRE-1:(4-1) * WIRE]);
+   
+   gate_xor #(.WAY(2), .WIRE(WIRE)) xor_inst(line[5 * WIRE-1:(5-1) * WIRE],
+=======
+				  line[4 * WIRE-1:(4-1) * WIRE]);
+
+   gate_xor #(.WAY(2), .WIRE(WIRE)) xor_inst(line[5 * WIRE-1:(5-1) * WIRE],
+>>>>>>> 3cc06be (feat(cosim:alu): test addx)
 					     {datain_A, datain_B});
 
    sra_srl #(.WIRE(WIRE)) sra_srl_inst (funct7, datain_A, datain_B,

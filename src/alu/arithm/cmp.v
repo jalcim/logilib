@@ -58,12 +58,19 @@ module cmp(a, b, eq, more, less);
    parallel_cmp_cell #(.WIRE(WIRE)) parallel_cmp_cell_inst(a, b, left, right);
    parallel_nor #(.WAY(2), .WIRE(WIRE)) parallel_nor_inst(out_nor, {left, right});
 
-   recursive_ao #(.WIRE(WIRE)) ao_inst(out_ao,
-				       left[0],
-				       out_nor[WIRE-1:1],
-				       left[WIRE-1:1]);
-
-   serial_and #(.WAY(WIRE)) and_inst(out_and, out_nor);
+   if (WIRE > 1)
+     begin
+	recursive_ao #(.WIRE(WIRE)) ao_inst(out_ao,
+					    left[0],
+					    out_nor[WIRE-1:1],
+					    left[WIRE-1:1]);
+	serial_and #(.WAY(WIRE)) and_inst(out_and, out_nor);
+     end
+   else
+     begin
+	assign out_and = out_nor;
+	assign out_ao = left;
+     end
 
    nor nor_inst(more, out_ao, out_and);
    buf buf_inst_less(eq, out_and);
