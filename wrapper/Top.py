@@ -17,7 +17,6 @@ class Top(am.Elaboratable):
         self.name = module_name
 
     def elaborate(self, platform):
-        # SEUL LE TOP APPELLE CETTE FONCTION
         self.reg_port()
         return self.top
 
@@ -31,24 +30,28 @@ class Top(am.Elaboratable):
                 )
             # enregistrement des ports des submodules dans les ports du père
             for key in sub_mod.kwargs.keys():
+                print("Top key", key)
                 if key[0:2] in ["i_", "o_"] or key[0:3] in ["io_"]:
                     if sub_mod.reg_in is False and sub_mod.reg_out is False:
-                        print("no port to reg")
+                        print("Top no port to reg")
                     elif sub_mod.reg_in is False:
                         if key[0:2] in ["o_"]:
-                            print("port reg", key)
+                            print("Top port reg", key)
                             self.ports.append(sub_mod.kwargs.get(key))
                     elif sub_mod.reg_out is False:
                         if key[0:2] in ["i_"]:
-                            print("port reg", key)
+                            print("Top port reg", key)
                             self.ports.append(sub_mod.kwargs.get(key))
                     else:  # io_ tombe ici (actuellement non geré)
-                        print("port reg", key)
+                        print("Top port reg", key)
                         self.ports.append(sub_mod.kwargs.get(key))
 
     def add_submodules(self, new_modules: list):
         for sub_mod in new_modules:
-            self.top.submodules += sub_mod
+            if sub_mod.verilog != None:
+                self.top.submodules += sub_mod.verilog
+            else :
+                self.top.submodules += sub_mod
             self.submodules_list.append(sub_mod)
 
     def write_rtlil_file(self):
