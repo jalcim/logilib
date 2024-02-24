@@ -2,7 +2,6 @@ cmake_minimum_required(VERSION 3.18)
 project(Cosim_primitives C CXX)
 
 include(environment)
-
 INIT_ENVIRONMENT()
 
 add_subdirectory(gate)

@@ -36,7 +36,7 @@ void init(int argc, char **argv)
 int main(int argc, char **argv, char **env)
 {
   init(argc, argv);
-  // test_primitive();
+  test_primitive();
   //  test_memory();
   test_alu();
   delete (contextp);

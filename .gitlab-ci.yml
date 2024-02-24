@@ -20,6 +20,8 @@ variables:
 build:
   stage: build
   script:
+    - apk add git
+    - git clone https://github.com/yosysHQ/yosys
     - docker build --pull -t $CONTAINER_TEST_IMAGE .
     - docker push $CONTAINER_TEST_IMAGE
   only:

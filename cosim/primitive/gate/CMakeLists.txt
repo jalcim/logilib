@@ -2,7 +2,6 @@ cmake_minimum_required(VERSION 3.18)
 project(Cosim_gates C CXX)
 
 include(environment)
-
 INIT_ENVIRONMENT()
 
 set(GATE_LIBRARIES

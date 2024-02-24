@@ -1,6 +1,6 @@
 void veriform_add_sub(unsigned int *results, unsigned int max_int, unsigned int sub,
-			      unsigned int operandA, unsigned int operandB,
-			      unsigned int cin)
+                      unsigned int operandA, unsigned int operandB,
+                      unsigned int cin)
 {
   operandA = operandA & max_int;
   operandB = operandB & max_int;
@@ -28,10 +28,10 @@ int main()
 
   veriform_add_sub(results, max_int, sub, operandA, operandB, cin);
   printf("results = %u, cout = %u\n"
-	 "max_int = %u, sub = %u\n"
-	 "operandA = %u, operandB = %u\n"
-	 "cin = %u\n\n",
-	 results[0], results[1], max_int, sub, operandA, operandB, cin);
+   "max_int = %u, sub = %u\n"
+   "operandA = %u, operandB = %u\n"
+   "cin = %u\n\n",
+   results[0], results[1], max_int, sub, operandA, operandB, cin);
   free(results);
 }
 */

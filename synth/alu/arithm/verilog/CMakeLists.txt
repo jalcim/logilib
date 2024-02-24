@@ -35,13 +35,13 @@ set(SOURCE_DIR ".")
 
 foreach(module_name IN LISTS ARITHM_NAMES)
   if (${module_name} STREQUAL "add")
-    message(STATUS "Creating lib V${module_name}_1")
+    message(STATUS "Creating lib V${module_name}_1 ${CMAKE_BINARY_DIR}")
     add_library(V${module_name}_1 STATIC)
 
     target_include_directories(V${module_name}_1
     PUBLIC
       ${VERILATOR_INCLUDES}
-      ${CMAKE_BINARY_DIR}/CMakeFiles/V${module_name}_1.dir/V${module_name}_1.dir
+      ${CMAKE_BINARY_DIR}/../src/alu/arithm/CMakeFiles/${module_name}_1.v.dir/
       # where top-level project will look for the library's public headers
       $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/>
       # where external projects will look for the library's public headers

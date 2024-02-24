@@ -34,7 +34,7 @@ endif()
 set(SOURCE_DIR ".")
 
 foreach(module_name IN LISTS ARITHM_NAMES)
-  message(STATUS "Compiling ${module_name}")
+  message(STATUS "Compiling ${module_name} ${CMAKE_CURRENT_SOURCE_DIR}")
   if (${module_name} STREQUAL "add")
     add_custom_target(${module_name}_1.v ALL DEPENDS ${CMAKE_CURRENT_SOURCE_DIR}/../../../synth/alu/arithm/verilog/${module_name}_1.v)
     add_custom_command(

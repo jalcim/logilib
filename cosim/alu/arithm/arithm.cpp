@@ -5,25 +5,26 @@
 #include <boost/log/trivial.hpp>
 
 #include "addx.h"
+#include "add_sub.h"
 
 using namespace std;
 
-int test_addx()
+int run_test(const char *const name, bool (*test)())
 {
   bool error;
   int fd_addx;
 
-  BOOST_LOG_TRIVIAL(info) << "Arithm test : addx";
+  BOOST_LOG_TRIVIAL(info) << "Arithm test : " << name;
 
-  error = run_addx_tests();
+  error = test();
 
   if (error)
   {
-    BOOST_LOG_TRIVIAL(error) << "Arithm error : addx";
+    BOOST_LOG_TRIVIAL(error) << "Arithm error : " << name;
   }
   else
   {
-    BOOST_LOG_TRIVIAL(info) << "Arithm test : addx";
+    BOOST_LOG_TRIVIAL(info) << "Arithm test : " << name;
   }
 
   return (error);
@@ -31,5 +32,5 @@ int test_addx()
 
 bool test_arithm()
 {
-  return test_addx();
+  return run_test("addx", run_addx_tests) || run_test("add_sub", run_add_sub_tests);
 }

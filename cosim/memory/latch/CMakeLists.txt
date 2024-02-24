@@ -1,3 +1,6 @@
+include(environment)
+INIT_ENVIRONMENT()
+
 set(MEM_SRC_LATCH ${PWD_LOGILIB}/memory/latch/src)
 
 add_library(VDlatch STATIC)

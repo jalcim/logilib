@@ -97,10 +97,10 @@ build-src: cmake-src
 
 # Cosim
 ## Main make
-cmake-make: synthesis
+cmake-make:
 	$(CMAKE) -B build ./cosim
 
-build-make: cmake-make
+build-make: synthesis cmake-make
 	 make -j -C build
 
 run-make: build-make
@@ -111,10 +111,10 @@ re-make: clean build-make
 rerun-make: re run-make
 
 ## Main ninja
-cmake-ninja: synthesis
+cmake-ninja:
 	$(CMAKE) -B build -GNinja ./cosim
 
-build: cmake-ninja
+build: synthesis cmake-ninja
 	ninja -C build
 
 run: build
@@ -125,7 +125,6 @@ re: clean build
 rerun: re run
 
 ## Partial ninja
-
 cosim/%/build: cosim/%
 	$(CMAKE) -B $@ -GNinja `echo $@ | sed s/build//`
 	ninja -C $@
@@ -151,10 +150,12 @@ synthesis:
 clean-synthesis:
 	rm -f `find synth -name "*.v" -or -name "*.sp" -or -name "*.rtlil"`
 
+# Synthesis
 # Utils
 
 clean mostlyclean distclean maintainer-clean: clean-synthesis
-	@rm -rf src/alu/arithm/build build logs
+	make -C yosys mrproper || true
+	rm -rf `find . -name "build"` logs
 
 nocmake:
 	@echo
@@ -166,4 +167,4 @@ oldcmake:
 	@echo "%Skip: CMake version is too old (need at least 3.8)"
 	@echo
 
-.PHONY: cmake-ninja build cmake-src build-src cmake-make build-make run-make run hasformat noformat re re-make rerun rerun-make clean mostlyclean distclean maintainer-clean nocmake oldcmake
+.PHONY: cmake-ninja build cmake-src build-src cmake-make build-make synthesis run-make run hasformat noformat re re-make rerun rerun-make clean mostlyclean distclean maintainer-clean nocmake oldcmake

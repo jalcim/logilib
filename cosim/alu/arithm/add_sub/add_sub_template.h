@@ -1,5 +1,5 @@
-#ifndef __COSIM_ADDX_TEMPLATE_H__
-#define __COSIM_ADDX_TEMPLATE_H__
+#ifndef __COSIM_ADD_SUB_TEMPLATE_H__
+#define __COSIM_ADD_SUB_TEMPLATE_H__
 #include <typeinfo>
 #include <iostream>
 #include <verilated.h>
@@ -7,8 +7,8 @@
 #include <cmath>
 #include <fstream>
 #include <boost/log/trivial.hpp>
-#include "addx_macros.h"
-#include "addx_test.h"
+#include "add_sub_macros.h"
+#include "add_sub_test.h"
 
 using namespace std;
 
@@ -18,9 +18,9 @@ const string LOG_PATH_PREFIX = "build/cosim/alu/arithm/";
 const string LOG_PATH_SUFFIX = "_check";
 const string LOG_TRACE_SUFFIX = "_trace.vcd";
 const unsigned int nb_operands = 3;
-const unsigned int nb_tests = 18;
+const unsigned int nb_tests = 22;
 
-char const *get_result_text(bool result_error, bool cout_error)
+char const *get_result_txt(bool result_error, bool cout_error)
 {
   if (result_error && cout_error)
     return "invalid result and cout";
@@ -28,32 +28,31 @@ char const *get_result_text(bool result_error, bool cout_error)
     return "invalid result";
   else if (cout_error)
     return "invalid cout";
-  else
-    return "success";
+  return "success";
 }
 
-template <class VADDX>
-class ADDX_TEST
+template <class VADD_SUB>
+class ADD_SUB_TEST
 {
   int log_fd;
   std::ofstream log_file_stream;
   unsigned int wires_number;
   string log_path;
   const char *name;
-  VADDX *addx;
-  t_addx_test *test_fn;
+  VADD_SUB *add_sub;
+  t_add_sub_test *test_fn;
   string trace_path;
   VerilatedVcdC *m_trace = NULL;
 
 public:
-  ADDX_TEST(t_addx_test *addx_test, unsigned int wires)
+  ADD_SUB_TEST(t_add_sub_test *add_sub_test, unsigned int wires)
   {
-    name = typeid(addx).name();
+    name = typeid(add_sub).name();
 #ifdef VCD_TRACE_ON
     contextp->traceEverOn(true);
 #endif
-    addx = new VADDX{contextp};
-    test_fn = addx_test;
+    add_sub = new VADD_SUB{contextp};
+    test_fn = add_sub_test;
     wires_number = wires;
     log_path = LOG_PATH_PREFIX + name + LOG_PATH_SUFFIX;
     log_file_stream.open(log_path, ios::trunc | ios::out);
@@ -66,7 +65,7 @@ public:
     if (!m_trace)
     {
       m_trace = new VerilatedVcdC;
-      addx->trace(m_trace, 99);
+      add_sub->trace(m_trace, 99);
       m_trace->open(trace_path.c_str());
     }
 #endif
@@ -81,12 +80,13 @@ public:
     }
   }
 
-  bool test()
+  bool test(bool is_sub)
   {
     bool test_error = false;
-    unsigned int operandA = 0;
-    unsigned int operandB = 0;
+    int operandA = 0;
+    int operandB = 0;
     unsigned int cin = 0;
+    unsigned int sub = 0;
     unsigned int waited_results[2];
     bool result_error;
     bool cout_error;
@@ -99,14 +99,18 @@ public:
         {0, 1, 1},
         {1, 0, 1},
         {1, 1, 1},
-        {max_int / 3, max_int / 3, 0},
-        {max_int / 3, max_int / 3, 1},
-        {max_int / 4, max_int / 4, 0},
-        {max_int / 4, max_int / 4, 1},
+        {max_int / 3, max_int / 3 + 1, 0},
+        {max_int / 3, max_int / 3 + 1, 1},
+        {max_int / 4, max_int / 4 + 1, 0},
+        {max_int / 4, max_int / 4 + 1, 1},
         {max_int, 0, 0},
         {max_int, 0, 1},
         {max_int, 1, 0},
         {max_int, 1, 1},
+        {0, max_int, 0},
+        {0, max_int, 1},
+        {1, max_int, 0},
+        {1, max_int, 1},
         {max_int / 2, max_int / 2, 0},
         {max_int / 2, max_int / 2, 1},
         {max_int / 2 + 1, max_int / 2, 0},
@@ -129,6 +133,7 @@ public:
       operandA = test_inputs[i][0];
       operandB = test_inputs[i][1];
       cin = test_inputs[i][2];
+      sub = is_sub ? 1 : 0;
 
       contextp->timeInc(VERILATOR_TIME_INCREMENT);
 
@@ -139,22 +144,24 @@ public:
           << operandB
           << " CIN="
           << cin
+          << " SUB="
+          << sub
           << " MAX_INT="
           << max_int
           << " : ";
 
-      addx->a = operandA;
-      addx->b = operandB;
-      addx->cin = cin;
+      add_sub->a = operandA;
+      add_sub->b = operandB;
+      add_sub->cin = cin;
+      add_sub->sub = sub;
+      add_sub->eval();
 
-      addx->eval();
+      test_fn(waited_results, max_int, operandA, operandB, cin, sub, wires_number);
 
-      test_fn(waited_results, max_int, operandA, operandB, cin, wires_number);
-
-      result_error = addx->out != waited_results[0];
-      cout_error = addx->cout != waited_results[1];
+      result_error = add_sub->out != waited_results[0];
+      cout_error = add_sub->cout != waited_results[1];
       error = result_error || cout_error;
-      result_text = get_result_text(result_error, cout_error);
+      result_text = get_result_txt(result_error, cout_error);
 
       BOOST_LOG_TRIVIAL(trace)
           << "OUT wait = res : "
@@ -162,13 +169,11 @@ public:
           << ", "
           << waited_results[1]
           << " = "
-          << (unsigned int)addx->out << ", "
-          << (unsigned int)addx->cout << " : "
+          << (unsigned int)add_sub->out << ", "
+          << (unsigned int)add_sub->cout << " : "
           << result_text;
 
       log_to_file(result_text, waited_results, max_int);
-
-      test_error |= cout_error;
 
       if (error)
       {
@@ -182,6 +187,7 @@ public:
       if (m_trace)
         m_trace->dump(contextp->time());
 
+      test_error |= error;
       i++;
     }
 
@@ -213,15 +219,17 @@ public:
        << " max_int="
        << max_int
        << ", operandA="
-       << (unsigned int)addx->a
+       << (unsigned int)add_sub->a
        << ", operandB="
-       << (unsigned int)addx->b
+       << (unsigned int)add_sub->b
        << ", cin="
-       << (unsigned int)addx->cin
+       << (unsigned int)add_sub->cin
+       << ", sub="
+       << (unsigned int)add_sub->sub
        << ", out="
-       << (unsigned int)addx->out
+       << (unsigned int)add_sub->out
        << ", cout="
-       << (unsigned int)addx->cout
+       << (unsigned int)add_sub->cout
        << " | waited_result : out="
        << waited_result[0]
        << ", cout="
@@ -241,12 +249,12 @@ public:
         << format_log(result_text, waited_result, max_int) << "\nLogs in : " << log_path;
   }
 
-  ~ADDX_TEST(void)
+  ~ADD_SUB_TEST(void)
   {
-    delete addx;
-    addx = NULL;
+    delete add_sub;
+    add_sub = NULL;
     log_file_stream.close();
     close_trace();
   }
 };
-#endif /* __COSIM_ADDX_TEMPLATE_H__ */
+#endif /* __COSIM_ADD_SUB_TEMPLATE_H__ */

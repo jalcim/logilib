@@ -1,3 +1,6 @@
+include(environment)
+INIT_ENVIRONMENT()
+
 set(PRIM_SRC_PARALLEL_GATE ${PWD_LOGILIB}/primitive/parallel_gate/src)
 
 add_library(Vparallel_gate_buf STATIC)
