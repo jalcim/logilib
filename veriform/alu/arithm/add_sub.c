@@ -7,7 +7,9 @@ void veriform_add_sub(unsigned int *results, unsigned int max_int, unsigned int 
 
   operandB = (sub ? ~operandB : operandB) & max_int;
   results[0] = (operandA + operandB + cin) & max_int;
-  results[1] = max_int - operandA < operandB || (max_int - operandA == operandB && cin == 1);
+  results[1] = 0;
+  if (!sub)
+    results[1] = max_int - operandA < operandB || (max_int - operandA == operandB && cin == 1);
 }
 
 /*
