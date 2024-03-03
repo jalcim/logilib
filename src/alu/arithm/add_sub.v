@@ -17,11 +17,14 @@ module add_sub(a, b, cin, sub, out, cout);
    wire 	     line;
    wire [WIRE-1:0]   b_line;
    wire [WIRE-1:0]   sub_repliq;
+   wire		     cout_line1, cout_line2;
 
    or or0(line, cin, sub);
    replicator   #(.WAY(WIRE), .WIRE(1)) replicator_inst(sub_repliq, sub);
    gate_xor     #(.WAY(2), .WIRE(WIRE)) xor_inst (b_line, {b, sub_repliq});
-   addX         #(.WIRE(WIRE)) addX_inst (a, b_line, line, out, cout);
+   addX         #(.WIRE(WIRE)) addX_inst (a, b_line, line, out, cout_line1);
+   not (cout_line2, cout_line1);
+   nor(cout, cout_line2, sub);
 endmodule
 
 `endif
