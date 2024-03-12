@@ -27,7 +27,7 @@ module write_back(clk, reset, write_rd_in, rd_in,
    Dflipflop_rst #(.WAY(1), .WIRE(5)) Dflipflop_rst_inst2(rd_in      , clk, reset, rd_out      , ignored_rd_out);
 
    assign ctrl = {(signal_jal | signal_jalr | signal_load), (signal_lui | signal_auipc | signal_load)};
-   assign in = {alu, lui_auipc, jal_jalr, lsu};
+   assign in = {lsu, jal_jalr, lui_auipc, alu};
    mux #(.SIZE_CTRL(2), .WIRE(32)) mux0(ctrl, in, dataout);
 endmodule
 

@@ -19,7 +19,7 @@ module test_write_back;
      begin
 	$dumpfile("signal_write_back.vcd");
 	$dumpvars;
-	$monitor("time = %d \nclk = %b \nreset = %b \nwrite_rd_in = %b \nrd_in = %b \nalu = %d \nlui_auipc = %d \njal_jalr = %d \nlsu = %d \nsignal_lui = %b \nsignal_auipc = %b \nsignal_jal = %b \nsignal_jalr = %b \nsignal_load = %b \nwrite_rd_out = %b \nrd_out = %b \ndataout = %b\n\n\n\n",
+	$monitor("time = %d \nclk = %b \nreset = %b \nwrite_rd_in = %b \nrd_in = %b \nalu = %d \nlui_auipc = %d \njal_jalr = %d \nlsu = %d \nsignal_lui = %b \nsignal_auipc = %b \nsignal_jal = %b \nsignal_jalr = %b \nsignal_load = %b \nwrite_rd_out = %b \nrd_out = %b \ndataout = %d\n\n\n\n",
 		 $time, clk, reset, write_rd_in, rd_in,
 		 alu, lui_auipc, jal_jalr, lsu,
 		 signal_lui, signal_auipc, signal_jal, signal_jalr, signal_load,
@@ -43,7 +43,22 @@ module test_write_back;
 	#5;
 	clk <= 1;
 	#5;
+	reset <= 0;
 	clk <= 0;
-	
+	rd_in <= 1;
+	#5;	
+	clk <= 1;
+	#5;
+	clk <= 0;
+	write_rd_in <= 1;
+	signal_lui <= 1;
+	#5;	
+	clk <= 1;
+	#5;
+	clk <= 0;
+	rd_in <= 0;
+	signal_lui <= 0;
+	signal_jal <= 1;
+	#5;
      end
 endmodule
