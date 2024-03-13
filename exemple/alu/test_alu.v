@@ -1,22 +1,34 @@
 `include "exemple/alu/alu.v"
 
-module test_alu;
+module test_alu_primary;
    reg [31:0] datain_A, datain_B;
    reg [2 :0] funct3;
-   reg funct7;
-   wire	[31:0] out;
+   reg	      funct7;
+   reg	      SIGNAL_bru;
+   reg [31:0] pc, imm_b;
 
-   alu alu_inst(datain_A, datain_B, funct3, funct7, out);
+   wire	      SIGNAL_pc;
+   wire [31:0] data;
+
+   alu_primary alu_inst(datain_A, datain_B,
+			funct3, funct7,
+			SIGNAL_bru, SIGNAL_pc,
+			pc, imm_b, data);
 
    initial
      begin
 	$dumpfile("signal_alu.vcd");
 	$dumpvars;
-	$display("\t\ttime, \t\tA, \t\tB, \tfunct3, \tfunct7, \tout");
-	$monitor("%d \t%d \t%d \t%b \t\t%b \t%d\n",
-		 $time, datain_A, datain_B, funct3, funct7, out);
+	$display("\t\ttime, \t\tA, \t\tB, \tfunct3, \tfunct7, \tdata, \tbru, \tpc");
+	$monitor("%d \t%d \t%d \t%b \t\t%b \t%d \t%b \t%b\n",
+		 $time, datain_A, datain_B, funct3, funct7,
+		 data, SIGNAL_bru, SIGNAL_pc);
 
 	$display("add 0+0");
+	pc <= 0;
+	imm_b <= 0;
+	SIGNAL_bru <= 0;
+
 	datain_A <= 0;
 	datain_B <= 0;
 	funct3 <= 0;
@@ -125,6 +137,20 @@ module test_alu;
 	datain_A <= 5;
 	datain_B <= 3;
 	funct3 <= 7;
+	#100;
+
+	$display("beq 5 3");
+	funct3 <= 0;
+	SIGNAL_bru <= 1;
+	#100;
+
+	$display("beq 3 5");
+	datain_A <= 3;
+	datain_B <= 5;
+	#100;
+
+	$display("beq 5 5");
+	datain_A <= 5;
 	#100;
 
      end
