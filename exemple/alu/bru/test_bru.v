@@ -20,15 +20,21 @@ module test_bru;
 	SIGNAL_bru <= 1;
 	in <= 4-(-5);
 	funct3 <= 0;
+	$display("beq\n");
 	#5;
 	funct3 <= 1;
+	$display("bne\n");
 	#5;
 	funct3 <= 4;
+	$display("bge\n");
 	#5;
 	funct3 <= 5;
+	$display("blt\n");
 	#5;
 	funct3 <= 6;
+	$display("bgeu\n");
 	#5;
 	funct3 <= 7;
+	$display("bltu\n");
      end
 endmodule

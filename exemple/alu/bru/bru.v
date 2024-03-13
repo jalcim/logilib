@@ -1,5 +1,5 @@
-`ifndef __ALU__
- `define __ALU__
+`ifndef __BRU__
+ `define __BRU__
 
 module bru(in, funct3, SIGNAL_bru, SIGNAL_pc);
    input [31:0] in;
