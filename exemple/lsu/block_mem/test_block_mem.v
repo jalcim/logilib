@@ -1,4 +1,4 @@
-`include "exemple/block_mem/block_mem.v"
+`include "exemple/lsu/block_mem/block_mem.v"
 
 module test_block_mem;
    parameter SIZE_ADDR_MEM = 5;
