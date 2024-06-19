@@ -1,3 +1,10 @@
+# Description
+
+Logilib is high density and performance logic library developped on a fully structural way.
+The objective is to provide a stdcell library for yosys, highly parameterizable.
+In option we provide a POC python (amaranth wrapper) for direct using.
+Its a piece of a more big environnement with a logilib/libcmos architecture on top of pdk wrapper.
+
 # Build
 
 ## Synthesis (first stage)
@@ -17,6 +24,14 @@ Build of simulation by running in the root folder
 ./script/icarus.sh
 ```
 Result files are on bin/
+
+## Synthesis
+
+Build of synthesis by running in the root folder
+
+```sh
+make synthesis
+```
 
 ## Co-simulation
 
@@ -63,8 +78,13 @@ warning
 error
 fatal
 
-### MAX_WAYS
+### ARITHM_WIRES_LIST
 
-Set max number of gates ways generated, default 8
+Set list of wire numbers to generate default `1 2 3 4 7 8 16 32`
+When changing you need to add corresponding macros in [gate_macros.h](cosim/primitive/gate/gate_macros.h) and includes in [gate_includes.h](cosim/primitive/gate/gate_includes.h)
+
+### GATES_WAYS_LIST
+
+Set list of wire numbers to generate default `2 3 4 7 8`
 When changing you need to comment/uncomment corresponding macros in [gate_macros.h](cosim/primitive/gate/gate_macros.h) and includes in [gate_includes.h](cosim/primitive/gate/gate_includes.h)
 
