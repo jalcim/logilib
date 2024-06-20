@@ -4,7 +4,8 @@ void veriform_add_sub(unsigned int *results, unsigned int max_int, unsigned int 
 {
   operandA = operandA & max_int;
   operandB = operandB & max_int;
-
+  cin = cin || sub;
+  
   operandB = (sub ? ~operandB : operandB) & max_int;
   results[0] = (operandA + operandB + cin) & max_int;
   results[1] = 0;
@@ -19,11 +20,11 @@ void veriform_add_sub(unsigned int *results, unsigned int max_int, unsigned int 
 int main()
 {
   unsigned int *results = malloc(sizeof(unsigned int) *2);
-  unsigned int max_int = 7;
+  unsigned int max_int = 1;//2**WIRE-1
   unsigned int sub = 1;
 
-  unsigned int operandA = 3;
-  unsigned int operandB = 4;
+  unsigned int operandA = 0;
+  unsigned int operandB = 0;
   unsigned int cin = 0;
 
   veriform_add_sub(results, max_int, sub, operandA, operandB, cin);
