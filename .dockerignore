@@ -1,0 +1,4 @@
+synth/**/*.v
+synth/**/*.sp
+synth/**/*.rtlil
+build

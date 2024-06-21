@@ -10,7 +10,6 @@ add_subdirectory(add_sub)
 
 add_library(${PROJECT_NAME} STATIC)
 
-# target_link_libraries(${PROJECT_NAME} LINK_PUBLIC Cosim_addx Boost::log)
 target_link_libraries(${PROJECT_NAME} LINK_PUBLIC Cosim_addx Cosim_add_sub Boost::log)
 
 target_sources(${PROJECT_NAME} PRIVATE ./arithm.cpp)

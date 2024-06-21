@@ -21,7 +21,6 @@ bool run_add_sub_tests()
 
 #define X(add_sub_name, wire_number)                                                                                 \
   add_sub_name##_##wire_number = new ADD_SUB_TEST<V##add_sub_name##_##wire_number>(add_sub_test_check, wire_number); \
-  add_sub_name##_##wire_number->open_trace();                                                                        \
   error |= add_sub_name##_##wire_number->test(false);                                                                \
   error |= add_sub_name##_##wire_number->test(true);                                                                 \
                                                                                                                      \

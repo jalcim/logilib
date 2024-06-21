@@ -22,7 +22,6 @@ bool run_addx_tests()
 
 #define X(addx_name, wire_number)                                                                        \
   addx_name##_##wire_number = new ADDX_TEST<V##addx_name##_##wire_number>(addx_test_check, wire_number); \
-  addx_name##_##wire_number->open_trace();                                                               \
   error |= addx_name##_##wire_number->test();                                                            \
                                                                                                          \
   delete addx_name##_##wire_number;

@@ -43,18 +43,20 @@ public:
     log_path = LOG_PATH_PREFIX + name + LOG_PATH_SUFFIX;
     log_file_stream.open(log_path, ios::trunc | ios::out);
     trace_path = LOG_PATH_PREFIX + name + LOG_TRACE_SUFFIX;
+#ifdef VCD_TRACE_ON
+    open_trace();
+#endif
   }
 
+#ifdef VCD_TRACE_ON
   void open_trace()
   {
-#ifdef VCD_TRACE_ON
     if (!m_trace)
     {
       m_trace = new VerilatedVcdC;
       gate->trace(m_trace, 99);
       m_trace->open(trace_path.c_str());
     }
-#endif
   }
 
   void close_trace(void)
@@ -65,6 +67,7 @@ public:
       m_trace = NULL;
     }
   }
+#endif
 
   bool test()
   {
@@ -216,7 +219,9 @@ public:
     delete gate;
     gate = NULL;
     log_file_stream.close();
+#ifdef VCD_TRACE_ON
     close_trace();
+#endif
   }
 };
 #endif /* __COSIM_GATE_TEMPLATE_H__ */
