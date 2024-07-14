@@ -4,7 +4,7 @@ module test_encoder;
    reg [15:0] in;
    wire [3:0]  addr;
 
-   encoder #(.WAY(4)) encoder0(addr, in);
+   encoder #(.SIZE_ADDR(4)) encoder0(addr, in);
 
    initial
      begin

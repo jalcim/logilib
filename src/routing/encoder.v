@@ -1,29 +1,20 @@
 `ifndef __BIN_TO_DEC__
  `define __BIN_TO_DEC__
- `include "src/primitive/gate/gate_or.v"
+ `include "src/primitive/gate/multi_gate/multi_or.v"
 
 module encoder(addr, in);
-   parameter WAY = 4;
-   localparam SIZE = 2**WAY;
-   localparam WIRE = SIZE/2;
+   parameter SIZE_ADDR = 4;
+   localparam SIZE = 2**SIZE_ADDR;
+   localparam WAY = SIZE/2;
 
    input [SIZE-1:0] in;
-   output [WAY-1:0] addr;
-   wire [(WAY*WIRE)-1:0] converged;
+   output [SIZE_ADDR-1:0] addr;
+   wire [(SIZE_ADDR*WAY)-1:0] converged;
 
-   batch #(.WAY(WAY)) batch0(converged, in);
-
-   gate_or #(.WAY(WIRE), .WIRE(1))
-   or0(addr[0], converged[1*WIRE-1:0*WIRE]);
-
-   gate_or #(.WAY(WIRE), .WIRE(1))
-   or1(addr[1], converged[2*WIRE-1:1*WIRE]);
-
-   gate_or #(.WAY(WIRE), .WIRE(1))
-   or2(addr[2], converged[3*WIRE-1:2*WIRE]);
-
-   gate_or #(.WAY(WIRE), .WIRE(1))
-   or3(addr[3], converged[4*WIRE-1:3*WIRE]);
+   batch #(.WAY(SIZE_ADDR)) batch0(converged, in);
+   multi_or #(.NB_GATE(SIZE_ADDR), .WAY(WAY), .WIRE(1))
+   initial_multi_or(addr, converged);
+   
 endmodule
 
 module batch(out, in);
