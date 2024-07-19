@@ -73,12 +73,8 @@ module axi_lite_master;
 	     // Transaction d'écriture
 	     if (!init)
 	       begin
-		  s_axi_awaddr <= 1;  // Adresse d'écriture
+		  s_axi_awaddr <= 1;
 		  s_axi_awvalid <= 1;
-//		  s_axi_wdata <= 32'h12345678;  // Données d'écriture
-//		  s_axi_wstrb <= 4'b1111;  // Tous les octets valides
-//		  s_axi_wvalid <= 1;
-		  s_axi_rready <= 0;
 		  init <= 1;
 	       end
 
@@ -90,7 +86,6 @@ module axi_lite_master;
 	       end
 	     else
 	       begin
-//		  s_axi_wstrb <= 0;
 		  s_axi_wvalid <= 0;
 	       end
 	     

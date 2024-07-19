@@ -63,7 +63,6 @@ module axi_lite_master(
 	       end
 	     else
 	       begin
-		  s_axi_wstrb <= 0;
 		  s_axi_wvalid <= 0;
 	       end
 		 
