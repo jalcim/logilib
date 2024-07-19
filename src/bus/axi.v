@@ -1,4 +1,4 @@
-module pf3_axi_slave(
+module axi_slave(
 		     (* X_INTERFACE_PARAMETER = "FREQ_HZ 125000000" *)
 		     // Interface Write Address
 		     input [7:0]   s_axi_awaddr, //s_axi_awaddr: Adresse d'écriture (8 bits).
@@ -33,6 +33,8 @@ module pf3_axi_slave(
 		     input 	   axi_aclk,
 		     input 	   resetn
 	   );
+
+   localparam BYTE = 8;
 
    //(1)
    reg 		 s_axi_awready_i;
@@ -125,21 +127,21 @@ module pf3_axi_slave(
 	       s_axi_rvalid_i <= 0;
 	  end
      end
-/*
+
    //reg data write
-   assign s_axi_wdata_i[1*SIZE_REG-1:0*SIZE_REG] = s_axi_wstrb[0] ? s_axi_wdata[1*SIZE_REG-1:0*SIZE_REG]:0;
-   assign s_axi_wdata_i[2*SIZE_REG-1:1*SIZE_REG] = s_axi_wstrb[1] ? s_axi_wdata[2*SIZE_REG-1:1*SIZE_REG]:0;
-   assign s_axi_wdata_i[3*SIZE_REG-1:2*SIZE_REG] = s_axi_wstrb[2] ? s_axi_wdata[3*SIZE_REG-1:2*SIZE_REG]:0;
-   assign s_axi_wdata_i[4*SIZE_REG-1:3*SIZE_REG] = s_axi_wstrb[3] ? s_axi_wdata[4*SIZE_REG-1:3*SIZE_REG]:0;
+   assign s_axi_wdata_i[1*BYTE-1:0*BYTE] = s_axi_wstrb[0] ? s_axi_wdata[1*BYTE-1:0*BYTE]:0;
+   assign s_axi_wdata_i[2*BYTE-1:1*BYTE] = s_axi_wstrb[1] ? s_axi_wdata[2*BYTE-1:1*BYTE]:0;
+   assign s_axi_wdata_i[3*BYTE-1:2*BYTE] = s_axi_wstrb[2] ? s_axi_wdata[3*BYTE-1:2*BYTE]:0;
+   assign s_axi_wdata_i[4*BYTE-1:3*BYTE] = s_axi_wstrb[3] ? s_axi_wdata[4*BYTE-1:3*BYTE]:0;
 
- assign s_axi_rdata = s_axi_rdata_i;
- */
-   assign s_axi_rdata = s_axi_rready ? ~s_axi_wdata + 1 : 0;
+   assign s_axi_rdata = s_axi_rdata_i;
 
-   /*
-   pf3_register(clk,
-		s_axi_wready_i, s_axi_arready,
+//   assign s_axi_rdata = s_axi_rready ? ~s_axi_wdata + 1 : 0;
+
+
+   axi_register register(axi_aclk,
+		s_axi_wready_i, s_axi_rready,
 		s_axi_awaddr_d, s_axi_araddr_d,
 		s_axi_wdata_i, s_axi_rdata_i);
-    */
+
 endmodule

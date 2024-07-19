@@ -1,8 +1,8 @@
-`timescale 1ns / 1ns  // Définition de l'échelle de temps
+`timescale 1ns / 1ns
 
-module testbench_pf3;
+module testbench_axi;
 
-    // Déclaration des ports du module pf3
+    // Déclaration des ports du module axi
     reg [7:0]   s_axi_awaddr;
     reg         s_axi_awvalid;
     wire        s_axi_awready;
@@ -25,8 +25,8 @@ module testbench_pf3;
     reg         axi_aclk;
     reg         resetn;
 
-    // Instanciation du module pf3
-    pf3_axi_slave uut (
+    // Instanciation du module axi
+    axi_slave uut (
         .s_axi_awaddr   (s_axi_awaddr),
         .s_axi_awvalid  (s_axi_awvalid),
         .s_axi_awready  (s_axi_awready),
@@ -62,7 +62,7 @@ module testbench_pf3;
 
     // Génération des stimuli pour le test
     initial begin
-       $dumpfile("pf3.vcd");
+       $dumpfile("axi.vcd");
        $dumpvars;
 
        axi_aclk <= 0;
