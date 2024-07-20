@@ -65,29 +65,28 @@ module axi_lite_master(
 	       end
 
 	     //(6)
+	     // Verifier la reponse d'ecriture
+	     // write
 	     if (!s_axi_bready && s_axi_bvalid)// && s_axi_bresp == 2'b00)
 	       begin
-		  // Verifier la reponse d'ecriture
+		  
 		  if (s_axi_bresp)
 		    $display("bresp erreur");
-		  // Transaction de lecture
 		  s_axi_bready <= 1;
 		  s_axi_arvalid <= 1;
 		  s_axi_araddr <= 8'h01;
 	       end
 
-	     // Attendre que s_axi_arready soit valide
-	     //(8)
+	     //(8) //rdy_to_read
 	     if (s_axi_arready)
-	     begin// Acceptation des donnees de lecture
+	     begin
 		s_axi_rready <= 1;
 	     end
 
-	     // Attendre la réponse de lecture
 	     //(10)
 	     if (s_axi_rvalid)
 	       begin
-		  //checker rresp
+		  // Verifier la reponse de lecture
 		  s_axi_rready <= 0;
 		  init <= 0;
 		  $finish;

@@ -84,32 +84,32 @@ module axi_lite_slave(
 	     //(2) lecture de l'address d'ecriture
 	     if (!s_axi_awready_i && s_axi_awvalid)
 	       begin
-		  s_axi_awready_i  <= 1;           //address valid
-		  s_axi_awaddr_d <= s_axi_awaddr;//reg address
+		  s_axi_awready_i  <= 1;
+		  s_axi_awaddr_d <= s_axi_awaddr;
 	       end
 
-	     //(4) lecture des datas d'ecriture
+	     //(4) //rdy_to_write
 	     if (!s_axi_wready && s_axi_wvalid)
 	       begin
-		  s_axi_wready_i <= 1;              //rdy_to_write
+		  s_axi_wready_i <= 1;
 	       end
 
 	     //(5) reponse d'ecriture
 	     if (!s_axi_bvalid_i && s_axi_wready_i)//ou direct sur wvalid???
 //	     if (!s_axi_bvalid_i && s_axi_wvalid)
 	       begin
-		  s_axi_bresp_i  <= 0;           //okay//slverr//decerr
-		  s_axi_bvalid_i <= 1;           //valid
+		  s_axi_bresp_i  <= 0;
+		  s_axi_bvalid_i <= 1;
 	       end
 
 	     //(7) lecture de l'address de lecture
 	     if (!s_axi_arready_i && s_axi_arvalid)
 	       begin
-		  s_axi_arready_i  <= 1;           //address valid
-		  s_axi_araddr_d <= s_axi_araddr;//reg address
+		  s_axi_arready_i  <= 1;
+		  s_axi_araddr_d <= s_axi_araddr;
 	       end
 	     
-	     //(9) reponse de lecture et lecture
+	     //(9) read et reponse de lecture
 	     if(!s_axi_rvalid_i && s_axi_rready)
 	       begin
 		  s_axi_rvalid_i <= 1;
@@ -128,7 +128,6 @@ module axi_lite_slave(
    assign s_axi_rdata = s_axi_rdata_i;
 
 //   assign s_axi_rdata = s_axi_rready ? ~s_axi_wdata + 1 : 0;
-
 
    axi_register register(axi_aclk,
 		s_axi_wready_i, s_axi_rready,
