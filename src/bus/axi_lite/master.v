@@ -26,7 +26,14 @@ module axi_lite_master(
 		       input		 s_axi_rvalid,
 
 		       input		 axi_aclk,
-		       input		 resetn
+		       input		 resetn,
+
+		       input [7:0]	 addr_data_send,
+		       input [31:0]	 data_send,
+		       input [3:0]	 data_send_mask,
+		       input [7:0]	 addr_data_recv,
+		       output reg [31:0] data_recv,
+		       input		 activate
 		       );
    reg					 init;
 
@@ -49,18 +56,18 @@ module axi_lite_master(
 	  begin
 
 	     //(1)
-	     if (!init)
+	     if (activate && !init)
 	       begin // Envoi de l'addresse d'ecriture
-		  s_axi_awaddr  <= 1;
+		  s_axi_awaddr  <= addr_data_send;
 		  s_axi_awvalid <= 1;
-		  init <= 1;
+		  init <= 0;
 	       end
 
 	     //(3)
 	     if (!s_axi_wvalid && s_axi_awready)
 	       begin // Envoi des data a ecrire
-		  s_axi_wdata <= 32'h12345678;
-		  s_axi_wstrb <= 4'b1111;
+		  s_axi_wdata <= data_send;
+		  s_axi_wstrb <= data_send_mask;
 		  s_axi_wvalid <= 1;
 	       end
 
@@ -74,13 +81,14 @@ module axi_lite_master(
 		    $display("bresp erreur");
 		  s_axi_bready <= 1;
 		  s_axi_arvalid <= 1;
-		  s_axi_araddr <= 8'h01;
+		  s_axi_araddr <= addr_data_recv;
 	       end
 
 	     //(8) //rdy_to_read
 	     if (s_axi_arready)
 	     begin
 		s_axi_rready <= 1;
+		data_recv <= s_axi_rdata;
 	     end
 
 	     //(10)
@@ -88,7 +96,7 @@ module axi_lite_master(
 	       begin
 		  // Verifier la reponse de lecture
 		  s_axi_rready <= 0;
-		  init <= 0;
+		  init <= 1;
 		  $finish;
 	       end
 	  end

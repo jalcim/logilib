@@ -29,6 +29,8 @@ module axi_lite_master_bench;
    reg	       resetn;
    reg	       init;
 
+   wire [31:0] data_recv;
+
    axi_lite_master axi_master (
 			       .s_axi_awaddr   (s_axi_awaddr),
 			       .s_axi_awvalid  (s_axi_awvalid),
@@ -48,7 +50,14 @@ module axi_lite_master_bench;
 			       .s_axi_rvalid   (s_axi_rvalid),
 			       .s_axi_rready   (s_axi_rready),
 			       .axi_aclk       (axi_aclk),
-			       .resetn         (resetn)
+			       .resetn         (resetn),
+
+			       .addr_data_send (8'h1),
+			       .data_send      (32'h12345678),
+			       .data_send_mask (4'b1111),
+			       .addr_data_recv (8'h1),
+			       .data_recv      (data_recv),
+			       .activate       (1'b1)
 			       );
 
    axi_lite_slave axi_slave (

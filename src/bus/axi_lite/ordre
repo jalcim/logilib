@@ -28,5 +28,5 @@
 | s_axi_rvalid    | Slave   | Validité des données lues              |        | s_axi_rready                |
 | s_axi_rresp     | Slave   | Réponse de lecture (2 bits)            |        | s_axi_rready                |
 
-| s_axi_rready    | Master  | Cesser d'accepter les données lues     | 10     | s_axi_arready               |
+| s_axi_rready    | Master  | Cesser d'accepter les données lues     | 10(9)     | s_axi_arready            |
 +-----------------+---------+----------------------------------------+--------+-----------------------------+

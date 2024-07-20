@@ -71,8 +71,8 @@ module axi_lite_slave(
 	       end
 
 	     //(5) reponse d'ecriture
-	     if (!s_axi_bvalid && s_axi_wready)//ou direct sur wvalid???
-//	     if (!s_axi_bvalid && s_axi_wvalid)
+//	     if (!s_axi_bvalid && s_axi_wready)//ou direct sur wvalid???
+	     if (!s_axi_bvalid && s_axi_wvalid)
 	       begin
 		  s_axi_bresp  <= 0;
 		  s_axi_bvalid <= 1;
