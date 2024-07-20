@@ -26,7 +26,7 @@ module testbench_axi;
     reg         resetn;
 
     // Instanciation du module axi
-    axi_slave uut (
+    axi_lite_slave axi_slave (
         .s_axi_awaddr   (s_axi_awaddr),
         .s_axi_awvalid  (s_axi_awvalid),
         .s_axi_awready  (s_axi_awready),
@@ -62,9 +62,10 @@ module testbench_axi;
 
     // Génération des stimuli pour le test
     initial begin
-       $dumpfile("axi.vcd");
+       $dumpfile("axi_lite_slave.vcd");
        $dumpvars;
-
+       $monitor("Time=%0t %b s_axi_rdata=%h s_axi_bresp=%h",
+		$time, axi_aclk, s_axi_rdata, s_axi_bresp);
        axi_aclk <= 0;
        resetn <= 0;
        #10;
@@ -78,7 +79,7 @@ module testbench_axi;
        s_axi_wstrb <= 4'b1111;  // Tous les octets valides
        s_axi_wvalid <= 1;
        s_axi_rready <= 0;
-       $monitor("Time=%0t %b s_axi_rdata=%h s_axi_bresp=%h", $time, axi_aclk, s_axi_rdata, s_axi_bresp);
+
        #10;
 
         // Attendre que s_axi_awready et s_axi_wready soient valides

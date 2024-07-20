@@ -1,3 +1,5 @@
+`timescale 1ns / 1ns
+
 module axi_lite_master_bench;
    // Déclaration des ports du module axi
    wire [7:0] s_axi_awaddr;

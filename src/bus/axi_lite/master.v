@@ -50,25 +50,19 @@ module axi_lite_master(
 	     // Transaction d'écriture
 	     if (!init)
 	       begin
-		  s_axi_awaddr <= 1;
+		  s_axi_awaddr  <= 1;
 		  s_axi_awvalid <= 1;
 		  init <= 1;
 	       end
-
-	     if (s_axi_awready)
+	     else if (!s_axi_wvalid && s_axi_awready)
 	       begin
 		  s_axi_wdata <= 32'h12345678;
 		  s_axi_wstrb <= 4'b1111;
 		  s_axi_wvalid <= 1;
 	       end
-	     else
-	       begin
-		  s_axi_wvalid <= 0;
-	       end
-		 
 	     // Attendre que s_axi_awready et s_axi_wready
 	     // soient valides
-	     if (s_axi_awready)
+	     else if (s_axi_awready)
 	       begin
 		  s_axi_awvalid <= 0;
 	       end
@@ -105,12 +99,9 @@ module axi_lite_master(
 	     if (s_axi_rvalid)
 	       begin
 		  s_axi_rready <= 0;
+		  init <= 0;
 		  $finish;
 	       end
-
-	     if (s_axi_arready && s_axi_rvalid)
-	       init <= 0;
-      // Terminer la simulation
 	  end
      end
 
