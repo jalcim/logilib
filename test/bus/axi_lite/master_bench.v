@@ -86,8 +86,8 @@ module axi_lite_master_bench;
      begin
 	$dumpfile("axi_lite_master.vcd");
 	$dumpvars;
-	$monitor("Time=%0t %b s_axi_rdata=%h s_axi_bresp=%h",
-		 $time, axi_aclk, s_axi_rdata, s_axi_bresp);
+	$monitor("Time=%0t %b %b s_axi_rdata=%h",
+		 $time, axi_aclk, resetn, s_axi_rdata);
 	resetn <= 0;
 	axi_aclk <= 1;
 	#5;
@@ -97,6 +97,8 @@ module axi_lite_master_bench;
 
     always
       begin
+	 if (s_axi_rdata)
+	   $finish;
          #5 axi_aclk <= ~axi_aclk;
       end
 

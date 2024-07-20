@@ -41,58 +41,66 @@ module axi_lite_slave(
 
    wire [31:0]			       s_axi_wdata_i;
 
-   always @(posedge axi_aclk)
+   wire				       cond1;
+   wire				       cond2;
+   wire				       cond3;
+   wire				       cond4;
+   wire				       cond5;
+   wire				       cond6;
+
+   assign cond1 = (axi_aclk && !resetn);
+   assign cond2 = (axi_aclk && !s_axi_awready && s_axi_awvalid);
+   assign cond3 = (axi_aclk && !s_axi_wready && s_axi_wvalid);
+   assign cond4 = (axi_aclk && !s_axi_bvalid && s_axi_wvalid);
+   assign cond5 = (axi_aclk && !s_axi_arready && s_axi_arvalid);
+   assign cond6 = (axi_aclk && !s_axi_rvalid && s_axi_rready);
+
+   always @(posedge cond1)
      begin
-	if (!resetn)
-	  begin
-	     s_axi_wready  <= 0;
-	     s_axi_awaddr_d  <= 0;
-	     s_axi_awready <= 0;
-	     s_axi_bvalid  <= 0;
-             s_axi_bresp   <= 0;
-             s_axi_arready <= 0;
-	     s_axi_araddr_d  <= 0;
-	     s_axi_rvalid  <= 0;
-             s_axi_rresp   <= 0;
-	  end
-	else
-	  begin
-	     //(2) lecture de l'address d'ecriture
-	     if (!s_axi_awready && s_axi_awvalid)
-	       begin
-		  s_axi_awready  <= 1;
-		  s_axi_awaddr_d <= s_axi_awaddr;
-	       end
+	s_axi_wready   <= 0;
+	s_axi_awaddr_d <= 0;
+	s_axi_awready  <= 0;
+	s_axi_bvalid   <= 0;
+        s_axi_bresp    <= 0;
+        s_axi_arready  <= 0;
+	s_axi_araddr_d <= 0;
+	s_axi_rvalid   <= 0;
+        s_axi_rresp    <= 0;
+     end
 
-	     //(4) //rdy_to_write
-	     if (!s_axi_wready && s_axi_wvalid)
-	       begin
-		  s_axi_wready <= 1;
-	       end
+   //(2) lecture de l'address d'ecriture
+   always @(posedge cond2)
+     begin
+	s_axi_awready  <= 1;
+	s_axi_awaddr_d <= s_axi_awaddr;
+     end
 
-	     //(5) reponse d'ecriture
-//	     if (!s_axi_bvalid && s_axi_wready)//ou direct sur wvalid???
-	     if (!s_axi_bvalid && s_axi_wvalid)
-	       begin
-		  s_axi_bresp  <= 0;
-		  s_axi_bvalid <= 1;
-	       end
+   //(4) //rdy_to_write
+   always @(posedge cond3)
+   begin
+      s_axi_wready <= 1;
+   end
 
-	     //(7) lecture de l'address de lecture
-	     if (!s_axi_arready && s_axi_arvalid)
-	       begin
-		  s_axi_arready  <= 1;
-		  s_axi_araddr_d <= s_axi_araddr;
-	       end
-	     
-	     //(9) read et reponse de lecture
-	     if(!s_axi_rvalid && s_axi_rready)
-	       begin
-		  s_axi_rvalid <= 1;
-		  s_axi_rresp  <= 0;
-	       end
+   //(5) reponse d'ecriture
+   //	     if (!s_axi_bvalid && s_axi_wready)//ou direct sur wvalid???
+   always @(posedge cond4)
+     begin
+	s_axi_bresp  <= 0;
+	s_axi_bvalid <= 1;
+     end
 
-	  end
+   //(7) lecture de l'address de lecture
+   always @(posedge cond5)
+     begin
+	s_axi_arready  <= 1;
+	s_axi_araddr_d <= s_axi_araddr;
+     end
+
+   //(9) read et reponse de lecture
+   always @(posedge cond6)
+     begin
+	s_axi_rvalid <= 1;
+	s_axi_rresp  <= 0;
      end
 
    assign s_axi_wdata_i[1*BYTE-1:0*BYTE] = s_axi_wstrb[0] ? s_axi_wdata[1*BYTE-1:0*BYTE]:0;
