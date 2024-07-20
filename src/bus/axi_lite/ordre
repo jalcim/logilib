@@ -1,0 +1,32 @@
++-----------------+---------+----------------------------------------+--------+-----------------------------+
+| Signal          | Type    | Description                            | Ordre  | Dépendances                 |
++-----------------+---------+----------------------------------------+--------+-----------------------------+
+| s_axi_awaddr    | Master  | Adresse d'écriture (8 bits)            | 1      | -                           |
+| s_axi_awvalid   | Master  | Validité de l'adresse d'écriture       |        | -                           |
+
+| s_axi_awready   | Slave   | Prêt à accepter l'adresse d'écriture   | 2      | s_axi_awvalid               |
+
+| s_axi_wdata     | Master  | Données à écrire (32 bits)             | 3      | s_axi_awready               |
+| s_axi_wstrb     | Master  | Masque des octets valides (4 bits)     |        | s_axi_awready               |
+| s_axi_wvalid    | Master  | Validité des données d'écriture        |        | s_axi_awready               |
+
+| s_axi_wready    | Slave   | Prêt à accepter les données d'écriture | 4      | s_axi_wvalid                |useless
+
+| s_axi_bresp     | Slave   | Réponse d'écriture (2 bits)            | 5(4)   | s_axi_wready                |
+| s_axi_bvalid    | Slave   | Validité de la réponse d'écriture      |        | s_axi_wready                |
+
+| s_axi_bready    | Master  | Prêt à accepter la réponse d'écriture  | 6(5)   | s_axi_bvalid                |useless
+| s_axi_araddr    | Master  | Adresse de lecture (8 bits)            |        | s_axi_bvalid                |
+| s_axi_arvalid   | Master  | Validité de l'adresse de lecture       |        | s_axi_bvalid                |
+
+| s_axi_arready   | Slave   | Prêt à accepter l'adresse de lecture   | 7(6)   | s_axi_arvalid               |
+| s_axi_araddr    | Slave   | Adresse de lecture                     |        | s_axi_arvalid               |
+
+| s_axi_rready    | Master  | Prêt à accepter les données lues       | 8(7)   | s_axi_arready               |
+
+| s_axi_rdata     | Slave   | Données lues (32 bits)                 | 9(8)   | s_axi_rready                |
+| s_axi_rvalid    | Slave   | Validité des données lues              |        | s_axi_rready                |
+| s_axi_rresp     | Slave   | Réponse de lecture (2 bits)            |        | s_axi_rready                |
+
+| s_axi_rready    | Master  | Cesser d'accepter les données lues     | 10     | s_axi_arready               |
++-----------------+---------+----------------------------------------+--------+-----------------------------+

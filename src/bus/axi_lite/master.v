@@ -47,57 +47,47 @@ module axi_lite_master(
 	  end
 	else
 	  begin
-	     // Transaction d'écriture
+
+	     //(1)
 	     if (!init)
-	       begin
+	       begin // Envoi de l'addresse d'ecriture
 		  s_axi_awaddr  <= 1;
 		  s_axi_awvalid <= 1;
 		  init <= 1;
 	       end
-	     else if (!s_axi_wvalid && s_axi_awready)
-	       begin
+
+	     //(3)
+	     if (!s_axi_wvalid && s_axi_awready)
+	       begin // Envoi des data a ecrire
 		  s_axi_wdata <= 32'h12345678;
 		  s_axi_wstrb <= 4'b1111;
 		  s_axi_wvalid <= 1;
 	       end
-	     // Attendre que s_axi_awready et s_axi_wready
-	     // soient valides
-	     else if (s_axi_awready)
-	       begin
-		  s_axi_awvalid <= 0;
-	       end
 
-	     if (s_axi_wready)
-	       begin
-		  s_axi_wvalid <= 0;
-	       end
-
-	     //Attendre la réponse d'écriture
-	     //Vérifier la réponse d'écriture
+	     //(6)
 	     if (!s_axi_bready && s_axi_bvalid)// && s_axi_bresp == 2'b00)
 	       begin
+		  // Verifier la reponse d'ecriture
+		  if (s_axi_bresp)
+		    $display("bresp erreur");
 		  // Transaction de lecture
 		  s_axi_bready <= 1;
 		  s_axi_arvalid <= 1;
 		  s_axi_araddr <= 8'h01;
 	       end
-	     else
-	       begin
-		  s_axi_bready <= 0;
-		  s_axi_arvalid <= 0;
-	       end
 
 	     // Attendre que s_axi_arready soit valide
+	     //(8)
 	     if (s_axi_arready)
-	     begin
-		s_axi_arvalid <= 0;
+	     begin// Acceptation des donnees de lecture
 		s_axi_rready <= 1;
-		s_axi_bready <= 0;
 	     end
 
 	     // Attendre la réponse de lecture
+	     //(10)
 	     if (s_axi_rvalid)
 	       begin
+		  //checker rresp
 		  s_axi_rready <= 0;
 		  init <= 0;
 		  $finish;
