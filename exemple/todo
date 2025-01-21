@@ -1,2 +1,4 @@
 add_sub    : gerer les signed
-faire le decodeur
+faire la rom
+faire le datapath
+finir le riscv

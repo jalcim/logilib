@@ -39,10 +39,7 @@ module test_decodeur;
 	code = $fread(mem3, fd, 0, 1);
 	code = $fread(mem4, fd, 0, 1);
 	if (!code)
-	  begin
-	     $display ("fail");
-	     $finish;
-	  end
+	  $finish;
 //	$display ("success");
      end // always @ (posedge clk)
 
