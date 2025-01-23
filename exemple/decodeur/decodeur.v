@@ -2,28 +2,31 @@
 `include "opcode/opcode.v"
 
 module decodeur (input [31:0] instr,
+
 		 output [31:0] imm,
-		 output write_rd,
-		 output OP_IMM,
-		 output LUI,
-		 output AUIPC,
-		 output OP,
-		 output JAL,
-		 output JALR,
-		 output BRANCH,
-		 output LOAD,
-		 output STORE,
-		 output MISC_MEM,
-		 output SYSTEM);
+		 output	       write_rd,
 
-   wire [6:0]		opcode;
+		 output [6:0]    opcode,
 
-   wire [4:0]		rd;
-   wire [4:0]		rs1;
-   wire [4:0]		rs2;
+		 output [4:0]    rd,
+		 output [4:0]    rs1,
+		 output [4:0]    rs2,
 
-   wire [2:0]		funct3;
-   wire [6:0]		funct7;
+		 output [2:0]    funct3,
+		 output [6:0]    funct7,
+
+		 output	       OP_IMM,
+		 output	       LUI,
+		 output	       AUIPC,
+		 output	       OP,
+		 output	       JAL,
+		 output	       JALR,
+		 output	       BRANCH,
+		 output	       LOAD,
+		 output	       STORE,
+		 output	       MISC_MEM,
+		 output	       SYSTEM);
+
 
    wire [31:0]		I_imm;
    wire [31:0]		S_imm;
@@ -53,3 +56,4 @@ module decodeur (input [31:0] instr,
 		STORE  ? S_imm : 0;
 
 endmodule
+

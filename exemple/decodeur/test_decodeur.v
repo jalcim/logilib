@@ -43,8 +43,17 @@ module test_decodeur;
 //	$display ("success");
      end // always @ (posedge clk)
 
+   wire [6:0]    opcode;
+
+   wire [4:0]	 rd;
+   wire [4:0]	 rs1;
+   wire [4:0]	 rs2;
+   wire [2:0]	 funct3;
+   wire [6:0]	 funct7;
+
    wire [31:0] imm;
    wire	       write_rd;
+
    wire	       OP_IMM;
    wire	       LUI;
    wire	       AUIPC;
@@ -58,8 +67,19 @@ module test_decodeur;
    wire	       SYSTEM;
 
    decodeur decodeur (instr,
+
 		      imm,
 		      write_rd,
+		      
+		      opcode,
+
+		      rd,
+		      rs1,
+		      rs2,
+
+		      funct3,
+		      funct7,
+
 		      OP_IMM,
 		      LUI,
 		      AUIPC,
