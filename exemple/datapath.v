@@ -1,4 +1,7 @@
+`include "pc/pc.v"
 `include "rom/rom.v"
+`include "decodeur/decodeur.v"
+`include "block_reg/block_reg.v"
 
 module riscv_datapath(input reset,
 		      input active,
@@ -75,6 +78,13 @@ module riscv_datapath(input reset,
 
    //////////////////////////////////////////////////
 
+   alu_primary alu_inst(out_rs1, out_rs2,
+			funct3, funct7,
+			BRANCH, pc_out, imm,
+			SIGNAL_pc, data);
+
+   wire			    SIGNAL_pc;
+   wire [31:0]		    data;
 
    //////////////////////////////////////////////////
 
