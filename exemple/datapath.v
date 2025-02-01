@@ -9,6 +9,9 @@ module riscv_datapath(input reset,
 
    wire			    clk;
    assign clk = extern_clk & active;
+
+   //////////////////////////////////////////////////
+
    pc pc_inst(clk, signal_pc, reset, pc_next, pc_out);
    wire [31:0]		    pc_out;
 
@@ -70,10 +73,12 @@ module riscv_datapath(input reset,
 
    //////////////////////////////////////////////////
 
-   block_reg #(.SIZE_ADDR_REG(SIZE_ADDR_REG), .SIZE_REG(SIZE_REG))block_reg(clk, reset, write_rd,
-									    rd, rs1, rs2,
-									    datain,
-									    out_rs1, out_rs2);
+   block_reg #(.SIZE_ADDR_REG(SIZE_ADDR_REG), .SIZE_REG(SIZE_REG))
+   block_reg (clk, reset, write_rd,
+	      rd, rs1, rs2,
+	      datain,
+	      out_rs1, out_rs2);
+
    wire [SIZE_REG-1:0]	    out_rs1, out_rs2;
 
    //////////////////////////////////////////////////
@@ -84,8 +89,18 @@ module riscv_datapath(input reset,
 			SIGNAL_pc, data);
 
    wire			    SIGNAL_pc;
-   wire [31:0]		    data;
+   wire [31:0]		    alu_data;
 
    //////////////////////////////////////////////////
+
+   wire			    write_rd_out;
+   wire [4:0]		    rd_out;
+   wire [31:0]		    dataout;
+
+   write_back write_back_inst(clk, reset,
+			      write_rd, rd,
+			      alu_data, lui_auipc, jal_jalr, lsu,
+			      LUI, AUIPC, JAL, JALR, LOAD,
+			      write_rd_out, rd_out, dataout);
 
 endmodule
