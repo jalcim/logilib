@@ -1,4 +1,7 @@
 add_sub    : gerer les signed
+
+lhu/lbu ? clarifier l'action a executer
+
 faire la rom
 faire le datapath
 finir le riscv

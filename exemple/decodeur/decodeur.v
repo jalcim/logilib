@@ -1,5 +1,5 @@
-`include "spliter/spliter.v"
-`include "opcode/opcode.v"
+`include "exemple/decodeur/spliter/spliter.v"
+`include "exemple/decodeur/opcode/opcode.v"
 
 module decodeur (input [31:0] instr,
 

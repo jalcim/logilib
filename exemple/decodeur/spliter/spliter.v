@@ -1,8 +1,8 @@
-`include "spliter/imm/I_imm_decoder.v"
-`include "spliter/imm/S_imm_decoder.v"
-`include "spliter/imm/B_imm_decoder.v"
-`include "spliter/imm/U_imm_decoder.v"
-`include "spliter/imm/J_imm_decoder.v"
+`include "exemple/decodeur/spliter/imm/I_imm_decoder.v"
+`include "exemple/decodeur/spliter/imm/S_imm_decoder.v"
+`include "exemple/decodeur/spliter/imm/B_imm_decoder.v"
+`include "exemple/decodeur/spliter/imm/U_imm_decoder.v"
+`include "exemple/decodeur/spliter/imm/J_imm_decoder.v"
 
 module spliter(input [31:0] instr,
 	       output [6:0]  opcode,
