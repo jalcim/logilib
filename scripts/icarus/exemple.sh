@@ -1,5 +1,6 @@
 #!/bin/bash
 
+rm -rf bin/exemple
 mkdir -p bin/exemple
 
 echo "test_bru"
@@ -33,3 +34,6 @@ iverilog -pRECURSIVE_MOD_LIMIT=100 -o bin/exemple/test_write_back exemple/write_
 
 echo "test_lui"
 iverilog -pRECURSIVE_MOD_LIMIT=100 -o bin/exemple/test_lui exemple/auipc_lui/lui/test_lui.v
+
+echo "test_auipc"
+iverilog -pRECURSIVE_MOD_LIMIT=100 -o bin/exemple/test_auipc exemple/auipc_lui/auipc/test_auipc.v
