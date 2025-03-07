@@ -31,6 +31,5 @@ iverilog -pRECURSIVE_MOD_LIMIT=100 -o bin/exemple/test_rom exemple/rom/test_rom.
 echo "test_write_back"
 iverilog -pRECURSIVE_MOD_LIMIT=100 -o bin/exemple/test_write_back exemple/write_back/test_write_back.v
 
-
-
-
+echo "test_lui"
+iverilog -pRECURSIVE_MOD_LIMIT=100 -o bin/exemple/test_lui exemple/auipc_lui/lui/test_lui.v
