@@ -37,3 +37,6 @@ iverilog -pRECURSIVE_MOD_LIMIT=100 -o bin/exemple/test_lui exemple/auipc_lui/lui
 
 echo "test_auipc"
 iverilog -pRECURSIVE_MOD_LIMIT=100 -o bin/exemple/test_auipc exemple/auipc_lui/auipc/test_auipc.v
+
+echo "test_auipc_lui"
+iverilog -pRECURSIVE_MOD_LIMIT=100 -o bin/exemple/test_auipc_lui exemple/auipc_lui/test_auipc_lui.v
