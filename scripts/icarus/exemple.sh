@@ -46,3 +46,6 @@ iverilog -pRECURSIVE_MOD_LIMIT=100 -o bin/exemple/test_jal exemple/jal_jalr/jal/
 
 echo "test_jalr"
 iverilog -pRECURSIVE_MOD_LIMIT=100 -o bin/exemple/test_jalr exemple/jal_jalr/jalr/test_jalr.v
+
+echo "test_jal_jalr"
+iverilog -pRECURSIVE_MOD_LIMIT=100 -o bin/exemple/test_jal_jalr exemple/jal_jalr/test_jal_jalr.v
