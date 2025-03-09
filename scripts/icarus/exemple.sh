@@ -40,3 +40,6 @@ iverilog -pRECURSIVE_MOD_LIMIT=100 -o bin/exemple/test_auipc exemple/auipc_lui/a
 
 echo "test_auipc_lui"
 iverilog -pRECURSIVE_MOD_LIMIT=100 -o bin/exemple/test_auipc_lui exemple/auipc_lui/test_auipc_lui.v
+
+echo "test_jal"
+iverilog -pRECURSIVE_MOD_LIMIT=100 -o bin/exemple/test_jal exemple/jal_jalr/jal/test_jal.v
