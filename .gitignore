@@ -7,3 +7,4 @@ a.out
 synth/**/*.v
 synth/**/*.sp
 synth/**/*.rtlil
+*~
