@@ -4,7 +4,7 @@
 module sra_srl(funct7, datain_A, datain_B, out);
    parameter WIRE = 32;
    input [WIRE-1:0] datain_A, datain_B;
-   input	    funct7;
+   input [6:0]	    funct7;
    output [WIRE-1:0] out;
 
    assign out = funct7 ?
