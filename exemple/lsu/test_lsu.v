@@ -10,10 +10,12 @@ module test_lsu;
 
    wire [31:0] data;
 
-   lsu lsu_inst(rs1, rs2,
-		imm_S, funct3,
-		signal_store, clk,
-		data);
+   lsu #(.SIZE_ADDR_MEM(8),
+	 .SIZE_MEM(32))
+   lsu_inst(rs1, rs2,
+	    imm_S, funct3,
+	    signal_store, clk,
+	    data);
 
    initial
      begin
