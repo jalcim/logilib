@@ -8,9 +8,9 @@ FROM deps as yosys-build
 
 RUN apt-get update && DEBIAN_FRONTEND=noninteractive apt-get install -y git \
   build-essential clang bison flex \
-	libreadline-dev gawk tcl-dev libffi-dev git \
-	graphviz xdot pkg-config python3 libboost-system-dev \
-	libboost-python-dev libboost-filesystem-dev zlib1g-dev \
+  libreadline-dev gawk tcl-dev libffi-dev git \
+  graphviz xdot pkg-config python3 libboost-system-dev \
+  libboost-python-dev libboost-filesystem-dev zlib1g-dev \
   libboost-all-dev \
   && rm -rf /var/lib/apt/lists/*
 RUN git clone https://github.com/yosysHQ/yosys /yosys
@@ -27,12 +27,12 @@ RUN apt-get update && DEBIAN_FRONTEND=noninteractive apt-get install -y \
   libtcl8.6\
   && rm -rf /var/lib/apt/lists/*
 WORKDIR /work
-COPY Makefile .
-COPY ./src ./src
-COPY ./scripts ./scripts
-COPY ./synth/ ./synth
-COPY ./cosim ./cosim
-COPY ./veriform ./veriform
+COPY CMakeLists .
+COPY src ./src
+COPY scripts ./scripts
+COPY synth/ ./synth
+COPY cosim ./cosim
+COPY veriform ./veriform
 RUN make build
 
 
