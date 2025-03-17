@@ -1,19 +1,13 @@
-cmake_minimum_required(VERSION 3.18)
-project(Vgates)
+set(VERILATOR_ARGS
+  -cc
+  --exe
+  -x-assign fast
+  --trace
+  --no-decoration
+  --assert
+  --coverage
+)
 
-find_package(verilator HINTS $ENV{VERILATOR_ROOT} ${VERILATOR_ROOT})
-if (NOT verilator_FOUND)
-  message(FATAL_ERROR "Verilator was not found. Either install it, or set the VERILATOR_ROOT environment variable")
-endif()
-
-set(INCLUDE_DIRS "../../..")
-
-if(NOT DEFINED GATES_WAYS_LIST)
-  set(GATES_WAYS_LIST 2 3 4 7 8)
-endif()
-
-set(SOURCE_DIR ".")
-set(VERILATOR_ARGS -cc --exe -x-assign fast --trace --no-decoration --assert --coverage)
 set(GATE_NAMES
   "and"
   "nand"
@@ -23,68 +17,47 @@ set(GATE_NAMES
   "xor"
 )
 
-set(VERILATOR_INCLUDES $ENV{VERILATOR_ROOT}/include/)
+add_library(Vgate STATIC)
 
-add_library(Vgate_buf_1 STATIC)
-
-target_include_directories(Vgate_buf_1
+target_include_directories(Vgate
   PUBLIC
-    ${VERILATOR_INCLUDES}
-    ${CMAKE_CURRENT_SOURCE_DIR}/build/CMakeFiles/Vgate_buf_1.dir/Vgate_buf_1.dir
-    # where top-level project will look for the library's public headers
-    $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/>
-    # where external projects will look for the library's public headers
-    $<INSTALL_INTERFACE:${CMAKE_INSTALL_INCLUDEDIR}>
+  ${VERILATOR_ROOT}/include
 )
 
-verilate(Vgate_buf_1
-  INCLUDE_DIRS ${INCLUDE_DIRS}
-  SOURCES ${SOURCE_DIR}/gate_buf.v
-  TOP_MODULE gate_buf
-  VERILATOR_ARGS ${VERILATOR_ARGS}
-  PREFIX Vgate_buf_1
+target_compile_features(Vgate
+    PUBLIC
+        cxx_std_20
 )
 
-add_library(Vgate_not_1 STATIC)
-
-target_include_directories(Vgate_not_1
-  PUBLIC
-    ${VERILATOR_INCLUDES}
-    ${CMAKE_CURRENT_SOURCE_DIR}/build/CMakeFiles/Vgate_not_1.dir/Vgate_not_1.dir
-    # where top-level project will look for the library's public headers
-    $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/>
-    # where external projects will look for the library's public headers
-    $<INSTALL_INTERFACE:${CMAKE_INSTALL_INCLUDEDIR}>
+add_executable(Vgate-tests
+    gate-utils.cpp
+    main-tests.cpp
 )
 
-verilate(Vgate_not_1
-  INCLUDE_DIRS ${INCLUDE_DIRS}
-  SOURCES ${SOURCE_DIR}/gate_not.v
-  TOP_MODULE gate_not
-  VERILATOR_ARGS ${VERILATOR_ARGS}
-  PREFIX Vgate_not_1
+target_include_directories(Vgate-tests
+    PUBLIC
+        ${CMAKE_CURRENT_SOURCE_DIR}
+        ${VERILATOR_ROOT}/include
 )
+
+target_link_libraries(Vgate-tests
+    PRIVATE
+        Boost::system
+        Boost::unit_test_framework
+        Vgate
+)
+
+target_compile_features(Vgate-tests
+    PUBLIC
+        cxx_std_20
+)
+
+add_gate(TARGET Vgate NAME buf WAY 1)
+add_gate(TARGET Vgate NAME not WAY 1)
 
 foreach(gate IN LISTS GATE_NAMES)
-
-foreach(way_number IN LISTS GATES_WAYS_LIST)
-    add_library(Vgate_${gate}_${way_number} STATIC)
-    target_include_directories(Vgate_${gate}_${way_number}
-      PUBLIC
-        ${VERILATOR_INCLUDES}
-        ${CMAKE_CURRENT_SOURCE_DIR}/build/CMakeFiles/Vgate_${gate}_${way_number}.dir/Vgate_${gate}_${way_number}.dir
-        # where top-level project will look for the library's public headers
-        $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/>
-        # where external projects will look for the library's public headers
-        $<INSTALL_INTERFACE:${CMAKE_INSTALL_INCLUDEDIR}>
-    )
-
-    verilate(Vgate_${gate}_${way_number}
-      INCLUDE_DIRS ${INCLUDE_DIRS}
-      SOURCES ${SOURCE_DIR}/gate_${gate}.v
-      TOP_MODULE gate_${gate}
-      VERILATOR_ARGS ${VERILATOR_ARGS} -GWAY=${way_number}
-      PREFIX Vgate_${gate}_${way_number}
-    )
+  foreach(way_number RANGE 2 ${MAX_WAYS})
+    message(STATUS "Vgate ${gate} ${way_number}")
+    add_gate(TARGET Vgate NAME ${gate} WAY ${way_number})
   endforeach()
 endforeach()

@@ -1,0 +1,33 @@
+#include <boost/test/unit_test.hpp>
+#include "gate-utils.hpp"
+#include "Vgate_@GATE_NAME@_@GATE_WAY@.h"
+
+BOOST_AUTO_TEST_SUITE (Vgate_@GATE_NAME@_@GATE_WAY@_tests)
+
+BOOST_AUTO_TEST_CASE (test_lsb)
+{
+    constexpr size_t inputs{1 << @GATE_WAY@};
+    Vgate_@GATE_NAME@_@GATE_WAY@ gate;
+    for (size_t input{0}; input < inputs; ++input)
+    {
+        gate.in = input;
+        gate.eval();
+
+        BOOST_REQUIRE_EQUAL(gate.out & 1, test_lsb_@GATE_NAME@(input, @GATE_WAY@));
+    }
+}
+
+BOOST_AUTO_TEST_CASE (test_msb)
+{
+    constexpr size_t inputs{1 >> @GATE_WAY@};
+    Vgate_@GATE_NAME@_@GATE_WAY@ gate;
+    for (size_t input{0}; input < inputs; ++input)
+    {
+        gate.in = input;
+        gate.eval();
+
+        BOOST_REQUIRE_EQUAL(gate.out & 1, test_msb_@GATE_NAME@(input, @GATE_WAY@));
+    }
+}
+
+BOOST_AUTO_TEST_SUITE_END()
