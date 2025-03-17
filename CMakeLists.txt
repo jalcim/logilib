@@ -4,7 +4,7 @@ project(logilib)
     option(ENABLE_VCD "Enable VCD trace file generation" Off)
     option(STATIC_BUILD "Compiles into one binary with no dynamic dependencies" Off)
     option(TESTS "Enable unit testing" On)
-    set(LOG_LEVEL "warning" CACHE STRING "Set the log level")
+    set(LOG_LEVEL "trace" CACHE STRING "Set the log level")
     set(MAX_WAYS "8" CACHE STRING "Max number of gates ways generated")
     set(VERILATOR_TIME_STEP "1000" CACHE STRING "Time between each verilator evaluations")
 
