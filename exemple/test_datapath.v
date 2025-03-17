@@ -32,7 +32,7 @@ module riscv_datapath_tb;
         active = 1;
 
         // Exécuter la simulation pour 10 secondes (10 000 000 000 ns)
-        #10000000000;
+        #10000;
 
         // Fin de simulation
         $finish;
@@ -41,7 +41,7 @@ module riscv_datapath_tb;
     // Capture de la simulation
     initial begin
         $dumpfile("riscv_datapath_tb.vcd");
-        $dumpvars(0, riscv_datapath_tb);
+        $dumpvars;
     end
 
 endmodule

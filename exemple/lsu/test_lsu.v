@@ -19,6 +19,8 @@ module test_lsu;
 
    initial
      begin
+	$dumpfile("signal_lsu.vcd");
+	$dumpvars;
 	clk = 0;
 	rs1 = 0;
 	rs2 = 0;
