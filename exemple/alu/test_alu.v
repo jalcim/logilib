@@ -3,7 +3,7 @@
 module test_alu_primary;
    reg [31:0] datain_A, datain_B;
    reg [2 :0] funct3;
-   reg	      funct7;
+   reg [6:0]  funct7;
    reg	      SIGNAL_bru;
    reg [31:0] pc, imm_b;
 

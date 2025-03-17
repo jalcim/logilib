@@ -24,9 +24,10 @@ module alu_primary(datain_A, datain_B,
    localparam SIZE_CTRL = 3;
 
    input [WIRE-1:0] datain_A, datain_B;
-   input [SIZE_CTRL-1 :0] funct3;
-   input		  funct7, SIGNAL_bru;
-   input [31:0]		  pc, imm_b;
+   input [2:0]	    funct3;
+   input [6:0]	    funct7;
+   input	    SIGNAL_bru;
+   input [31:0]	    pc, imm_b;
 
    output [WIRE-1:0]	  data;
    output		  SIGNAL_pc;
