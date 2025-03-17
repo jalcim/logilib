@@ -61,6 +61,6 @@ macro(init_environment)
     add_compile_definitions(VERILATOR_TIME_INCREMENT=1000)
   endif()
 
-  set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++14")
+  set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++23")
 
 endmacro()

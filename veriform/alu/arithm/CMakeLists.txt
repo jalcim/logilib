@@ -1,7 +1,7 @@
 cmake_minimum_required(VERSION 3.18)
 project(verif_arithm C)
 add_library(${PROJECT_NAME} STATIC ./add_sub.c)
-set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -Wall -Werror -std=c99")
+set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -Wall -Werror -std=c23")
 
 target_include_directories(${PROJECT_NAME}
   PUBLIC
