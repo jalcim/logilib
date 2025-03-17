@@ -16,8 +16,8 @@ iverilog -pRECURSIVE_MOD_LIMIT=100 -o bin/exemple/test_decodeur  exemple/decodeu
 
 echo "test_block_mem"
 iverilog -pRECURSIVE_MOD_LIMIT=100 -o bin/exemple/test_block_mem exemple/lsu/block_mem/test_block_mem.v
-#echo "test_lsu"
-#iverilog -pRECURSIVE_MOD_LIMIT=100 -o bin/exemple/test_lsu       exemple/lsu/test_lsu.v
+echo "test_lsu"
+iverilog -pRECURSIVE_MOD_LIMIT=10000 -o bin/exemple/test_lsu       exemple/lsu/test_lsu.v
 echo "test_mux_load"
 iverilog -pRECURSIVE_MOD_LIMIT=100 -o bin/exemple/test_mux_load  exemple/lsu/test_mux_load.v
 echo "test_mux_store"
@@ -49,3 +49,6 @@ iverilog -pRECURSIVE_MOD_LIMIT=100 -o bin/exemple/test_jalr exemple/jal_jalr/jal
 
 echo "test_jal_jalr"
 iverilog -pRECURSIVE_MOD_LIMIT=100 -o bin/exemple/test_jal_jalr exemple/jal_jalr/test_jal_jalr.v
+
+echo "test_datapath"
+iverilog -pRECURSIVE_MOD_LIMIT=10000 -o bin/exemple/test_datapath exemple/test_datapath.v
