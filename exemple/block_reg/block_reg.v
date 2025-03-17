@@ -9,7 +9,7 @@ module block_reg(clk, reset, write,
 		datain,
 		data_out_A, data_out_B);
    parameter SIZE_ADDR_REG = 5;
-   parameter SIZE_REG = 8;
+   parameter SIZE_REG = 32;
 
    localparam NB_REG = 2**SIZE_ADDR_REG;
    localparam SIZE = NB_REG * SIZE_REG;
@@ -23,13 +23,13 @@ module block_reg(clk, reset, write,
    wire [NB_REG-1:0]	     out_write_demux;
    wire [SIZE -1 : 0 ]	     D, Q, QN;
 
-   write_demux #(.SIZE_ADDR_REG(SIZE_ADDR_REG)) write_demux(clk, addrin, write, out_write_demux);
+   write_demux_reg #(.SIZE_ADDR_REG(SIZE_ADDR_REG)) write_demux(clk, addrin, write, out_write_demux);
 
    replicator #(.WAY(NB_REG), .WIRE(SIZE_REG)) replicator(D, datain);
    parallel_Dlatch_rst #(.WAY(NB_REG), .WIRE(SIZE_REG))block_Dlatch(D, out_write_demux, {NB_REG{reset}}, Q, QN);
 
-   read_mux #(.SIZE_ADDR_REG(SIZE_ADDR_REG), .SIZE_REG(SIZE_REG)) read_mux_A(read_A, Q, data_out_A);
-   read_mux #(.SIZE_ADDR_REG(SIZE_ADDR_REG), .SIZE_REG(SIZE_REG)) read_mux_B(read_B, Q, data_out_B);
+   read_mux_reg #(.SIZE_ADDR_REG(SIZE_ADDR_REG), .SIZE_REG(SIZE_REG)) read_mux_A(read_A, Q, data_out_A);
+   read_mux_reg #(.SIZE_ADDR_REG(SIZE_ADDR_REG), .SIZE_REG(SIZE_REG)) read_mux_B(read_B, Q, data_out_B);
 
 endmodule
 
@@ -40,7 +40,7 @@ endmodule
  `include "src/routing/demux.v"
  `include "src/routing/mux.v"
 
-module write_demux(clk, addrin, write, out_write_demux);
+module write_demux_reg(clk, addrin, write, out_write_demux);
    parameter SIZE_ADDR_REG = 5;
 
    input clk, write;
@@ -52,7 +52,7 @@ module write_demux(clk, addrin, write, out_write_demux);
    demux #(.SIZE_CTRL(SIZE_ADDR_REG)) demux0(addrin, and_out, out_write_demux);
 endmodule
 
-module read_mux(read_addr, in, out_read_mux);
+module read_mux_reg(read_addr, in, out_read_mux);
    parameter SIZE_ADDR_REG = 5;
    parameter SIZE_REG = 8;
    localparam SIZE_IN = (2**SIZE_ADDR_REG) * SIZE_REG;
