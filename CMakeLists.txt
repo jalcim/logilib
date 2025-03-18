@@ -22,7 +22,6 @@ project(logilib)
     endif()
 
     find_package(Boost 1.74.0 REQUIRED COMPONENTS log log_setup system unit_test_framework)
-
     find_package(verilator REQUIRED HINTS $ENV{VERILATOR_ROOT} ${VERILATOR_ROOT})
 #    verilator_generate_key(PROTECT_KEY)
 

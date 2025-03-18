@@ -1,3 +1,30 @@
+function(add_gate)
+  cmake_parse_arguments(PARSE_ARGV 0 GATE
+    "WAYS" "TARGET;NAME;WAY" ""
+  )
+
+  set (GATE_ARGS ${VERILATOR_ARGS})
+  if (${GATE_WAYS})
+    set (GATE_ARGS ${GATE_ARGS} -GWAY=${GATE_WAY})
+  endif()
+
+  message(STATUS "Adding a gate ${GATE_NAME} to target ${GATE_TARGET}")
+  verilate(${GATE_TARGET}
+    INCLUDE_DIRS ${CMAKE_SOURCE_DIR}
+    SOURCES gate_${GATE_NAME}.v
+    TOP_MODULE gate_${GATE_NAME}
+    VERILATOR_ARGS ${GATE_ARGS}
+    PREFIX Vgate_${GATE_NAME}_${GATE_WAY}
+  )
+
+  if (TESTS)
+    configure_file(gate-tests.cpp.in Vgate_${GATE_NAME}_${GATE_WAY}-tests.cpp)
+    target_sources(${GATE_TARGET}-tests PRIVATE
+      ${CMAKE_CURRENT_BINARY_DIR}/Vgate_${GATE_NAME}_${GATE_WAY}-tests.cpp
+    )
+  endif()
+endfunction()
+
 set(VERILATOR_ARGS
   -cc
   --exe
