@@ -1,9 +1,9 @@
 if (ENABLE_COSIM_PRIMITIVE)
-    add_library(cosim_primitive primitive.cpp)
+#    add_library(cosim_primitive primitive.cpp)
 
-    target_include_directories(cosim_primitive
-        PUBLIC ${CMAKE_CURRENT_SOURCE_DIR}
-    )
+#    target_include_directories(cosim_primitive
+#        PUBLIC ${CMAKE_CURRENT_SOURCE_DIR}
+#    )
 
     if (ENABLE_COSIM_PRIMITIVE_GATE)
         add_subdirectory(gate)

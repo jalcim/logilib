@@ -11,9 +11,8 @@ option(ENABLE_COSIM_PRIMITIVE "Activer cosim/primitive" ON)
 option(ENABLE_COSIM_PRIMITIVE_GATE "Activer cosim/primitive/gate" ON)
 
 # Configuration globale
-option(ENABLE_VCD "Enable VCD trace file generation" OFF)
+option(ENABLE_VCD "Enable VCD trace file generation" ON)
 option(STATIC_BUILD "Compiles into one binary with no dynamic dependencies" OFF)
-option(TESTS "Enable unit testing" ON)
 set(LOG_LEVEL "warning" CACHE STRING "Set the log level")
 set(MAX_WAYS "8" CACHE STRING "Max number of gates ways generated")
 set(VERILATOR_TIME_STEP "1000" CACHE STRING "Time between each verilator evaluations")

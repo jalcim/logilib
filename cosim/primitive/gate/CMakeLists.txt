@@ -1,45 +1,54 @@
-if (ENABLE_COSIM_PRIMITIVE_GATE)
-  #    add_executable(test_gate test_gate.cpp)
-
-  #    target_link_libraries(test_gate
-  #        PRIVATE Boost::system Boost::unit_test_framework
-  #    )
-
-  #    target_compile_features(test_gate PUBLIC cxx_std_20)
-
-  add_library(cosim_primitive_gate gate_utils.cpp)
-
-  target_include_directories(cosim_primitive_gate
-    PUBLIC ${CMAKE_CURRENT_SOURCE_DIR}
+function(gen_test_gate)
+  cmake_parse_arguments(PARSE_ARGV 0 GATE
+    "WAYS" "TARGET;NAME;WAY" ""
   )
 
-    # Generate code for generic gates
-    list(APPEND GATE_NAMES "and" "nand" "nor" "or" "xnor" "xor")
+  message(STATUS "Adding a test_gate ${GATE_NAME} to target ${GATE_TARGET}")
+  configure_file(gate-tests.cpp.in Vgate_${GATE_NAME}_${GATE_WAY}-tests.cpp)
+  target_sources(${GATE_TARGET}-tests PRIVATE
+    ${CMAKE_CURRENT_BINARY_DIR}/Vgate_${GATE_NAME}_${GATE_WAY}-tests.cpp
+  )
+endfunction()
 
-    foreach(gate IN LISTS GATE_NAMES)
-      foreach(way RANGE 2 ${MAX_WAYS})
-        list(APPEND
-          GENERIC_GATES_INCLUDES
-          "#include \"Vgate_${gate}_${way}.h\""
-        )
+add_executable(Vgate-tests gate-utils.cpp main-tests.cpp)
 
-        list(APPEND
-          GENERIC_GATES_TESTS
-          "   {"
-          "       auto* g = new GATE_TEST<Vgate_${gate}_${way}>(test_msb_${gate}, ${way})\;"
-          "       g->open_trace()\;"
-          "       error |= g->test()\;"
-          "       delete g\;"
-          "   }"
-        )
-      endforeach()
-    endforeach()
+target_include_directories(Vgate-tests
+  PUBLIC ${CMAKE_CURRENT_SOURCE_DIR} ${VERILATOR_ROOT}/include
+)
 
-    list(JOIN GENERIC_GATES_INCLUDES "\n" GENERIC_GATES_INCLUDES)
-    configure_file(gates.hpp.in gates.hpp)
+target_link_libraries(Vgate-tests
+  PRIVATE Boost::system Boost::unit_test_framework Vgate
+)
 
-    list(JOIN GENERIC_GATES_TESTS "\n" GENERIC_GATES_TESTS)
-    configure_file(gates.cpp.in gates.cpp)
-    target_sources(cosim PRIVATE ${CMAKE_CURRENT_BINARY_DIR}/gates.cpp)
+target_compile_features(Vgate-tests PUBLIC cxx_std_20)
 
-endif()
+# Generate code for generic gates
+list(APPEND GATE_NAMES "and" "nand" "nor" "or" "xnor" "xor")
+
+gen_test_gate(TARGET Vgate NAME buf WAY 1)
+gen_test_gate(TARGET Vgate NAME not WAY 1)
+foreach(gate IN LISTS GATE_NAMES)
+  foreach(way RANGE 2 ${MAX_WAYS})
+    gen_test_gate(TARGET Vgate NAME ${gate} WAY ${way})
+    list(APPEND
+      GENERIC_GATES_INCLUDES
+      "#include \"Vgate_${gate}_${way}.h\""
+    )
+
+    list(APPEND
+      GENERIC_GATES_TESTS
+      "   {"
+      "       auto* g = new GATE_TEST<Vgate_${gate}_${way}>(test_msb_${gate}, ${way})\;"
+      "       g->open_trace()\;"
+      "       error |= g->test()\;"
+      "       delete g\;"
+      "   }"
+    )
+  endforeach()
+endforeach()
+
+list(JOIN GENERIC_GATES_INCLUDES "\n" GENERIC_GATES_INCLUDES)
+configure_file(gates.hpp.in gates.hpp)
+
+list(JOIN GENERIC_GATES_TESTS "\n" GENERIC_GATES_TESTS)
+configure_file(gates.cpp.in gates.cpp)

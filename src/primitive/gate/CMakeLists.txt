@@ -17,12 +17,6 @@ function(add_gate)
     PREFIX Vgate_${GATE_NAME}_${GATE_WAY}
   )
 
-  if (TESTS)
-    configure_file(gate-tests.cpp.in Vgate_${GATE_NAME}_${GATE_WAY}-tests.cpp)
-    target_sources(${GATE_TARGET}-tests PRIVATE
-      ${CMAKE_CURRENT_BINARY_DIR}/Vgate_${GATE_NAME}_${GATE_WAY}-tests.cpp
-    )
-  endif()
 endfunction()
 
 set(VERILATOR_ARGS
@@ -52,28 +46,12 @@ target_include_directories(Vgate
 
 target_compile_features(Vgate PUBLIC cxx_std_20)
 
-if (TESTS)
-    add_executable(Vgate-tests gate-utils.cpp main-tests.cpp)
-
-    target_include_directories(Vgate-tests
-        PUBLIC ${CMAKE_CURRENT_SOURCE_DIR} ${VERILATOR_ROOT}/include
-    )
-
-    target_link_libraries(Vgate-tests
-        PRIVATE Boost::system Boost::unit_test_framework Vgate
-    )
-
-    target_compile_features(Vgate-tests PUBLIC cxx_std_20)
-endif()
-
 # Génération des gates avec Verilator
-if (ENABLE_SRC_PRIMITIVE_GATE)
-    add_gate(TARGET Vgate NAME buf WAY 1)
-    add_gate(TARGET Vgate NAME not WAY 1)
+add_gate(TARGET Vgate NAME buf WAY 1)
+add_gate(TARGET Vgate NAME not WAY 1)
 
-    foreach(g IN LISTS GATE_NAMES)
-        foreach(w RANGE 2 ${MAX_WAYS})
-            add_gate(TARGET Vgate NAME ${g} WAY ${w})
-        endforeach()
-    endforeach()
-endif()
+foreach(g IN LISTS GATE_NAMES)
+  foreach(w RANGE 2 ${MAX_WAYS})
+    add_gate(TARGET Vgate NAME ${g} WAY ${w})
+  endforeach()
+endforeach()
