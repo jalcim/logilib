@@ -188,24 +188,27 @@ public:
 
     ss << "Test " << name << " : "
        << RESTEXT(test_error)
-       << " |-> E1="
+       << " |-> E0="
        << GET_BIT(gate->in, 0)
-       << ", E2="
+       << ", E1="
        << GET_BIT(gate->in, 1)
-       << ",E3="
+       << ",E2="
        << GET_BIT(gate->in, 2)
-       << ",E4="
+       << ",E3="
        << GET_BIT(gate->in, 3)
-       << ",E5="
+       << ",E4="
        << GET_BIT(gate->in, 4)
-       << ",E6="
+       << ",E5="
        << GET_BIT(gate->in, 5)
-       << ",E7="
+       << ",E6="
        << GET_BIT(gate->in, 6)
+       << ",E7="
+       << GET_BIT(gate->in, 7)
        << ", out="
-       << gate->out
+       << (long long)gate->out
        << "waited_result "
-       << waited_result;
+       << waited_result
+       << std::endl;
 
     return ss.str();
   }
