@@ -1,56 +1,47 @@
 cmake_minimum_required(VERSION 3.23)
-
 project(logilib)
-    option(ENABLE_VCD "Enable VCD trace file generation" Off)
-    option(STATIC_BUILD "Compiles into one binary with no dynamic dependencies" Off)
-    option(TESTS "Enable unit testing" On)
-    set(LOG_LEVEL "trace" CACHE STRING "Set the log level")
-    set(MAX_WAYS "8" CACHE STRING "Max number of gates ways generated")
-    set(VERILATOR_TIME_STEP "1000" CACHE STRING "Time between each verilator evaluations")
 
-    set(Boost_USE_STATIC_LIBS       OFF) # only find static libs
-    set(Boost_USE_DEBUG_LIBS        OFF) # ignore debug libs and
-    set(Boost_USE_RELEASE_LIBS      ON)  # only find release libs
-    set(Boost_USE_MULTITHREADED     ON)
-    set(Boost_USE_STATIC_RUNTIME    OFF)
+# Options pour activer/désactiver les modules
+option(ENABLE_SRC "Activer src/" ON)
+option(ENABLE_SRC_PRIMITIVE "Activer src/primitive" ON)
+option(ENABLE_SRC_PRIMITIVE_GATE "Activer src/primitive/gate" ON)
 
-    if (STATIC_BUILD)
-        set(CMAKE_FIND_LIBRARY_SUFFIXES ".a")
-        set(BUILD_SHARED_LIBS OFF)
-        set(CMAKE_EXE_LINKER_FLAGS "-static")
-        set(Boost_USE_STATIC_LIBS on)  # only find static libs
-    endif()
+option(ENABLE_COSIM "Activer cosim/" OFF)
+option(ENABLE_COSIM_PRIMITIVE "Activer cosim/primitive" ON)
+option(ENABLE_COSIM_PRIMITIVE_GATE "Activer cosim/primitive/gate" ON)
 
-    find_package(Boost 1.74.0 REQUIRED COMPONENTS log log_setup system unit_test_framework)
-    find_package(verilator REQUIRED HINTS $ENV{VERILATOR_ROOT} ${VERILATOR_ROOT})
-#    verilator_generate_key(PROTECT_KEY)
+# Configuration globale
+option(ENABLE_VCD "Enable VCD trace file generation" OFF)
+option(STATIC_BUILD "Compiles into one binary with no dynamic dependencies" OFF)
+option(TESTS "Enable unit testing" ON)
+set(LOG_LEVEL "warning" CACHE STRING "Set the log level")
+set(MAX_WAYS "8" CACHE STRING "Max number of gates ways generated")
+set(VERILATOR_TIME_STEP "1000" CACHE STRING "Time between each verilator evaluations")
 
-    function(add_gate)
-        cmake_parse_arguments(PARSE_ARGV 0 GATE
-            "WAYS" "TARGET;NAME;WAY" ""
-        )
+# Gestion statique/dynamique des bibliothèques Boost
+set(Boost_USE_STATIC_LIBS OFF)
+set(Boost_USE_DEBUG_LIBS OFF)
+set(Boost_USE_RELEASE_LIBS ON)
+set(Boost_USE_MULTITHREADED ON)
+set(Boost_USE_STATIC_RUNTIME OFF)
 
-        set (GATE_ARGS ${VERILATOR_ARGS})
-        if (${GATE_WAYS})
-            set (GATE_ARGS ${GATE_ARGS} -GWAY=${GATE_WAY})
-        endif()
+if (STATIC_BUILD)
+    set(CMAKE_FIND_LIBRARY_SUFFIXES ".a")
+    set(BUILD_SHARED_LIBS OFF)
+    set(CMAKE_EXE_LINKER_FLAGS "-static")
+    set(Boost_USE_STATIC_LIBS on)
+endif()
 
-        message(STATUS "Adding a gate ${GATE_NAME} to target ${GATE_TARGET}")
-        verilate(${GATE_TARGET}
-            INCLUDE_DIRS ${CMAKE_SOURCE_DIR}
-            SOURCES gate_${GATE_NAME}.v
-            TOP_MODULE gate_${GATE_NAME}
-            VERILATOR_ARGS ${GATE_ARGS}
-            PREFIX Vgate_${GATE_NAME}_${GATE_WAY}
-        )
+# Dépendances
+find_package(Boost 1.74.0 REQUIRED COMPONENTS log log_setup system unit_test_framework)
+find_package(verilator REQUIRED HINTS $ENV{VERILATOR_ROOT} ${VERILATOR_ROOT})
+#verilator_generate_key(PROTECT_KEY)
 
-        if (TESTS)
-            configure_file(gate-tests.cpp.in Vgate_${GATE_NAME}_${GATE_WAY}-tests.cpp)
-            target_sources(${GATE_TARGET}-tests PRIVATE
-                ${CMAKE_CURRENT_BINARY_DIR}/Vgate_${GATE_NAME}_${GATE_WAY}-tests.cpp
-            )
-        endif()
-    endfunction()
-
-    #add_subdirectory(cosim)
+# Ajout conditionnel des sous-dossiers
+if (ENABLE_SRC)
     add_subdirectory(src)
+endif()
+
+if (ENABLE_COSIM)
+    add_subdirectory(cosim)
+endif()
