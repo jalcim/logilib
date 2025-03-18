@@ -9,7 +9,7 @@ if (ENABLE_COSIM_PRIMITIVE_GATE)
 
   add_library(cosim_primitive_gate gate_utils.cpp)
 
-  target_include_directories(cosim_primitive
+  target_include_directories(cosim_primitive_gate
     PUBLIC ${CMAKE_CURRENT_SOURCE_DIR}
   )
 
