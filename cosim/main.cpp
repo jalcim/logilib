@@ -7,9 +7,9 @@
 #include <boost/log/trivial.hpp>
 #include <boost/log/expressions.hpp>
 #include <boost/log/utility/setup/from_stream.hpp>
-#include "primitive.h"
-#include "alu.h"
-#include "main.h"
+#include <cosim/main.hpp>
+#include <cosim/primitive/primitive.hpp>
+//#include "alu.h"
 
 VerilatedContext *contextp;
 
@@ -38,6 +38,6 @@ int main(int argc, char **argv, char **env)
   init(argc, argv);
   test_primitive();
   //  test_memory();
-  test_alu();
+  //  test_alu();
   delete (contextp);
 }

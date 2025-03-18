@@ -1,21 +1,19 @@
-#ifndef __COSIM_GATE_TEMPLATE_H__
-#define __COSIM_GATE_TEMPLATE_H__
-#include <typeinfo>
-#include <iostream>
-#include <verilated.h>
-#include <verilated_vcd_c.h>
+#pragma once
 #include <cmath>
 #include <fstream>
+#include <iostream>
+#include <sstream>
+#include <typeinfo>
 #include <boost/log/trivial.hpp>
-#include "gate_macros.h"
-
-using namespace std;
+#include <verilated.h>
+#include <verilated_vcd_c.h>
+#include <cosim/primitive/gate/gate_macros.hpp>
 
 extern VerilatedContext *contextp;
 
-const string LOG_PATH_PREFIX = "build/cosim/primitive/gate/gate";
-const string LOG_PATH_SUFFIX = "_check";
-const string LOG_TRACE_SUFFIX = "_trace.vcd";
+const std::string LOG_PATH_PREFIX = "build/cosim/primitive/gate/gate";
+const std::string LOG_PATH_SUFFIX = "_check";
+const std::string LOG_TRACE_SUFFIX = "_trace.vcd";
 
 template <class VGATE>
 class GATE_TEST
@@ -24,50 +22,53 @@ class GATE_TEST
   int log_fd;
   std::ofstream log_file_stream;
   int way_number;
-  string log_path;
+  std::string log_path;
   const char *name;
   VGATE *gate;
   int (*test_fn)(int input, int way);
-  string trace_path;
-  VerilatedVcdC *m_trace = NULL;
+  std::string trace_path;
+#ifdef VCD_TRACE_ENABLED
+  VerilatedVcdC *m_trace;
+#endif
 
 public:
   GATE_TEST(int (*gate_test)(int input, int way), int ways)
   {
+#ifdef VCD_TRACE_ENABLED
     m_trace = NULL;
+#endif
     name = typeid(gate).name();
     contextp->traceEverOn(true);
     gate = new VGATE{contextp};
     test_fn = gate_test;
     way_number = ways;
     log_path = LOG_PATH_PREFIX + name + LOG_PATH_SUFFIX;
-    log_file_stream.open(log_path, ios::trunc | ios::out);
+    log_file_stream.open(log_path, std::ios::trunc | std::ios::out);
     trace_path = LOG_PATH_PREFIX + name + LOG_TRACE_SUFFIX;
-#ifdef VCD_TRACE_ON
-    open_trace();
-#endif
   }
 
-#ifdef VCD_TRACE_ON
   void open_trace()
   {
+#ifdef VCD_TRACE_ENABLED
     if (!m_trace)
     {
       m_trace = new VerilatedVcdC;
       gate->trace(m_trace, 99);
       m_trace->open(trace_path.c_str());
     }
+#endif
   }
 
   void close_trace(void)
   {
+#ifdef VCD_TRACE_ENABLED
     if (m_trace)
     {
       m_trace->close();
       m_trace = NULL;
     }
-  }
 #endif
+  }
 
   bool test()
   {
@@ -80,16 +81,18 @@ public:
 
     BOOST_LOG_TRIVIAL(info) << "# Test " << name << " : ";
 
+#ifdef VCD_TRACE_ENABLED
     if (m_trace)
     {
       m_trace->dump(contextp->time());
-      contextp->timeInc(VERILATOR_TIME_INCREMENT);
+      contextp->timeInc(VERILATOR_TIME_STEP);
     }
+#endif
 
     while (input < input_max)
     {
 
-      contextp->timeInc(VERILATOR_TIME_INCREMENT);
+      contextp->timeInc(VERILATOR_TIME_STEP);
       BOOST_LOG_TRIVIAL(debug) << "Test input " << input << " : ";
 
       gate->in = input;
@@ -120,8 +123,10 @@ public:
         BOOST_LOG_TRIVIAL(debug) << input << " : " << RESTEXT(error);
       }
 
+#ifdef VCD_TRACE_ENABLED
       if (m_trace)
         m_trace->dump(contextp->time());
+#endif
 
       input++;
     }
@@ -135,12 +140,14 @@ public:
       BOOST_LOG_TRIVIAL(info) << name << " : " << RESTEXT(error);
     }
 
+#ifdef VCD_TRACE_ENABLED
     if (m_trace)
     {
-      contextp->timeInc(VERILATOR_TIME_INCREMENT);
+      contextp->timeInc(VERILATOR_TIME_STEP);
       m_trace->dump(contextp->time());
       m_trace->flush();
     }
+#endif
 
     return (test_error);
   }
@@ -175,7 +182,7 @@ public:
   //   gate->eval();
   // }
 
-  string format_log(bool test_error, int waited_result)
+  std::string format_log(bool test_error, int waited_result)
   {
     std::stringstream ss;
 
@@ -205,13 +212,13 @@ public:
 
   void log_to_file(bool test_error, int waited_result)
   {
-    log_file_stream << format_log(test_error, waited_result) << endl;
+    log_file_stream << format_log(test_error, waited_result) << std::endl;
   }
 
   void log_error(bool test_error, int waited_result)
   {
     BOOST_LOG_TRIVIAL(error)
-        << format_log(test_error, waited_result) << "\nLogs in : " << log_path;
+        << format_log(test_error, waited_result) << "Logs in : " << log_path;
   }
 
   ~GATE_TEST(void)
@@ -219,9 +226,6 @@ public:
     delete gate;
     gate = NULL;
     log_file_stream.close();
-#ifdef VCD_TRACE_ON
     close_trace();
-#endif
   }
 };
-#endif /* __COSIM_GATE_TEMPLATE_H__ */

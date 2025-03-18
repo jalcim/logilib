@@ -1,10 +1,11 @@
 #include <stdio.h>
+#include <iostream>
 #include <fcntl.h>
 #include <unistd.h>
 #include <iostream>
 #include <boost/log/trivial.hpp>
 
-#include "gate.h"
+#include <cosim/primitive/gate/gate.hpp>
 
 using namespace std;
 

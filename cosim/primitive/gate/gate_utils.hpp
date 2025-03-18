@@ -1,5 +1,4 @@
-#ifndef __COSIM_GATE_UTILS_H__
-#define __COSIM_GATE_UTILS_H__
+#pragma once
 
 int test_msb_buf(int input, int way_number);
 int test_msb_not(int input, int way_number);
@@ -18,5 +17,3 @@ int test_lsb_or(int input, int way_number);
 int test_lsb_nor(int input, int way_number);
 int test_lsb_xor(int input, int way_number);
 int test_lsb_xnor(int input, int way_number);
-
-#endif /* __COSIM_GATE_UTILS_H__ */
