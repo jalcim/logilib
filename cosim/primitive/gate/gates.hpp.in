@@ -1,0 +1,6 @@
+#pragma once
+
+#include "Vgate_buf_1.h"
+#include "Vgate_not_1.h"
+
+@GENERIC_GATES_INCLUDES@

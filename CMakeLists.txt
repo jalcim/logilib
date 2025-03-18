@@ -6,7 +6,7 @@ option(ENABLE_SRC "Activer src/" ON)
 option(ENABLE_SRC_PRIMITIVE "Activer src/primitive" ON)
 option(ENABLE_SRC_PRIMITIVE_GATE "Activer src/primitive/gate" ON)
 
-option(ENABLE_COSIM "Activer cosim/" OFF)
+option(ENABLE_COSIM "Activer cosim/" ON)
 option(ENABLE_COSIM_PRIMITIVE "Activer cosim/primitive" ON)
 option(ENABLE_COSIM_PRIMITIVE_GATE "Activer cosim/primitive/gate" ON)
 

@@ -1,0 +1,25 @@
+#include <cosim/primitive/gate/gate_utils.hpp>
+#include <cosim/primitive/gate/gate_template.hpp>
+#include "gates.hpp"
+
+bool run_gates_tests()
+{
+    bool error = false;
+
+    {
+        auto* g = new GATE_TEST<Vgate_buf_1>(test_msb_buf, 1);
+        g->open_trace();
+        error |= g->test();
+        delete g;
+    }
+
+    {
+        auto* g = new GATE_TEST<Vgate_not_1>(test_msb_not, 1);
+        g->open_trace();
+        error |= g->test();
+        delete g;
+    }
+
+@GENERIC_GATES_TESTS@
+    return (error);
+}

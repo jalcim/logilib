@@ -1,40 +1,45 @@
-cmake_minimum_required(VERSION 3.18)
-project(Cosim_gates C CXX)
+if (ENABLE_COSIM_PRIMITIVE_GATE)
+  #    add_executable(test_gate test_gate.cpp)
 
-include(environment)
-INIT_ENVIRONMENT()
+  #    target_link_libraries(test_gate
+  #        PRIVATE Boost::system Boost::unit_test_framework
+  #    )
 
-set(GATE_LIBRARIES
-  "Vgate_buf_1"
-  "Vgate_not_1"
-)
+  #    target_compile_features(test_gate PUBLIC cxx_std_20)
 
-foreach(way_number IN LISTS GATES_WAYS_LIST)
-  set(GATE_LIBRARIES
-    ${GATE_LIBRARIES}
-    "Vgate_and_${way_number}"
-    "Vgate_nand_${way_number}"
-    "Vgate_nor_${way_number}"
-    "Vgate_or_${way_number}"
-    "Vgate_xnor_${way_number}"
-    "Vgate_xor_${way_number}"
+  add_library(cosim_primitive_gate gate_utils.cpp)
+
+  target_include_directories(cosim_primitive
+    PUBLIC ${CMAKE_CURRENT_SOURCE_DIR}
   )
-endforeach()
 
-add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/../../../src/primitive/gate vgates)
+    # Generate code for generic gates
+    list(APPEND GATE_NAMES "and" "nand" "nor" "or" "xnor" "xor")
 
-add_library(${PROJECT_NAME} STATIC)
+    foreach(gate IN LISTS GATE_NAMES)
+      foreach(way RANGE 2 ${MAX_WAYS})
+        list(APPEND
+          GENERIC_GATES_INCLUDES
+          "#include \"Vgate_${gate}_${way}.h\""
+        )
 
-target_sources(${PROJECT_NAME} PRIVATE ./gate.cpp ./gate_utils.cpp)
+        list(APPEND
+          GENERIC_GATES_TESTS
+          "   {"
+          "       auto* g = new GATE_TEST<Vgate_${gate}_${way}>(test_msb_${gate}, ${way})\;"
+          "       g->open_trace()\;"
+          "       error |= g->test()\;"
+          "       delete g\;"
+          "   }"
+        )
+      endforeach()
+    endforeach()
 
-target_include_directories(${PROJECT_NAME}
-  PUBLIC
-  ${CMAKE_CURRENT_SOURCE_DIR}/gate.h
-  # where top-level project will look for the library's public headers
-  $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/>
-  # where external projects will look for the library's public headers
-  $<INSTALL_INTERFACE:${CMAKE_INSTALL_INCLUDEDIR}>
-)
+    list(JOIN GENERIC_GATES_INCLUDES "\n" GENERIC_GATES_INCLUDES)
+    configure_file(gates.hpp.in gates.hpp)
 
-target_link_libraries(${PROJECT_NAME} LINK_PUBLIC ${GATE_LIBRARIES} Boost::log)
+    list(JOIN GENERIC_GATES_TESTS "\n" GENERIC_GATES_TESTS)
+    configure_file(gates.cpp.in gates.cpp)
+    target_sources(cosim PRIVATE ${CMAKE_CURRENT_BINARY_DIR}/gates.cpp)
 
+endif()

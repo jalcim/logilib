@@ -1,20 +1,23 @@
-cmake_minimum_required(VERSION 3.18)
-project(Vmain C CXX)
+if (ENABLE_COSIM)
+    add_executable(cosim main.cpp)
 
-include(environment)
-INIT_ENVIRONMENT()
+    target_link_libraries(cosim PUBLIC Boost::log Boost::log_setup Vgate)
 
-add_subdirectory(primitive)
-add_subdirectory(alu)
+    target_compile_features(cosim PUBLIC cxx_std_20)
 
-add_executable(${PROJECT_NAME})
+    target_include_directories(cosim
+        PUBLIC ${CMAKE_SOURCE_DIR}
+    )
 
-target_link_libraries(
-  ${PROJECT_NAME}
-  LINK_PUBLIC
-  Cosim_alu
-  Cosim_primitives
-  ${Boost_LIBRARIES}
-)
+    target_compile_definitions(cosim
+        PRIVATE
+        "$<$<BOOL:${ENABLE_VCD}>:VCD_TRACE_ENABLED>"
+        "$<$<BOOL:${LOG_LEVEL}>:LOG_LEVEL=${LOG_LEVEL}>"
+        "$<$<BOOL:${STATIC_BUILD}>:BOOST_LOG_DYN_LINK>"
+        "VERILATOR_TIME_STEP=${VERILATOR_TIME_STEP}"
+    )
 
-target_sources(${PROJECT_NAME} PRIVATE ./main.cpp)
+    if (ENABLE_COSIM_PRIMITIVE)
+        add_subdirectory(primitive)
+    endif()
+endif()
