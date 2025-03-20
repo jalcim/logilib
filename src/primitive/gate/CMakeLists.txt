@@ -1,14 +1,12 @@
 function(add_gate)
-  cmake_parse_arguments(PARSE_ARGV 0 GATE
-    "WAYS" "TARGET;NAME;WAY" ""
-  )
+  cmake_parse_arguments(PARSE_ARGV 0 GATE "WAYS" "TARGET;NAME;WAY" "")
 
-  set (GATE_ARGS ${VERILATOR_ARGS})
-  if (${GATE_WAYS})
-    set (GATE_ARGS ${GATE_ARGS} -GWAY=${GATE_WAY})
+  set(GATE_ARGS ${VERILATOR_ARGS})
+  if(GATE_WAY GREATER 1)
+    list(APPEND GATE_ARGS -GWAY=${GATE_WAY})
   endif()
 
-  message(STATUS "Adding a gate ${GATE_NAME} to target ${GATE_TARGET}")
+  message(STATUS "Adding gate ${GATE_NAME} to target ${GATE_TARGET} way=${GATE_WAY}")
   verilate(${GATE_TARGET}
     INCLUDE_DIRS ${CMAKE_SOURCE_DIR}
     SOURCES gate_${GATE_NAME}.v
@@ -16,33 +14,16 @@ function(add_gate)
     VERILATOR_ARGS ${GATE_ARGS}
     PREFIX Vgate_${GATE_NAME}_${GATE_WAY}
   )
-
 endfunction()
 
 set(VERILATOR_ARGS
-    -cc
-    --exe
-    -x-assign fast
-    --trace
-    --no-decoration
-    --assert
-    --coverage
-)
+    -cc --exe -x-assign fast --trace --no-decoration --assert --coverage)
 
-set(GATE_NAMES
-  "and"
-  "nand"
-  "nor"
-  "or"
-  "xnor"
-  "xor"
-)
+set(GATE_NAMES "and" "nand" "nor" "or" "xnor" "xor")
 
 add_library(Vgate STATIC)
 
-target_include_directories(Vgate
-    PUBLIC ${VERILATOR_ROOT}/include
-)
+target_include_directories(Vgate PUBLIC ${VERILATOR_ROOT}/include)
 
 target_compile_features(Vgate PUBLIC cxx_std_20)
 

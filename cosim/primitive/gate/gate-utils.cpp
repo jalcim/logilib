@@ -70,7 +70,7 @@ int test_lsb_or(int input, int way_number)
 {
   if (way_number < 3)
     return GET_BIT(input, 1) | GET_BIT(input, 0);
-  return GET_BIT(input, (way_number - 1)) | test_lsb_and(input & get_n_bits_bitmasks[way_number - 1], way_number - 1);
+  return GET_BIT(input, (way_number - 1)) | test_lsb_or(input & get_n_bits_bitmasks[way_number - 1], way_number - 1);
 }
 
 int test_lsb_nor(int input, int way_number)
