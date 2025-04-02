@@ -1,14 +1,14 @@
-if (ENABLE_COSIM_PRIMITIVE)
+#if (ENABLE_COSIM_PRIMITIVE)
 #    add_library(cosim_primitive primitive.cpp)
 
 #    target_include_directories(cosim_primitive
 #        PUBLIC ${CMAKE_CURRENT_SOURCE_DIR}
 #    )
 
-    if (ENABLE_COSIM_PRIMITIVE_GATE)
-        add_subdirectory(gate)
-    endif()
+if (ENABLE_COSIM_PRIMITIVE_GATE)
+  add_subdirectory(gate)
 endif()
+#endif()
 
 #project(Cosim_primitives C CXX)
 
