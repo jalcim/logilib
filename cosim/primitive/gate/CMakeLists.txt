@@ -30,19 +30,5 @@ gen_test_gate(TARGET Vgate-tests NAME not WAY 1)
 foreach(gate IN LISTS GATE_NAMES)
   foreach(way RANGE 2 ${MAX_WAYS})
     gen_test_gate(TARGET Vgate-tests NAME ${gate} WAY ${way})
-    list(APPEND
-      GENERIC_GATES_INCLUDES
-      "#include \"Vgate_${gate}_${way}.h\""
-    )
-
-    list(APPEND
-      GENERIC_GATES_TESTS
-      "   {"
-      "       auto* g = new GATE_TEST<Vgate_${gate}_${way}>(test_msb_${gate}, ${way})\;"
-      "       g->open_trace()\;"
-      "       error |= g->test()\;"
-      "       delete g\;"
-      "   }"
-    )
   endforeach()
 endforeach()
