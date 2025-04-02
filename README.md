@@ -38,20 +38,9 @@ make synthesis
 Build of co-simulation library by running in the root folder
 
 ```sh
-make
+cmake -S. -Bbuild -GNinja && cmake --build build && ./build/cosim/Vgate-tests
 ```
 Result files are on build/
-
-## Partial build
-
-To build only a part of cosim you may use this kind of command from root of logilib
-
-Example for build alu lib
-
-```sh
-touch cosim/alu && make cosim/alu/build
-```
-
 
 ## Environment
 
