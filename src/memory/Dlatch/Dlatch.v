@@ -4,6 +4,7 @@
  `include "src/memory/Dlatch/parallel_Dlatch/parallel_Dlatch.v"
  `include "src/memory/Dlatch/serial_Dlatch/serial_Dlatch.v"
 
+/* verilator lint_off UNOPTFLAT */
 module Dlatch (D, clk, Q, QN);
    parameter WAY = 1;
    parameter WIRE = 1;
