@@ -1,28 +1,10 @@
 cmake_minimum_required(VERSION 3.23)
 project(logilib)
 
-# Options pour activer/désactiver les modules
-option(ENABLE_SRC "Activer src/" ON)
-option(ENABLE_SRC_PRIMITIVE "Activer src/primitive" ON)
-option(ENABLE_SRC_PRIMITIVE_GATE "Activer src/primitive/gate" ON)
-
-option(ENABLE_COSIM "Activer cosim/" ON)
-option(ENABLE_COSIM_PRIMITIVE "Activer cosim/primitive" ON)
-option(ENABLE_COSIM_PRIMITIVE_GATE "Activer cosim/primitive/gate" ON)
-
-# Configuration globale
-option(ENABLE_VCD "Enable VCD trace file generation" ON)
-option(STATIC_BUILD "Compiles into one binary with no dynamic dependencies" OFF)
-set(LOG_LEVEL "warning" CACHE STRING "Set the log level")
-set(MAX_WAYS "8" CACHE STRING "Max number of gates ways generated")
-set(VERILATOR_TIME_STEP "1000" CACHE STRING "Time between each verilator evaluations")
-
-# Gestion statique/dynamique des bibliothèques Boost
-set(Boost_USE_STATIC_LIBS OFF)
-set(Boost_USE_DEBUG_LIBS OFF)
-set(Boost_USE_RELEASE_LIBS ON)
-set(Boost_USE_MULTITHREADED ON)
-set(Boost_USE_STATIC_RUNTIME OFF)
+if(NOT EXISTS "${CMAKE_SOURCE_DIR}/build_config.cmake")
+  message(FATAL_ERROR "File build_config.cmake not found")
+endif()
+include("${CMAKE_SOURCE_DIR}/build_config.cmake" OPTIONAL)
 
 if (STATIC_BUILD)
     set(CMAKE_FIND_LIBRARY_SUFFIXES ".a")

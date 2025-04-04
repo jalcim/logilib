@@ -1,0 +1,72 @@
+[
+  {
+    "name": "LOG_LEVEL",
+    "type": "string",
+    "default": "warning",
+    "desc": "Set the log level",
+    "values": ["debug","info","warning","error"]
+  },
+  {
+    "name": "MAX_WAYS",
+    "type": "string",
+    "default": "8",
+    "desc": "Max number of gates ways generated",
+    "values": ["1","2","3","4","7","8","16","32"]
+  },
+  {
+    "name": "VERILATOR_TIME_STEP",
+    "type": "string",
+    "default": "1000",
+    "desc": "Time between each Verilator evaluations",
+    "values": ["100","500","1000","5000","10000"]
+  },
+  {
+    "name": "Boost_USE_STATIC_LIBS",
+    "type": "bool",
+    "default": false,
+    "desc": "Use static Boost libraries",
+    "values": ["ON","OFF"]
+  },
+  {
+    "name": "Boost_USE_DEBUG_LIBS",
+    "type": "bool",
+    "default": false,
+    "desc": "Use Boost debug libraries",
+    "values": ["ON","OFF"]
+  },
+  {
+    "name": "Boost_USE_RELEASE_LIBS",
+    "type": "bool",
+    "default": true,
+    "desc": "Use Boost release libraries",
+    "values": ["ON","OFF"]
+  },
+  {
+    "name": "Boost_USE_MULTITHREADED",
+    "type": "bool",
+    "default": true,
+    "desc": "Use Boost multithreaded",
+    "values": ["ON","OFF"]
+  },
+  {
+    "name": "Boost_USE_STATIC_RUNTIME",
+    "type": "bool",
+    "default": false,
+    "desc": "Use static runtime for Boost",
+    "values": ["ON","OFF"]
+  },
+  {
+    "name": "ENABLE_VCD",
+    "type": "bool",
+    "default": true,
+    "desc": "Enable VCD trace file generation",
+    "values": ["ON","OFF"]
+  },
+  {
+    "name": "STATIC_BUILD",
+    "type": "bool",
+    "default": false,
+    "desc": "Compile into one binary with no dynamic dependencies",
+    "values": ["ON","OFF"]
+  }
+]
