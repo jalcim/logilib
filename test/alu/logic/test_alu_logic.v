@@ -11,8 +11,8 @@ module test_alu_logic;
    sll  #(.WIRE(WIRE)) sll_inst (datain_A, datain_B, out_sll );
    slt  #(.WIRE(WIRE)) slt_inst (datain_A, datain_B, out_slt );
    sltu #(.WIRE(WIRE)) sltu_inst(datain_A, datain_B, out_sltu);
-   sra_srl  #(.WIRE(WIRE)) srl_inst (1'b1, datain_A, datain_B, out_srl );
-   sra_srl  #(.WIRE(WIRE)) sra_inst (1'b0, datain_A, datain_B, out_sra );
+   sra_srl  #(.WIRE(WIRE)) srl_inst (7'b1, datain_A, datain_B, out_srl );
+   sra_srl  #(.WIRE(WIRE)) sra_inst (7'b0, datain_A, datain_B, out_sra );
 
    initial
      begin
