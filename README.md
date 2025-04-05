@@ -1,3 +1,6 @@
+graphical interface
+./scripts/manager/manager.py
+
 # Description
 
 Logilib is high density and performance logic library developped on a fully structural way.
