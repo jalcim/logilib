@@ -61,12 +61,18 @@ class LoadingDialog(Gtk.Dialog):
         btn.connect("clicked", lambda b: self.stop_event.set())
         box.add(btn)
         self.show_all()
+
     def update(self, frac, txt):
         self.progressbar.set_fraction(frac)
         self.progressbar.set_text(txt)
+
     def set_complete(self):
         self.progressbar.set_fraction(1.0)
         self.progressbar.set_text("100%")
+        self.destroy()
+
+    def stop(self):
+        """Ferme la boîte de dialogue."""
         self.destroy()
 
 # CSS minimal
@@ -98,7 +104,7 @@ class MainWindow(Gtk.Window):
             ("Build", self.on_build),
             ("Build Advanced", self.on_build_adv),
             ("Cosimulation", self.on_cosim),
-            ("Simulation", lambda b: self.append_log("Simulation non implémentée\n")),
+            ("Simulation", self.on_simulation),
             ("Profile", lambda b: self.append_log("Profile non implémenté\n")),
             ("Quitter", Gtk.main_quit),
         ]:
@@ -222,6 +228,18 @@ class MainWindow(Gtk.Window):
                 GLib.idle_add(self.append_log, f"Error: {e}\n")
             GLib.idle_add(self.hide_progress)
         threading.Thread(target=job).start()
+
+    def on_simulation(self, _):
+        loading = LoadingDialog(self, message="Simulation en cours...")
+        def sim_job():
+            try:
+                run_cmd(["bash", "scripts/icarus/icarus.sh"], False, self, self.append_log)
+            except Exception as e:
+                GLib.idle_add(self.append_log, f"Erreur simulation : {e}\n")
+            GLib.idle_add(loading.set_complete)
+            GLib.idle_add(loading.stop)
+        threading.Thread(target=sim_job).start()
+
 
 class BuildAdvanced(Gtk.Dialog):
     def __init__(self, parent):
