@@ -18,3 +18,10 @@ def archive_build_dir(build_dir: str="build", prefix: str="build.old") -> None:
     while os.path.exists(f"{prefix}{i}"):
         i += 1
     os.rename(build_dir, f"{prefix}{i}")
+
+def get_directory_tree(root):
+    tree = {}
+    for e in os.scandir(root):
+        if e.is_dir():
+            tree[e.name] = get_directory_tree(os.path.join(root, e.name))
+    return tree

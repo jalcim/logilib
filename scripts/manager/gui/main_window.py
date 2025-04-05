@@ -1,20 +1,16 @@
-#!/usr/bin/env python3
+#!/usr/bin/env python
+import json
 import os, re, json, subprocess, threading, gi
 gi.require_version('Gtk', '3.0')
 from gi.repository import Gtk, GLib, Gdk
+from utils.fs import get_directory_tree
+from gui.build_dialog import BuildAdvancedDialog
 
 # Charger définitions externes
 with open("scripts/manager/config/options.json") as f:
     GLOBAL_OPTIONS_DEF = json.load(f)
 
 _PROGRESS_RE = re.compile(r'\[\s*(\d+)\s*/\s*(\d+)\s*\]')
-
-def get_directory_tree(root):
-    tree = {}
-    for e in os.scandir(root):
-        if e.is_dir():
-            tree[e.name] = get_directory_tree(os.path.join(root, e.name))
-    return tree
 
 def traverse(store, parent=None, path=""):
     result = []
@@ -196,10 +192,21 @@ class MainWindow(Gtk.Window):
         threading.Thread(target=job).start()
 
     def on_build_adv(self, _):
-        dlg = BuildAdvanced(self)
+        dlg = BuildAdvancedDialog(self)
         if dlg.run() == Gtk.ResponseType.OK:
+            # Construire le dictionnaire des options globales à partir de GLOBAL_OPTIONS_DEF
+            global_opts = {}
+            for opt in GLOBAL_OPTIONS_DEF:
+                name = opt["name"]
+                default = opt["default"]
+                if opt["type"] == "bool":
+                    global_opts[name] = "ON" if default else "OFF"
+                else:
+                    global_opts[name] = default
+            dlg.generate_build_config(global_opts)
             self.prepare_clean_build()
-            self.append_log("Advanced config saved\n")
+            self.append_log("Advanced config saved, launching build...\n")
+            self.on_build(None)  # Lance le build
         dlg.destroy()
 
     def on_cosim(self, _):
