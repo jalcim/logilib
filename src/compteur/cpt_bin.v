@@ -1,7 +1,7 @@
 `ifndef __CPT_BIN__
  `define __CPT_BIN__
 
- `include "src/memory/JKlatch/JKlatch_rst.v"
+ `include "src/memory/jklatch/JKlatch_rst.v"
 
 module cpt_bin(activate, clk, reset, out);
    parameter SIZE = 8;
