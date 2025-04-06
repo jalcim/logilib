@@ -2,7 +2,7 @@
  `define __PC__
 
  `include "src/alu/arithm/addX.v"
- `include "src/memory/Dflipflop/Dflipflop_rst.v"
+ `include "src/memory/dflipflop/Dflipflop_rst.v"
 
 module pc(clk, signal_pc, pc_reset, pc_next, pc_out);
    input clk;

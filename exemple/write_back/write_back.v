@@ -1,7 +1,7 @@
 `ifndef __WRITE_BACK__
  `define __WRITE_BACK__
 
- `include "src/memory/Dflipflop/Dflipflop_rst.v"
+ `include "src/memory/dflipflop/Dflipflop_rst.v"
  `include "src/routing/mux.v"
 
 module write_back(

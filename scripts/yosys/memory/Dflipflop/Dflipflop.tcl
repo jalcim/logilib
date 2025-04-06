@@ -7,7 +7,7 @@ proc synth_Dflipflop {PATH NAME WAY WIRE} {
 }
 
 proc synth_Dflipflop_all {WAY WIRE} {
-    set PATH "memory/Dflipflop"
+    set PATH "memory/dflipflop"
 
     make_dir $PATH
 
