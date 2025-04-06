@@ -1,4 +1,4 @@
-`include "src/memory/Dlatch/Dlatch_rst.v"
+`include "src/memory/dlatch/Dlatch_rst.v"
 
 module test_Dlatch_rst;
    reg D, clk;

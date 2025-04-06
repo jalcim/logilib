@@ -1,25 +1,26 @@
-`include "src/memory/Dlatch/Dlatch_pre.v"
+`include "src/memory/dflipflop/Dflipflop_rst_pre.v"
 
-module test_Dlatch_pre;
+module test_Dflipflop_rst_pre;
    reg D, preset;
-   reg clk;
+   reg clk, reset;
    wire	Q, QN;
 
    integer cpt;
 
-   Dlatch_pre inst0(D, clk, preset, Q, QN);
+   Dflipflop_rst_pre inst0(D, clk, reset, preset, Q, QN);
 
    initial
      begin
-	$dumpfile("signal_Dlatch_pre.vcd");
+	$dumpfile("signal_Dflipflop_rst_pre.vcd");
         $dumpvars;
-        $display("\t\ttime, \tD, \tclk, \tpreset, \tQ, \tQN");
+        $display("\t\ttime, \tD, \tclk, \treset, \tpreset, \tQ, \tQN");
         $display("\t\t-----------------------------------------");
-        $monitor("%d \t%b\t%b\t%b\t%b\t%b", $time, D, clk, preset, Q, QN);
+        $monitor("%d \t%b\t%b\t%b\t%b\t%b", $time, D, clk, reset, preset, Q, QN);
 	D <= 0;
 	clk <= 0;
 	cpt <= 0;
 	preset <= 1;
+	reset <= 0;
      end
    
    always
@@ -32,6 +33,11 @@ module test_Dlatch_pre;
 	  preset <= 1;
 	else
 	  preset <= 0;
+
+	if (cpt % 7)
+	  reset <= 1;
+	else
+	  reset <= 0;
      end
 
    always @(posedge clk)

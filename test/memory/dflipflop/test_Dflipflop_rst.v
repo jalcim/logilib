@@ -1,4 +1,4 @@
-`include "src/memory/Dflipflop/Dflipflop_rst.v"
+`include "src/memory/dflipflop/Dflipflop_rst.v"
 
 module test_Dflipflop_rst;
    reg D, clk;

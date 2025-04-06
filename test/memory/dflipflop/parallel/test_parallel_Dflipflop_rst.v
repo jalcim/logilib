@@ -1,4 +1,4 @@
-`include "src/memory/Dflipflop/parallel_Dflipflop/parallel_Dflipflop_rst.v"
+`include "src/memory/dflipflop/parallel/parallel_Dflipflop_rst.v"
 
 module test_parallel_Dflipflop_rst;
    parameter WAY = 3;

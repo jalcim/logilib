@@ -1,4 +1,4 @@
-`include "src/memory/Dflipflop/serial_Dflipflop/serial_Dflipflop_rst.v"
+`include "src/memory/dflipflop/serial/serial_Dflipflop_rst.v"
 
 module test_serial_Dflipflop_rst;
    parameter WIRE = 8;

@@ -1,26 +1,25 @@
-`include "src/memory/Dlatch/serial_Dlatch/serial_Dlatch_rst.v"
+`include "src/memory/dflipflop/Dflipflop.v"
 
-module test_serial_Dlatch_rst;
+module test_serial_Dflipflop;
    parameter WIRE = 8;
-   reg clk, rst;
+   reg clk;
    wire	[7:0]Q, QN;
    reg [7:0] D;
 
    integer   cpt;
 
-   serial_Dlatch_rst #(.WIRE(WIRE)) inst0(D, clk, rst, Q, QN);
+   Dflipflop #(.WIRE(WIRE)) Dflipflop_inst(D, clk, Q, QN);
 
    initial
      begin
-	$dumpfile("signal_Dlatch_rst.vcd");
+	$dumpfile("signal_Dflipflop.vcd");
         $dumpvars;
-        $display("\t\ttime, \tD, \t\tclk, \trst, \tQ, \t\tQN");
+        $display("\t\ttime, \tD, \t\tclk, \tQ, \t\tQN");
         $display("\t\t----------------------------------------------------------------");
-        $monitor("%d \t%b\t%b\t%b\t%b\t%b", $time, D, clk, rst, Q, QN);
+        $monitor("%d \t%b\t%b\t%b\t%b", $time, D, clk, Q, QN);
 	D <= 0;
 	clk <= 0;
 	cpt <= 0;
-	rst <= 0;
      end
    
    always
@@ -32,12 +31,14 @@ module test_serial_Dlatch_rst;
    always @(posedge clk)
      begin
 	cpt <= cpt + 1;
-	if (cpt % 7)
-	  rst <= ~rst;
 	if (cpt % 2)
-	  D <= cpt;
+	  begin
+	     D <= cpt;
+	  end
 	if (cpt > 20)
-	  $finish;
+	  begin
+	     $finish;
+	  end
      end
 
 endmodule

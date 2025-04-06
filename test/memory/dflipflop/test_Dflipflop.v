@@ -1,16 +1,16 @@
-`include "src/memory/Dlatch/Dlatch.v"
+`include "src/memory/dflipflop/Dflipflop.v"
 
-module test_Dlatch;
+module test_Dflipflop;
    reg D, clk;
    wire	Q, QN;
 
    integer cpt;
 
-   Dlatch inst0(D, clk, Q, QN);
+   Dflipflop inst0(D, clk, Q, QN);
 
    initial
      begin
-	$dumpfile("signal_Dlatch.vcd");
+	$dumpfile("signal_Dflipflop.vcd");
         $dumpvars;
         $display("\t\ttime, \tD, \tclk, \tQ, \tQN");
         $display("\t\t-----------------------------------------");
@@ -40,4 +40,4 @@ module test_Dlatch;
 	     $finish;
 	  end
      end
-endmodule // test_Dlatch
+endmodule

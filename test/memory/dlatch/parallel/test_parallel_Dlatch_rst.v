@@ -1,4 +1,4 @@
-`include "src/memory/Dlatch/parallel_Dlatch/parallel_Dlatch_rst.v"
+`include "src/memory/dlatch/parallel/parallel_Dlatch_rst.v"
 
 module test_parallel_Dlatch_rst;
    parameter WAY = 3;
