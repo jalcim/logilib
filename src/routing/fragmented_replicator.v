@@ -1,5 +1,7 @@
 //deprecated
 
+`include "src/routing/replicator.v"
+
 module fragmented_replicator(in, out);
    parameter WIRE = 3;
    parameter WAY = 1;

@@ -1,7 +1,7 @@
 `ifndef __SERIAL_NAND__
  `define __SERIAL_NAND__
 
- `include "src/primitive/gate/serial_gate/serial_and.v"
+ `include "src/primitive/gate/serial/serial_and.v"
 
 module serial_nand(out, e1);
    parameter WAY = 2;

@@ -1,3 +1,5 @@
+`include "src/routing/fragmented_replicator.v"
+
 module test_fragmented_replicator;
    parameter WIRE = 3;
    parameter WAY = 1;

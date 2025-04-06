@@ -1,8 +1,8 @@
 `ifndef __GATE_NOR__
  `define __GATE_NOR__
 
- `include "src/primitive/gate/parallel_gate/parallel_nor.v"
- `include "src/primitive/gate/serial_gate/serial_nor.v"
+ `include "src/primitive/gate/parallel/parallel_nor.v"
+ `include "src/primitive/gate/serial/serial_nor.v"
  `include "src/routing/shuffle.v"
 
 module gate_nor(out, in);

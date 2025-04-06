@@ -1,7 +1,7 @@
 `ifndef __GATE_BUF__
  `define __GATE_BUF__
 
- `include "src/primitive/gate/parallel_gate/parallel_buf.v"
+ `include "src/primitive/gate/parallel/parallel_buf.v"
 
 module gate_buf(out, in);
    parameter WIRE = 1;

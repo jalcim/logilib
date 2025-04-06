@@ -1,7 +1,7 @@
 `ifndef __GATE_NOT__
  `define __GATE_NOT__
 
- `include "src/primitive/gate/parallel_gate/parallel_not.v"
+ `include "src/primitive/gate/parallel/parallel_not.v"
 
 module gate_not(out, in);
    parameter WIRE = 1;

@@ -4,7 +4,7 @@
 /*                                                                     */
 /***********************************************************************/
 
-`include "src/primitive/complex_gate/complex_gate.v"
+`include "src/primitive/gate/complex/complex_gate.v"
 
 module test_complex_gate;
    reg e1, e2, e3;

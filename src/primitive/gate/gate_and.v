@@ -1,8 +1,8 @@
 `ifndef __GATE_AND__
  `define __GATE_AND__
 
- `include "src/primitive/gate/parallel_gate/parallel_and.v"
- `include "src/primitive/gate/serial_gate/serial_and.v"
+ `include "src/primitive/gate/parallel/parallel_and.v"
+ `include "src/primitive/gate/serial/serial_and.v"
  `include "src/routing/shuffle.v"
 
 module gate_and(out, in);

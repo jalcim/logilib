@@ -1,8 +1,8 @@
 `ifndef __GATE_NAND__
  `define __GATE_NAND__
 
- `include "src/primitive/gate/parallel_gate/parallel_nand.v"
- `include "src/primitive/gate/serial_gate/serial_nand.v"
+ `include "src/primitive/gate/parallel/parallel_nand.v"
+ `include "src/primitive/gate/serial/serial_nand.v"
  `include "src/routing/shuffle.v"
 
 module gate_nand(out, in);

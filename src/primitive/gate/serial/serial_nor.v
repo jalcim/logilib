@@ -1,7 +1,7 @@
 `ifndef __SERIAL_NOR__
  `define __SERIAL_NOR__
 
- `include "src/primitive/gate/serial_gate/serial_or.v"
+ `include "src/primitive/gate/serial/serial_or.v"
 
 module serial_nor(out, e1);
    parameter WAY = 2;

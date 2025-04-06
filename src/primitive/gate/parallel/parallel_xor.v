@@ -1,7 +1,7 @@
 `ifndef __PARALLEL_XOR__
  `define __PARALLEL_XOR__
 
- `include "src/primitive/gate/serial_gate/serial_xor.v"
+ `include "src/primitive/gate/serial/serial_xor.v"
 
 module parallel_xor(out, in);
    parameter WAY = 2;

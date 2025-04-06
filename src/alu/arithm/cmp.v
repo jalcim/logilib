@@ -1,9 +1,9 @@
 `ifndef __CMP__
  `define __CMP__
 
- `include "src/primitive/gate/parallel_gate/parallel_nor.v"
- `include "src/primitive/complex_gate/complex_gate.v"
- `include "src/primitive/gate/parallel_gate/parallel_and.v"
+ `include "src/primitive/gate/parallel/parallel_nor.v"
+ `include "src/primitive/gate/complex/complex_gate.v"
+ `include "src/primitive/gate/parallel/parallel_and.v"
 
 module cmp_cell(e1, e2, left, right);
    input e1, e2;

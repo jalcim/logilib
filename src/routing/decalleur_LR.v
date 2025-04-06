@@ -1,5 +1,5 @@
-`include "src/primitive/parallel_gate/parallel_and.v"
-`include "src/primitive/parallel_gate/parallel_or.v"
+`include "src/primitive/gate/parallel/parallel_and.v"
+`include "src/primitive/gate/parallel/parallel_or.v"
 
 module dec_LR(a, left, s);
    parameter WAY = 8;
@@ -7,7 +7,7 @@ module dec_LR(a, left, s);
    input [WAY-1:0] a;
    input       left;
    output [WAY-1:0] s;
-
+/*
    wire 	right;
    wire [WAY-2:0] 	line_right;
    wire [WAY-2:0] 	line_left;
@@ -33,6 +33,7 @@ module dec_LR(a, left, s);
 						 line_right[WAY-3:0]);
 
    buf out7(s[WAY-1], line_right[WAY-2]);
+ */
 endmodule
 
 /*

@@ -1,7 +1,7 @@
 `ifndef __SERIAL_XNOR__
  `define __SERIAL_XNOR__
 
- `include "src/primitive/gate/serial_gate/serial_xor.v"
+ `include "src/primitive/gate/serial/serial_xor.v"
 
 module serial_xnor(out, e1);
    parameter WAY = 3;//nombre d'input (pour cette gate)

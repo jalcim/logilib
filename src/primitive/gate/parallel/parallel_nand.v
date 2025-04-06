@@ -1,7 +1,7 @@
 `ifndef __PARALLEL_NAND__
  `define __PARALLEL_NAND__
 
- `include "src/primitive/gate/serial_gate/serial_nand.v"
+ `include "src/primitive/gate/serial/serial_nand.v"
 
 module parallel_nand(out, in);
    parameter WAY = 2;

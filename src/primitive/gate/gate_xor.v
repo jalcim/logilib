@@ -1,8 +1,8 @@
 `ifndef __GATE_XOR__
  `define __GATE_XOR__
 
- `include "src/primitive/gate/parallel_gate/parallel_xor.v"
- `include "src/primitive/gate/serial_gate/serial_xor.v"
+ `include "src/primitive/gate/parallel/parallel_xor.v"
+ `include "src/primitive/gate/serial/serial_xor.v"
  `include "src/routing/shuffle.v"
 
 module gate_xor(out, in);

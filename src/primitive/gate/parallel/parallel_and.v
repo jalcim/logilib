@@ -1,7 +1,7 @@
 `ifndef __PARALLEL_AND__
  `define __PARALLEL_AND__
 
- `include "src/primitive/gate/serial_gate/serial_and.v"
+ `include "src/primitive/gate/serial/serial_and.v"
 
 module parallel_and(out, in);
    parameter WAY = 2;

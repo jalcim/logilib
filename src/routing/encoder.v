@@ -1,6 +1,6 @@
 `ifndef __BIN_TO_DEC__
  `define __BIN_TO_DEC__
- `include "src/primitive/gate/multi_gate/multi_or.v"
+ `include "src/primitive/gate/multi/multi_or.v"
 
 module encoder(addr, in);
    parameter SIZE_ADDR = 4;
