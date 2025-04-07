@@ -1,3 +1,3 @@
 if (ENABLE_SRC_MEMORY_DLATCH)
-    add_subdirectory(Dlatch)
+    add_subdirectory(dlatch)
 endif()
