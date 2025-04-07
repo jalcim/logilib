@@ -1,57 +1,38 @@
 `include "src/routing/mux.v"
 
 module test_mux8;
-   parameter SIZE_CTRL = 2;
-   parameter WIRE = 8;
+   parameter WAY = 8;
+   parameter WIRE = 1;
 
-   localparam NB_IN = 2 ** SIZE_CTRL;
-   localparam SIZE_IN = NB_IN * WIRE;
+   localparam SIZE_IN   = WAY * WIRE;
+   localparam SIZE_CTRL = 3; // log2(8)=3
 
-   wire [WIRE - 1 : 0] out;
-   reg [SIZE_IN - 1 : 0] in;
-   reg [SIZE_CTRL-1 : 0] ctrl;
+   reg [SIZE_IN-1:0] in;
+   reg [SIZE_CTRL-1:0] ctrl;
+   wire [WIRE-1:0] out;
 
-   integer     cpt1;
-   integer     cpt2;
-   reg 	       xin;
+   integer i;
 
-   mux #(.SIZE_CTRL(SIZE_CTRL), .WIRE(WIRE)) mux0(ctrl, in, out);
+   // Instanciation du multiplexeur
+   mux #(.WAY(WAY), .WIRE(WIRE)) mux0(.ctrl(ctrl), .in(in), .out(out));
 
-   initial
-     begin
-	$dumpfile("signal_mux8.vcd");
-	$dumpvars;
+   initial begin
+      $dumpfile("signal_mux8.vcd");
+      $dumpvars(0, test_mux8);
 
- 	xin = 0;
+      // Remplissage de 'in' avec un motif simple (alternance 0/1) pour chaque voie
+      for (i = 0; i < WAY; i = i + 1) begin
+         in[i*WIRE +: WIRE] = i % 2;
+      end
+      
+      $display("Time\tCTRL\tIN\t\tOUT");
+      // Parcours de toutes les valeurs possibles du signal de contrôle
+      for (i = 0; i < (1 << SIZE_CTRL); i = i + 1) begin
+         ctrl = i;
+         #5;
+         $display("%0t\t%b\t%b\t%b", $time, ctrl, in, out);
+      end
 
-	cpt1 = -1;
-	cpt2 = 0;
-	while (++cpt1 < NB_IN)
-	  begin
-	     while (cpt2 < (cpt1+1)*WIRE)
-	       begin
-		  in[cpt2] = xin;
-		  xin = ~xin;
-		  cpt2++;
-	       end
-	     xin = ~xin;
-	     $display("\t\tin[%d] = %b", cpt1, in[cpt1 * WIRE +: 8]);//:cpt1 * WIRE]);
-	  end
-
-	$display("\t\ttime, \tout, \t\tctrl");
-	$monitor("%d\t%b\t%b", $time, out[7:0], ctrl[1:0]);
-
-	ctrl[0] = 0;
-	ctrl[1] = 0;
-	#5;
-	ctrl[0] = 1;
-	ctrl[1] = 0;
-	#5;
-	ctrl[0] = 0;
-	ctrl[1] = 1;
-	#5;
-	ctrl[0] = 1;
-	ctrl[1] = 1;
-	#5;
-     end
+      $finish;
+   end
 endmodule
