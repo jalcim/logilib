@@ -8,7 +8,7 @@ module sra_srl(funct7, datain_A, datain_B, out);
    output [WIRE-1:0] out;
 
    assign out = funct7 ?
-		{7'b1, (datain_A[WIRE-2:0] >> datain_B[5:0])}
+		{datain_A[WIRE-1], (datain_A[WIRE-2:0] >> datain_B[5:0])}
 		:
 		datain_A >> datain_B[5:0];
 endmodule
