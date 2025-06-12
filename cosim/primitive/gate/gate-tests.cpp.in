@@ -6,7 +6,7 @@
 
 BOOST_AUTO_TEST_SUITE (Vgate_@GATE_NAME@_@GATE_WAY@_tests)
 
-BOOST_AUTO_TEST_CASE (test_lsb)
+BOOST_AUTO_TEST_CASE (validator_lsb)
 {
   int result;
     constexpr size_t inputs{1 << @GATE_WAY@};
@@ -24,7 +24,7 @@ BOOST_AUTO_TEST_CASE (test_lsb)
     }
 }
 
-BOOST_AUTO_TEST_CASE (test_msb)
+BOOST_AUTO_TEST_CASE (validator_msb)
 {
   int result;
     constexpr size_t inputs{1 >> @GATE_WAY@};

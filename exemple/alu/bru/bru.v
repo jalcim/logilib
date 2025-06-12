@@ -13,7 +13,7 @@ module bru(in, funct3, SIGNAL_bru, SIGNAL_pc);
    assign beq = in == 0;
    assign bne = in != 0;
    assign blt = in[31] == 1;
-   assign bge = in[31] == 0 && in[30:0];
+   assign bge = (in[31] == 1'b0) && (|in[30:0]);
 
    assign out_bru = funct3[2] ?
 		    funct3[0] ? bge : blt

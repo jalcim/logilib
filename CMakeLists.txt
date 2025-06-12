@@ -1,4 +1,5 @@
-cmake_minimum_required(VERSION 3.23)
+cmake_minimum_required(VERSION 3.28)
+cmake_policy(SET CMP0167 OLD)  # Utilise FindBoost obsolète mais encore dispo
 project(logilib)
 
 if(NOT EXISTS "${CMAKE_SOURCE_DIR}/build_config.cmake")
@@ -9,7 +10,7 @@ include("${CMAKE_SOURCE_DIR}/build_config.cmake" OPTIONAL)
 if (STATIC_BUILD)
     set(CMAKE_FIND_LIBRARY_SUFFIXES ".a")
     set(BUILD_SHARED_LIBS OFF)
-    set(CMAKE_EXE_LINKER_FLAGS "-static")
+    set(CMAKE_EXE_LINKER_FLAGS "-static -g -fsanitize=address -fno-omit-frame-pointe")
     set(Boost_USE_STATIC_LIBS on)
 endif()
 
@@ -25,4 +26,8 @@ endif()
 
 if (ENABLE_COSIM)
     add_subdirectory(cosim)
+endif()
+
+if (ENABLE_EXEMPLE)
+    add_subdirectory(exemple)
 endif()

@@ -7,10 +7,12 @@ option(ENABLE_SRC_PRIMITIVE_GATE_SERIAL "Activer src/primitive/gate/serial" ON)
 option(ENABLE_SRC_PRIMITIVE_GATE_PARALLEL "Activer src/primitive/gate/parallel" ON)
 option(ENABLE_SRC_PRIMITIVE_GATE_MULTI "Activer src/primitive/gate/multi" ON)
 option(ENABLE_SRC_PRIMITIVE_GATE_COMPLEX "Activer src/primitive/gate/complex" ON)
+
 option(ENABLE_SRC_ALU "Activer src/alu" ON)
 option(ENABLE_SRC_ALU_ARITHM "Activer src/alu/arithm" ON)
 option(ENABLE_SRC_ALU_LOGIC "Activer src/alu/logic" ON)
 option(ENABLE_SRC_ROUTING "Activer src/routing" ON)
+
 option(ENABLE_SRC_MEMORY "Activer src/memory" ON)
 option(ENABLE_SRC_MEMORY_DLATCH "Activer src/memory/dlatch" ON)
 option(ENABLE_SRC_MEMORY_DLATCH_SERIAL "Activer src/memory/dlatch/serial" ON)
@@ -19,11 +21,13 @@ option(ENABLE_SRC_MEMORY_DFLIPFLOP "Activer src/memory/dflipflop" ON)
 option(ENABLE_SRC_MEMORY_DFLIPFLOP_SERIAL "Activer src/memory/dflipflop/serial" ON)
 option(ENABLE_SRC_MEMORY_DFLIPFLOP_PARALLEL "Activer src/memory/dflipflop/parallel" ON)
 option(ENABLE_SRC_MEMORY_JKLATCH "Activer src/memory/jklatch" ON)
+
 option(ENABLE_COSIM "Activer cosim" ON)
 option(ENABLE_COSIM_UTILS "Activer cosim/utils" ON)
 option(ENABLE_COSIM_PRIMITIVE "Activer cosim/primitive" ON)
 option(ENABLE_COSIM_PRIMITIVE_GATE "Activer cosim/primitive/gate" ON)
 option(ENABLE_COSIM_PRIMITIVE_GATE_PARALLEL "Activer cosim/primitive/gate/parallel" ON)
+
 option(ENABLE_COSIM_ALU "Activer cosim/alu" ON)
 option(ENABLE_COSIM_ALU_ARITHM "Activer cosim/alu/arithm" ON)
 option(ENABLE_COSIM_ALU_ARITHM_ADDX "Activer cosim/alu/arithm/addx" ON)
@@ -31,6 +35,11 @@ option(ENABLE_COSIM_ALU_ARITHM_ADD_SUB "Activer cosim/alu/arithm/add_sub" ON)
 option(ENABLE_COSIM_MEMORY "Activer cosim/memory" ON)
 option(ENABLE_COSIM_MEMORY_LATCH "Activer cosim/memory/latch" ON)
 option(ENABLE_COSIM_MEMORY_DLATCH "Activer cosim/memory/Dlatch" ON)
+
+option(ENABLE_EXEMPLE "activer exemple/" ON)
+option(ENABLE_EXEMPLE_ALU "activer exemple/" ON)
+option(ENABLE_EXEMPLE_ALU_BRU "activer exemple/" ON)
+option(ENABLE_COSIM_EXEMPLE "activer cosim/exemple" ON)
 
 # Options globales
 set(LOG_LEVEL "warning" CACHE STRING "Set the log level")
