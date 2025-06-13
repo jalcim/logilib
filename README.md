@@ -10,6 +10,9 @@ Its a piece of a more big environnement with a logilib/libcmos architecture on t
 
 # Build
 
+## Package as library (for use the library with another circuit)
+./script/lib.sh
+
 ## Synthesis (first stage)
 
 Synthesis of design for provide final verilog/rtlil usable
