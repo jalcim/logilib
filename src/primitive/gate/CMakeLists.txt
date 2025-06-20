@@ -27,12 +27,19 @@ target_include_directories(Vgate PUBLIC ${VERILATOR_ROOT}/include)
 
 target_compile_features(Vgate PUBLIC cxx_std_20)
 
+get_property(GATE_FILE GLOBAL PROPERTY PRIMITIVE_FILE)  # récupère
+
 # Génération des gates avec Verilator
 add_gate(TARGET Vgate NAME buf WAY 1)
 add_gate(TARGET Vgate NAME not WAY 1)
 
 foreach(g IN LISTS GATE_NAMES)
+  list(APPEND GATE_FILE gate_${g}.v)
+  message(STATUS "\n")
+  message(STATUS "Ajout gate_${g}.v")
   foreach(w RANGE 2 ${MAX_WAYS})
     add_gate(TARGET Vgate NAME ${g} WAY ${w})
   endforeach()
 endforeach()
+
+set_property(GLOBAL PROPERTY PRIMITIVE_FILE "${GATE_FILE}")  # met à jour
