@@ -9,6 +9,7 @@ synth/**/*.v
 synth/**/*.sp
 synth/**/*.rtlil
 *~
+*#
 __pycache__/
 *.pyc
 build.old*

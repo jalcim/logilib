@@ -39,7 +39,10 @@ option(ENABLE_COSIM_MEMORY_DLATCH "Activer cosim/memory/Dlatch" ON)
 option(ENABLE_EXEMPLE "activer exemple/" ON)
 option(ENABLE_EXEMPLE_ALU "activer exemple/" ON)
 option(ENABLE_EXEMPLE_ALU_BRU "activer exemple/" ON)
+
 option(ENABLE_COSIM_EXEMPLE "activer cosim/exemple" ON)
+option(ENABLE_COSIM_EXEMPLE_ALU "activer cosim/exemple" ON)
+option(ENABLE_COSIM_EXEMPLE_ALU_BRU "activer cosim/exemple" ON)
 
 # Options globales
 set(LOG_LEVEL "warning" CACHE STRING "Set the log level")
