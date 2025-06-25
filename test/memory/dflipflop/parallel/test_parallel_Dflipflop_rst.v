@@ -28,13 +28,17 @@ module test_parallel_Dflipflop_rst;
 	cpt <= 0;
 	var_rst <= 0;
      end
-   
-   always
+
+   always #100 clk <= ~clk;
+
+   always @(posedge clk)
      begin
-	#100;
-	clk <= cpt;
+	if (cpt % 2)
+	  D <= $random % (2**(WAY*WIRE)-1);
+
 	cpt <= cpt + 1;
-	D <= ~D;
+	if (cpt >= (2**WAY)-1)
+	  $finish;
 
 	if (cpt % 11)
 	  begin
@@ -43,8 +47,5 @@ module test_parallel_Dflipflop_rst;
 	  end
 	else
 	  rst <= 0;
-
-	if (cpt >= (2**WAY)-1)
-	  $finish;
      end
 endmodule

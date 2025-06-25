@@ -23,21 +23,19 @@ module test_serial_Dflipflop_rst;
 	rst <= 0;
      end
    
-   always
-     begin
-	#100;
-	clk <= ~clk;
-     end
+   always #100 clk <= ~clk;
    
    always @(posedge clk)
      begin
-	cpt <= cpt + 1;
-	if (cpt % 7)
-	  rst <= ~rst;
 	if (cpt % 2)
 	  D <= cpt;
+
+	cpt <= cpt + 1;
 	if (cpt > 20)
 	  $finish;
+
+	if (cpt % 7)
+	  rst <= ~rst;
      end
 
 endmodule
