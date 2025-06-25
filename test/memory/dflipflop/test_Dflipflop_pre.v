@@ -21,25 +21,21 @@ module test_Dflipflop_pre;
 	cpt <= 0;
 	preset <= 1;
      end
-   
-   always
-     begin
-	#100;
-	clk <= ~clk;
-	cpt <= cpt + 1;
 
-	if (cpt % 3)
-	  preset <= 1;
-	else
-	  preset <= 0;
-     end
+   always #100 clk <= ~clk;
 
    always @(posedge clk)
      begin
 	if (cpt % 2)
 	  D <= ~D;
 
+	cpt <= cpt + 1;
 	if (cpt > 20)
-	     $finish;
+	  $finish;
+
+	if (cpt % 3)
+	  preset <= 1;
+	else
+	  preset <= 0;
      end
 endmodule

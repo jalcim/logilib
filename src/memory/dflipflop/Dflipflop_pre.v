@@ -12,33 +12,18 @@ module Dflipflop_pre(D, clk, pre, Q, QN);
    input [WAY-1:0]	 clk;
    output [WAY*WIRE-1:0] Q, QN;
 
-   wire [5:0]		 line;
-
    if (WAY > 1)
      parallel_Dflipflop_pre #(.WAY(WAY), .WIRE(WIRE)) parallel_Dflipflop_inst(.D(D),
 									      .clk(clk),
 									      .pre(pre),
 									      .Q(Q),
 									      .QN(QN));
-   else if (WIRE > 1)
+   else
      serial_Dflipflop_pre #(.WIRE(WIRE)) inst0(.D(D),
 					       .clk(clk),
 					       .pre(pre),
 					       .Q(Q),
 					       .QN(QN));
-   else
-     begin
-	assign line[0] = ~(line[3] | line[2]);
-	assign line[1] = ~(line[2] | clk | line[3]);
-	assign line[2] = ~(line[0] | pre | clk);
-	assign line[3] = ~(line[1] | D | pre);
-
-	assign line[4] = ~(line[2] | line[5]);
-	assign line[5] = ~(line[4] | line[1] | pre);
-
-	assign Q = line[4];
-	assign QN = line[5];
-     end
 endmodule
 
 `endif
