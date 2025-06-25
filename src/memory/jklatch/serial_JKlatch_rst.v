@@ -32,7 +32,7 @@ module serial_JKlatchDown_rst(J, K, clk, reset, Q, QN);
    input	     clk, reset;
    output [SIZE -1:0] Q, QN;
 
-   JKlatchDown_rst JKlatchDown_rst_inst(J[0], K[0], clk, Q[0], QN[0]);
+   JKlatchDown_rst JKlatchDown_rst_inst(J[0], K[0], clk, reset, Q[0], QN[0]);
    if (SIZE > 1)
      serial_JKlatchDown_rst #(.SIZE(SIZE-1)) recall(.J(J[SIZE-1:1]),
 						    .K(K[SIZE-1:1]),
