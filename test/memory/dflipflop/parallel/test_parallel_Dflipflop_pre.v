@@ -26,21 +26,21 @@ module test_parallel_Dflipflop_pre;
 	D <= (2 ** (WAY*WIRE)) - 1;
      end
 
-   always
+   always #100 clk <= ~clk;
+
+   always @(posedge clk)
      begin
-	#100;
-	clk <= cpt;
+	if (cpt % 2)
+	  D <= $random % (2**(WAY*WIRE)-1);
+
 	cpt <= cpt + 1;
-	$display ("cpt = %d\n", cpt);
-	
-	D <= ~D;
-
-	if (cpt % 3)
-	  pre = $random % (2**(WAY*WIRE));
-	else
-	  pre <= 0;
-
 	if (cpt >= ((2**WAY)-1))
 	  $finish;
+
+	if (cpt % 3)
+	  pre <= 0;
+	else
+	  pre = $random % (2**(WAY*WIRE)-1);
+
      end
 endmodule
