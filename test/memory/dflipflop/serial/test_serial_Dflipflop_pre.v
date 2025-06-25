@@ -23,22 +23,20 @@ module test_serial_Dflipflop_pre;
 	pre <= 0;
      end
 
-   always
-     begin
-	#100;
-	clk <= ~clk;
-	cpt <= cpt + 1;
-	if (cpt % 7)
-	  pre <= $random % WIRE;
-	else
-	  pre <= 0;
-	if (cpt > 20)
-	  $finish;
-     end
+   always #100 clk <= ~clk;
 
    always @(posedge clk)
      begin
 	if (cpt % 2)
 	  D <= cpt;
+
+	cpt <= cpt + 1;
+	if (cpt > 20)
+	  $finish;
+
+	if (cpt % 7)
+	  pre <= $random % WIRE;
+	else
+	  pre <= 0;
      end
 endmodule
