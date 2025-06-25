@@ -1,8 +1,6 @@
 `ifndef __SERIAL_DFLIPFLOP_PRE__
  `define __SERIAL_DFLIPFLOP_PRE__
 
-`include "src/memory/dflipflop/Dflipflop_pre.v"
-
 module serial_Dflipflop_pre(D, clk, pre, Q, QN);
    parameter WIRE = 1;
 
