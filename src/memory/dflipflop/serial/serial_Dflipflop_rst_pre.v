@@ -10,12 +10,23 @@ module serial_Dflipflop_rst_pre(D, clk, rst, pre, Q, QN);
    input	     clk, rst;
    output [WIRE -1:0] Q, QN;
 
-   Dflipflop_rst_pre latch1(.D(D[0]),
-			    .clk(clk),
-			    .rst(rst),
-			    .pre(pre[0]),
-			    .Q(Q[0]),
-			    .QN(QN[0]));
+   /* verilator lint_off UNOPTFLAT *//* verilator lint_off UNOPTFLAT */
+   wire [5:0]	      line;
+
+   /* verilator lint_off UNOPTFLAT */
+   wire		      line2;
+
+   assign line[0] = ~(rst | line[3] | line2);
+   assign line[1] = ~(line2 | clk | line[3]);
+   assign line2 = ~(line[0] | pre[0] | clk);
+   assign line[3] = ~(line[1] | D[0] | pre[0]);
+
+   assign line[4] = ~(rst | line2 | line[5]);
+   assign line[5] = ~(line[4] | line[1] | pre[0]);
+
+   assign Q[0] = line[4];
+   assign QN[0] = line[5];
+
    if (WIRE > 1)
      serial_Dflipflop_rst_pre #(.WIRE(WIRE-1)) recall(.D(D[WIRE-1:1]),
 						      .clk(clk),

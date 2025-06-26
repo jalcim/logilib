@@ -8,14 +8,18 @@ module serial_Dflipflop_pre(D, clk, pre, Q, QN);
    input	     clk;
    output [WIRE -1:0] Q, QN;
 
+   /* verilator lint_off UNOPTFLAT */
    wire [5:0]	      line;
 
-   assign line[0] = ~(line[3] | line[2]);
-   assign line[1] = ~(line[2] | clk | line[3]);
-   assign line[2] = ~(line[0] | pre[0] | clk);
+   /* verilator lint_off UNOPTFLAT */
+   wire		      line2;
+
+   assign line[0] = ~(line[3] | line2);
+   assign line[1] = ~(line2 | clk | line[3]);
+   assign line2 = ~(line[0] | pre[0] | clk);
    assign line[3] = ~(line[1] | D[0] | pre[0]);
 
-   assign line[4] = ~(line[2] | line[5]);
+   assign line[4] = ~(line2 | line[5]);
    assign line[5] = ~(line[4] | line[1] | pre[0]);
 
    assign Q[0]  = line[4];
