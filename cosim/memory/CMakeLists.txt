@@ -1,4 +1,3 @@
-include(environment)
-INIT_ENVIRONMENT()
-
-add_subdirectory(latch)
+if (ENABLE_COSIM_MEMORY_DLATCH)
+  add_subdirectory(dlatch)
+endif()

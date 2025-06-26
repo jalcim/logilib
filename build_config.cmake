@@ -33,7 +33,7 @@ option(ENABLE_COSIM_ALU_ARITHM "Activer cosim/alu/arithm" ON)
 option(ENABLE_COSIM_ALU_ARITHM_ADDX "Activer cosim/alu/arithm/addx" ON)
 option(ENABLE_COSIM_ALU_ARITHM_ADD_SUB "Activer cosim/alu/arithm/add_sub" ON)
 option(ENABLE_COSIM_MEMORY "Activer cosim/memory" ON)
-option(ENABLE_COSIM_MEMORY_LATCH "Activer cosim/memory/latch" ON)
+option(ENABLE_COSIM_MEMORY_DLATCH "Activer cosim/memory/dlatch" ON)
 option(ENABLE_COSIM_MEMORY_DLATCH "Activer cosim/memory/Dlatch" ON)
 
 option(ENABLE_EXEMPLE "activer exemple/" ON)
