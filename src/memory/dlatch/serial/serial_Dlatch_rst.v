@@ -8,6 +8,8 @@ module serial_Dlatch_rst(D, clk, rst, Q, QN);
    input	     clk, rst;
    output [WIRE -1:0] Q, QN;
 
+   wire [5:0]	      line;
+
    not not0(line[0], clk);
    nor nor0(line[1], D[0], line[0]);
    nor nor1(line[2], line[1], line[5]);

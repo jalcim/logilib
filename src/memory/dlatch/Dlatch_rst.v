@@ -12,8 +12,6 @@ module Dlatch_rst(D, clk, rst, Q, QN);
    input [WAY*WIRE-1 : 0] D;
    output [WAY*WIRE-1:0]  Q, QN;
 
-   wire [5:0]		      line;
-
    if (WAY > 1)
      parallel_Dlatch_rst #(.WAY(WAY), .WIRE(WIRE)) parallel_Dlatch_rst_inst(.D(D),
 									    .clk(clk),
