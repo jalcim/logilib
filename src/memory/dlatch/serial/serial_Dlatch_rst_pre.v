@@ -8,12 +8,16 @@ module serial_Dlatch_rst_pre(D, clk, rst, pre, Q, QN);
    input	     clk, rst;
    output [WIRE -1:0] Q, QN;
 
+   /* verilator lint_off UNOPTFLAT */
    wire [6:0]		      line;
+
+   /* verilator lint_off UNOPTFLAT */
+   wire		      line2;
 
    not not0(line[0], clk);
    nor nor0(line[1], D[0], line[0]);
-   nor nor1(line[2], line[1], line[6]);
-   or  or2 (line[3], line[2], pre[0]);
+   nor nor1(line2, line[1], line[6]);
+   or  or2 (line[3], line2, pre[0]);
 
    and and3(line[4], clk, D[0]);
    nor nor4(line[5], line[4], line[3]);
