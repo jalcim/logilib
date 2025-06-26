@@ -20,12 +20,7 @@ module test_Dlatch;
 	cpt <= 0;
      end
    
-   always
-     begin
-	#100;
-	clk <= ~clk;   
-	cpt <= cpt + 1;
-     end
+   always #100 clk <= ~clk;
 
    always @(posedge clk)
      begin
@@ -35,6 +30,7 @@ module test_Dlatch;
 	     D <= ~D;
 	  end
 
+	cpt <= cpt + 1;
 	if (cpt > 10)
 	  begin
 	     $finish;
