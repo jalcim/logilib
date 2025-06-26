@@ -1,4 +1,4 @@
-target_sources(VDlatch-tests PRIVATE Dlatch.cpp main-tests.cpp)
+target_sources(VDlatch-tests PRIVATE Dlatch.cpp Dlatch-utils.cpp main-tests.cpp)
 
 target_include_directories(VDlatch-tests PRIVATE ${CMAKE_CURRENT_SOURCE_DIR})
 
