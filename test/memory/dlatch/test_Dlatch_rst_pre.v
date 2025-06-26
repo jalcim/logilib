@@ -23,11 +23,16 @@ module test_Dlatch_rst_pre;
 	reset <= 0;
      end
    
-   always
+   always #100 clk <= ~clk;
+
+   always @(posedge clk)
      begin
-	#100;
-	clk <= ~clk;
+	if (cpt % 2)
+	  D <= ~D;
+
 	cpt <= cpt + 1;
+	if (cpt > 20)
+	     $finish;
 
 	if (cpt % 3)
 	  preset <= 1;
@@ -38,14 +43,5 @@ module test_Dlatch_rst_pre;
 	  reset <= 1;
 	else
 	  reset <= 0;
-     end
-
-   always @(posedge clk)
-     begin
-	if (cpt % 2)
-	  D <= ~D;
-
-	if (cpt > 20)
-	     $finish;
      end
 endmodule
