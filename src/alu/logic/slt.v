@@ -19,8 +19,8 @@ module slt(datain_A, datain_B, out);
    assign line[1] = sign_B ? line[2] : 1;
    assign line[0] = sign_B ? 0 : line[3];
 
-   assign out = sign_A ? line[1] : line[0];
-
+   assign out[0] = sign_A ? line[1] : line[0];
+   assign out[WIRE-1:1] = 0;
 endmodule
 
 `endif

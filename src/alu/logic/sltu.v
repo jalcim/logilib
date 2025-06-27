@@ -7,6 +7,7 @@ module sltu(datain_A, datain_B, out);
    output [WIRE-1:0] out;
 
    assign out = datain_A < datain_B;
+   assign out[WIRE-1:1] = 0;
 endmodule
 
 `endif
