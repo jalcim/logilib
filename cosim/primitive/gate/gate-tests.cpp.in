@@ -1,60 +1,46 @@
 #include <stdio.h>
 #include <boost/test/unit_test.hpp>
 #include "gate-utils.hpp"
-#include "Vgate_@GATE_NAME@_@GATE_WAY@.h"
+#include "Vgate_@GATE_NAME@_@GATE_WAY@_@GATE_WIRE@.h"
+#include "verilated_vcd_c.h"
 
-BOOST_AUTO_TEST_SUITE (Vgate_@GATE_NAME@_@GATE_WAY@_tests)
+#define SIZE (@GATE_WAY@ * @GATE_WIRE@)
+#define VAL 0xdeadbeef
 
-BOOST_AUTO_TEST_CASE (validator_lsb)
+BOOST_AUTO_TEST_SUITE (Vgate_@GATE_NAME@_@GATE_WAY@_@GATE_WIRE@_tests)
+
+BOOST_AUTO_TEST_CASE (validator_gate_@GATE_NAME@_@GATE_WAY@_@GATE_WIRE@)
 {
-  int result;
-    constexpr size_t inputs{1 << @GATE_WAY@};
-    VerilatedContext* contextp = new VerilatedContext;
-    contextp->debug(0);
-    contextp->traceEverOn(true);
-    Vgate_@GATE_NAME@_@GATE_WAY@ *gate = new Vgate_@GATE_NAME@_@GATE_WAY@{contextp};
-    for (size_t input{0}; input < inputs; ++input)
-    {
-        gate->in = input;
-        gate->eval();
+  VerilatedContext* contextp = new VerilatedContext;
+  Vgate_@GATE_NAME@_@GATE_WAY@_@GATE_WIRE@ *gate = new Vgate_@GATE_NAME@_@GATE_WAY@_@GATE_WIRE@{contextp};
 
-	result = (test_lsb_@GATE_NAME@(input, @GATE_WAY@) & 1);
-	if ((gate->out & 1) != result)
-	  printf("@GATE_NAME@_@GATE_WAY@ inputs = %x : out = %x : ret = %x\n",
-		 input, gate->out, result);
-        BOOST_REQUIRE_EQUAL(gate->out & 1, result);
-	contextp->timeInc(1);
-    }
-    contextp->statsPrintSummary();
-    gate->final();
-    delete gate;
-    delete contextp;
-}
+  Verilated::traceEverOn(true);
+  VerilatedVcdC* tfp = new VerilatedVcdC;
+  gate->trace(tfp, 99);
+  tfp->open("build/signal_Vgate_@GATE_NAME@_@GATE_WAY@_@GATE_WIRE@.vcd");
+  
+  if (SIZE > 64)
+    BOOST_FAIL("taille trop grande actuellement non gerer");
 
-BOOST_AUTO_TEST_CASE (validator_msb)
-{
-  int result;
-    constexpr size_t inputs{1 >> @GATE_WAY@};
-    VerilatedContext* contextp = new VerilatedContext;
-    contextp->debug(0);
-    contextp->traceEverOn(true);
-    Vgate_@GATE_NAME@_@GATE_WAY@ *gate = new Vgate_@GATE_NAME@_@GATE_WAY@{contextp};
-    for (size_t input{0}; input < inputs; ++input)
-    {
-        gate->in = input;
-        gate->eval();
+  unsigned long input = GET_BIT_RANGE(0xFFFFFFFFFFFFFFFF, SIZE, 0);
 
-	result = (test_msb_@GATE_NAME@(input, @GATE_WAY@) & 1);
-	if ((gate->out & 1) != result)
-	  printf("@GATE_NAME@_@GATE_WAY@ inputs = %x : out = %x : ret = %x\n",
-		 input, gate->out, result);
-        BOOST_REQUIRE_EQUAL(gate->out & 1, result);
-	contextp->timeInc(1);
-    }
-    gate->final();
-    delete gate;
-    contextp->statsPrintSummary();
-    delete contextp;
+  gate->in = input;
+  gate->eval();
+  tfp->dump(0);
+  contextp->timeInc(1);
+  tfp->dump(1);
+
+  unsigned long result = (test_@GATE_NAME@(input, @GATE_WAY@, @GATE_WIRE@));
+  if (gate->out != result)
+    printf("@GATE_NAME@_@GATE_WAY@_@GATE_WIRE@ inputs = %x : gate->in = %x: out = %x : result = %x\n",
+	   input, gate->in, gate->out, result);
+
+  BOOST_REQUIRE_EQUAL(gate->out, result);
+
+  tfp->close();
+  delete tfp;
+  delete gate;
+  delete contextp;
 }
 
 BOOST_AUTO_TEST_SUITE_END()

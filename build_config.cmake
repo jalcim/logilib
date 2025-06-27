@@ -38,7 +38,8 @@ option(ENABLE_COSIM_MEMORY_DFLIPFLOP "Activer cosim/memory/Dlatch" ON)
 
 # Options globales
 set(LOG_LEVEL "warning" CACHE STRING "Set the log level")
-set(MAX_WAYS "8" CACHE STRING "Max number of gates ways generated")
+set(MAX_WAYS "8" CACHE STRING "Max number of cell ways generated")
+set(MAX_WIRE "8" CACHE STRING "Max number of cell wire generated")
 set(VERILATOR_TIME_STEP "1000" CACHE STRING "Time between each verilator evaluation")
 
 set(Boost_USE_STATIC_LIBS OFF)

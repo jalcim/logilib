@@ -1,44 +1,41 @@
 function(add_gate)
-  cmake_parse_arguments(PARSE_ARGV 0 GATE "WAYS" "TARGET;NAME;WAY" "")
+  cmake_parse_arguments(PARSE_ARGV 0 GATE "WAYS" "TARGET;NAME;WAY;WIRE" "")
 
   set(GATE_ARGS ${VERILATOR_ARGS})
   if(GATE_WAY GREATER 1)
-    list(APPEND GATE_ARGS -GWAY=${GATE_WAY})
+    list(APPEND GATE_ARGS -GWAY=${GATE_WAY} -GWIRE=${WIRE})
   endif()
 
-  message(STATUS "Adding gate ${GATE_NAME} to target ${GATE_TARGET} way=${GATE_WAY}")
+  message(STATUS "Adding gate ${GATE_NAME} to target ${GATE_TARGET} way=${GATE_WAY} wire=${GATE_WIRE}")
   verilate(${GATE_TARGET}
     INCLUDE_DIRS ${CMAKE_SOURCE_DIR}
     SOURCES gate_${GATE_NAME}.v
     TOP_MODULE gate_${GATE_NAME}
-    VERILATOR_ARGS ${GATE_ARGS}
-    PREFIX Vgate_${GATE_NAME}_${GATE_WAY}
+    VERILATOR_ARGS ${GATE_ARGS} --trace
+    PREFIX Vgate_${GATE_NAME}_${GATE_WAY}_${GATE_WIRE}
   )
 endfunction()
 
-set(VERILATOR_ARGS
-    -cc --exe -x-assign fast --trace --no-decoration --assert --coverage)
-
-set(GATE_NAMES "and" "nand" "nor" "or" "xnor" "xor")
-
 add_library(Vgate STATIC)
-
 target_include_directories(Vgate PUBLIC ${VERILATOR_ROOT}/include)
-
 target_compile_features(Vgate PUBLIC cxx_std_20)
-
 get_property(GATE_FILE GLOBAL PROPERTY PRIMITIVE_FILE)  # récupère
 
 # Génération des gates avec Verilator
-add_gate(TARGET Vgate NAME buf WAY 1)
-add_gate(TARGET Vgate NAME not WAY 1)
+foreach(wire RANGE 1 ${MAX_WIRE})
+  add_gate(TARGET Vgate NAME buf WAY 1 WIRE ${wire})
+  add_gate(TARGET Vgate NAME not WAY 1 WIRE ${wire})
+endforeach()
 
-foreach(g IN LISTS GATE_NAMES)
-  list(APPEND GATE_FILE gate_${g}.v)
-  message(STATUS "\n")
-  message(STATUS "Ajout gate_${g}.v")
-  foreach(w RANGE 2 ${MAX_WAYS})
-    add_gate(TARGET Vgate NAME ${g} WAY ${w})
+set(VERILATOR_ARGS -cc --exe -x-assign fast --trace --no-decoration --assert --coverage)
+
+set(GATE_NAMES "and" "nand" "nor" "or" "xnor" "xor")
+foreach (GATE IN LISTS GATE_NAMES)
+  list(APPEND GATE_FILE gate_${GATE}.v)
+  foreach (WAY RANGE 2 ${MAX_WAYS})
+    foreach (WIRE RANGE 1 ${MAX_WIRE})
+      add_gate(TARGET Vgate NAME ${GATE} WAY ${WAY} WIRE ${WIRE})
+    endforeach()
   endforeach()
 endforeach()
 
