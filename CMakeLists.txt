@@ -27,7 +27,3 @@ endif()
 if (ENABLE_COSIM)
     add_subdirectory(cosim)
 endif()
-
-if (ENABLE_EXEMPLE)
-    add_subdirectory(exemple)
-endif()

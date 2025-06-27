@@ -8,7 +8,3 @@ endif()
 if (ENABLE_COSIM_MEMORY)
   add_subdirectory(memory)
 endif()
-
-if (ENABLE_COSIM_EXEMPLE)
-  add_subdirectory(exemple)
-endif()
