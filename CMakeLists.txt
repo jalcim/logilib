@@ -25,5 +25,6 @@ if (ENABLE_SRC)
 endif()
 
 if (ENABLE_COSIM)
-    add_subdirectory(cosim)
+  file(MAKE_DIRECTORY ${CMAKE_BINARY_DIR}/signal)
+  add_subdirectory(cosim)
 endif()
