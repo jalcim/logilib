@@ -5,26 +5,26 @@
 `include "src/primitive/gate/gate_xor.v"
 `include "src/alu/arithm/addX.v"
 
-module add_sub(a, b, cin, sub, out, cout);
+module add_sub(i_datain_A, i_datain_B, i_cin, i_sub, o_out, o_cout);
    parameter WIRE = 8;
 
-   input [WIRE-1:0] a, b;
-   input 	    cin, sub;
+   input [WIRE-1:0] i_datain_A, i_datain_B;
+   input 	    i_cin, i_sub;
 
-   output [WIRE-1:0] out;
-   output 	     cout;
+   output [WIRE-1:0] o_out;
+   output 	     o_cout;
 
-   wire 	     line;
-   wire [WIRE-1:0]   b_line;
-   wire [WIRE-1:0]   sub_repliq;
-   wire		     cout_line1, cout_line2;
+   wire 	     w_line;
+   wire [WIRE-1:0]   w_line_b;
+   wire [WIRE-1:0]   w_sub_repliq;
+   wire		     w_line1, w_line2;
 
-   or or0(line, cin, sub);
-   replicator   #(.WAY(WIRE), .WIRE(1)) replicator_inst(sub_repliq, sub);
-   gate_xor     #(.WAY(2), .WIRE(WIRE)) xor_inst (b_line, {b, sub_repliq});
-   addX         #(.WIRE(WIRE)) addX_inst (a, b_line, line, out, cout_line1);
-   not (cout_line2, cout_line1);
-   nor(cout, cout_line2, sub);
+   or or0(w_line, i_cin, i_sub);
+   replicator   #(.WAY(WIRE), .WIRE(1)) replicator_inst(w_sub_repliq, i_sub);
+   gate_xor     #(.WAY(2), .WIRE(WIRE)) xor_inst (w_line_b, {i_datain_B, w_sub_repliq});
+   addX         #(.WIRE(WIRE)) addX_inst (i_datain_A, w_line_b, w_line, o_out, w_line1);
+   not not1 (w_line2, w_line1);
+   nor nor2 (o_cout, w_line2, i_sub);
 endmodule
 
 `endif
