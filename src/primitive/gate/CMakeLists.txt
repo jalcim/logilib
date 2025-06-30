@@ -3,9 +3,12 @@ function(add_gate)
 
   set(GATE_ARGS ${VERILATOR_ARGS})
   if(GATE_WAY GREATER 1)
-    list(APPEND GATE_ARGS -GWAY=${GATE_WAY} -GWIRE=${WIRE})
+    list(APPEND GATE_ARGS -GWAY=${GATE_WAY} -GWIRE=${GATE_WIRE})
+  elseif(GATE_WAY EQUAL 1)
+    list(APPEND GATE_ARGS -GWIRE=${GATE_WIRE})
   endif()
 
+  
   message(STATUS "Adding gate ${GATE_NAME} to target ${GATE_TARGET} way=${GATE_WAY} wire=${GATE_WIRE}")
   verilate(${GATE_TARGET}
     INCLUDE_DIRS ${CMAKE_SOURCE_DIR}
@@ -14,6 +17,9 @@ function(add_gate)
     VERILATOR_ARGS ${GATE_ARGS} --trace
     PREFIX Vgate_${GATE_NAME}_${GATE_WAY}_${GATE_WIRE}
   )
+
+#  configure_file(gates.py.in gate_${GATE_NAME}_${GATE_WAY}_${GATE_WIRE}.py)
+
 endfunction()
 
 add_library(Vgate STATIC)
