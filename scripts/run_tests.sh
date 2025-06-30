@@ -2,7 +2,7 @@
 
 max_threads=8
 binary="./build/cosim/Vgate-tests"
-validators=$( $binary --list_content 2>&1| grep Vgate_not )
+validators=$( $binary --list_content 2>&1| grep Vgate_ )
 
 running=0
 pids=()
