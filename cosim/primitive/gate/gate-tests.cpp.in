@@ -1,11 +1,11 @@
 #include <stdio.h>
+#include <stdlib.h>
 #include <boost/test/unit_test.hpp>
 #include "gate-utils.hpp"
 #include "Vgate_@GATE_NAME@_@GATE_WAY@_@GATE_WIRE@.h"
 #include "verilated_vcd_c.h"
 
 #define SIZE (@GATE_WAY@ * @GATE_WIRE@)
-#define VAL 0xdeadbeef
 
 BOOST_AUTO_TEST_SUITE (Vgate_@GATE_NAME@_@GATE_WAY@_@GATE_WIRE@_tests)
 
@@ -22,21 +22,22 @@ BOOST_AUTO_TEST_CASE (validator_gate_@GATE_NAME@_@GATE_WAY@_@GATE_WIRE@)
   if (SIZE > 64)
     BOOST_FAIL("taille trop grande actuellement non gerer");
 
-  unsigned long input = GET_BIT_RANGE(0xFFFFFFFFFFFFFFFF, SIZE, 0);
+  for (unsigned long cpt=0; cpt < 0xFFFFFF; cpt++)
+    {
+      unsigned long input = GET_BIT_RANGE(((unsigned long)rand() << 32) | rand(), SIZE, 0);
 
-  gate->in = input;
-  gate->eval();
-  tfp->dump(0);
-  contextp->timeInc(1);
-  tfp->dump(1);
+      gate->in = input;
+      gate->eval();
+      tfp->dump(contextp->time());
+      contextp->timeInc(1);
 
-  unsigned long result = (test_@GATE_NAME@(input, @GATE_WAY@, @GATE_WIRE@));
-  if (gate->out != result)
-    printf("@GATE_NAME@_@GATE_WAY@_@GATE_WIRE@ inputs = %x : gate->in = %x: out = %x : result = %x\n",
-	   input, gate->in, gate->out, result);
+      unsigned long result = (test_@GATE_NAME@(input, @GATE_WAY@, @GATE_WIRE@));
+      if (gate->out != result)
+	printf("@GATE_NAME@_@GATE_WAY@_@GATE_WIRE@ inputs = %x : gate->in = %x: out = %x : result = %x\n",
+	       input, gate->in, gate->out, result);
 
-  BOOST_REQUIRE_EQUAL(gate->out, result);
-
+      BOOST_REQUIRE_EQUAL(gate->out, result);
+    }
   tfp->close();
   delete tfp;
   delete gate;
