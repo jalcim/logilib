@@ -19,14 +19,14 @@ Takes a 9×9 image + 3×3 filter → produces all convolution results instantly
 ```mermaid
 graph TD
     subgraph "Input"
-        A[Image: 0,1,2...80]
-        B[Kernel: 0,1,2,3,4,5,6,7,8]
+        A[Image 0,1,2...80]
+        B[Kernel 0,1,2,3,4,5,6,7,8]
     end
 
     subgraph "Magic Happens"
         C[729 Parallel Multipliers]
         D[Direct Wire Connections]
-        E[No Control Logic!]
+        E[No Control Logic]
     end
 
     subgraph "Output"
@@ -119,16 +119,40 @@ result[80] = 1520 # Bottom-right corner
 ```mermaid
 graph TD
     subgraph "CORNER Example (Position 0)"
-        A1[0 0 0<br/>0 0 1<br/>0 6 7] --> B1[Skip: 0,1,2,3,6<br/>Use: 4,5,7,8] --> C1[Result = 0×4 + 1×5 + 6×7 + 7×8<br/>= 0 + 5 + 42 + 56 = 103]
+        A1[0 0 0<br/>0 0 1<br/>0 6 7] --> B1[Skip: 0,1,2,3,6<br/>Use: 4,5,7,8] --> C1[Result = 103]
     end
 
     subgraph "BORDER Example (Position 1)"
-        A2[0 0 0<br/>1 2 3<br/>7 8 9] --> B2[Skip: 0,1,2<br/>Use: 3,4,5,6,7,8] --> C2[Result = 1×3 + 2×4 + 3×5 + 7×6 + 8×7 + 9×8<br/>= 3 + 8 + 15 + 42 + 56 + 72 = 196]
+        A2[0 0 0<br/>1 2 3<br/>7 8 9] --> B2[Skip: 0,1,2<br/>Use: 3,4,5,6,7,8] --> C2[Result = 196]
     end
 
     subgraph "CENTER Example (Position 10)"
-        A3[0 1 2<br/>9 10 11<br/>18 19 20] --> B3[Use all: 0,1,2,3,4,5,6,7,8] --> C3[Result = 0×0 + 1×1 + 2×2 + 9×3 + 10×4 + 11×5<br/>+ 18×6 + 19×7 + 20×8 = 540]
+        A3[0 1 2<br/>9 10 11<br/>18 19 20] --> B3[Use all: 0,1,2,3,4,5,6,7,8] --> C3[Result = 540]
     end
+
+    classDef cornerData fill:#ff9999,stroke:#ff6666,stroke-width:2px,color:#000
+    classDef borderData fill:#99ccff,stroke:#6699ff,stroke-width:2px,color:#000
+    classDef centerData fill:#99ff99,stroke:#66ff66,stroke-width:2px,color:#000
+
+    classDef cornerProcess fill:#ffcc99,stroke:#ff9933,stroke-width:2px,color:#000
+    classDef borderProcess fill:#ccddff,stroke:#99bbff,stroke-width:2px,color:#000
+    classDef centerProcess fill:#ccffcc,stroke:#99ff99,stroke-width:2px,color:#000
+
+    classDef cornerResult fill:#ffdddd,stroke:#ffaaaa,stroke-width:3px,color:#000
+    classDef borderResult fill:#ddeeff,stroke:#aaccff,stroke-width:3px,color:#000
+    classDef centerResult fill:#ddffdd,stroke:#aaffaa,stroke-width:3px,color:#000
+
+    class A1 cornerData
+    class A2 borderData
+    class A3 centerData
+
+    class B1 cornerProcess
+    class B2 borderProcess
+    class B3 centerProcess
+
+    class C1 cornerResult
+    class C2 borderResult
+    class C3 centerResult
 
 ```
 
@@ -161,7 +185,7 @@ parameter CONV_MAX_X = 5;   // Bigger filter
 
 ## 🔍 Architecture Deep Dive
 
-### 🔄 Double Recursive Propagation
+### Double Recursive Propagation
 
 ```mermaid
 graph TD
@@ -206,7 +230,7 @@ graph TD
 
 ```
 
-### 🎯 Smart Addressing & Coordinate Transform
+### Smart Addressing & Coordinate Transform
 
 ```mermaid
 graph LR
@@ -232,7 +256,7 @@ graph LR
 
 ```
 
-### 📦 Data Flow Architecture
+### Data Flow Architecture
 
 ```mermaid
 graph TD
@@ -300,6 +324,14 @@ graph TD
     E --> O[2D filtering]
     E --> P[Frequency analysis]
     E --> Q[Correlation]
+
+    classDef engine fill:#ff6b6b,stroke:#c92a2a,stroke-width:3px,color:#fff
+    classDef domain fill:#4ecdc4,stroke:#26a69a,stroke-width:2px,color:#fff
+    classDef app fill:#45b7d1,stroke:#2196f3,stroke-width:1px,color:#fff
+
+    class A engine
+    class B,C,D,E domain
+    class F,G,H,I,J,K,L,M,N,O,P,Q app
 ```
 
 ## License

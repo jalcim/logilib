@@ -19,14 +19,14 @@ Prend une image 9×9 + filtre 3×3 → produit tous les résultats de convolutio
 ```mermaid
 graph TD
     subgraph "Entrées"
-        A[Image: 0,1,2...80]
-        B[Kernel: 0,1,2,3,4,5,6,7,8]
+        A[Image 0,1,2...80]
+        B[Kernel 0,1,2,3,4,5,6,7,8]
     end
 
     subgraph "La magie opère"
         C[729 Multiplieurs Parallèles]
         D[Connexions Fil Direct]
-        E[Aucune Logique de Contrôle !]
+        E[Aucune Logique de Contrôle]
     end
 
     subgraph "Sortie"
@@ -119,16 +119,40 @@ result[80] = 1520 # Coin bas-droite
 ```mermaid
 graph TD
     subgraph "COIN Exemple (Position 0)"
-        A1[0 0 0<br/>0 0 1<br/>0 6 7] --> B1[Ignorer: 0,1,2,3,6<br/>Utiliser: 4,5,7,8] --> C1[Résultat = 0×4 + 1×5 + 6×7 + 7×8<br/>= 0 + 5 + 42 + 56 = 103]
+        A1[0 0 0<br/>0 0 1<br/>0 6 7] --> B1[Ignorer: 0,1,2,3,6<br/>Utiliser: 4,5,7,8] --> C1[Résultat = 103]
     end
 
     subgraph "BORDURE Exemple (Position 1)"
-        A2[0 0 0<br/>1 2 3<br/>7 8 9] --> B2[Ignorer: 0,1,2<br/>Utiliser: 3,4,5,6,7,8] --> C2[Résultat = 1×3 + 2×4 + 3×5 + 7×6 + 8×7 + 9×8<br/>= 3 + 8 + 15 + 42 + 56 + 72 = 196]
+        A2[0 0 0<br/>1 2 3<br/>7 8 9] --> B2[Ignorer: 0,1,2<br/>Utiliser: 3,4,5,6,7,8] --> C2[Résultat = 196]
     end
 
     subgraph "CENTRE Exemple (Position 10)"
-        A3[0 1 2<br/>9 10 11<br/>18 19 20] --> B3[Tout utiliser: 0,1,2,3,4,5,6,7,8] --> C3[Résultat = 0×0 + 1×1 + 2×2 + 9×3 + 10×4 + 11×5<br/>+ 18×6 + 19×7 + 20×8 = 540]
+        A3[0 1 2<br/>9 10 11<br/>18 19 20] --> B3[Tout utiliser: 0,1,2,3,4,5,6,7,8] --> C3[Résultat = 540]
     end
+
+    classDef cornerData fill:#ff9999,stroke:#ff6666,stroke-width:2px,color:#000
+    classDef borderData fill:#99ccff,stroke:#6699ff,stroke-width:2px,color:#000
+    classDef centerData fill:#99ff99,stroke:#66ff66,stroke-width:2px,color:#000
+
+    classDef cornerProcess fill:#ffcc99,stroke:#ff9933,stroke-width:2px,color:#000
+    classDef borderProcess fill:#ccddff,stroke:#99bbff,stroke-width:2px,color:#000
+    classDef centerProcess fill:#ccffcc,stroke:#99ff99,stroke-width:2px,color:#000
+
+    classDef cornerResult fill:#ffdddd,stroke:#ffaaaa,stroke-width:3px,color:#000
+    classDef borderResult fill:#ddeeff,stroke:#aaccff,stroke-width:3px,color:#000
+    classDef centerResult fill:#ddffdd,stroke:#aaffaa,stroke-width:3px,color:#000
+
+    class A1 cornerData
+    class A2 borderData
+    class A3 centerData
+
+    class B1 cornerProcess
+    class B2 borderProcess
+    class B3 centerProcess
+
+    class C1 cornerResult
+    class C2 borderResult
+    class C3 centerResult
 
 ```
 
@@ -161,7 +185,7 @@ parameter CONV_MAX_X = 5;   // Filtre plus grand
 
 ## 🔍 Architecture Approfondie
 
-### 🔄 Propagation Doublement Récursive
+### Propagation Doublement Récursive
 
 ```mermaid
 graph TD
@@ -206,7 +230,7 @@ graph TD
 
 ```
 
-### 🎯 Adressage Intelligent & Transformation Coordonnées
+### Adressage Intelligent & Transformation Coordonnées
 
 ```mermaid
 graph LR
@@ -232,7 +256,7 @@ graph LR
 
 ```
 
-### 📦 Architecture Flux de Données
+### Architecture Flux de Données
 
 ```mermaid
 graph TD
@@ -279,24 +303,35 @@ graph TD
 ## 🌟 Applications
 
 ```mermaid
-mindmap
-  root((Moteur Convolution))
-    Apprentissage Profond
-      Couches CNN
-      Détection contours
-      Cartes caractéristiques
-    Traitement Image
-      Filtres flou
-      Accentuation
-      Réduction bruit
-    Vision Ordinateur
-      Détection objets
-      Reconnaissance motifs
-      Vidéo temps réel
-    Traitement Signal
-      Filtrage 2D
-      Analyse fréquence
-      Corrélation
+graph TD
+    A[Moteur Convolution] --> B[Apprentissage Profond]
+    A --> C[Traitement Image]
+    A --> D[Vision Ordinateur]
+    A --> E[Traitement Signal]
+
+    B --> F[Couches CNN]
+    B --> G[Détection contours]
+    B --> H[Cartes caractéristiques]
+
+    C --> I[Filtres flou]
+    C --> J[Accentuation]
+    C --> K[Réduction bruit]
+
+    D --> L[Détection objets]
+    D --> M[Reconnaissance motifs]
+    D --> N[Vidéo temps réel]
+
+    E --> O[Filtrage 2D]
+    E --> P[Analyse fréquence]
+    E --> Q[Corrélation]
+
+    classDef engine fill:#ff6b6b,stroke:#c92a2a,stroke-width:3px,color:#fff
+    classDef domain fill:#4ecdc4,stroke:#26a69a,stroke-width:2px,color:#fff
+    classDef app fill:#45b7d1,stroke:#2196f3,stroke-width:1px,color:#fff
+
+    class A engine
+    class B,C,D,E domain
+    class F,G,H,I,J,K,L,M,N,O,P,Q app
 ```
 
 ## 🔬 Comment ça marche vraiment
