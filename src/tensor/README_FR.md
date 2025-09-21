@@ -17,27 +17,33 @@ Prend une image 9×9 + filtre 3×3 → produit tous les résultats de convolutio
 ## Comment ça marche
 
 ```mermaid
-graph TD
-    subgraph "Entrées"
-        A[Image 0,1,2...80]
-        B[Kernel 0,1,2,3,4,5,6,7,8]
+flowchart LR
+    subgraph Input [" 📥 ENTRÉES "]
+        A["🖼️ Image 9×9<br/>81 pixels"]
+        B["🔢 Kernel 3×3<br/>9 poids"]
     end
 
-    subgraph "La magie opère"
-        C[729 Multiplieurs Parallèles]
-        D[Connexions Fil Direct]
-        E[Aucune Logique de Contrôle]
+    subgraph Processing [" ⚡ TRAITEMENT "]
+        C["🔄 729 Multiplieurs<br/>TOUT PARALLÈLE"]
+        D["📡 Câblage Direct<br/>AUCUN DÉLAI"]
     end
 
-    subgraph "Sortie"
-        F[FIFO 0,0 vers FIFO 80,8]
+    subgraph Output [" 📤 SORTIE "]
+        E["📊 81 Résultats<br/>INSTANTANÉ"]
     end
 
-    A --> C
-    B --> C
-    C --> D
-    D --> E
-    E --> F
+    A ===> C
+    B ===> C
+    C ===> D
+    D ===> E
+
+    classDef inputStyle fill:#e1f5fe,stroke:#01579b,stroke-width:3px,color:#000
+    classDef processStyle fill:#f3e5f5,stroke:#4a148c,stroke-width:3px,color:#000
+    classDef outputStyle fill:#e8f5e8,stroke:#1b5e20,stroke-width:3px,color:#000
+
+    class A,B inputStyle
+    class C,D processStyle
+    class E outputStyle
 
 ```
 
@@ -119,11 +125,11 @@ result[80] = 1520 # Coin bas-droite
 ```mermaid
 graph TD
     subgraph "COIN Exemple (Position 0)"
-        A1[0 0 1<br/>6 7] --> C1[Résultat = 103]
+        A1[0 1<br/>9 10] --> C1[Résultat = 160]
     end
 
     subgraph "BORDURE Exemple (Position 1)"
-        A2[1 2 3<br/>7 8 9] --> C2[Résultat = 196]
+        A2[1 2<br/>10 11<br/>19 20] --> C2[Résultat = 300]
     end
 
     subgraph "CENTRE Exemple (Position 10)"
@@ -185,9 +191,8 @@ graph TD
         A[Instance Courante<br/>result_index, kernel_index]
         A --> B{Dans l'Image?}
         B -->|Oui| C[Calculer: img pixel × kernel tap]
-        B -->|Non| D[Ignorer multiplication]
+        B -->|Non| D[Laisser Z pour élimination logique morte]
         C --> E[Stocker dans tableau FIFO]
-        D --> E
     end
 
     subgraph "Récursive1: Propagation FIFO"
@@ -295,35 +300,24 @@ graph TD
 ## 🌟 Applications
 
 ```mermaid
-graph TD
-    A[Moteur Convolution] --> B[Apprentissage Profond]
-    A --> C[Traitement Image]
-    A --> D[Vision Ordinateur]
-    A --> E[Traitement Signal]
-
-    B --> F[Couches CNN]
-    B --> G[Détection contours]
-    B --> H[Cartes caractéristiques]
-
-    C --> I[Filtres flou]
-    C --> J[Accentuation]
-    C --> K[Réduction bruit]
-
-    D --> L[Détection objets]
-    D --> M[Reconnaissance motifs]
-    D --> N[Vidéo temps réel]
-
-    E --> O[Filtrage 2D]
-    E --> P[Analyse fréquence]
-    E --> Q[Corrélation]
-
-    classDef engine fill:#ff6b6b,stroke:#c92a2a,stroke-width:3px,color:#fff
-    classDef domain fill:#4ecdc4,stroke:#26a69a,stroke-width:2px,color:#fff
-    classDef app fill:#45b7d1,stroke:#2196f3,stroke-width:1px,color:#fff
-
-    class A engine
-    class B,C,D,E domain
-    class F,G,H,I,J,K,L,M,N,O,P,Q app
+mindmap
+  root((Moteur Convolution))
+    Apprentissage Profond
+      Couches CNN
+      Détection contours
+      Cartes caractéristiques
+    Traitement Image
+      Filtres flou
+      Accentuation
+      Réduction bruit
+    Vision Ordinateur
+      Détection objets
+      Reconnaissance motifs
+      Vidéo temps réel
+    Traitement Signal
+      Filtrage 2D
+      Analyse fréquence
+      Corrélation
 ```
 
 ## 🔬 Comment ça marche vraiment

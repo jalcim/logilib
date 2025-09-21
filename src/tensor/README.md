@@ -17,27 +17,33 @@ Takes a 9×9 image + 3×3 filter → produces all convolution results instantly
 ## How It Works
 
 ```mermaid
-graph TD
-    subgraph "Input"
-        A[Image 0,1,2...80]
-        B[Kernel 0,1,2,3,4,5,6,7,8]
+flowchart LR
+    subgraph Input [" 📥 INPUT "]
+        A["🖼️ 9×9 Image<br/>81 pixels"]
+        B["🔢 3×3 Kernel<br/>9 weights"]
     end
 
-    subgraph "Magic Happens"
-        C[729 Parallel Multipliers]
-        D[Direct Wire Connections]
-        E[No Control Logic]
+    subgraph Processing [" ⚡ PROCESSING "]
+        C["🔄 729 Multipliers<br/>ALL PARALLEL"]
+        D["📡 Direct Wiring<br/>NO DELAYS"]
     end
 
-    subgraph "Output"
-        F[FIFO 0,0 to FIFO 80,8]
+    subgraph Output [" 📤 OUTPUT "]
+        E["📊 81 Results<br/>INSTANT"]
     end
 
-    A --> C
-    B --> C
-    C --> D
-    D --> E
-    E --> F
+    A ===> C
+    B ===> C
+    C ===> D
+    D ===> E
+
+    classDef inputStyle fill:#e1f5fe,stroke:#01579b,stroke-width:3px,color:#000
+    classDef processStyle fill:#f3e5f5,stroke:#4a148c,stroke-width:3px,color:#000
+    classDef outputStyle fill:#e8f5e8,stroke:#1b5e20,stroke-width:3px,color:#000
+
+    class A,B inputStyle
+    class C,D processStyle
+    class E outputStyle
 
 ```
 
@@ -119,11 +125,11 @@ result[80] = 1520 # Bottom-right corner
 ```mermaid
 graph TD
     subgraph "CORNER Example (Position 0)"
-        A1[0 0 1<br/>6 7] --> C1[Result = 103]
+        A1[0 1<br/>9 10] --> C1[Result = 160]
     end
 
     subgraph "BORDER Example (Position 1)"
-        A2[1 2 3<br/>7 8 9] --> C2[Result = 196]
+        A2[1 2<br/>10 11<br/>19 20] --> C2[Result = 300]
     end
 
     subgraph "CENTER Example (Position 10)"
@@ -185,9 +191,8 @@ graph TD
         A[Current Instance<br/>result_index, kernel_index]
         A --> B{Inside Image?}
         B -->|Yes| C[Calculate: img pixel × kernel tap]
-        B -->|No| D[Skip multiplication]
+        B -->|No| D[Leave Z for dead logic elimination]
         C --> E[Store in FIFO array]
-        D --> E
     end
 
     subgraph "Recursive1: FIFO Propagation"
@@ -295,35 +300,24 @@ graph TD
 ## 🌟 Applications
 
 ```mermaid
-graph TD
-    A[Convolution Engine] --> B[Deep Learning]
-    A --> C[Image Processing]
-    A --> D[Computer Vision]
-    A --> E[Signal Processing]
-
-    B --> F[CNN layers]
-    B --> G[Edge detection]
-    B --> H[Feature maps]
-
-    C --> I[Blur filters]
-    C --> J[Sharpening]
-    C --> K[Noise reduction]
-
-    D --> L[Object detection]
-    D --> M[Pattern matching]
-    D --> N[Real-time video]
-
-    E --> O[2D filtering]
-    E --> P[Frequency analysis]
-    E --> Q[Correlation]
-
-    classDef engine fill:#ff6b6b,stroke:#c92a2a,stroke-width:3px,color:#fff
-    classDef domain fill:#4ecdc4,stroke:#26a69a,stroke-width:2px,color:#fff
-    classDef app fill:#45b7d1,stroke:#2196f3,stroke-width:1px,color:#fff
-
-    class A engine
-    class B,C,D,E domain
-    class F,G,H,I,J,K,L,M,N,O,P,Q app
+mindmap
+  root((Convolution Engine))
+    Deep Learning
+      CNN layers
+      Edge detection
+      Feature maps
+    Image Processing
+      Blur filters
+      Sharpening
+      Noise reduction
+    Computer Vision
+      Object detection
+      Pattern matching
+      Real-time video
+    Signal Processing
+      2D filtering
+      Frequency analysis
+      Correlation
 ```
 
 ## License
