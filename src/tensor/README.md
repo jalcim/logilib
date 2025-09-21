@@ -18,18 +18,18 @@ Takes a 9×9 image + 3×3 filter → produces all convolution results instantly
 
 ```mermaid
 graph TD
-    subgraph "🔧 Input"
+    subgraph "Input"
         A[Image: 0,1,2...80]
         B[Kernel: 0,1,2,3,4,5,6,7,8]
     end
 
-    subgraph "⚡ Magic Happens"
+    subgraph "Magic Happens"
         C[729 Parallel Multipliers]
         D[Direct Wire Connections]
         E[No Control Logic!]
     end
 
-    subgraph "📊 Output"
+    subgraph "Output"
         F[FIFO[0][0] to FIFO[80][8]]
     end
 
@@ -45,14 +45,14 @@ graph TD
 
 ```mermaid
 graph LR
-    subgraph "📍 Position Calculation"
+    subgraph "Position Calculation"
         A[result_index] --> B[Where in output?]
         C[kernel_index] --> D[Which filter tap?]
         B --> E[Calculate source pixel]
         D --> E
         E --> F{Inside image?}
         F -->|Yes| G[Multiply & Store]
-        F -->|No| H[Store 0]
+        F -->|No| H[Store z for dead logic elimination]
     end
 
 ```
@@ -118,15 +118,15 @@ result[80] = 1520 # Bottom-right corner
 #### Convolution Types Visualization
 ```mermaid
 graph TD
-    subgraph "🟢 CORNER Example (Position 0)"
+    subgraph "CORNER Example (Position 0)"
         A1[0 0 0<br/>0 0 1<br/>0 6 7] --> B1[Skip: 0,1,2,3,6<br/>Use: 4,5,7,8] --> C1[Result = 0×4 + 1×5 + 6×7 + 7×8<br/>= 0 + 5 + 42 + 56 = 103]
     end
 
-    subgraph "🔵 BORDER Example (Position 1)"
+    subgraph "BORDER Example (Position 1)"
         A2[0 0 0<br/>1 2 3<br/>7 8 9] --> B2[Skip: 0,1,2<br/>Use: 3,4,5,6,7,8] --> C2[Result = 1×3 + 2×4 + 3×5 + 7×6 + 8×7 + 9×8<br/>= 3 + 8 + 15 + 42 + 56 + 72 = 196]
     end
 
-    subgraph "⚫ CENTER Example (Position 10)"
+    subgraph "CENTER Example (Position 10)"
         A3[0 1 2<br/>9 10 11<br/>18 19 20] --> B3[Use all: 0,1,2,3,4,5,6,7,8] --> C3[Result = 0×0 + 1×1 + 2×2 + 9×3 + 10×4 + 11×5<br/>+ 18×6 + 19×7 + 20×8 = 540]
     end
 
@@ -139,15 +139,15 @@ graph TD
         K[0 1 2<br/>3 4 5<br/>6 7 8]
     end
 
-    subgraph "🟢 Corner Taps (4 used)"
+    subgraph "Corner Taps (4 used)"
         C[❌ ❌ ❌<br/>❌ ✅ ✅<br/>❌ ✅ ✅]
     end
 
-    subgraph "🔵 Border Taps (6 used)"
+    subgraph "Border Taps (6 used)"
         B[❌ ❌ ❌<br/>✅ ✅ ✅<br/>✅ ✅ ✅]
     end
 
-    subgraph "⚫ Center Taps (9 used)"
+    subgraph "Center Taps (9 used)"
         A[✅ ✅ ✅<br/>✅ ✅ ✅<br/>✅ ✅ ✅]
     end
 
@@ -165,7 +165,7 @@ parameter CONV_MAX_X = 5;   // Bigger filter
 
 ```mermaid
 graph TD
-    subgraph "🔧 Instance Generation"
+    subgraph "Instance Generation"
         A[Current Instance<br/>result_index, kernel_index]
         A --> B{Inside Image?}
         B -->|Yes| C[Calculate: img[pixel] × kernel[tap]]
@@ -174,14 +174,14 @@ graph TD
         D --> E
     end
 
-    subgraph "📡 Recursive1: FIFO Propagation"
+    subgraph "Recursive1: FIFO Propagation"
         F{kernel_index < 9?}
         F -->|Yes| G[Generate recursive1<br/>kernel_index + 1]
         G --> H[Propagate FIFO upward]
         F -->|No| I[FIFO complete for result_index]
     end
 
-    subgraph "⚡ Adder Trees: Position-Aware Summation"
+    subgraph "Adder Trees: Position-Aware Summation"
         J{kernel_index == 0?}
         J -->|Yes| K[Launch adder_tree]
         K --> L{Position Type?}
@@ -193,7 +193,7 @@ graph TD
         O --> P
     end
 
-    subgraph "📡 Recursive2: Result Propagation"
+    subgraph "Recursive2: Result Propagation"
         Q{result_index < 81?}
         Q -->|Yes| R[Generate recursive2<br/>result_index + 1]
         R --> S[Propagate result upward]
@@ -210,12 +210,12 @@ graph TD
 
 ```mermaid
 graph LR
-    subgraph "📍 Input Mapping"
+    subgraph "Input Mapping"
         A[result_index] --> B[result_y = idx ÷ 9<br/>result_x = idx mod 9]
         C[kernel_index] --> D[kernel_y = idx ÷ 3<br/>kernel_x = idx mod 3]
     end
 
-    subgraph "🧮 Source Calculation"
+    subgraph "Source Calculation"
         B --> E[img_y = result_y + kernel_y - 1]
         D --> E
         B --> F[img_x = result_x + kernel_x - 1]
@@ -224,7 +224,7 @@ graph LR
         F --> G
     end
 
-    subgraph "✅ Boundary Check"
+    subgraph "Boundary Check"
         G --> H{img_y ≥ 0 && img_y < 9<br/>&&<br/>img_x ≥ 0 && img_x < 9}
         H -->|True| I[Extract img[img_index]]
         H -->|False| J[Skip: Outside image]
@@ -236,23 +236,23 @@ graph LR
 
 ```mermaid
 graph TD
-    subgraph "🔢 Raw Data"
+    subgraph "Raw Data"
         A[9×9 Image<br/>81 pixels]
         B[3×3 Kernel<br/>9 weights]
     end
 
-    subgraph "⚡ Processing Layer"
+    subgraph "Processing Layer"
         C[729 Parallel<br/>Multiplications]
         D[FIFO Storage<br/>81×9 = 729 values]
     end
 
-    subgraph "🎯 Aggregation Layer"
+    subgraph "Aggregation Layer"
         E[Position Detection<br/>Corner/Border/Center]
         F[Selective Summation<br/>4/6/9 taps]
         G[81 Adder Trees]
     end
 
-    subgraph "📊 Final Output"
+    subgraph "Final Output"
         H[result[0..80]<br/>81 convolution results]
     end
 

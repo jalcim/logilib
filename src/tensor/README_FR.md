@@ -18,18 +18,18 @@ Prend une image 9×9 + filtre 3×3 → produit tous les résultats de convolutio
 
 ```mermaid
 graph TD
-    subgraph "🔧 Entrées"
+    subgraph "Entrées"
         A[Image: 0,1,2...80]
         B[Kernel: 0,1,2,3,4,5,6,7,8]
     end
 
-    subgraph "⚡ La magie opère"
+    subgraph "La magie opère"
         C[729 Multiplieurs Parallèles]
         D[Connexions Fil Direct]
         E[Aucune Logique de Contrôle !]
     end
 
-    subgraph "📊 Sortie"
+    subgraph "Sortie"
         F[FIFO[0][0] vers FIFO[80][8]]
     end
 
@@ -45,14 +45,14 @@ graph TD
 
 ```mermaid
 graph LR
-    subgraph "📍 Calcul de Position"
+    subgraph "Calcul de Position"
         A[result_index] --> B[Où dans la sortie ?]
         C[kernel_index] --> D[Quel tap du filtre ?]
         B --> E[Calculer pixel source]
         D --> E
         E --> F{Dans l'image ?}
         F -->|Oui| G[Multiplier & Stocker]
-        F -->|Non| H[Stocker 0]
+        F -->|Non| H[Stocker z pour élimination logique morte]
     end
 
 ```
@@ -118,15 +118,15 @@ result[80] = 1520 # Coin bas-droite
 #### Visualisation Types de Convolution
 ```mermaid
 graph TD
-    subgraph "🟢 COIN Exemple (Position 0)"
+    subgraph "COIN Exemple (Position 0)"
         A1[0 0 0<br/>0 0 1<br/>0 6 7] --> B1[Ignorer: 0,1,2,3,6<br/>Utiliser: 4,5,7,8] --> C1[Résultat = 0×4 + 1×5 + 6×7 + 7×8<br/>= 0 + 5 + 42 + 56 = 103]
     end
 
-    subgraph "🔵 BORDURE Exemple (Position 1)"
+    subgraph "BORDURE Exemple (Position 1)"
         A2[0 0 0<br/>1 2 3<br/>7 8 9] --> B2[Ignorer: 0,1,2<br/>Utiliser: 3,4,5,6,7,8] --> C2[Résultat = 1×3 + 2×4 + 3×5 + 7×6 + 8×7 + 9×8<br/>= 3 + 8 + 15 + 42 + 56 + 72 = 196]
     end
 
-    subgraph "⚫ CENTRE Exemple (Position 10)"
+    subgraph "CENTRE Exemple (Position 10)"
         A3[0 1 2<br/>9 10 11<br/>18 19 20] --> B3[Tout utiliser: 0,1,2,3,4,5,6,7,8] --> C3[Résultat = 0×0 + 1×1 + 2×2 + 9×3 + 10×4 + 11×5<br/>+ 18×6 + 19×7 + 20×8 = 540]
     end
 
@@ -139,15 +139,15 @@ graph TD
         K[0 1 2<br/>3 4 5<br/>6 7 8]
     end
 
-    subgraph "🟢 Taps Coin (4 utilisés)"
+    subgraph "Taps Coin (4 utilisés)"
         C[❌ ❌ ❌<br/>❌ ✅ ✅<br/>❌ ✅ ✅]
     end
 
-    subgraph "🔵 Taps Bordure (6 utilisés)"
+    subgraph "Taps Bordure (6 utilisés)"
         B[❌ ❌ ❌<br/>✅ ✅ ✅<br/>✅ ✅ ✅]
     end
 
-    subgraph "⚫ Taps Centre (9 utilisés)"
+    subgraph "Taps Centre (9 utilisés)"
         A[✅ ✅ ✅<br/>✅ ✅ ✅<br/>✅ ✅ ✅]
     end
 
@@ -165,7 +165,7 @@ parameter CONV_MAX_X = 5;   // Filtre plus grand
 
 ```mermaid
 graph TD
-    subgraph "🔧 Génération d'Instance"
+    subgraph "Génération d'Instance"
         A[Instance Courante<br/>result_index, kernel_index]
         A --> B{Dans l'Image?}
         B -->|Oui| C[Calculer: img[pixel] × kernel[tap]]
@@ -174,14 +174,14 @@ graph TD
         D --> E
     end
 
-    subgraph "📡 Récursive1: Propagation FIFO"
+    subgraph "Récursive1: Propagation FIFO"
         F{kernel_index < 9?}
         F -->|Oui| G[Générer recursive1<br/>kernel_index + 1]
         G --> H[Propager FIFO vers le haut]
         F -->|Non| I[FIFO complet pour result_index]
     end
 
-    subgraph "⚡ Arbres Additionneurs: Sommation Position-Aware"
+    subgraph "Arbres Additionneurs: Sommation Position-Aware"
         J{kernel_index == 0?}
         J -->|Oui| K[Lancer adder_tree]
         K --> L{Type de Position?}
@@ -193,7 +193,7 @@ graph TD
         O --> P
     end
 
-    subgraph "📡 Récursive2: Propagation Result"
+    subgraph "Récursive2: Propagation Result"
         Q{result_index < 81?}
         Q -->|Oui| R[Générer recursive2<br/>result_index + 1]
         R --> S[Propager result vers le haut]
@@ -210,12 +210,12 @@ graph TD
 
 ```mermaid
 graph LR
-    subgraph "📍 Mapping d'Entrée"
+    subgraph "Mapping d'Entrée"
         A[result_index] --> B[result_y = idx ÷ 9<br/>result_x = idx mod 9]
         C[kernel_index] --> D[kernel_y = idx ÷ 3<br/>kernel_x = idx mod 3]
     end
 
-    subgraph "🧮 Calcul Source"
+    subgraph "Calcul Source"
         B --> E[img_y = result_y + kernel_y - 1]
         D --> E
         B --> F[img_x = result_x + kernel_x - 1]
@@ -224,7 +224,7 @@ graph LR
         F --> G
     end
 
-    subgraph "✅ Vérification Limites"
+    subgraph "Vérification Limites"
         G --> H{img_y ≥ 0 && img_y < 9<br/>&&<br/>img_x ≥ 0 && img_x < 9}
         H -->|Vrai| I[Extraire img[img_index]]
         H -->|Faux| J[Ignorer: Hors image]
@@ -236,23 +236,23 @@ graph LR
 
 ```mermaid
 graph TD
-    subgraph "🔢 Données Brutes"
+    subgraph "Données Brutes"
         A[Image 9×9<br/>81 pixels]
         B[Kernel 3×3<br/>9 poids]
     end
 
-    subgraph "⚡ Couche Traitement"
+    subgraph "Couche Traitement"
         C[729 Multiplications<br/>Parallèles]
         D[Stockage FIFO<br/>81×9 = 729 valeurs]
     end
 
-    subgraph "🎯 Couche Agrégation"
+    subgraph "Couche Agrégation"
         E[Détection Position<br/>Coin/Bordure/Centre]
         F[Sommation Sélective<br/>4/6/9 taps]
         G[81 Arbres Additionneurs]
     end
 
-    subgraph "📊 Sortie Finale"
+    subgraph "Sortie Finale"
         H[result[0..80]<br/>81 résultats convolution]
     end
 
