@@ -5,15 +5,11 @@ Parallel convolution engine with zero latency and 729 simultaneous operations.
 ## 🎯 What Does This Do?
 
 ```mermaid
-flowchart LR
+graph LR
     A[9×9 Image] --> B[🔥 Convolution Engine]
     C[3×3 Filter] --> B
     B --> D[729 Results]
 
-    style A fill:#e3f2fd
-    style C fill:#fff3e0
-    style B fill:#ffebee
-    style D fill:#e8f5e8
 ```
 
 Takes a 9×9 image + 3×3 filter → produces all convolution results instantly
@@ -43,9 +39,6 @@ graph TD
     D --> E
     E --> F
 
-    style C fill:#ff6b6b
-    style D fill:#4ecdc4
-    style E fill:#45b7d1
 ```
 
 ## 🧠 The Smart Coordinate System
@@ -62,9 +55,6 @@ graph LR
         F -->|No| H[Store 0]
     end
 
-    style F fill:#ffd93d
-    style G fill:#6bcf7f
-    style H fill:#ff6b6b
 ```
 
 ## 📸 Visual Example
@@ -103,10 +93,6 @@ graph LR
     B --> C[🔧 500 Multipliers]
     C --> D[🚀 Instant Results]
 
-    style A fill:#ff6b6b
-    style B fill:#4ecdc4
-    style C fill:#ffd93d
-    style D fill:#6bcf7f
 ```
 
 ## 🛠️ Usage
@@ -144,12 +130,6 @@ graph TD
         A3[0 1 2<br/>9 10 11<br/>18 19 20] --> B3[Use all: 0,1,2,3,4,5,6,7,8] --> C3[Result = 0×0 + 1×1 + 2×2 + 9×3 + 10×4 + 11×5<br/>+ 18×6 + 19×7 + 20×8 = 540]
     end
 
-    style A1 fill:#c8e6c9
-    style A2 fill:#bbdefb
-    style A3 fill:#f5f5f5
-    style C1 fill:#c8e6c9
-    style C2 fill:#bbdefb
-    style C3 fill:#f5f5f5
 ```
 
 #### 3×3 Kernel Layout
@@ -171,10 +151,6 @@ graph TD
         A[✅ ✅ ✅<br/>✅ ✅ ✅<br/>✅ ✅ ✅]
     end
 
-    style K fill:#fff3e0
-    style C fill:#c8e6c9
-    style B fill:#bbdefb
-    style A fill:#f5f5f5
 ```
 
 ### 4. Customize Size
@@ -188,7 +164,7 @@ parameter CONV_MAX_X = 5;   // Bigger filter
 ### 🔄 Double Recursive Propagation
 
 ```mermaid
-flowchart TD
+graph TD
     subgraph "🔧 Instance Generation"
         A[Current Instance<br/>result_index, kernel_index]
         A --> B{Inside Image?}
@@ -228,16 +204,12 @@ flowchart TD
     I --> J
     P --> Q
 
-    style A fill:#ff6b6b
-    style H fill:#4ecdc4
-    style S fill:#6bcf7f
-    style T fill:#ffd93d
 ```
 
 ### 🎯 Smart Addressing & Coordinate Transform
 
 ```mermaid
-flowchart LR
+graph LR
     subgraph "📍 Input Mapping"
         A[result_index] --> B[result_y = idx ÷ 9<br/>result_x = idx mod 9]
         C[kernel_index] --> D[kernel_y = idx ÷ 3<br/>kernel_x = idx mod 3]
@@ -258,10 +230,6 @@ flowchart LR
         H -->|False| J[Skip: Outside image]
     end
 
-    style A fill:#e3f2fd
-    style C fill:#fff3e0
-    style I fill:#e8f5e8
-    style J fill:#ffebee
 ```
 
 ### 📦 Data Flow Architecture
@@ -296,10 +264,6 @@ graph TD
     F --> G
     G --> H
 
-    style C fill:#ff6b6b
-    style D fill:#4ecdc4
-    style G fill:#45b7d1
-    style H fill:#6bcf7f
 ```
 
 ## 🎯 Why This Rocks
@@ -309,30 +273,33 @@ graph TD
 | 🚀 **Zero Latency** | Results available instantly |
 | ⚡ **Massive Parallel** | 729 operations at once |
 | 🔧 **No Control Logic** | Just multipliers + wires |
-| 📦 **Easy Integration** | Drop into any FPGA design |
+| 📦 **Easy Integration** | Drop into any ASIC design |
 | 🎯 **Configurable** | Change sizes easily |
 
 ## 🌟 Applications
 
 ```mermaid
-mindmap
-  root((Convolution Engine))
-    Deep Learning
-      CNN layers
-      Edge detection
-      Feature maps
-    Image Processing
-      Blur filters
-      Sharpening
-      Noise reduction
-    Computer Vision
-      Object detection
-      Pattern matching
-      Real-time video
-    Signal Processing
-      2D filtering
-      Frequency analysis
-      Correlation
+graph TD
+    A[Convolution Engine] --> B[Deep Learning]
+    A --> C[Image Processing]
+    A --> D[Computer Vision]
+    A --> E[Signal Processing]
+
+    B --> F[CNN layers]
+    B --> G[Edge detection]
+    B --> H[Feature maps]
+
+    C --> I[Blur filters]
+    C --> J[Sharpening]
+    C --> K[Noise reduction]
+
+    D --> L[Object detection]
+    D --> M[Pattern matching]
+    D --> N[Real-time video]
+
+    E --> O[2D filtering]
+    E --> P[Frequency analysis]
+    E --> Q[Correlation]
 ```
 
 ## License
