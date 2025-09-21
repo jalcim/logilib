@@ -14,7 +14,7 @@ graph LR
 
 Takes a 9×9 image + 3×3 filter → produces all convolution results instantly
 
-## 🏗️ How It Works
+## How It Works
 
 ```mermaid
 graph TD
@@ -30,7 +30,7 @@ graph TD
     end
 
     subgraph "Output"
-        F[FIFO[0][0] to FIFO[80][8]]
+        F[FIFO 0,0 to FIFO 80,8]
     end
 
     A --> C
@@ -119,24 +119,20 @@ result[80] = 1520 # Bottom-right corner
 ```mermaid
 graph TD
     subgraph "CORNER Example (Position 0)"
-        A1[0 0 0<br/>0 0 1<br/>0 6 7] --> B1[Skip: 0,1,2,3,6<br/>Use: 4,5,7,8] --> C1[Result = 103]
+        A1[0 0 1<br/>6 7] --> C1[Result = 103]
     end
 
     subgraph "BORDER Example (Position 1)"
-        A2[0 0 0<br/>1 2 3<br/>7 8 9] --> B2[Skip: 0,1,2<br/>Use: 3,4,5,6,7,8] --> C2[Result = 196]
+        A2[1 2 3<br/>7 8 9] --> C2[Result = 196]
     end
 
     subgraph "CENTER Example (Position 10)"
-        A3[0 1 2<br/>9 10 11<br/>18 19 20] --> B3[Use all: 0,1,2,3,4,5,6,7,8] --> C3[Result = 540]
+        A3[0 1 2<br/>9 10 11<br/>18 19 20] --> C3[Result = 540]
     end
 
     classDef cornerData fill:#ff9999,stroke:#ff6666,stroke-width:2px,color:#000
     classDef borderData fill:#99ccff,stroke:#6699ff,stroke-width:2px,color:#000
     classDef centerData fill:#99ff99,stroke:#66ff66,stroke-width:2px,color:#000
-
-    classDef cornerProcess fill:#ffcc99,stroke:#ff9933,stroke-width:2px,color:#000
-    classDef borderProcess fill:#ccddff,stroke:#99bbff,stroke-width:2px,color:#000
-    classDef centerProcess fill:#ccffcc,stroke:#99ff99,stroke-width:2px,color:#000
 
     classDef cornerResult fill:#ffdddd,stroke:#ffaaaa,stroke-width:3px,color:#000
     classDef borderResult fill:#ddeeff,stroke:#aaccff,stroke-width:3px,color:#000
@@ -145,10 +141,6 @@ graph TD
     class A1 cornerData
     class A2 borderData
     class A3 centerData
-
-    class B1 cornerProcess
-    class B2 borderProcess
-    class B3 centerProcess
 
     class C1 cornerResult
     class C2 borderResult
@@ -192,9 +184,9 @@ graph TD
     subgraph "Instance Generation"
         A[Current Instance<br/>result_index, kernel_index]
         A --> B{Inside Image?}
-        B -->|Yes| C[Calculate: img[pixel] × kernel[tap]]
+        B -->|Yes| C[Calculate: img pixel × kernel tap]
         B -->|No| D[Skip multiplication]
-        C --> E[Store in FIFO[fifo_index]]
+        C --> E[Store in FIFO array]
         D --> E
     end
 
@@ -212,7 +204,7 @@ graph TD
         L -->|Corner| M[Sum 4 taps<br/>Skip border taps]
         L -->|Border| N[Sum 6 taps<br/>Skip edge taps]
         L -->|Center| O[Sum all 9 taps]
-        M --> P[Store in result[result_index]]
+        M --> P[Store in result array]
         N --> P
         O --> P
     end
@@ -250,7 +242,7 @@ graph LR
 
     subgraph "Boundary Check"
         G --> H{img_y ≥ 0 && img_y < 9<br/>&&<br/>img_x ≥ 0 && img_x < 9}
-        H -->|True| I[Extract img[img_index]]
+        H -->|True| I[Extract img pixel]
         H -->|False| J[Skip: Outside image]
     end
 
@@ -277,7 +269,7 @@ graph TD
     end
 
     subgraph "Final Output"
-        H[result[0..80]<br/>81 convolution results]
+        H[result 0..80<br/>81 convolution results]
     end
 
     A --> C

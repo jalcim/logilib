@@ -14,7 +14,7 @@ graph LR
 
 Prend une image 9×9 + filtre 3×3 → produit tous les résultats de convolution instantanément
 
-## 🏗️ Comment ça marche
+## Comment ça marche
 
 ```mermaid
 graph TD
@@ -30,7 +30,7 @@ graph TD
     end
 
     subgraph "Sortie"
-        F[FIFO[0][0] vers FIFO[80][8]]
+        F[FIFO 0,0 vers FIFO 80,8]
     end
 
     A --> C
@@ -119,24 +119,20 @@ result[80] = 1520 # Coin bas-droite
 ```mermaid
 graph TD
     subgraph "COIN Exemple (Position 0)"
-        A1[0 0 0<br/>0 0 1<br/>0 6 7] --> B1[Ignorer: 0,1,2,3,6<br/>Utiliser: 4,5,7,8] --> C1[Résultat = 103]
+        A1[0 0 1<br/>6 7] --> C1[Résultat = 103]
     end
 
     subgraph "BORDURE Exemple (Position 1)"
-        A2[0 0 0<br/>1 2 3<br/>7 8 9] --> B2[Ignorer: 0,1,2<br/>Utiliser: 3,4,5,6,7,8] --> C2[Résultat = 196]
+        A2[1 2 3<br/>7 8 9] --> C2[Résultat = 196]
     end
 
     subgraph "CENTRE Exemple (Position 10)"
-        A3[0 1 2<br/>9 10 11<br/>18 19 20] --> B3[Tout utiliser: 0,1,2,3,4,5,6,7,8] --> C3[Résultat = 540]
+        A3[0 1 2<br/>9 10 11<br/>18 19 20] --> C3[Résultat = 540]
     end
 
     classDef cornerData fill:#ff9999,stroke:#ff6666,stroke-width:2px,color:#000
     classDef borderData fill:#99ccff,stroke:#6699ff,stroke-width:2px,color:#000
     classDef centerData fill:#99ff99,stroke:#66ff66,stroke-width:2px,color:#000
-
-    classDef cornerProcess fill:#ffcc99,stroke:#ff9933,stroke-width:2px,color:#000
-    classDef borderProcess fill:#ccddff,stroke:#99bbff,stroke-width:2px,color:#000
-    classDef centerProcess fill:#ccffcc,stroke:#99ff99,stroke-width:2px,color:#000
 
     classDef cornerResult fill:#ffdddd,stroke:#ffaaaa,stroke-width:3px,color:#000
     classDef borderResult fill:#ddeeff,stroke:#aaccff,stroke-width:3px,color:#000
@@ -145,10 +141,6 @@ graph TD
     class A1 cornerData
     class A2 borderData
     class A3 centerData
-
-    class B1 cornerProcess
-    class B2 borderProcess
-    class B3 centerProcess
 
     class C1 cornerResult
     class C2 borderResult
@@ -192,9 +184,9 @@ graph TD
     subgraph "Génération d'Instance"
         A[Instance Courante<br/>result_index, kernel_index]
         A --> B{Dans l'Image?}
-        B -->|Oui| C[Calculer: img[pixel] × kernel[tap]]
+        B -->|Oui| C[Calculer: img pixel × kernel tap]
         B -->|Non| D[Ignorer multiplication]
-        C --> E[Stocker dans FIFO[fifo_index]]
+        C --> E[Stocker dans tableau FIFO]
         D --> E
     end
 
@@ -212,7 +204,7 @@ graph TD
         L -->|Coin| M[Sommer 4 taps<br/>Ignorer taps bordure]
         L -->|Bordure| N[Sommer 6 taps<br/>Ignorer taps côté]
         L -->|Centre| O[Sommer tous les 9 taps]
-        M --> P[Stocker dans result[result_index]]
+        M --> P[Stocker dans tableau result]
         N --> P
         O --> P
     end
@@ -250,7 +242,7 @@ graph LR
 
     subgraph "Vérification Limites"
         G --> H{img_y ≥ 0 && img_y < 9<br/>&&<br/>img_x ≥ 0 && img_x < 9}
-        H -->|Vrai| I[Extraire img[img_index]]
+        H -->|Vrai| I[Extraire img pixel]
         H -->|Faux| J[Ignorer: Hors image]
     end
 
@@ -277,7 +269,7 @@ graph TD
     end
 
     subgraph "Sortie Finale"
-        H[result[0..80]<br/>81 résultats convolution]
+        H[result 0..80<br/>81 résultats convolution]
     end
 
     A --> C
