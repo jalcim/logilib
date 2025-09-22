@@ -11,13 +11,12 @@ module test;
    wire [IMG_SIZE*DATA_WIDTH-1:0] result;
 
    index #(.result_index(0), .kernel_index(0)) tester(img, kernel, FIFO, result);
-//   index tester(img, kernel, FIFO, result);
 
    integer i;
 
    initial
      begin
-	$dumpfile("signal_test_tensor4.vcd");
+	$dumpfile("signal_test_tensor.vcd");
         $dumpvars;
 	img = 0;
 	kernel = 0;
