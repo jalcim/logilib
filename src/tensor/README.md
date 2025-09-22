@@ -111,28 +111,17 @@ graph TD
 ### Recursive Architecture
 ```mermaid
 graph TD
-    A[test.v] --> B[index module in tensor.v]
-    B --> B1[index instance result_index=0]
-    B --> B2[index instance result_index=1]
-    B --> B3[... 81 recursive instances ...]
-    B --> B81[index instance result_index=80]
-
-    B1 --> C1[mult.v kernel_index=0..8]
-    B1 --> D1[acc.v position-aware]
-    B2 --> C2[mult.v kernel_index=0..8]
-    B2 --> D2[acc.v position-aware]
-
-    C1 --> E1[9 recursive mult instances]
-    C2 --> E2[9 recursive mult instances]
-
-    D1 --> F[on_center.v / on_border.v / on_coin.v]
-    D2 --> F
-    F --> G[adder_tree in adder.v]
-
-    E1 --> H[FIFO data flow]
-    E2 --> H
-    H --> D1
-    H --> D2
+    A[test.v] --> B[tensor.v index]
+    B --> C[mult.v]
+    B --> D[acc.v]
+    B -.-> B[🔄 result_index++]
+    C -.-> C[🔄 kernel_index++]
+    D --> E[on_center.v]
+    D --> F[on_border.v]
+    D --> G[on_coin.v]
+    E --> H[adder.v]
+    F --> H
+    G --> H
 ```
 
 ## ⚡ Performance
