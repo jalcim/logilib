@@ -1,7 +1,6 @@
 module mult(input [IMG_SIZE * DATA_WIDTH -1 : 0]	       img,
 	    input [CONV_SIZE * DATA_WIDTH -1 : 0]	       kernel,
 	    output [(IMG_SIZE * CONV_SIZE) * DATA_WIDTH -1: 0] FIFO,
-	    //	     output [FIFO_KERNEL_SIZE-1:0]			FIFO,
 	    output [IMG_SIZE*DATA_WIDTH-1:0]		       result);
 
    parameter DATA_WIDTH = 32;
@@ -42,7 +41,6 @@ module mult(input [IMG_SIZE * DATA_WIDTH -1 : 0]	       img,
 	assign w_kernel = kernel[KERNEL_START +: DATA_WIDTH];
 	assign w_fifo = w_img * w_kernel;
 	assign FIFO[FIFO_START +: DATA_WIDTH] = w_fifo;
-	//	assign FIFO[DATA_WIDTH: 0] = w_fifo;
      end
 
    if (kernel_index < CONV_SIZE - 1)
@@ -54,11 +52,6 @@ module mult(input [IMG_SIZE * DATA_WIDTH -1 : 0]	       img,
 	  .CONV_MAX_X(CONV_MAX_X),
 	  .result_index(result_index),
 	  .kernel_index(kernel_index+1)) mult_stage(img, kernel, FIFO, result);
-/*
-	index #(.result_index(result_index),
-		.kernel_index(kernel_index + 1))
-	mult (img, kernel, FIFO, result);
-*/	//	resursive1 (img, kernel, FIFO[FIFO_KERNEL_START:FIFO_KERNEL_END], result);
      end
 
 

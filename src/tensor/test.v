@@ -1,4 +1,3 @@
-
 module test;
    parameter IMG_SIZE = 81;
    parameter DATA_WIDTH = 32;
@@ -10,7 +9,7 @@ module test;
    wire [(IMG_SIZE*CONV_SIZE)*DATA_WIDTH-1:0] FIFO;
    wire [IMG_SIZE*DATA_WIDTH-1:0] result;
 
-   index #(.result_index(0), .kernel_index(0)) tester(img, kernel, FIFO, result);
+   index #(.result_index(0)) tester(img, kernel, FIFO, result);
 
    integer i;
 
