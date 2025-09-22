@@ -20,15 +20,16 @@ result[80] = 1520 # Coin bas-droite
 
 ```mermaid
 graph LR
-    A[Image 9×9] --> B[729 Multiplieurs]
+    A[Image 9×9] --> B[~500 Multiplieurs<br/>~230 padding ignoré]
     C[Kernel 3×3] --> B
     B --> D[Sommation Intelligente]
     D --> E[81 Résultats]
 ```
 
-1. **Chaque combinaison pixel×kernel** calculée en parallèle
-2. **Sommation position-aware** : coins utilisent 4 taps, bordures 6, centre 9
-3. **Zéro logique de contrôle** - Verilog structurel pur
+1. **729 combinaisons totales** (81 pixels × 9 taps kernel)
+2. **~500 multiplieurs actifs**, ~230 ignorés pour padding/bordures
+3. **Sommation position-aware** : coins utilisent 4 taps, bordures 6, centre 9
+4. **Zéro logique de contrôle** - Verilog structurel pur
 
 ## 📁 Architecture
 
@@ -107,6 +108,40 @@ graph LR
     B --> C[729 mult]
 ```
 
+## 🔧 Gestion des Bordures
+
+Différentes positions utilisent différents nombres de taps du kernel :
+
+| Position | Taps Utilisés | Exemple |
+|----------|---------------|---------|
+| Coin | 4 taps | Évite pixels bordure |
+| Bordure | 6 taps | Évite un côté |
+| Centre | 9 taps | Kernel complet |
+
+**Disposition Kernel :**
+```mermaid
+graph TD
+    K[0 1 2<br/>3 4 5<br/>6 7 8]
+```
+
+**Pixels coin (4 taps) :**
+```mermaid
+graph TD
+    C[❌ ❌ ❌<br/>❌ ✅ ✅<br/>❌ ✅ ✅]
+```
+
+**Pixels bordure (6 taps) :**
+```mermaid
+graph TD
+    B[❌ ❌ ❌<br/>✅ ✅ ✅<br/>✅ ✅ ✅]
+```
+
+**Pixels centre (9 taps) :**
+```mermaid
+graph TD
+    A[✅ ✅ ✅<br/>✅ ✅ ✅<br/>✅ ✅ ✅]
+```
+
 ## 📊 Performance
 
 | Métrique | Valeur |
@@ -121,33 +156,8 @@ graph LR
 ### Génération Récursive
 - **Récursion Index** : Fait avancer `result_index` (0→80) pour couvrir tous les pixels de sortie
 - **Récursion Mult** : Fait avancer `kernel_index` (0→8) pour chaque tap du kernel
-- **Résultat** : 81 × 9 = 729 multiplications parallèles
+- **Résultat** : 81 × 9 = 729 instances totales (~500 multiplieurs actifs, ~230 padding ignoré)
 
-### Gestion des Bordures
-| Position | Taps Utilisés | Exemple |
-|----------|---------------|---------|
-| Coin | 4 taps | Évite pixels bordure |
-| Bordure | 6 taps | Évite un côté |
-| Centre | 9 taps | Kernel complet |
-
-```mermaid
-graph TD
-    subgraph "Poids Kernel"
-        K[0 1 2<br/>3 4 5<br/>6 7 8]
-    end
-
-    subgraph "Taps Coin (4 utilisés)"
-        C[❌ ❌ ❌<br/>❌ ✅ ✅<br/>❌ ✅ ✅]
-    end
-
-    subgraph "Taps Bordure (6 utilisés)"
-        B[❌ ❌ ❌<br/>✅ ✅ ✅<br/>✅ ✅ ✅]
-    end
-
-    subgraph "Taps Centre (9 utilisés)"
-        A[✅ ✅ ✅<br/>✅ ✅ ✅<br/>✅ ✅ ✅]
-    end
-```
 
 ### Transformation Coordonnées
 ```verilog

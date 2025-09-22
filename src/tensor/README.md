@@ -27,7 +27,7 @@ graph LR
 ```
 
 1. **729 total combinations** (81 pixels × 9 kernel taps)
-2. **~500 active multipliers** (~230 ignored for padding/borders)
+2. **~500 active multipliers**, ~230 ignored for padding/borders
 3. **Position-aware summation**: corners use 4 taps, borders use 6, center uses 9
 4. **Zero control logic** - pure structural Verilog
 
