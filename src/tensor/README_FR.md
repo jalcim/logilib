@@ -369,36 +369,15 @@ mindmap
       Corrélation
 ```
 
-## 🔬 Comment ça marche vraiment
-
-### Le Secret : Récursion Paramétrique
-```mermaid
-graph TD
-    A[Module 'index'] --> B[Génère instance pour chaque combinaison]
-    B --> C[result_index=0, kernel_index=0]
-    B --> D[result_index=0, kernel_index=1]
-    B --> E[...]
-    B --> F[result_index=80, kernel_index=8]
-
-    C --> G[Calcule position image source]
-    D --> H[Calcule position image source]
-    F --> I[Calcule position image source]
-
-    G --> J[Multiplie & stocke dans FIFO]
-    H --> J
-    I --> J
-
-```
-
 ### Transformation Coordonnées Magique
 ```mermaid
 graph LR
-    A[result_index=10] --> B[Position sortie: ligne 1, col 1]
-    C[kernel_index=4] --> D[Centre du kernel 3×3]
-    B --> E[Pixel source: position 10 dans image]
+    A["result_index=10"] --> B["Position sortie: ligne 1, col 1"]
+    C["kernel_index=4"] --> D["Centre du kernel 3×3"]
+    B --> E["Pixel source: position 10 dans image"]
     D --> E
-    E --> F[img[10] × kernel[4] = 10 × 4 = 40]
-    F --> G[Stocké dans FIFO[10][4]]
+    E --> F["img[10] × kernel[4] = 10 × 4 = 40"]
+    F --> G["Stocké dans FIFO[10][4]"]
 
 ```
 
