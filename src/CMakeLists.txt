@@ -18,3 +18,7 @@ endif()
 if (ENABLE_SRC_MEMORY)
   add_subdirectory(memory)
 endif()
+
+if (ENABLE_SRC_TENSOR)
+  add_subdirectory(tensor)
+endif()

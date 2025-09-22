@@ -1,7 +1,7 @@
-module index(input [IMG_SIZE * DATA_WIDTH -1 : 0]		img,
-	     input [CONV_SIZE * DATA_WIDTH -1 : 0]		kernel,
-	     output [(IMG_SIZE * CONV_SIZE) * DATA_WIDTH -1: 0]	FIFO,
-	     output [IMG_SIZE*DATA_WIDTH-1:0]			result);
+module tensor(input [IMG_SIZE * DATA_WIDTH -1 : 0]		 img,
+	      input [CONV_SIZE * DATA_WIDTH -1 : 0]		 kernel,
+	      output [(IMG_SIZE * CONV_SIZE) * DATA_WIDTH -1: 0] FIFO,
+	      output [IMG_SIZE*DATA_WIDTH-1:0]			 result);
 
    parameter DATA_WIDTH = 32;
 
@@ -45,7 +45,12 @@ module index(input [IMG_SIZE * DATA_WIDTH -1 : 0]		img,
 	  .result_index(result_index),
 	  .kernel_index(kernel_index)) accumulator(FIFO, result);
 
-	index #(.result_index(result_index + 1)) genblk_index (img, kernel, FIFO, result);
+	tensor #(.result_index(result_index + 1),
+		 .IMG_MAX_X(IMG_MAX_X),
+		 .IMG_MAX_Y(IMG_MAX_Y),
+		 .CONV_MAX_X(CONV_MAX_X),
+		 .CONV_MAX_Y(CONV_MAX_Y),
+		 .DATA_WIDTH(DATA_WIDTH)) genblk_tensor (img, kernel, FIFO, result);
      end
 
 endmodule

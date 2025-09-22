@@ -1,5 +1,8 @@
 # Fichier de configuration généré automatiquement
 option(ENABLE_SRC "Activer src" ON)
+
+option(ENABLE_SRC_TENSOR "Activer src/tensor" ON)
+
 option(ENABLE_SRC_COMPTEUR "Activer src/compteur" ON)
 option(ENABLE_SRC_PRIMITIVE "Activer src/primitive" ON)
 option(ENABLE_SRC_PRIMITIVE_GATE "Activer src/primitive/gate" ON)
