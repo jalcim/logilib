@@ -183,8 +183,8 @@ graph TD
 ## 🏗️ Architecture des Modules
 
 ### Fichiers Principaux
-- **tensor.v** - Module index de niveau supérieur avec instanciation récursive
-- **mult.v** - Étape de multiplication gérant les opérations pixel × kernel
+- **tensor.v** - **Module index récursif** qui génère 81 instances (une par pixel de sortie)
+- **mult.v** - **Étape de multiplication récursive** qui génère 9 instances par pixel (une par tap du kernel)
 - **acc.v** - Module accumulateur qui route vers les gestionnaires spécifiques à la position
 - **adder.v** - Additionneur arborescent pour sommation parallèle efficace
 - **on_center.v** - Gère la convolution 9-tap pour les pixels centraux
@@ -192,21 +192,31 @@ graph TD
 - **on_coin.v** - Gère la convolution 4-tap pour les pixels de coin
 - **test.v** - Banc de test avec validation complète
 
-### Hiérarchie des Modules
+### Architecture Récursive
 ```mermaid
 graph TD
-    A[test.v] --> B[index dans tensor.v]
-    B --> C[mult.v]
-    B --> D[acc.v]
-    C --> E[Instances mult récursives]
-    D --> F[on_center.v]
-    D --> G[on_border.v]
-    D --> H[on_coin.v]
-    F --> I[adder_tree dans adder.v]
-    G --> I
-    H --> I
-    E --> J[Flux de données FIFO]
-    J --> D
+    A[test.v] --> B[module index dans tensor.v]
+    B --> B1[instance index result_index=0]
+    B --> B2[instance index result_index=1]
+    B --> B3[... 81 instances récursives ...]
+    B --> B81[instance index result_index=80]
+
+    B1 --> C1[mult.v kernel_index=0..8]
+    B1 --> D1[acc.v position-aware]
+    B2 --> C2[mult.v kernel_index=0..8]
+    B2 --> D2[acc.v position-aware]
+
+    C1 --> E1[9 instances mult récursives]
+    C2 --> E2[9 instances mult récursives]
+
+    D1 --> F[on_center.v / on_border.v / on_coin.v]
+    D2 --> F
+    F --> G[adder_tree dans adder.v]
+
+    E1 --> H[Flux de données FIFO]
+    E2 --> H
+    H --> D1
+    H --> D2
 ```
 
 ### 4. Personnaliser la Taille
@@ -217,48 +227,62 @@ parameter CONV_MAX_X = 5;   // Filtre plus grand
 
 ## 🔍 Architecture Approfondie
 
-### Propagation Doublement Récursive
+### Architecture Doublement Récursive Expliquée
+
+Le système utilise **deux niveaux de récursion** pour générer toutes les 729 opérations :
+
+#### 1. Récursion Index (tensor.v) - Fait avancer result_index
+**Objectif**: Traiter la convolution pour TOUTES les cellules de l'image (0 à 80)
+**Récursion**: Incrémente `result_index` pour couvrir chaque pixel de sortie
+```verilog
+if (result_index < IMG_SIZE)
+    index #(.result_index(result_index + 1)) genblk_index (img, kernel, FIFO, result);
+```
+
+#### 2. Récursion Mult (mult.v) - Fait avancer kernel_index
+**Objectif**: Traiter TOUTES les multiplications du kernel (0 à 8) pour chaque cellule d'image
+**Récursion**: Incrémente `kernel_index` pour couvrir chaque tap du kernel
+```verilog
+if (kernel_index < CONV_SIZE - 1)
+    mult #(.kernel_index(kernel_index+1)) mult_stage(img, kernel, FIFO, result);
+```
+
+**Point Clé**:
+- Récursion `index` → couvre toutes les **positions image** (result_index 0→80)
+- Récursion `mult` → couvre tous les **taps kernel** (kernel_index 0→8) pour chaque position
+- Résultat: 81 × 9 = **729 multiplications parallèles**
 
 ```mermaid
 graph TD
-    subgraph "Génération d'Instance"
-        A[Instance Courante<br/>result_index, kernel_index]
-        A --> B{Dans l'Image?}
-        B -->|Oui| C[Calculer: img pixel × kernel tap]
-        B -->|Non| D[Laisser Z pour élimination logique morte]
-        C --> E[Stocker dans tableau FIFO]
+    subgraph "Niveau 1: Récursion Index (81 instances)"
+        A[index result_index=0]
+        A1[index result_index=1]
+        A2[index result_index=2]
+        A3[... 81 instances total ...]
+        A80[index result_index=80]
     end
 
-    subgraph "Récursive1: Propagation FIFO"
-        F{kernel_index < 9?}
-        F -->|Oui| G[Générer recursive1<br/>kernel_index + 1]
-        G --> H[Propager FIFO vers le haut]
-        F -->|Non| I[FIFO complet pour result_index]
+    subgraph "Niveau 2: Récursion Mult (9 par index = 729 total)"
+        B[mult kernel_index=0]
+        B1[mult kernel_index=1]
+        B2[mult kernel_index=2]
+        B8[mult kernel_index=8]
     end
 
-    subgraph "Arbres Additionneurs: Sommation Position-Aware"
-        J{kernel_index == 0?}
-        J -->|Oui| K[Lancer adder_tree]
-        K --> L{Type de Position?}
-        L -->|Coin| M[Sommer 4 taps<br/>Ignorer taps bordure]
-        L -->|Bordure| N[Sommer 6 taps<br/>Ignorer taps côté]
-        L -->|Centre| O[Sommer tous les 9 taps]
-        M --> P[Stocker dans tableau result]
-        N --> P
-        O --> P
+    subgraph "Résultat: 729 Opérations Parallèles"
+        C[Chaque combinaison pixel×kernel<br/>calculée simultanément]
     end
 
-    subgraph "Récursive2: Propagation Result"
-        Q{result_index < 81?}
-        Q -->|Oui| R[Générer recursive2<br/>result_index + 1]
-        R --> S[Propager result vers le haut]
-        Q -->|Non| T[Toutes convolutions terminées]
-    end
-
-    E --> F
-    I --> J
-    P --> Q
-
+    A --> B
+    A --> B1
+    A --> B2
+    A --> B8
+    A1 --> B
+    A2 --> B
+    B --> C
+    B1 --> C
+    B2 --> C
+    B8 --> C
 ```
 
 ### Adressage Intelligent & Transformation Coordonnées

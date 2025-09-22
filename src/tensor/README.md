@@ -99,8 +99,8 @@ graph TD
 ## 🏗️ Module Architecture
 
 ### Core Files
-- **tensor.v** - Top-level index module with recursive instantiation
-- **mult.v** - Multiplication stage handling pixel × kernel operations
+- **tensor.v** - **Recursive index module** that generates 81 instances (one per output pixel)
+- **mult.v** - **Recursive multiplication stage** that generates 9 instances per pixel (one per kernel tap)
 - **acc.v** - Accumulator module that routes to position-specific handlers
 - **adder.v** - Tree-based adder for efficient parallel summation
 - **on_center.v** - Handles 9-tap convolution for center pixels
@@ -108,21 +108,31 @@ graph TD
 - **on_coin.v** - Handles 4-tap convolution for corner pixels
 - **test.v** - Test bench with comprehensive validation
 
-### Module Hierarchy
+### Recursive Architecture
 ```mermaid
 graph TD
-    A[test.v] --> B[index in tensor.v]
-    B --> C[mult.v]
-    B --> D[acc.v]
-    C --> E[Recursive mult instances]
-    D --> F[on_center.v]
-    D --> G[on_border.v]
-    D --> H[on_coin.v]
-    F --> I[adder_tree in adder.v]
-    G --> I
-    H --> I
-    E --> J[FIFO data flow]
-    J --> D
+    A[test.v] --> B[index module in tensor.v]
+    B --> B1[index instance result_index=0]
+    B --> B2[index instance result_index=1]
+    B --> B3[... 81 recursive instances ...]
+    B --> B81[index instance result_index=80]
+
+    B1 --> C1[mult.v kernel_index=0..8]
+    B1 --> D1[acc.v position-aware]
+    B2 --> C2[mult.v kernel_index=0..8]
+    B2 --> D2[acc.v position-aware]
+
+    C1 --> E1[9 recursive mult instances]
+    C2 --> E2[9 recursive mult instances]
+
+    D1 --> F[on_center.v / on_border.v / on_coin.v]
+    D2 --> F
+    F --> G[adder_tree in adder.v]
+
+    E1 --> H[FIFO data flow]
+    E2 --> H
+    H --> D1
+    H --> D2
 ```
 
 ## ⚡ Performance
@@ -217,48 +227,62 @@ parameter CONV_MAX_X = 5;   // Bigger filter
 
 ## 🔍 Architecture Deep Dive
 
-### Double Recursive Propagation
+### Double Recursive Architecture Explained
+
+The system uses **two levels of recursion** to generate all 729 operations:
+
+#### 1. Index Recursion (tensor.v) - Advances result_index
+**Purpose**: Process convolution for ALL image cells (0 to 80)
+**Recursion**: Increments `result_index` to cover every output pixel
+```verilog
+if (result_index < IMG_SIZE)
+    index #(.result_index(result_index + 1)) genblk_index (img, kernel, FIFO, result);
+```
+
+#### 2. Mult Recursion (mult.v) - Advances kernel_index
+**Purpose**: Process ALL kernel multiplications (0 to 8) for each image cell
+**Recursion**: Increments `kernel_index` to cover every kernel tap
+```verilog
+if (kernel_index < CONV_SIZE - 1)
+    mult #(.kernel_index(kernel_index+1)) mult_stage(img, kernel, FIFO, result);
+```
+
+**Key Insight**:
+- `index` recursion → covers all **image positions** (result_index 0→80)
+- `mult` recursion → covers all **kernel taps** (kernel_index 0→8) for each position
+- Result: 81 × 9 = **729 parallel multiplications**
 
 ```mermaid
 graph TD
-    subgraph "Instance Generation"
-        A[Current Instance<br/>result_index, kernel_index]
-        A --> B{Inside Image?}
-        B -->|Yes| C[Calculate: img pixel × kernel tap]
-        B -->|No| D[Leave Z for dead logic elimination]
-        C --> E[Store in FIFO array]
+    subgraph "Level 1: Index Recursion (81 instances)"
+        A[index result_index=0]
+        A1[index result_index=1]
+        A2[index result_index=2]
+        A3[... 81 total instances ...]
+        A80[index result_index=80]
     end
 
-    subgraph "Recursive1: FIFO Propagation"
-        F{kernel_index < 9?}
-        F -->|Yes| G[Generate recursive1<br/>kernel_index + 1]
-        G --> H[Propagate FIFO upward]
-        F -->|No| I[FIFO complete for result_index]
+    subgraph "Level 2: Mult Recursion (9 per index = 729 total)"
+        B[mult kernel_index=0]
+        B1[mult kernel_index=1]
+        B2[mult kernel_index=2]
+        B8[mult kernel_index=8]
     end
 
-    subgraph "Adder Trees: Position-Aware Summation"
-        J{kernel_index == 0?}
-        J -->|Yes| K[Launch adder_tree]
-        K --> L{Position Type?}
-        L -->|Corner| M[Sum 4 taps<br/>Skip border taps]
-        L -->|Border| N[Sum 6 taps<br/>Skip edge taps]
-        L -->|Center| O[Sum all 9 taps]
-        M --> P[Store in result array]
-        N --> P
-        O --> P
+    subgraph "Result: 729 Parallel Operations"
+        C[Every pixel×kernel combination<br/>computed simultaneously]
     end
 
-    subgraph "Recursive2: Result Propagation"
-        Q{result_index < 81?}
-        Q -->|Yes| R[Generate recursive2<br/>result_index + 1]
-        R --> S[Propagate result upward]
-        Q -->|No| T[All convolutions complete]
-    end
-
-    E --> F
-    I --> J
-    P --> Q
-
+    A --> B
+    A --> B1
+    A --> B2
+    A --> B8
+    A1 --> B
+    A2 --> B
+    B --> C
+    B1 --> C
+    B2 --> C
+    B8 --> C
 ```
 
 ### Smart Addressing & Coordinate Transform
