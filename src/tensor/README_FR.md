@@ -195,17 +195,19 @@ graph TD
 ### Architecture Récursive
 ```mermaid
 graph TD
-    A[test.v] --> B[tensor.v index]
+    A[test.v] --> B[tensor.v]
     B --> C[mult.v]
     B --> D[acc.v]
-    B -.-> B[🔄 result_index++]
-    C -.-> C[🔄 kernel_index++]
+    B -.-> B[🔄 récursif]
+    C -.-> C[🔄 récursif]
+    C --> I[mmul.v]
     D --> E[on_center.v]
     D --> F[on_border.v]
     D --> G[on_coin.v]
     E --> H[adder.v]
     F --> H
     G --> H
+    I --> H
 ```
 
 ### 4. Personnaliser la Taille
