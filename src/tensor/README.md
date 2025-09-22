@@ -96,6 +96,35 @@ graph TD
     end
 ```
 
+## 🏗️ Module Architecture
+
+### Core Files
+- **tensor.v** - Top-level index module with recursive instantiation
+- **mult.v** - Multiplication stage handling pixel × kernel operations
+- **acc.v** - Accumulator module that routes to position-specific handlers
+- **adder.v** - Tree-based adder for efficient parallel summation
+- **on_center.v** - Handles 9-tap convolution for center pixels
+- **on_border.v** - Handles 6-tap convolution for border pixels
+- **on_coin.v** - Handles 4-tap convolution for corner pixels
+- **test.v** - Test bench with comprehensive validation
+
+### Module Hierarchy
+```mermaid
+graph TD
+    A[test.v] --> B[index in tensor.v]
+    B --> C[mult.v]
+    B --> D[acc.v]
+    C --> E[Recursive mult instances]
+    D --> F[on_center.v]
+    D --> G[on_border.v]
+    D --> H[on_coin.v]
+    F --> I[adder_tree in adder.v]
+    G --> I
+    H --> I
+    E --> J[FIFO data flow]
+    J --> D
+```
+
 ## ⚡ Performance
 
 ```mermaid
@@ -110,7 +139,7 @@ graph LR
 
 ### 1. Run Simulation
 ```bash
-iverilog -o sim tensor.v adder.v && ./sim
+iverilog -o sim test.v tensor.v adder.v acc.v mult.v on_*.v && ./sim
 ```
 
 ### 2. Check Results

@@ -8,6 +8,16 @@ The objective is to provide a stdcell library for yosys, highly parameterizable.
 In option we provide a POC python (amaranth wrapper) for direct using.
 Its a piece of a more big environnement with a logilib/libcmos architecture on top of pdk wrapper.
 
+## 🧮 Tensor Convolution Accelerator
+
+The `src/tensor/` directory contains a high-performance 2D convolution accelerator with:
+- **Zero latency** - 100% combinational logic, no clock cycles
+- **Massive parallelism** - 729 simultaneous operations for 9×9 images with 3×3 kernels
+- **Smart edge handling** - Automatic corner/border/center pixel detection
+- **Pure structural Verilog** - No control logic, just multipliers and adders
+
+See [src/tensor/README.md](src/tensor/README.md) for detailed documentation.
+
 # Build
 
 ## Package as library (for use the library with another circuit)

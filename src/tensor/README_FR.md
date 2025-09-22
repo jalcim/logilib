@@ -110,7 +110,7 @@ graph LR
 
 ### 1. Lancer la Simulation
 ```bash
-iverilog -o sim tensor.v adder.v && ./sim
+iverilog -o sim test.v tensor.v adder.v acc.v mult.v on_*.v && ./sim
 ```
 
 ### 2. Vérifier les Résultats
@@ -178,6 +178,35 @@ graph TD
         A[✅ ✅ ✅<br/>✅ ✅ ✅<br/>✅ ✅ ✅]
     end
 
+```
+
+## 🏗️ Architecture des Modules
+
+### Fichiers Principaux
+- **tensor.v** - Module index de niveau supérieur avec instanciation récursive
+- **mult.v** - Étape de multiplication gérant les opérations pixel × kernel
+- **acc.v** - Module accumulateur qui route vers les gestionnaires spécifiques à la position
+- **adder.v** - Additionneur arborescent pour sommation parallèle efficace
+- **on_center.v** - Gère la convolution 9-tap pour les pixels centraux
+- **on_border.v** - Gère la convolution 6-tap pour les pixels de bordure
+- **on_coin.v** - Gère la convolution 4-tap pour les pixels de coin
+- **test.v** - Banc de test avec validation complète
+
+### Hiérarchie des Modules
+```mermaid
+graph TD
+    A[test.v] --> B[index dans tensor.v]
+    B --> C[mult.v]
+    B --> D[acc.v]
+    C --> E[Instances mult récursives]
+    D --> F[on_center.v]
+    D --> G[on_border.v]
+    D --> H[on_coin.v]
+    F --> I[adder_tree dans adder.v]
+    G --> I
+    H --> I
+    E --> J[Flux de données FIFO]
+    J --> D
 ```
 
 ### 4. Personnaliser la Taille
