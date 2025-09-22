@@ -20,15 +20,16 @@ result[80] = 1520 # Bottom-right corner
 
 ```mermaid
 graph LR
-    A[9×9 Image] --> B[729 Multipliers]
+    A[9×9 Image] --> B[~500 Multipliers<br/>~230 ignored padding]
     C[3×3 Kernel] --> B
     B --> D[Smart Summation]
     D --> E[81 Results]
 ```
 
-1. **Every pixel×kernel combination** computed in parallel
-2. **Position-aware summation**: corners use 4 taps, borders use 6, center uses 9
-3. **Zero control logic** - pure structural Verilog
+1. **729 total combinations** (81 pixels × 9 kernel taps)
+2. **~500 active multipliers** (~230 ignored for padding/borders)
+3. **Position-aware summation**: corners use 4 taps, borders use 6, center uses 9
+4. **Zero control logic** - pure structural Verilog
 
 ## 📁 Architecture
 
@@ -155,7 +156,7 @@ graph TD
 ### Recursive Generation
 - **Index recursion**: Advances `result_index` (0→80) to cover all output pixels
 - **Mult recursion**: Advances `kernel_index` (0→8) for each kernel tap
-- **Result**: 81 × 9 = 729 parallel multiplications
+- **Result**: 81 × 9 = 729 total instances (~500 active multipliers, ~230 padding ignored)
 
 ### Coordinate Transform
 ```verilog
