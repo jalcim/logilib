@@ -1,0 +1,3 @@
+[submodule "cosim/tensor/cnn"]
+	path = cosim/tensor/cnn
+	url = https://gitlab.com/jalcim/cnn
