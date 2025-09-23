@@ -1,3 +1,9 @@
+`ifndef __TENSOR__
+ `define __TENSOR__
+
+ `include "src/tensor/mult.v"
+ `include "src/tensor/acc.v"
+
 module tensor(input [IMG_SIZE * DATA_WIDTH -1 : 0]		 img,
 	      input [CONV_SIZE * DATA_WIDTH -1 : 0]		 kernel,
 	      output [(IMG_SIZE * CONV_SIZE) * DATA_WIDTH -1: 0] FIFO,
@@ -5,11 +11,11 @@ module tensor(input [IMG_SIZE * DATA_WIDTH -1 : 0]		 img,
 
    parameter DATA_WIDTH = 32;
 
-   parameter IMG_MAX_X = 9;
    parameter IMG_MAX_Y = 9;
+   parameter IMG_MAX_X = 9;
 
-   parameter CONV_MAX_X = 3;
    parameter CONV_MAX_Y = 3;
+   parameter CONV_MAX_X = 3;
 
    localparam IMG_SIZE = IMG_MAX_Y * IMG_MAX_X;
    localparam CONV_SIZE = CONV_MAX_Y * CONV_MAX_X;
@@ -54,3 +60,5 @@ module tensor(input [IMG_SIZE * DATA_WIDTH -1 : 0]		 img,
      end
 
 endmodule
+
+`endif

@@ -1,3 +1,8 @@
+`ifndef __ON_CENTER__
+ `define __ON_CENTER__
+
+ `include "src/tensor/adder_tree.v"
+
 //utiliser tous les kernel taps (exemple si CONV_SIZE==9 utiliser 0 1 2 3 4 5 6 7 8)
 module on_center(input [(IMG_SIZE * CONV_SIZE) * DATA_WIDTH -1: 0] FIFO,
 		 output [IMG_SIZE*DATA_WIDTH-1:0]		   result);
@@ -26,3 +31,5 @@ module on_center(input [(IMG_SIZE * CONV_SIZE) * DATA_WIDTH -1: 0] FIFO,
 		 FIFO[(result_index*CONV_SIZE+0)*DATA_WIDTH +: DATA_WIDTH]},
 		result[result_index*DATA_WIDTH +: DATA_WIDTH]);
 endmodule
+
+`endif

@@ -26,7 +26,10 @@ option(ENABLE_SRC_MEMORY_DFLIPFLOP_PARALLEL "Activer src/memory/dflipflop/parall
 option(ENABLE_SRC_MEMORY_JKLATCH "Activer src/memory/jklatch" ON)
 
 option(ENABLE_COSIM "Activer cosim" ON)
+option(ENABLE_COSIM_TENSOR "Activer cosim/tensor" ON)
+
 option(ENABLE_COSIM_UTILS "Activer cosim/utils" ON)
+
 option(ENABLE_COSIM_PRIMITIVE "Activer cosim/primitive" ON)
 option(ENABLE_COSIM_PRIMITIVE_GATE "Activer cosim/primitive/gate" ON)
 option(ENABLE_COSIM_PRIMITIVE_GATE_PARALLEL "Activer cosim/primitive/gate/parallel" ON)
@@ -35,6 +38,7 @@ option(ENABLE_COSIM_ALU "Activer cosim/alu" ON)
 option(ENABLE_COSIM_ALU_ARITHM "Activer cosim/alu/arithm" ON)
 option(ENABLE_COSIM_ALU_ARITHM_ADDX "Activer cosim/alu/arithm/addx" ON)
 option(ENABLE_COSIM_ALU_ARITHM_ADD_SUB "Activer cosim/alu/arithm/add_sub" ON)
+
 option(ENABLE_COSIM_MEMORY "Activer cosim/memory" ON)
 option(ENABLE_COSIM_MEMORY_DLATCH "Activer cosim/memory/Dlatch" ON)
 option(ENABLE_COSIM_MEMORY_DFLIPFLOP "Activer cosim/memory/Dlatch" ON)

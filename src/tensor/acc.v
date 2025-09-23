@@ -1,3 +1,10 @@
+`ifndef __ACC__
+ `define __ACC__
+
+ `include "src/tensor/on_coin.v"
+ `include "src/tensor/on_border.v"
+ `include "src/tensor/on_center.v"
+
 module acc(input [(IMG_SIZE * CONV_SIZE) * DATA_WIDTH -1: 0] FIFO,
 	   output [IMG_SIZE*DATA_WIDTH-1:0]		     result);
 
@@ -75,3 +82,5 @@ module acc(input [(IMG_SIZE * CONV_SIZE) * DATA_WIDTH -1: 0] FIFO,
      end
 
 endmodule
+
+`endif

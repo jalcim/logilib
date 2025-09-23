@@ -1,3 +1,6 @@
+`ifndef __ADDER_TREE__
+ `define __ADDER_TREE__
+
 module adder_tree(input [SIZE - 1 : 0]	datain,
 		  output [WIRE-1 : 0]	dataout);
 
@@ -22,7 +25,9 @@ module adder_tree(input [SIZE - 1 : 0]	datain,
 	assign dataout = out1 + out2;
      end
 
-endmodule
+endmodule // adder_tree
+
+`endif
 
 /*
 module test;

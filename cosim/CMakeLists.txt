@@ -1,4 +1,4 @@
-add_executable(Vgate-tests)
+file(MAKE_DIRECTORY ${CMAKE_BINARY_DIR}/signal)
 
 if (ENABLE_COSIM_PRIMITIVE)
   file(MAKE_DIRECTORY ${CMAKE_BINARY_DIR}/signal/primitive)
@@ -8,4 +8,9 @@ endif()
 if (ENABLE_COSIM_MEMORY)
   file(MAKE_DIRECTORY ${CMAKE_BINARY_DIR}/signal/memory)
   add_subdirectory(memory)
+endif()
+
+if (ENABLE_COSIM_TENSOR)
+  file(MAKE_DIRECTORY ${CMAKE_BINARY_DIR}/signal/tensor)
+  add_subdirectory(tensor)
 endif()

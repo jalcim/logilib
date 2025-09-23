@@ -1,3 +1,6 @@
+`ifndef __MULT__
+ `define __MULT__
+
 module mult(input [IMG_SIZE * DATA_WIDTH -1 : 0]	       img,
 	    input [CONV_SIZE * DATA_WIDTH -1 : 0]	       kernel,
 	    output [(IMG_SIZE * CONV_SIZE) * DATA_WIDTH -1: 0] FIFO,
@@ -56,3 +59,5 @@ module mult(input [IMG_SIZE * DATA_WIDTH -1 : 0]	       img,
 
 
 endmodule
+
+`endif

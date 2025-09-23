@@ -1,3 +1,8 @@
+`ifndef __ON_COIN__
+ `define __ON_COIN__
+
+ `include "src/tensor/adder_tree.v"
+
 // Assignation des FIFO pour les coins selon la position
 module on_coin(input [(IMG_SIZE * CONV_SIZE) * DATA_WIDTH -1: 0] FIFO,
 	       output [IMG_SIZE*DATA_WIDTH-1:0]			 result);
@@ -63,3 +68,5 @@ module on_coin(input [(IMG_SIZE * CONV_SIZE) * DATA_WIDTH -1: 0] FIFO,
    coin_adder(coin_fifo, result[result_index*DATA_WIDTH +: DATA_WIDTH]);
 
 endmodule
+
+`endif

@@ -1,3 +1,8 @@
+`ifndef __ON_BORDER__
+ `define __ON_BORDER__
+
+ `include "src/tensor/adder_tree.v"
+
 // Assignation des FIFO pour les bordures selon la position
 module on_border(input [(IMG_SIZE * CONV_SIZE) * DATA_WIDTH -1: 0] FIFO,
 		 output [IMG_SIZE*DATA_WIDTH-1:0]		   result);
@@ -71,3 +76,5 @@ module on_border(input [(IMG_SIZE * CONV_SIZE) * DATA_WIDTH -1: 0] FIFO,
    border_adder(border_fifo, result[result_index*DATA_WIDTH +: DATA_WIDTH]);
 
 endmodule
+
+`endif
