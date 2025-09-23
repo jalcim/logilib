@@ -1,3 +1,5 @@
+add_executable(Vgate-tests)
+
 function(gen_test_gate)
   cmake_parse_arguments(PARSE_ARGV 0 GATE
     "WAYS" "TARGET;NAME;WAY;WIRE" ""
