@@ -13,7 +13,7 @@ module mmul(input [SIZE-1:0]  img,
 endmodule
 
 module acc_mul(input [SIZE-1:0]	img,
-	       input [SIZE-1:0]	kernel
+	       input [SIZE-1:0]	kernel,
 	       output [31:0]	result);
 
    parameter WAY = 9;
