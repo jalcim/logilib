@@ -1,0 +1,23 @@
+CAPI=2:
+name: music:music:mon_projet:1.0.0
+description: Projet externe utilisant logilib
+
+filesets:
+  rtl:
+    files:
+      - test.v
+    file_type: verilogSource
+    depend:
+      - music:music:logilib
+
+targets:
+  sim:
+    filesets:
+      - rtl
+    toplevel: test
+    flow: sim
+    flow_options:
+      tool: icarus
+      iverilog_options:
+        - -Isrc/music_music_logilib_1.0.0
+        - -PRECURSIVE_MOD_LIMIT=1000

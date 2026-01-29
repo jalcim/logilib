@@ -1,0 +1,293 @@
+CAPI=2:
+name: music:music:logilib:1.0.0
+description: High-density structural logic library for Yosys synthesis
+
+filesets:
+  # Primitives - Serial (feuilles, aucune dépendance)
+  primitive_serial:
+    files:
+      - src/primitive/gate/serial/serial_and.v
+      - src/primitive/gate/serial/serial_buf.v
+      - src/primitive/gate/serial/serial_nand.v
+      - src/primitive/gate/serial/serial_nor.v
+      - src/primitive/gate/serial/serial_not.v
+      - src/primitive/gate/serial/serial_or.v
+      - src/primitive/gate/serial/serial_xnor.v
+      - src/primitive/gate/serial/serial_xor.v
+    file_type: verilogSource
+
+  # Primitives - Parallel
+  primitive_parallel:
+    files:
+      - src/primitive/gate/parallel/parallel_and.v
+      - src/primitive/gate/parallel/parallel_buf.v
+      - src/primitive/gate/parallel/parallel_nand.v
+      - src/primitive/gate/parallel/parallel_nor.v
+      - src/primitive/gate/parallel/parallel_not.v
+      - src/primitive/gate/parallel/parallel_or.v
+      - src/primitive/gate/parallel/parallel_xnor.v
+      - src/primitive/gate/parallel/parallel_xor.v
+    file_type: verilogSource
+
+  # Routing - Base (shuffle, log2)
+  routing_base:
+    files:
+      - src/routing/log2.vh: {is_include_file: true}
+      - src/routing/shuffle.v
+    file_type: verilogSource
+
+  # Primitives - Gates (top-level)
+  primitive_gates:
+    files:
+      - src/primitive/gate/gate_and.v
+      - src/primitive/gate/gate_buf.v
+      - src/primitive/gate/gate_nand.v
+      - src/primitive/gate/gate_nor.v
+      - src/primitive/gate/gate_not.v
+      - src/primitive/gate/gate_or.v
+      - src/primitive/gate/gate_xnor.v
+      - src/primitive/gate/gate_xor.v
+      - src/primitive/gate/multi/multi_or.v
+      - src/primitive/gate/complex/complex_gate.v
+    file_type: verilogSource
+
+  # Routing
+  routing:
+    files:
+      - src/routing/mux.v
+      - src/routing/demux.v
+      - src/routing/replicator.v
+      - src/routing/fragmented_replicator.v
+      - src/routing/encoder.v
+      - src/routing/decalleur_LR.v
+    file_type: verilogSource
+
+  # Memory - DLatch
+  memory_dlatch:
+    files:
+      - src/memory/dlatch/serial/serial_Dlatch.v
+      - src/memory/dlatch/serial/serial_Dlatch_pre.v
+      - src/memory/dlatch/serial/serial_Dlatch_rst.v
+      - src/memory/dlatch/serial/serial_Dlatch_rst_pre.v
+      - src/memory/dlatch/parallel/parallel_Dlatch.v
+      - src/memory/dlatch/parallel/parallel_Dlatch_pre.v
+      - src/memory/dlatch/parallel/parallel_Dlatch_rst.v
+      - src/memory/dlatch/parallel/parallel_Dlatch_rst_pre.v
+      - src/memory/dlatch/Dlatch.v
+      - src/memory/dlatch/Dlatch_pre.v
+      - src/memory/dlatch/Dlatch_rst.v
+      - src/memory/dlatch/Dlatch_rst_pre.v
+    file_type: verilogSource
+
+  # Memory - DFlipflop
+  memory_dflipflop:
+    files:
+      - src/memory/dflipflop/serial/serial_Dflipflop.v
+      - src/memory/dflipflop/serial/serial_Dflipflop_pre.v
+      - src/memory/dflipflop/serial/serial_Dflipflop_rst.v
+      - src/memory/dflipflop/serial/serial_Dflipflop_rst_pre.v
+      - src/memory/dflipflop/parallel/parallel_Dflipflop.v
+      - src/memory/dflipflop/parallel/parallel_Dflipflop_pre.v
+      - src/memory/dflipflop/parallel/parallel_Dflipflop_rst.v
+      - src/memory/dflipflop/parallel/parallel_Dflipflop_rst_pre.v
+      - src/memory/dflipflop/Dflipflop.v
+      - src/memory/dflipflop/Dflipflop_pre.v
+      - src/memory/dflipflop/Dflipflop_rst.v
+      - src/memory/dflipflop/Dflipflop_rst_pre.v
+    file_type: verilogSource
+
+  # Memory - JKLatch
+  memory_jklatch:
+    files:
+      - src/memory/jklatch/JKlatch_rst.v
+      - src/memory/jklatch/serial_JKlatch_rst.v
+    file_type: verilogSource
+
+  # ALU - Arithmétique
+  alu_arithm:
+    files:
+      - src/alu/arithm/add.v
+      - src/alu/arithm/addX.v
+      - src/alu/arithm/add_sub.v
+      - src/alu/arithm/cmp.v
+      - src/alu/arithm/divmod2.v
+      - src/alu/arithm/mult_cell.v
+      - src/alu/arithm/multX.v
+    file_type: verilogSource
+
+  # ALU - Logique
+  alu_logic:
+    files:
+      - src/alu/logic/sll.v
+      - src/alu/logic/slt.v
+      - src/alu/logic/sltu.v
+      - src/alu/logic/sra_srl.v
+    file_type: verilogSource
+
+  # Compteur
+  compteur:
+    files:
+      - src/compteur/cpt_bin.v
+    file_type: verilogSource
+
+  # Tensor (accélérateur convolution)
+  tensor:
+    files:
+      - src/tensor/adder_tree.v
+      - src/tensor/on_coin.v
+      - src/tensor/on_border.v
+      - src/tensor/on_center.v
+      - src/tensor/acc.v
+      - src/tensor/mult.v
+      - src/tensor/mmul.v
+      - src/tensor/tensor.v
+    file_type: verilogSource
+
+  # Bus AXI-Lite
+  bus_axi_lite:
+    files:
+      - src/bus/axi_lite/master.v
+      - src/bus/axi_lite/slave.v
+      - src/bus/axi_lite/regs.v
+    file_type: verilogSource
+
+  # Types (float/double)
+  types:
+    files:
+      - src/type/float.v
+      - src/type/double.v
+      - src/type/fadd.v
+    file_type: verilogSource
+
+  # Testbenches
+  tb_primitive:
+    files:
+      - test/primitive/gate/test_gate.v
+      - test/primitive/gate/serial/test_serial_gate.v
+      - test/primitive/gate/parallel/test_parallel_gate.v
+    file_type: verilogSource
+
+  tb_routing:
+    files:
+      - test/routing/test_mux.v
+      - test/routing/test_demux.v
+      - test/routing/test_shuffle.v
+      - test/routing/test_replicator.v
+      - test/routing/test_encoder.v
+    file_type: verilogSource
+
+  tb_tensor:
+    files:
+      - test/tensor/test_tensor.v
+    file_type: verilogSource
+
+targets:
+  # Target par défaut : toute la lib
+  default: &default
+    filesets:
+      - primitive_serial
+      - primitive_parallel
+      - routing_base
+      - primitive_gates
+      - routing
+      - memory_dlatch
+      - memory_dflipflop
+      - memory_jklatch
+      - alu_arithm
+      - alu_logic
+      - compteur
+      - tensor
+      - bus_axi_lite
+      - types
+    toplevel: gate_and
+
+  # Simulation avec Icarus
+  sim:
+    <<: *default
+    flow: sim
+    flow_options:
+      tool: icarus
+      iverilog_options:
+        - -Isrc/music_music_logilib_1.0.0
+        - -PRECURSIVE_MOD_LIMIT=1000
+    filesets_append:
+      - tb_primitive
+    toplevel: test_gate
+
+  # Simulation avec Verilator
+  sim_verilator:
+    <<: *default
+    flow: sim
+    flow_options:
+      tool: verilator
+      verilator_options:
+        - -Isrc/music_music_logilib_1.0.0
+        - --trace
+        - -Wno-fatal
+    toplevel: gate_and
+    parameters:
+      - WAY
+      - WIRE
+
+  # Synthèse Yosys
+  synth:
+    <<: *default
+    flow: synth
+    flow_options:
+      tool: yosys
+      arch: xilinx
+      output_format: edif
+      yosys_synth_options:
+        - -flatten
+    toplevel: gate_and
+    parameters:
+      - WAY
+      - WIRE
+
+  # Uniquement les primitives
+  primitive:
+    filesets:
+      - primitive_serial
+      - primitive_parallel
+      - routing_base
+      - primitive_gates
+    toplevel: gate_and
+    parameters:
+      - WAY
+      - WIRE
+
+  # Uniquement tensor
+  tensor:
+    filesets:
+      - primitive_serial
+      - primitive_parallel
+      - routing_base
+      - primitive_gates
+      - routing
+      - alu_arithm
+      - tensor
+    toplevel: tensor
+    filesets_append:
+      - tb_tensor
+    flow: sim
+    flow_options:
+      tool: icarus
+      iverilog_options:
+        - -Isrc/music_music_logilib_1.0.0
+        - -PRECURSIVE_MOD_LIMIT=1000
+    parameters:
+      - WAY
+      - WIRE
+
+parameters:
+  WAY:
+    datatype: int
+    default: 2
+    description: Number of input ways
+    paramtype: vlogparam
+
+  WIRE:
+    datatype: int
+    default: 8
+    description: Bit width
+    paramtype: vlogparam

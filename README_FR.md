@@ -1,11 +1,11 @@
-## How to use with FuseSoC
+## Utilisation avec FuseSoC
 
 ```bash
 pip install fusesoc
 fusesoc library add logilib https://github.com/music/logilib
 ```
 
-See [example/](example/) for a complete usage example.
+Voir [example/](example/) pour un exemple complet d'utilisation.
 
 ---
 
