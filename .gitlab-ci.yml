@@ -16,6 +16,7 @@ stages:
   - test
   - release
   - deploy
+  - pages
 
 variables:
   CONTAINER_RELEASE_IMAGE: $CI_REGISTRY_IMAGE/logilib:latest
@@ -44,5 +45,19 @@ release-image:
     - docker pull $CI_REGISTRY_IMAGE/logilib:`echo $CI_COMMIT_BRANCH$CI_MERGE_REQUEST_SOURCE_BRANCH_NAME | sed 's/\///g'`
     - docker tag $CI_REGISTRY_IMAGE/logilib:`echo $CI_COMMIT_BRANCH$CI_MERGE_REQUEST_SOURCE_BRANCH_NAME | sed 's/\///g'` $CONTAINER_RELEASE_IMAGE
     - docker push $CONTAINER_RELEASE_IMAGE
+  only:
+    - master
+
+pages:
+  stage: pages
+  image: python:3.11
+  before_script: []
+  services: []
+  script:
+    - pip install mkdocs mkdocs-material
+    - mkdocs build --site-dir public
+  artifacts:
+    paths:
+      - public
   only:
     - master

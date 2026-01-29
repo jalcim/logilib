@@ -1,5 +1,5 @@
 CAPI=2:
-name: music:music:logilib:1.0.0
+name: jalcim:logilib:logilib:1.0.0
 description: High-density structural logic library for Yosys synthesis
 
 filesets:
@@ -208,7 +208,7 @@ targets:
     flow_options:
       tool: icarus
       iverilog_options:
-        - -Isrc/music_music_logilib_1.0.0
+        - -Isrc/jalcim_logilib_logilib_1.0.0
         - -PRECURSIVE_MOD_LIMIT=1000
     filesets_append:
       - tb_primitive
@@ -221,7 +221,7 @@ targets:
     flow_options:
       tool: verilator
       verilator_options:
-        - -Isrc/music_music_logilib_1.0.0
+        - -Isrc/jalcim_logilib_logilib_1.0.0
         - --trace
         - -Wno-fatal
     toplevel: gate_and
@@ -273,7 +273,7 @@ targets:
     flow_options:
       tool: icarus
       iverilog_options:
-        - -Isrc/music_music_logilib_1.0.0
+        - -Isrc/jalcim_logilib_logilib_1.0.0
         - -PRECURSIVE_MOD_LIMIT=1000
     parameters:
       - WAY

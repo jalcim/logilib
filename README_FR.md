@@ -2,7 +2,7 @@
 
 ```bash
 pip install fusesoc
-fusesoc library add logilib https://github.com/music/logilib
+fusesoc library add logilib https://gitlab.com/jalcim/logilib
 ```
 
 Voir [example/](example/) pour un exemple complet d'utilisation.

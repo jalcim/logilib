@@ -8,7 +8,7 @@
 ## Installation de logilib
 
 ```bash
-fusesoc library add logilib https://github.com/music/logilib
+fusesoc library add logilib https://gitlab.com/jalcim/logilib
 ```
 
 ## Créer votre projet
@@ -17,7 +17,7 @@ fusesoc library add logilib https://github.com/music/logilib
 
 ```yaml
 CAPI=2:
-name: music:music:mon_projet:1.0.0
+name: user:project:mon_projet:1.0.0
 description: Mon projet
 
 filesets:
@@ -26,7 +26,7 @@ filesets:
       - mon_fichier.v
     file_type: verilogSource
     depend:
-      - music:music:logilib
+      - jalcim:logilib:logilib
 
 targets:
   sim:
@@ -37,7 +37,7 @@ targets:
     flow_options:
       tool: icarus
       iverilog_options:
-        - -Isrc/music_music_logilib_1.0.0
+        - -Isrc/jalcim_logilib_logilib_1.0.0
         - -PRECURSIVE_MOD_LIMIT=1000
 ```
 
@@ -56,7 +56,7 @@ endmodule
 
 ```bash
 fusesoc library add mon_projet .
-fusesoc run --target=sim music:music:mon_projet
+fusesoc run --target=sim user:project:mon_projet
 ```
 
 ## Modules disponibles

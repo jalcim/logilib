@@ -1,0 +1,58 @@
+site_name: Logilib
+site_description: High-density structural logic library
+repo_url: https://gitlab.com/jalcim/logilib
+
+theme:
+  name: material
+  language: en
+  palette:
+    primary: indigo
+  features:
+    - navigation.sections
+    - navigation.expand
+    - navigation.indexes
+
+nav:
+  - Home: index.md
+  - Installation: installation.md
+  - Getting Started: getting-started.md
+
+  - Modules:
+    - Overview: modules/index.md
+    - Primitive Gates: modules/primitive.md
+    - Routing: modules/routing.md
+    - Memory: modules/memory.md
+    - ALU: modules/alu.md
+    - Tensor: modules/tensor.md
+    - Bus (AXI-Lite): modules/bus.md
+    - Counter: modules/compteur.md
+    - Types: modules/type.md
+    - Misc: modules/misc.md
+
+  - Testing:
+    - Overview: testing/index.md
+    - Icarus Verilog: testing/icarus.md
+    - Verilator (Cosim): testing/verilator.md
+    - Formal Verification: testing/formal.md
+
+  - Development:
+    - Build: development/build.md
+    - Scripts: development/scripts.md
+    - Synthesis: development/synthesis.md
+    - Co-simulation: development/cosimulation.md
+    - Manager GUI: development/manager.md
+    - Amaranth Wrapper: development/wrapper.md
+    - Docker & CI: development/docker.md
+    - Contributing: development/contributing.md
+
+  - Reference:
+    - Project Structure: reference/structure.md
+    - Schematics: reference/schematics.md
+    - TODO / Roadmap: reference/todo.md
+
+markdown_extensions:
+  - tables
+  - fenced_code
+  - codehilite
+  - toc:
+      permalink: true
