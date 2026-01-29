@@ -1,1 +1,0 @@
-DEPRECATED GO TO : https://gitlab.com/jalcim/risc-v

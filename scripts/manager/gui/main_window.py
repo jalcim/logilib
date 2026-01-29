@@ -233,7 +233,7 @@ class MainWindow(Gtk.Window):
         loading = LoadingDialog(self, message="Simulation en cours...")
         def sim_job():
             try:
-                run_cmd(["bash", "scripts/icarus/icarus.sh"], False, self, self.append_log)
+                run_cmd(["bash", "scripts/icarus.sh"], False, self, self.append_log)
             except Exception as e:
                 GLib.idle_add(self.append_log, f"Erreur simulation : {e}\n")
             GLib.idle_add(loading.set_complete)

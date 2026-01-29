@@ -1,7 +1,7 @@
 #!/bin/bash
 
 max_threads=8
-binary="./build/cosim/Vgate-tests"
+binary="./build/cosim/primitive/gate/Vgate-tests"
 validators=$( $binary --list_content 2>&1| grep Vgate_ )
 
 running=0

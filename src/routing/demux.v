@@ -8,7 +8,7 @@ module demux(ctrl, in, out);
    `include "src/routing/log2.vh"
 
    localparam SIZE_CTRL = log2(WAY);
-   localparam SIZE_OUT  = WAY * WIRE;
+   localparam SIZE_OUT  = WAY * WIRE;//8*1
 
    input  [WIRE-1:0] in;
    input  [SIZE_CTRL-1:0] ctrl;
