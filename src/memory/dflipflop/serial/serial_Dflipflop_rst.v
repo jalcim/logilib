@@ -1,5 +1,5 @@
 `ifndef __SERIAL_DFLIPFLOP_RST__
- `define __SERIAL_DFLIPFLOP_RST_
+ `define __SERIAL_DFLIPFLOP_RST__
 
 module serial_Dflipflop_rst(D, clk, rst, Q, QN);
    parameter WIRE = 1;
