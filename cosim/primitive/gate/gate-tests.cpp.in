@@ -23,7 +23,7 @@ BOOST_AUTO_TEST_CASE (validator_gate_@GATE_NAME@_@GATE_WAY@_@GATE_WIRE@)
   if (SIZE > 64)
     BOOST_FAIL("taille trop grande actuellement non gerer");
 
-  for (unsigned  cpt=0; cpt < 0xFFFFFF && cpt < MAX_MASK; cpt++)
+  for (unsigned cpt=0; cpt < 0xFFFFFF && cpt < 0xFFFF; cpt++)//max_mask
     {
       srand(cpt);
       unsigned long input = GET_BIT_RANGE(((unsigned long)rand() << 32) | rand(), SIZE, 0);

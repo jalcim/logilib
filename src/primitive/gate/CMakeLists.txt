@@ -14,7 +14,7 @@ function(add_gate)
     INCLUDE_DIRS ${CMAKE_SOURCE_DIR}
     SOURCES gate_${GATE_NAME}.v
     TOP_MODULE gate_${GATE_NAME}
-    VERILATOR_ARGS ${GATE_ARGS} --trace
+    VERILATOR_ARGS ${GATE_ARGS}
     PREFIX Vgate_${GATE_NAME}_${GATE_WAY}_${GATE_WIRE}
   )
 
@@ -26,14 +26,13 @@ add_library(Vgate STATIC)
 target_include_directories(Vgate PUBLIC ${VERILATOR_ROOT}/include)
 target_compile_features(Vgate PUBLIC cxx_std_20)
 get_property(GATE_FILE GLOBAL PROPERTY PRIMITIVE_FILE)  # récupère
+set(VERILATOR_ARGS -cc --exe -x-assign fast --trace --no-decoration --assert --coverage)
 
 # Génération des gates avec Verilator
 foreach(wire RANGE 1 ${MAX_WIRE})
   add_gate(TARGET Vgate NAME buf WAY 1 WIRE ${wire})
   add_gate(TARGET Vgate NAME not WAY 1 WIRE ${wire})
 endforeach()
-
-set(VERILATOR_ARGS -cc --exe -x-assign fast --trace --no-decoration --assert --coverage)
 
 set(GATE_NAMES "and" "nand" "nor" "or" "xnor" "xor")
 foreach (GATE IN LISTS GATE_NAMES)
