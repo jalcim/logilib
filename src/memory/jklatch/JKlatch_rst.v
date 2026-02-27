@@ -2,10 +2,12 @@
  `define __JKLATCHUP_RST__
 
 module JKlatchUP_rst (j, k, clk, reset, out1, out2);
-   input j, k, clk, reset;
-   output out1, out2;
+   parameter WIRE = 1;
 
-   wire [7:0] line;
+   input j, k, clk, reset;
+   output [WIRE-1:0] out1, out2;
+
+   wire [9:0] line;
    wire       unclock;
    wire [1:0] line_reset;
 
@@ -13,18 +15,27 @@ module JKlatchUP_rst (j, k, clk, reset, out1, out2);
    or or_reset1(line_reset[1], reset, line[7]);
 
    not not0(unclock, clk);
-   assign line[0] = ~(j & line_reset[1] & unclock);
+   and and0(line[8], j, line_reset[1]);
+   nand nand0(line[0], line[8], unclock);
    nor nor0(line[1], line_reset[0], line[0]);
    nand nand1(line[2], clk, line[1]);
    nand nand2(line[3], line_reset[1], line[2]);
-   buf buf0(out1, line[3]);
+   buf buf0(out1[0], line[3]);
 
-   assign line[4] = ~(k & line[3] & unclock);
+   and and1(line[9], k, line[3]);
+   nand nand3(line[4], line[9], unclock);
    nor nor1(line[5], line[1], line[4]);
    nand nand4(line[6], clk, line[5]);
    nand nand5(line[7], line[3], line[6]);
-   buf buf1(out2, line[7]);
+   buf buf1(out2[0], line[7]);
 
+   if (WIRE > 1)
+     jk #(.WIRE(WIRE-1)) recurse(.j(j),
+				  .k(k),
+				  .clk(line[7]),
+				  .reset(reset),
+				  .out1(out1[WIRE-1:1]),
+				  .out2(out2[WIRE-1:1]));
 endmodule // JKlatchUP
 
 `endif

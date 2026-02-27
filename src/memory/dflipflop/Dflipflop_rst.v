@@ -12,18 +12,23 @@ module Dflipflop_rst(D, clk, rst, Q, QN);
    input [WAY-1:0] clk, rst;
    output [WAY*WIRE-1:0] Q, QN;
 
-   if (WAY > 1)
-     parallel_Dflipflop_rst #(.WAY(WAY), .WIRE(WIRE)) parallel_Dflipflop_inst(.D(D),
-									      .clk(clk),
-									      .rst(rst),
-									      .Q(Q),
-									      .QN(QN));
-   else
-     serial_Dflipflop_rst #(.WIRE(WIRE)) inst0(.D(D),
-					       .clk(clk),
-					       .rst(rst),
-					       .Q(Q),
-					       .QN(QN));
+    if (WAY > 1)
+        begin
+            parallel_Dflipflop_rst #(.WAY(WAY), .WIRE(WIRE))
+            parallel_Dflipflop_inst(.D(D),
+	        .clk(clk),
+	        .rst(rst),
+	        .Q(Q),
+	        .QN(QN));
+    else
+        begin
+            serial_Dflipflop_rst #(.WIRE(WIRE))
+            inst0(.D(D),
+	        .clk(clk),
+	        .rst(rst),
+	        .Q(Q),
+	        .QN(QN));
+        end
 endmodule
 
 `endif

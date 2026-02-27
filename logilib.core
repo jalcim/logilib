@@ -65,14 +65,14 @@ filesets:
   # Memory - DLatch
   memory_dlatch:
     files:
-      - src/memory/dlatch/serial/serial_Dlatch.v
-      - src/memory/dlatch/serial/serial_Dlatch_pre.v
-      - src/memory/dlatch/serial/serial_Dlatch_rst.v
-      - src/memory/dlatch/serial/serial_Dlatch_rst_pre.v
-      - src/memory/dlatch/parallel/parallel_Dlatch.v
-      - src/memory/dlatch/parallel/parallel_Dlatch_pre.v
-      - src/memory/dlatch/parallel/parallel_Dlatch_rst.v
-      - src/memory/dlatch/parallel/parallel_Dlatch_rst_pre.v
+      - src/memory/dlatch/serial/serial_Dlatch.v: {is_include_file: true}
+      - src/memory/dlatch/serial/serial_Dlatch_pre.v: {is_include_file: true}
+      - src/memory/dlatch/serial/serial_Dlatch_rst.v: {is_include_file: true}
+      - src/memory/dlatch/serial/serial_Dlatch_rst_pre.v: {is_include_file: true}
+      - src/memory/dlatch/parallel/parallel_Dlatch.v: {is_include_file: true}
+      - src/memory/dlatch/parallel/parallel_Dlatch_pre.v: {is_include_file: true}
+      - src/memory/dlatch/parallel/parallel_Dlatch_rst.v: {is_include_file: true}
+      - src/memory/dlatch/parallel/parallel_Dlatch_rst_pre.v: {is_include_file: true}
       - src/memory/dlatch/Dlatch.v
       - src/memory/dlatch/Dlatch_pre.v
       - src/memory/dlatch/Dlatch_rst.v
@@ -82,14 +82,14 @@ filesets:
   # Memory - DFlipflop
   memory_dflipflop:
     files:
-      - src/memory/dflipflop/serial/serial_Dflipflop.v
-      - src/memory/dflipflop/serial/serial_Dflipflop_pre.v
-      - src/memory/dflipflop/serial/serial_Dflipflop_rst.v
-      - src/memory/dflipflop/serial/serial_Dflipflop_rst_pre.v
-      - src/memory/dflipflop/parallel/parallel_Dflipflop.v
-      - src/memory/dflipflop/parallel/parallel_Dflipflop_pre.v
-      - src/memory/dflipflop/parallel/parallel_Dflipflop_rst.v
-      - src/memory/dflipflop/parallel/parallel_Dflipflop_rst_pre.v
+      - src/memory/dflipflop/serial/serial_Dflipflop.v: {is_include_file: true}
+      - src/memory/dflipflop/serial/serial_Dflipflop_pre.v: {is_include_file: true}
+      - src/memory/dflipflop/serial/serial_Dflipflop_rst.v: {is_include_file: true}
+      - src/memory/dflipflop/serial/serial_Dflipflop_rst_pre.v: {is_include_file: true}
+      - src/memory/dflipflop/parallel/parallel_Dflipflop.v: {is_include_file: true}
+      - src/memory/dflipflop/parallel/parallel_Dflipflop_pre.v: {is_include_file: true}
+      - src/memory/dflipflop/parallel/parallel_Dflipflop_rst.v: {is_include_file: true}
+      - src/memory/dflipflop/parallel/parallel_Dflipflop_rst_pre.v: {is_include_file: true}
       - src/memory/dflipflop/Dflipflop.v
       - src/memory/dflipflop/Dflipflop_pre.v
       - src/memory/dflipflop/Dflipflop_rst.v
